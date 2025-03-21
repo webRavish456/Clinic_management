@@ -37,17 +37,10 @@ const SignIn=()=>
           
           <Button className="primary_button">SignIn</Button>
             
-<<<<<<< HEAD
-         <Box className="account">
-            <Box>Already an account</Box>
-            <Box className="forgot">Login</Box>
-         </Box>
-=======
          {/* <Box className="account">
              <Box>Already an account</Box> 
             <Box className="forgot">Login</Box>
          </Box> */}
->>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
 
           </Box> 
         

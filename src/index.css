@@ -12,10 +12,6 @@ code {
     monospace;
 }
 :root {
-<<<<<<< HEAD
-  --primary_color:rgb(3, 21, 5);
-=======
   --primary_color:rgb(4, 4, 44) !important;
   
->>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
 } 

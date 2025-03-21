@@ -149,18 +149,6 @@ color: #000000;
 .search {
 width: fit-content !important;
 }
-<<<<<<< HEAD
-
-/* Layout */
-.flex{
-   display: flex;
-   justify-content: flex-end;
-   align-items: center;
-   grid-column-gap: 20px;
-   padding-bottom: 10px;
-}
-
-=======
 .title{
   display: flex;
   justify-content: space-between;
@@ -188,7 +176,6 @@ width: fit-content !important;
 
 /* Layout */
 
->>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
 .layout {
   height: 100vh; 
   display: flex;
@@ -245,12 +232,9 @@ width: fit-content !important;
 
 .MuiDialog-paper {
    max-width: 740px !important;
-<<<<<<< HEAD
-=======
 }
 .logo{
   display:flex;
   justify-content: center;
   width:100%;
->>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
 }
