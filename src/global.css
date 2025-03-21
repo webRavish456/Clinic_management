@@ -1,0 +1,240 @@
+/* Utitlity */
+body{
+  background-color: #f0eeee;
+  height: 100vh;
+}
+.primary_button {
+  text-transform: none !important;
+  background-color: rgb(12, 12, 101) !important;
+  color: #ffffff !important;
+  padding: 8px 16px !important;
+  cursor:pointer;
+}
+.secondary_button {
+text-transform: none !important;
+background-color: #ffffff !important;
+border: 1px solid rgb(12, 12, 101)!important;
+color: rgb(12, 12, 101)!important;
+padding: 8px 16px !important;
+cursor:pointer;
+font-weight: 500 !important;
+box-sizing: border-box;
+}
+
+.primary_button:hover {
+background-color: rgb(43, 43, 188) !important;
+}
+
+.secondary_button:hover {
+background-color: #eeeeee !important;
+}
+
+.container
+{
+ padding: 10px 30px 0px;
+}
+
+.buttonContainer {
+ display: flex;
+ justify-content: space-between;
+}
+
+.pageTitle {
+font-size: 16px;
+font-weight: 550;
+color: #000000;
+}
+
+.pageDescription {
+font-size: 16px;
+font-weight: 500;
+color: #000000;
+}  
+
+/* SignUp */
+
+.register {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 340px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 6px 20px 0px #d2d2d2;
+}
+.header_title{
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.signUp{
+  display: flex;
+  flex-direction: column;
+  grid-row-gap: 10px;
+}
+.forgot_password {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 10px;
+  
+}
+.forgot{
+  cursor: pointer;
+  color: var(--primary_color);
+}
+.MuiTextField-root{
+  width: 100% !important;
+}
+
+.account{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+/*  Sidebar */
+
+.menu-item {
+  margin-bottom: 10px;
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.menu-link:hover {
+  background-color: #767ecd;
+}
+
+.menu-label {
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.menu-link.active {
+  background-color: #51549b; 
+  font-weight: 700;
+}
+
+.logo {
+  height:60px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.hotelName {
+  padding-left: 6px;
+}
+
+/* Header */
+.MuiAppBar-root{
+  --Paper-shadow: 0px 2px -4px -1px rgba(0, 0, 0, 0.2), 0px -4px 0px -20px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12) !important;
+
+}
+
+/* Search */
+.search {
+width: fit-content !important;
+}
+.title{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+}
+
+
+
+
+.flex {
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+   
+}
+
+.dialogtitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Layout */
+
+.layout {
+  height: 100vh; 
+  display: flex;
+}
+
+.main-container {
+  display: flex; 
+  width: 100%;
+}
+
+.sidebar {
+  width: 260px;
+   background-color: var(--primary_color);
+  color: white;
+  padding: 10px;
+ max-height: 100%; 
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  height: 60px !important;
+  background-color: #333 !important;
+  color: white !important;
+  display: flex !important; 
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.dashboard {
+  flex: 1; 
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+/*Layout Rooms */
+
+.MuiTableCell-root
+{
+   padding: 8px 0px !important;
+}
+
+.MuiDialogTitle-root {
+   font-weight: 600 !important;
+}
+
+.MuiDialogActions-root {
+    padding: 0px 24px 20px !important;
+}
+
+.MuiDialog-paper {
+   max-width: 740px !important;
+}
+.logo{
+  display:flex;
+  justify-content: center;
+  width:100%;
+}
