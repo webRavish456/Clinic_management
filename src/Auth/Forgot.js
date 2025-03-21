@@ -35,7 +35,11 @@ const Forgot=()=>
             <Box className="forgot">Forgot Password</Box>
          </Box>
           
+<<<<<<< HEAD
           <Button className="primary_button">Forgot</Button>
+=======
+          <Button className="primary_button">Register</Button>
+>>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
             
          <Box className="account">
             <Box>Already an account</Box>

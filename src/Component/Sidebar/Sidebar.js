@@ -14,6 +14,7 @@ const Sidebar=()=>
         <>
             
            <div className="sidebar">
+<<<<<<< HEAD
 
            <LazyLoadImage 
               src={"/logo.png"} 
@@ -22,6 +23,16 @@ const Sidebar=()=>
               height={70} 
             />
 
+=======
+            
+            <LazyLoadImage 
+              src={'/logoo.png'} 
+              alt='logo'
+              width={50} 
+              height={50}
+              className="logo"
+            />
+>>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
 
       {Menuitems.map((item, index) => (
         <div className="menu-item" key={index}>

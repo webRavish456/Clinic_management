@@ -1,4 +1,8 @@
 import * as React from 'react';
+<<<<<<< HEAD
+=======
+import { useState } from 'react';
+>>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,11 +15,24 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+<<<<<<< HEAD
 import Search from "../Search/Search";
+=======
+import{ Box } from '@mui/material';
+import Search from "../Search/Search";
+import Dialog from '@mui/material/Dialog';
+// import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import CloseIcon from '@mui/icons-material/Close';
+
+>>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
 
 const columns = [
   { id: 'SI_no', label: 'SI NO.', flex: 1 },
   { id: 'patientName', label: 'Patient Name', flex: 1, align: 'center' },
+<<<<<<< HEAD
   { id: 'email', label: 'Email', flex: 1, align: 'center' },
   { id: 'phoneNo', label: 'Phone Number', flex: 1, align: 'center' },
   {id: 'address', label: 'Address', flex: 1, align: 'center'},
@@ -42,12 +59,45 @@ const rows = [
   createData('9','sumona', 'sum@gmail.com','7678934567',"BBSR","4/4/12",'Female','A+','Surgery' ),
   createData('10','Esneha', 'esh@gmail.com','234567898',"Ranchi","12/2/23",'Female','B+','Joint pain'),
   createData('11','srawani', 'sra@gmail.com','678964536',"JSR","4/5/22",'Female','AB+','Allergy' ),
+=======
+  { id: 'checkup', label: 'Checkup',flex: 1, align: 'center' },
+  { id: 'doctorassignee', label: 'Doctorassignee', flex: 1, align: 'center' },
+  {id: 'appointmentdate', label: 'Address', flex: 1, align: 'center'},
+  {id: 'status', label: 'Date of Birth', flex: 1, align: 'center'},
+  { id: 'action', label: 'Action', flex: 1, align: 'center' },
+];
+
+function createData(SI_no, patientName,checkup, doctorassignee , appointmentdate, status) {
+  return { SI_no, patientName, checkup, doctorassignee, appointmentdate, status};
+}
+
+const rows = [
+  createData('1', 'subhashree', 'fever', 'ravish', 'Ranchi', '12/2/23'),
+  createData('2', 'snehanjali', 'cold', 'prabhat','Ranchi', '12/12/12'),
+  createData('3','ritu', 'allergy','sneha','Bbsr','12/2/23'),
+  createData('4','prerna', 'fever','anish','Ranchi','23/3/23'),
+  createData('5','amrita', 'food poisning','tejash','Bbsr','4/5/24'),
+  createData('6','sakshi', 'fever','anushka','Ranchi','9/2/2004' ),
+  createData('7','tripti', 'allergy','sumona','JSR','2/2/23' ),
+  createData('8','megha', 'allergy','sushant','Ranchi','12/2/23' ),
+  createData('9','sumona', 'allergy','ravi','BBSR','3/3/23' ),
+  createData('10','Esneha', 'fever','sangeeta','Ranchi','12/2/25'),
+  createData('11','srawani', 'fever','sweta','BBSR','12/2/23' ),
+>>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
 ];
 
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+<<<<<<< HEAD
+=======
+  const [viewData, setViewData] =useState(false)
+   const [editData, setEditData] =useState(false)
+   const [deleteData, setDeleteData] =useState(false)
+
+
+>>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -57,6 +107,7 @@ export default function StickyHeadTable() {
     setPage(0); // Reset to first page when rows per page changes
   };
 
+<<<<<<< HEAD
   const handleDelete = (id) => {
     console.log('Delete item with ID:', id);
     // You can perform your delete logic here
@@ -70,10 +121,41 @@ export default function StickyHeadTable() {
   const handleView = (id) => {
     console.log('View item with ID:', id);
     // You can show more details of the item here
+=======
+  const handleDelete = () => {
+    // console.log('Delete item with ID:', id);
+    // You can perform your delete logic here
+    setDeleteData(true)
+
+  };
+
+  
+  
+
+  const handleEdit = () => {
+    
+    setEditData(true)
+  };
+
+  const handleClose = () => {
+    setViewData(false);
+    setEditData(false); // Close both dialogs when handleClose is called
+    setDeleteData(false);
+  };
+  
+
+  const handleView = () => {
+
+    setViewData(true)
+>>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
   };
 
   return (
     <>
+<<<<<<< HEAD
+=======
+    <Box className="cointainer">
+>>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
     <Search/>
     <Paper sx={{ width: '100%',overflow: 'hidden' }}>
       <TableContainer className="table" sx={{ maxHeight: 440, fontSize: '12px', marginLeft: '20px', marginTop: '0px', marginRight: '20px' }}>
@@ -133,6 +215,68 @@ export default function StickyHeadTable() {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
+<<<<<<< HEAD
+=======
+    <Dialog
+  open={viewData}
+  onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
+  aria-labelledby="alert-dialog-title"
+  aria-describedby="alert-dialog-description"
+>
+  <DialogTitle id="alert-dialog-title" className="title">
+    View Patient's Details
+    <IconButton onClick={handleClose} style={{ float: 'right' }}>
+      <CloseIcon />
+    </IconButton>
+  </DialogTitle>
+  <DialogContent>
+    <DialogContentText id="alert-dialog-description">
+      Let Google help apps determine location. This means sending anonymous
+      location data to Google, even when no apps are running.
+    </DialogContentText>
+  </DialogContent>
+</Dialog>
+<Dialog
+  open={editData}
+  onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
+  aria-labelledby="alert-dialog-title"
+  aria-describedby="alert-dialog-description"
+>
+  <DialogTitle id="alert-dialog-title" className="title">
+     Edit Patient's Details
+    <IconButton onClick={handleClose} style={{ float: 'right' }}>
+      <CloseIcon />
+    </IconButton>
+  </DialogTitle>
+  <DialogContent>
+    <DialogContentText id="alert-dialog-description">
+      Let Google help apps determine location. This means sending anonymous
+      location data to Google, even when no apps are running.
+    </DialogContentText>
+  </DialogContent>
+</Dialog>
+
+<Dialog
+  open={deleteData}
+  onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
+  aria-labelledby="alert-dialog-title"
+  aria-describedby="alert-dialog-description"
+>
+  <DialogTitle id="alert-dialog-title" className="title">
+     Delete Patient's Details
+    <IconButton onClick={handleClose} style={{ float: 'right' }}>
+      <CloseIcon />
+    </IconButton>
+  </DialogTitle>
+  <DialogContent>
+    <DialogContentText id="alert-dialog-description">
+      Let Google help apps determine location. This means sending anonymous
+      location data to Google, even when no apps are running.
+    </DialogContentText>
+  </DialogContent>
+</Dialog>
+    </Box>
+>>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
     </>
   );
 }

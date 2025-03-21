@@ -1,8 +1,5 @@
 import * as React from 'react';
-<<<<<<< HEAD
-=======
 import { useState } from 'react';
->>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,8 +12,14 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-<<<<<<< HEAD
+import{ Box, Button } from '@mui/material';
 import Search from "../Search/Search";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import CloseIcon from '@mui/icons-material/Close';
 
 const columns = [
   { id: 'SI_no', label: 'SI NO.', flex: 1 },
@@ -47,56 +50,16 @@ const rows = [
   createData('9','sumona', 'sum@gmail.com','7678934567',"BBSR","4/4/12",'Female','A+','Surgery' ),
   createData('10','Esneha', 'esh@gmail.com','234567898',"Ranchi","12/2/23",'Female','B+','Joint pain'),
   createData('11','srawani', 'sra@gmail.com','678964536',"JSR","4/5/22",'Female','AB+','Allergy' ),
-=======
-import{ Box } from '@mui/material';
-import Search from "../Search/Search";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import CloseIcon from '@mui/icons-material/Close';
-
-
-const columns = [
-  { id: 'SI_no', label: 'SI NO.', flex: 1 },
-  { id: 'doctorName', label: 'Doctor Name', flex: 1, align: 'center' },
-  { id: 'email', label: 'Email', flex: 1, align: 'center' },
-  { id: 'phoneNo', label: 'Phone Number', flex: 1, align: 'center' },
-  { id: 'address', label: 'Address', flex: 1, align: 'center' },
-  {id: 'specialization', label: 'Specialization', flex: 1, align: 'center'},
-  {id: 'experienceyears', label: 'Experience Years', flex: 1, align: 'center'},
-  {id: 'qualification', label: 'Qualification', flex: 1, align: 'center'},
-  {id: 'hospitalname', label: 'Hospital Name', flex: 1, align: 'center'},
-  {id: 'status', label: 'Status', flex: 1, align: 'center'},
-  {id: 'joiningdate', label: 'Joining Date', flex: 1, align: 'center'},
-  { id: 'action', label: 'Action', flex: 1, align: 'center' },
-];
-
-function createData(SI_no, doctorName, email, phoneNo , address,specialization, experienceyears, qualification,hospitalname,status,joiningdate) {
-  return { SI_no, doctorName, email, phoneNo , address, specialization, experienceyears, qualification,hospitalname,status,joiningdate};
-}
-
-const rows = [
-  createData('1', 'subh', 'shri@gmailcom', 124556788,'Ranchi', "Cardiologist", 10, 'MBBS',"ranchi main hospital", 'Available days','3/03/2/12'),
-  createData('2', 'sneha', ' megha@gmail.com',123454321, 'Ranchi', "heart", 7, 'MBSS', "aims","timing",'4/09/15'),
-  createData('3','ritu', 'ritu23',123454321,'Ranchi',"skin",5,'MBSS',"sadar hospita","days",'12/12/12'),
-  createData('4','prerna', 'pre@gmail.com',345689765,'Ranchi',"eye",9,'MBSS',"government hospital","days",'25/8/17'),
-  createData('5','amrita', 'am@gmail.com',4567977654,'bhubneswar',"brain",2,'MBSS',"sum hospital","timing",'6/06/20'),
->>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
 ];
 
 export default function StickyHeadTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-<<<<<<< HEAD
-=======
-  const [viewData, setViewData] =useState(false)
-   const [editData, setEditData] =useState(false)
-   const [deleteData, setDeleteData] =useState(false)
+ const [viewData, setViewData] =useState(false)
+  const [editData, setEditData] =useState(false)
+    const [deleteData, setDeleteData] =useState(false)
 
->>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -106,21 +69,6 @@ export default function StickyHeadTable() {
     setPage(0); // Reset to first page when rows per page changes
   };
 
-<<<<<<< HEAD
-  const handleDelete = (id) => {
-    console.log('Delete item with ID:', id);
-    // You can perform your delete logic here
-  };
-
-  const handleEdit = (id) => {
-    console.log('Edit item with ID:', id);
-    // You can open a modal or perform your edit logic here
-  };
-
-  const handleView = (id) => {
-    console.log('View item with ID:', id);
-    // You can show more details of the item here
-=======
   const handleDelete = () => {
     // console.log('Delete item with ID:', id);
     // You can perform your delete logic here
@@ -128,8 +76,6 @@ export default function StickyHeadTable() {
 
   };
 
-  
-  
 
   const handleEdit = () => {
     
@@ -146,16 +92,13 @@ export default function StickyHeadTable() {
   const handleView = () => {
 
     setViewData(true)
->>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
   };
 
   return (
     <>
-<<<<<<< HEAD
-=======
     <Box className="container">
->>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
-    <Search/>
+  <Search/>
+
     <Paper sx={{ width: '100%',overflow: 'hidden' }}>
       <TableContainer className="table" sx={{ maxHeight: 440, fontSize: '12px', marginLeft: '20px', marginTop: '0px', marginRight: '20px' }}>
         <Table stickyHeader aria-label="sticky table">
@@ -183,13 +126,13 @@ export default function StickyHeadTable() {
                       <TableCell key={column.id} align={column.align}>
                         {column.id === 'action' ? (
                           <div>
-                            <IconButton onClick={() => handleView(row.SI_no)} color="black">
+                            <IconButton onClick={() => handleView()} color="black">
                               <VisibilityIcon />
                             </IconButton>
-                            <IconButton onClick={() => handleEdit(row.SI_no)} color="black">
+                            <IconButton onClick={() => handleEdit()} color="black">
                               <EditIcon />
                             </IconButton>
-                            <IconButton onClick={() => handleDelete(row.SI_no)} color="black">
+                            <IconButton onClick={() => handleDelete()} color="black">
                               <DeleteIcon />
                             </IconButton>
                           </div>
@@ -214,9 +157,28 @@ export default function StickyHeadTable() {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
-<<<<<<< HEAD
-=======
-    <Dialog
+
+    {/* <Dialog
+        open={viewData}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title" className='title'>
+          View Patient's Details
+          <CloseIcon onClick={handleClose}/>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+
+            Let Google help apps determine location. This means sending anonymous
+            location data to Google, even when no apps are running.
+
+          </DialogContentText>
+        </DialogContent>
+    
+      </Dialog> */}
+      <Dialog
   open={viewData}
   onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
   aria-labelledby="alert-dialog-title"
@@ -273,8 +235,15 @@ export default function StickyHeadTable() {
     </DialogContentText>
   </DialogContent>
 </Dialog>
+
     </Box>
->>>>>>> e446a2201b220a1dd0f76db99fe4ab5700ee0fa0
     </>
   );
 }
+
+/*      <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleSubmit} className='primary_button'>
+            Submit
+          </Button>
+        </DialogActions> */
