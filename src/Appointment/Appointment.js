@@ -1,106 +1,180 @@
-import * as React from 'react';
-import { useState } from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import{ Box } from '@mui/material';
+import React, { useState } from "react";
+
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+import CloseIcon from "@mui/icons-material/Close";
 import Search from "../Search/Search";
-import Dialog from '@mui/material/Dialog';
-// import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import CloseIcon from '@mui/icons-material/Close';
 
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow ,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  TextField,
+  IconButton,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  Grid,
+  useMediaQuery,
+} from "@mui/material";
+import CommonDialog from "../Component/CommonDialog/CommonDialog";
+import ViewDiscount from "./View/View";
+import CreateDiscount from "./Create/Create";
+import EditDiscount from "./Edit/Edit";
+import DeleteDiscount from "./Delete/Delete";
 
-const columns = [
-  { id: 'SI_no', label: 'SI NO.', flex: 1 },
-  { id: 'patientName', label: 'Patient Name', flex: 1, align: 'center' },
-  { id: 'checkup', label: 'Checkup',flex: 1, align: 'center' },
-  { id: 'doctorassignee', label: 'Doctorassignee', flex: 1, align: 'center' },
-  {id: 'appointmentdate', label: 'Address', flex: 1, align: 'center'},
-  {id: 'status', label: 'Date of Birth', flex: 1, align: 'center'},
-  { id: 'action', label: 'Action', flex: 1, align: 'center' },
-];
+const Discount=()=>
+{
 
-function createData(SI_no, patientName,checkup, doctorassignee , appointmentdate, status) {
-  return { SI_no, patientName, checkup, doctorassignee, appointmentdate, status};
+  const [openData, setOpenData] = useState(false)
+
+  const [viewData, setViewData] = useState(false)
+
+  const [editData, setEditData] = useState(false)
+
+  const [deleteData, setDeleteData] = useState(false)
+
+ const handleView = () =>
+  {
+    setViewData(true)
+  }
+
+const handleEdit = () =>
+{
+   setEditData(true)
 }
 
-const rows = [
-  createData('1', 'subhashree', 'fever', 'ravish', 'Ranchi', '12/2/23'),
-  createData('2', 'snehanjali', 'cold', 'prabhat','Ranchi', '12/12/12'),
-  createData('3','ritu', 'allergy','sneha','Bbsr','12/2/23'),
-  createData('4','prerna', 'fever','anish','Ranchi','23/3/23'),
-  createData('5','amrita', 'food poisning','tejash','Bbsr','4/5/24'),
-  createData('6','sakshi', 'fever','anushka','Ranchi','9/2/2004' ),
-  createData('7','tripti', 'allergy','sumona','JSR','2/2/23' ),
-  createData('8','megha', 'allergy','sushant','Ranchi','12/2/23' ),
-  createData('9','sumona', 'allergy','ravi','BBSR','3/3/23' ),
-  createData('10','Esneha', 'fever','sangeeta','Ranchi','12/2/25'),
-  createData('11','srawani', 'fever','sweta','BBSR','12/2/23' ),
-];
-
-export default function StickyHeadTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const [viewData, setViewData] =useState(false)
-   const [editData, setEditData] =useState(false)
-   const [deleteData, setDeleteData] =useState(false)
-
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0); // Reset to first page when rows per page changes
-  };
-
-  const handleDelete = () => {
-    // console.log('Delete item with ID:', id);
-    // You can perform your delete logic here
+const handleDelete = () =>
+  {
     setDeleteData(true)
+  }
 
-  };
+    const columns = [
+        { id: 'si', label: 'SI. No', flex:1, align:'center' },
+        { id: 'patientname', label: 'Patient Name', flex:1,align:'center' },
+        {
+          id: 'checkup',
+          label: 'Checkup',
+          flex:1,
+          align:'center'
+        },
+        {
+          id: 'doctorassignee',
+          label: 'Doctor(assignee)',
+          flex:1,
+           align:'center'
+        },
+      
+        {
+            id: 'appointmentdate',
+            label: 'Appointment Date',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'status',
+            label: 'Status',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'actions',
+            label: 'Action',
+            flex:1,
+            align:'center',
+          },
+      ];
+      
+      function createData(si, patientname, checkup, doctorassignee,appointmentdate,status, action) {
+        return {
+          si,
+          patientname, 
+          checkup, 
+          doctorassignee,
+          appointmentdate,
+           status,
+          actions: (
+            <>
+              <IconButton style={{color:"#000", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
+                <VisibilityIcon  />
+              </IconButton>
+              <IconButton style={{color:"#000", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
+                <EditIcon />
+              </IconButton>
+              <IconButton style={{color:"#000", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
+                <DeleteIcon />
+              </IconButton>
+            </>
+          ),
+        };
+      }
+      
+      const rows = [
+        createData(1, "Shanu", "Fever","Shruti", "2025-03-24", "Scheduled", "View"),
+        createData(2,  "Anu", "Haedache", "Ahana" ,"2025-03-10", "Scheduled", "View"),
+        createData(3, "Rai", "Diabetes", "Adil","2025-03-09", "completed", "View"),
+        createData(4,  "Rukma", "Arthritis", "Sohal","2025-03-04", "Pending", "View"),
+        createData(5,  "Riya", "Stroke", "Sahil","2025-03-01", "completed", "View"),
+       
+      ];
 
-  
-  
-
-  const handleEdit = () => {
+      const [page, setPage] = useState(0);
+      const [rowsPerPage, setRowsPerPage] = useState(10);
     
-    setEditData(true)
-  };
+      const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+      };
+    
+      const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+      };
 
-  const handleClose = () => {
-    setViewData(false);
-    setEditData(false); // Close both dialogs when handleClose is called
-    setDeleteData(false);
-  };
+      const onAddClick =()=>
+        {
+          setOpenData(true)
+        }
+   
+        const handleClose = () => {
+          setEditData(false)
+          setViewData(false)
+          setOpenData(false)
+          setDeleteData(false)
+       };
+   
+       const handleSubmit = (e) => {
+         e.preventDefault();
+         setOpenData(false)
+         // console.log("Form Data Submitted:", formData);
+       }
+
+       const handleUpdate = (e) => {
+          e.preventDefault();
+          setEditData(false)
+       }
   
 
-  const handleView = () => {
-
-    setViewData(true)
-  };
-
-  return (
-    <>
-    <Box className="cointainer">
-    <Search/>
-    <Paper sx={{ width: '100%',overflow: 'hidden' }}>
-      <TableContainer className="table" sx={{ maxHeight: 440, fontSize: '12px', marginLeft: '20px', marginTop: '0px', marginRight: '20px' }}>
+    return (
+      
+      <Box className="container">
+        <Search onAddClick={onAddClick}/>
+     <Paper sx={{ width: '100%', overflow:"hidden" }}>
+      <TableContainer  >
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -108,7 +182,7 @@ export default function StickyHeadTable() {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth, fontWeight: 'bolder', fontSize: '14px' }}
+                  style={{ minWidth: column.minWidth, fontWeight:900 }}
                 >
                   {column.label}
                 </TableCell>
@@ -117,38 +191,28 @@ export default function StickyHeadTable() {
           </TableHead>
           <TableBody>
             {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) // Adjust row slice based on page and rowsPerPage
-              .map((row) => (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.SI_no}>
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.id === 'action' ? (
-                          <div>
-                            <IconButton onClick={() => handleView(row.SI_no)} color="black">
-                              <VisibilityIcon />
-                            </IconButton>
-                            <IconButton onClick={() => handleEdit(row.SI_no)} color="black">
-                              <EditIcon />
-                            </IconButton>
-                            <IconButton onClick={() => handleDelete(row.SI_no)} color="black">
-                              <DeleteIcon />
-                            </IconButton>
-                          </div>
-                        ) : (
-                          column.format && typeof value === 'number' ? column.format(value) : value
-                        )}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              ))}
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.format && typeof value === 'number'
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 50]} // Added more options for rows per page
+        rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
@@ -157,65 +221,27 @@ export default function StickyHeadTable() {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
-    <Dialog
-  open={viewData}
-  onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
-  aria-labelledby="alert-dialog-title"
-  aria-describedby="alert-dialog-description"
->
-  <DialogTitle id="alert-dialog-title" className="title">
-    View Patient's Details
-    <IconButton onClick={handleClose} style={{ float: 'right' }}>
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
-  <DialogContent>
-    <DialogContentText id="alert-dialog-description">
-      Let Google help apps determine location. This means sending anonymous
-      location data to Google, even when no apps are running.
-    </DialogContentText>
-  </DialogContent>
-</Dialog>
-<Dialog
-  open={editData}
-  onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
-  aria-labelledby="alert-dialog-title"
-  aria-describedby="alert-dialog-description"
->
-  <DialogTitle id="alert-dialog-title" className="title">
-     Edit Patient's Details
-    <IconButton onClick={handleClose} style={{ float: 'right' }}>
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
-  <DialogContent>
-    <DialogContentText id="alert-dialog-description">
-      Let Google help apps determine location. This means sending anonymous
-      location data to Google, even when no apps are running.
-    </DialogContentText>
-  </DialogContent>
-</Dialog>
+   
+     <CommonDialog 
+      open={openData || viewData || editData || deleteData} 
+      onClose={handleClose}
+      dialogTitle={ <>
+         {openData? "Create New Appointment" : viewData ? "View Appointment Details": editData?"Edit Appointment Details":deleteData?"Delete Appointment":null}
+      </>}
+      
+      dialogContent = {
+         openData ? <CreateDiscount handleSubmit={handleSubmit} handleClose={handleClose} /> :
+          viewData ? <ViewDiscount /> : 
+         editData ? <EditDiscount handleUpdate={handleUpdate} handleClose={handleClose} /> : 
+         deleteData? <DeleteDiscount handleDelete={handleDelete} handleClose={handleClose} />:null
+        
+      }
 
-<Dialog
-  open={deleteData}
-  onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
-  aria-labelledby="alert-dialog-title"
-  aria-describedby="alert-dialog-description"
->
-  <DialogTitle id="alert-dialog-title" className="title">
-     Delete Patient's Details
-    <IconButton onClick={handleClose} style={{ float: 'right' }}>
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
-  <DialogContent>
-    <DialogContentText id="alert-dialog-description">
-      Let Google help apps determine location. This means sending anonymous
-      location data to Google, even when no apps are running.
-    </DialogContentText>
-  </DialogContent>
-</Dialog>
+      />
+
+      
     </Box>
-    </>
-  );
+    )
 }
+
+export default Discount;
