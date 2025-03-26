@@ -115,19 +115,23 @@ color: #000000;
   background-color: #767ecd;
 }
 
+
 .menu-label {
   margin-left: 10px;
   font-size: 14px;
 }
 
 .menu-link.active {
-  background-color: #51549b; 
+  background-color: #51549b;
+  font-weight: 700;
+}
+.submenu-link.active { 
   font-weight: 700;
 }
 
 .logo {
-  height:60px;
-  display:flex;
+  height: 60px;
+  display: flex;
   justify-content: center;
   align-items: center;
   font-size: 22px;
@@ -138,6 +142,42 @@ color: #000000;
 .hotelName {
   padding-left: 6px;
 }
+
+.submenu {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 0px;
+}
+.menu-labeldata {
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+   align-items: center;
+}
+
+.submenu-link {
+  color: white;
+  text-decoration: none;
+  padding: 6px; 
+  font-size: 14px;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+  margin:6px 0px 2px;
+  display: flex;
+  align-items: center;
+}
+.rightIcon {
+   height: 20px !important;
+}
+.rightIcon.inactive {
+  visibility: hidden !important;
+}
+.rightIcon.active {
+  font-weight: 700;
+}
+
+
 
 /* Header */
 .MuiAppBar-root{
