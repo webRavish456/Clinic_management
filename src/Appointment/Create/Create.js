@@ -11,17 +11,17 @@ import {
     Box,
   } from "@mui/material";
 
-const CreateDiscount =({handleSubmit, handleClose})=>
+const CreateAppointment =({handleSubmit, handleClose})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const [formData, setFormData] = useState({
-        discountCode: "",
-        discountDescription: "",
-        discountValue: "",
-        validFrom: "",  
-        validTo: "",
-        status: "",
+        patientname: "",
+        checkup: "",
+        doctorassignee: "",
+        appointmentdate:"",
+        status: "",  
+
      });
 
      const handleChange = (e) => {
@@ -37,11 +37,11 @@ const CreateDiscount =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Discount Code <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Patient Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountCode"
-            value={formData.discountCode}
+            name="patientName"
+            value={formData.patientName}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -53,11 +53,11 @@ const CreateDiscount =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Discount Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Shanu <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountDescription"
-            value={formData.discountDescription}
+            name="shanu"
+            value={formData.Shanu}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -69,11 +69,11 @@ const CreateDiscount =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Discount Value <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Checkup <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountValue"
-            value={formData.discountValue}
+            name="checkup"
+            value={formData.checkup}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -84,10 +84,10 @@ const CreateDiscount =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Valid From <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Doctor Assignee <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="validFrom"
+            name="doctorAssignee"
             value={formData.validFrom}
             onChange={handleChange}
             fullWidth
@@ -99,10 +99,10 @@ const CreateDiscount =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Valid To <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                appointmentdate <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="validTo"
+            name="appointmentDate"
             value={formData.validTo}
             onChange={handleChange}
             fullWidth
@@ -123,4 +123,4 @@ const CreateDiscount =({handleSubmit, handleClose})=>
      )
 }
 
-export default CreateDiscount
+export default CreateAppointment
