@@ -1,104 +1,224 @@
-import * as React from 'react';
-import { useState } from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import{ Box } from '@mui/material';
+import React, { useState } from "react";
+
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+import CloseIcon from "@mui/icons-material/Close";
 import Search from "../Search/Search";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import CloseIcon from '@mui/icons-material/Close';
 
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow ,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  TextField,
+  IconButton,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  Grid,
+  useMediaQuery,
+} from "@mui/material";
+import CommonDialog from "../Component/CommonDialog/CommonDialog";
+import ViewDiscount from "./View/View";
+import CreateDiscount from "./Create/Create";
+import EditDiscount from "./Edit/Edit";
+import DeleteDiscount from "./Delete/Delete";
 
-const columns = [
-  { id: 'SI_no', label: 'SI NO.', flex: 1 },
-  { id: 'doctorName', label: 'Doctor Name', flex: 1, align: 'center' },
-  { id: 'email', label: 'Email', flex: 1, align: 'center' },
-  { id: 'phoneNo', label: 'Phone Number', flex: 1, align: 'center' },
-  { id: 'address', label: 'Address', flex: 1, align: 'center' },
-  {id: 'specialization', label: 'Specialization', flex: 1, align: 'center'},
-  {id: 'experienceyears', label: 'Experience Years', flex: 1, align: 'center'},
-  {id: 'qualification', label: 'Qualification', flex: 1, align: 'center'},
-  {id: 'hospitalname', label: 'Hospital Name', flex: 1, align: 'center'},
-  {id: 'status', label: 'Status', flex: 1, align: 'center'},
-  {id: 'joiningdate', label: 'Joining Date', flex: 1, align: 'center'},
-  { id: 'action', label: 'Action', flex: 1, align: 'center' },
-];
+const Discount=()=>
+{
 
-function createData(SI_no, doctorName, email, phoneNo , address,specialization, experienceyears, qualification,hospitalname,status,joiningdate) {
-  return { SI_no, doctorName, email, phoneNo , address, specialization, experienceyears, qualification,hospitalname,status,joiningdate};
+  const [openData, setOpenData] = useState(false)
+
+  const [viewData, setViewData] = useState(false)
+
+  const [editData, setEditData] = useState(false)
+
+  const [deleteData, setDeleteData] = useState(false)
+
+ const handleView = () =>
+  {
+    setViewData(true)
+  }
+
+const handleEdit = () =>
+{
+   setEditData(true)
 }
 
-const rows = [
-  createData('1', 'subh', 'shri@gmailcom', 124556788,'Ranchi', "Cardiologist", 10, 'MBBS',"ranchi main hospital", 'Available days','3/03/2/12'),
-  createData('2', 'sneha', ' megha@gmail.com',123454321, 'Ranchi', "heart", 7, 'MBSS', "aims","timing",'4/09/15'),
-  createData('3','ritu', 'ritu23',123454321,'Ranchi',"skin",5,'MBSS',"sadar hospita","days",'12/12/12'),
-  createData('4','prerna', 'pre@gmail.com',345689765,'Ranchi',"eye",9,'MBSS',"government hospital","days",'25/8/17'),
-  createData('5','amrita', 'am@gmail.com',4567977654,'bhubneswar',"brain",2,'MBSS',"sum hospital","timing",'6/06/20'),
-];
-
-export default function StickyHeadTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const [viewData, setViewData] =useState(false)
-   const [editData, setEditData] =useState(false)
-   const [deleteData, setDeleteData] =useState(false)
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0); // Reset to first page when rows per page changes
-  };
-
-  const handleDelete = () => {
-    // console.log('Delete item with ID:', id);
-    // You can perform your delete logic here
+const handleDelete = () =>
+  {
     setDeleteData(true)
+  }
 
-  };
+    const columns = [
+        { id: 'si', label: 'SI. No', flex:1, align:'center' },
+        { id: 'doctor name', label: 'Doctor Name', flex:1,align:'center' },
+        {
+          id: 'email',
+          label: 'Email',
+          flex:1,
+          align:'center'
+        },
+        {
+          id: 'phone number ',
+          label: 'Phone Number',
+          flex:1,
+           align:'center'
+        },
+        {
+          id: 'address',
+          label: 'Address',
+          flex:1,
+          align:'center',
+        },
+        {
+            id: 'specialization',
+            label: 'Specialization',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'experience years',
+            label: 'Experience Years',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'qualification',
+            label: 'Qualification',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'hospital name',
+            label: 'Hospital Name',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'status',
+            label: 'Status',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'joining date',
+            label: 'Joining Date',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'action',
+            label: 'Action',
+            flex:1,
+            align:'center',
+          },
+          
+      ];
+      
+      function createData(si, doctorName,email , phoneNumber, address, specialization, experienceYears,qualification,hospitalName,status,joiningDate,action) {
+        return {
+          si,
+          doctorName,
+          email,
+          phoneNumber,
+          address,
+          specialization,
+          experienceYears,
+          qualification,
+          hospitalName,
+          status,
+          joiningDate,
+          action: (
+            <>
+              <IconButton style={{color:"#000", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
+                <VisibilityIcon  />
+              </IconButton>
+              <IconButton style={{color:"#000", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
+                <EditIcon />
+              </IconButton>
+              <IconButton style={{color:"#000", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
+                <DeleteIcon />
+              </IconButton>
+            </>
+          ),
+        };
+      }
+      
+      const rows = [
+        createData(1, "AMRITA", "amrita@123", "6324789543", "Ranchi", "Cardiologist", "10","MBBS","ranchi main hospital","AvailableDays","3/6/12","view"),
+        createData(2, "NITU", "nitu@123", "5478965123" ,"Ranchi", "Heart", "10","MBBS","aims","Timing","12/3/14","view"),
+        createData(3, "RITU", "ritu@123", "2514639877", "Ranchi", "Eye", "9","MBBS","sadar hospital","Days","2/5/16","view"),
+        createData(4, "RANI", "rani@123", "5478963321", "Ranchi", "Skin", "7","MBBS","aims","","","",),
+        createData(5, "SUMAN", "suman@123", "5479632114", "Ranchi", "Brain", "8","MBBS","govermental hospital","Days","5/6/19","view"),
+        createData(6, "PRIYANKA", "priyanka@123", "4566321887", "Ranchi", "Eye", "6","MBBS","aims","","",""),
+        createData(7, "ANNU", "annu@123", "4452369987", "Delhi", "Eye", "5","MBBS","ranchi main hospital","Timing","6/2/19","view"),
+        createData(8, "SNEHA", "sneha@123", "1265897412", "Delhi", "Brain", "9","MBBS","sadar hospital","Days","12/7/15","view"),
+        createData(9, "PUNAM", "punam@123", "4563217896", "Bhubneswar", "Skin", "8","MBBS","appolo","Timing","14/8/13","view"),
+        createData(10, "SONAL", "sonal@123", "5231478520", "Ranchi", "Eye", "9","MBBS","aims","Days","1/1/13","view"),
+        createData(11, "MITU", "mitu@123", "587963145", "Ranchi", "Skin", "6","MBBS","sadar hospital","Days","14/2/5","view"),
+        createData(12, "SUSMITA", "susmita@123", "5987463210", "Ranchi", "Brain", "8","MBBS","aims","Days","18/4/20","view"),
+        createData(13, "ISHA", "isha@123", "6398547156", "Ranchi", "Skin", "7","MBBS","aims","Days","1/2/14","view"),
+        createData(14, "PRIYA", "priya@123", "4562178931", "Ranchi", "Heart", "6","MBBS","appolo","Days","3/4/17","view"),
+        createData(15, "ISHU", "ishu@123", "3216589741", "Delhi", "Skin", "7","MBBS","aims","Days","12/5/16","view")
+      ];
 
-  
-  
-
-  const handleEdit = () => {
+      const [page, setPage] = useState(0);
+      const [rowsPerPage, setRowsPerPage] = useState(10);
     
-    setEditData(true)
-  };
+      const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+      };
+    
+      const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+      };
 
-  const handleClose = () => {
-    setViewData(false);
-    setEditData(false); // Close both dialogs when handleClose is called
-    setDeleteData(false);
-  };
+      const onAddClick =()=>
+        {
+          setOpenData(true)
+        }
+   
+        const handleClose = () => {
+          setEditData(false)
+          setViewData(false)
+          setOpenData(false)
+          setDeleteData(false)
+       };
+   
+       const handleSubmit = (e) => {
+         e.preventDefault();
+         setOpenData(false)
+         // console.log("Form Data Submitted:", formData);
+       }
+
+       const handleUpdate = (e) => {
+          e.preventDefault();
+          setEditData(false)
+       }
   
 
-  const handleView = () => {
-
-    setViewData(true)
-  };
-
-  return (
-    <>
-    <Box className="container">
-    <Search/>
-    <Paper sx={{ width: '100%',overflow: 'hidden' }}>
-      <TableContainer className="table" sx={{ maxHeight: 440, fontSize: '12px', marginLeft: '20px', marginTop: '0px', marginRight: '20px' }}>
+    return (
+      
+      <Box className="container">
+        <Search onAddClick={onAddClick}/>
+     <Paper sx={{ width: '100%', overflow:"hidden" }}>
+      <TableContainer  >
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -106,7 +226,7 @@ export default function StickyHeadTable() {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth, fontWeight: 'bolder', fontSize: '14px' }}
+                  style={{ minWidth: column.minWidth, fontWeight:900 }}
                 >
                   {column.label}
                 </TableCell>
@@ -115,38 +235,28 @@ export default function StickyHeadTable() {
           </TableHead>
           <TableBody>
             {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) // Adjust row slice based on page and rowsPerPage
-              .map((row) => (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.SI_no}>
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.id === 'action' ? (
-                          <div>
-                            <IconButton onClick={() => handleView(row.SI_no)} color="black">
-                              <VisibilityIcon />
-                            </IconButton>
-                            <IconButton onClick={() => handleEdit(row.SI_no)} color="black">
-                              <EditIcon />
-                            </IconButton>
-                            <IconButton onClick={() => handleDelete(row.SI_no)} color="black">
-                              <DeleteIcon />
-                            </IconButton>
-                          </div>
-                        ) : (
-                          column.format && typeof value === 'number' ? column.format(value) : value
-                        )}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              ))}
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.format && typeof value === 'number'
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 50]} // Added more options for rows per page
+        rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
@@ -155,64 +265,27 @@ export default function StickyHeadTable() {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
-    <Dialog
-  open={viewData}
-  onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
-  aria-labelledby="alert-dialog-title"
-  aria-describedby="alert-dialog-description"
->
-  <DialogTitle id="alert-dialog-title" className="title">
-    View Patient's Details
-    <IconButton onClick={handleClose} style={{ float: 'right' }}>
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
-  <DialogContent>
-    <DialogContentText id="alert-dialog-description">
-      Let Google help apps determine location. This means sending anonymous
-      location data to Google, even when no apps are running.
-    </DialogContentText>
-  </DialogContent>
-</Dialog>
-<Dialog
-  open={editData}
-  onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
-  aria-labelledby="alert-dialog-title"
-  aria-describedby="alert-dialog-description"
->
-  <DialogTitle id="alert-dialog-title" className="title">
-     Edit Patient's Details
-    <IconButton onClick={handleClose} style={{ float: 'right' }}>
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
-  <DialogContent>
-    <DialogContentText id="alert-dialog-description">
-      Let Google help apps determine location. This means sending anonymous
-      location data to Google, even when no apps are running.
-    </DialogContentText>
-  </DialogContent>
-</Dialog>
-<Dialog
-  open={deleteData}
-  onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
-  aria-labelledby="alert-dialog-title"
-  aria-describedby="alert-dialog-description"
->
-  <DialogTitle id="alert-dialog-title" className="title">
-     Delete Patient's Details
-    <IconButton onClick={handleClose} style={{ float: 'right' }}>
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
-  <DialogContent>
-    <DialogContentText id="alert-dialog-description">
-      Let Google help apps determine location. This means sending anonymous
-      location data to Google, even when no apps are running.
-    </DialogContentText>
-  </DialogContent>
-</Dialog>
+   
+     <CommonDialog 
+      open={openData || viewData || editData || deleteData} 
+      onClose={handleClose}
+      dialogTitle={ <>
+         {openData? "Create New Discount" : viewData ? "View Discount Details": editData?"Edit Discount Details":deleteData?"Delete Discount":null}
+      </>}
+      
+      dialogContent = {
+         openData ? <CreateDiscount handleSubmit={handleSubmit} handleClose={handleClose} /> :
+          viewData ? <ViewDiscount /> : 
+         editData ? <EditDiscount handleUpdate={handleUpdate} handleClose={handleClose} /> : 
+         deleteData? <DeleteDiscount handleDelete={handleDelete} handleClose={handleClose} />:null
+        
+      }
+
+      />
+
+      
     </Box>
-    </>
-  );
+    )
 }
+
+export default Discount;

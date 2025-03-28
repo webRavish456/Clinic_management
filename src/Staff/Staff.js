@@ -1,101 +1,209 @@
-import * as React from 'react';
-import { useState } from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import{ Box } from '@mui/material';
+import React, { useState } from "react";
+
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+import CloseIcon from "@mui/icons-material/Close";
 import Search from "../Search/Search";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import CloseIcon from '@mui/icons-material/Close';
 
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow ,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  TextField,
+  IconButton,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  Grid,
+  useMediaQuery,
+} from "@mui/material";
+import CommonDialog from "../Component/CommonDialog/CommonDialog";
+import ViewDiscount from "./View/View";
+import CreateDiscount from "./Create/Create";
+import EditDiscount from "./Edit/Edit";
+import DeleteDiscount from "./Delete/Delete";
 
-const columns = [
-  { id: 'SI_no', label: 'SI NO.', flex: 1 },
-  { id: 'name', label: 'Name', flex: 1, align: 'center' },
-  { id: 'amount', label: 'Amount', flex: 1, align: 'center' },
-  { id: 'transactiontype', label: 'Transaction Type', flex: 1, align: 'center' },
-  {id: 'category', label: 'Category', flex: 1, align: 'center'},
-  {id: 'paymentmode', label: 'Payment Mode', flex: 1, align: 'center'},
-  {id: 'transactiondate', label: 'Transaction Date', flex: 1, align: 'center'},
-  {id: 'status', label: 'Action', flex: 1, align: 'center'},
-  { id: 'action', label: 'Action', flex: 1, align: 'center' },
-];
+const Discount=()=>
+{
 
-function createData(SI_no, name, amount, transactiontype , category, paymentmode, transactiondate, status) {
-  return { SI_no, name,amount, transactiontype , category, paymentmode, transactiondate, status};
+  const [openData, setOpenData] = useState(false)
+
+  const [viewData, setViewData] = useState(false)
+
+  const [editData, setEditData] = useState(false)
+
+  const [deleteData, setDeleteData] = useState(false)
+
+ const handleView = () =>
+  {
+    setViewData(true)
+  }
+
+const handleEdit = () =>
+{
+   setEditData(true)
 }
 
-const rows = [
-  createData('1', 'subhashree',  100000, "Income", 'salary', 'cash',"12/03/2023","Pending"),
-  createData('2', 'snehanjali', 100000, "Expence", 'payment rent', 'bank transfer',"12/03/24","Completed"),
-  createData('3','ritu', 100000,'Income','salary',"UPI","14/05/24","Cancelled"),
-  createData('4','prerna',100000,'Expence','payment rent',"Credit card","16/08/24","Completed"),
-  createData('5','amrita', 100000,'Income','salary',"UPI","18/09/24","Pending"),
-];
-
-export default function StickyHeadTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const [viewData, setViewData] =useState(false)
-   const [editData, setEditData] =useState(false)
-   const [deleteData, setDeleteData] =useState(false)
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0); // Reset to first page when rows per page changes
-  };
-
-  const handleDelete = () => {
-    // console.log('Delete item with ID:', id);
-    // You can perform your delete logic here
+const handleDelete = () =>
+  {
     setDeleteData(true)
+  }
 
-  };
+    const columns = [
+        { id: 'si', label: 'SI. No.', flex:1, align:'center' },
+        { id: 'name', label: 'Name', flex:1,align:'center' },
+        {
+          id: 'email',
+          label: 'Email',
+          flex:1,
+          align:'center'
+        },
+        {
+          id: 'mobileno',
+          label: 'Mobile No.',
+          flex:1,
+           align:'center'
+        },
+        {
+          id: 'role',
+          label: 'Role',
+          flex:1,
+          align:'center',
+        },
+        {
+            id: 'salary',
+            label: 'Salary',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'shift',
+            label: 'Shift',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'status',
+            label: 'Status',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'joiningdate',
+            label: 'Joining date',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'actions',
+            label: 'Action',
+            flex:1,
+            align:'center',
+          },
+      ];
+      
+      function createData(si, name, email, mobileno, role, salary, shift, status, joiningdate, action) {
+        return {
+          si,
+          name,
+          email,
+          mobileno,
+          role,
+          salary,
+          shift,
+          status,
+          joiningdate,
+          actions: (
+            <>
+              <IconButton style={{color:"#000", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
+                <VisibilityIcon  />
+              </IconButton>
+              <IconButton style={{color:"#000", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
+                <EditIcon />
+              </IconButton>
+              <IconButton style={{color:"#000", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
+                <DeleteIcon />
+              </IconButton>
+            </>
+          ),
+        };
+      }
+      
+      const rows = [
+        createData(1, "Manish", "manish.cao@gmail.com", "8126797783", "Nurse", "60000", "Morning", "Active", "04/01/2024"),
+        createData(2, "Poonam", "poonam.jati@gmail.com", "9456862568", "Technician", "70000", "Evening", "Active", "15/06/2023"),
+        createData(3, "Sunil", "sunil1970@gmail.com", "9808315747", "Admin", "100000", "Rotational", "On Leave", "12/05/2022"),
+        createData(4, "Sandeep", "sandeep76@gmail.com", "9897741319", "Admin", "100000", "Evening", "Active", "10/11/2021"),
+        createData(5, "Aman", "aman.dei@gmail.com", "9927313370", "Nurse", "70000", "Morning", "Inactive", "25/02/2020"),
+        createData(6, "Radha", "radharani@gmail.com", "9410203288", "Receptionist", "80000", "Evening", "Active", "06/10/2022"),
+        createData(7, "Reema", "reema.johri@gmail.com", "8923538354", "Technician", "75000", "Morning", "Inactive", "15/12/2024"),
+        createData(8, "Ajay", "ajaysinha@gmail.com", "8445177997", "Admin", "150000", "Rotational", "Active", "27/07/2024"),
+        createData(9, "Khushboo", "khushboo31@gmail.com", "9457871060", "Support", "45000", "Morning", "Active", "13/09/2023"),
+        createData(10, "Kavita", "kavita5@gmail.com", "8439418577", "Nurse", "90000", "Evening", "On Leave", "22/05/2020"),
+        createData(11, "Aditya", "aditya77@gmail.com", "9358231669", "Nurse", "100000", "Evening", "Active", "09/12/2021"),
+        createData(12, "Sunil", "sunilk@gmail.com", "9456432260", "Receptionist", "75000", "Morning", "Active", "23/08/2024"),
+        createData(13, "Rakesh", "rakesh34@gmail.com", "9897346746", "Support", "50000", "Rotational", "Active"),
+        createData(14, "Jyoti", "jyotiverma@gmail.com", "7302386555", "Nurse", "100000", "Evening", "On Leave"),
+        createData(15, "Santosh", "santosh.dei@gmail.com", "9027541271", "Admin", "95000", "Morning", "Active")
+      ];
 
-  
-  
-
-  const handleEdit = () => {
+      const [page, setPage] = useState(0);
+      const [rowsPerPage, setRowsPerPage] = useState(10);
     
-    setEditData(true)
-  };
+      const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+      };
+    
+      const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+      };
 
-  const handleClose = () => {
-    setViewData(false);
-    setEditData(false); // Close both dialogs when handleClose is called
-    setDeleteData(false);
-  };
+      const onAddClick =()=>
+        {
+          setOpenData(true)
+        }
+   
+        const handleClose = () => {
+          setEditData(false)
+          setViewData(false)
+          setOpenData(false)
+          setDeleteData(false)
+       };
+   
+       const handleSubmit = (e) => {
+         e.preventDefault();
+         setOpenData(false)
+         // console.log("Form Data Submitted:", formData);
+       }
+
+       const handleUpdate = (e) => {
+          e.preventDefault();
+          setEditData(false)
+       }
   
 
-  const handleView = () => {
-
-    setViewData(true)
-  };
-
-  return (
-    <>
-    <Box className="container">
-    <Search/>
-    <Paper sx={{ width: '100%',overflow: 'hidden' }}>
-      <TableContainer className="table" sx={{ maxHeight: 440, fontSize: '12px', marginLeft: '20px', marginTop: '0px', marginRight: '20px' }}>
+    return (
+      
+      <Box className="container">
+        <Search onAddClick={onAddClick}/>
+     <Paper sx={{ width: '100%', overflow:"hidden" }}>
+      <TableContainer  >
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -103,7 +211,7 @@ export default function StickyHeadTable() {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth, fontWeight: 'bolder', fontSize: '14px' }}
+                  style={{ minWidth: column.minWidth, fontWeight:900 }}
                 >
                   {column.label}
                 </TableCell>
@@ -112,38 +220,28 @@ export default function StickyHeadTable() {
           </TableHead>
           <TableBody>
             {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) // Adjust row slice based on page and rowsPerPage
-              .map((row) => (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.SI_no}>
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.id === 'action' ? (
-                          <div>
-                            <IconButton onClick={() => handleView(row.SI_no)} color="black">
-                              <VisibilityIcon />
-                            </IconButton>
-                            <IconButton onClick={() => handleEdit(row.SI_no)} color="black">
-                              <EditIcon />
-                            </IconButton>
-                            <IconButton onClick={() => handleDelete(row.SI_no)} color="black">
-                              <DeleteIcon />
-                            </IconButton>
-                          </div>
-                        ) : (
-                          column.format && typeof value === 'number' ? column.format(value) : value
-                        )}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              ))}
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.format && typeof value === 'number'
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 50]} // Added more options for rows per page
+        rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
@@ -152,65 +250,27 @@ export default function StickyHeadTable() {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
-    <Dialog
-  open={viewData}
-  onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
-  aria-labelledby="alert-dialog-title"
-  aria-describedby="alert-dialog-description"
->
-  <DialogTitle id="alert-dialog-title" className="title">
-    View Patient's Details
-    <IconButton onClick={handleClose} style={{ float: 'right' }}>
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
-  <DialogContent>
-    <DialogContentText id="alert-dialog-description">
-      Let Google help apps determine location. This means sending anonymous
-      location data to Google, even when no apps are running.
-    </DialogContentText>
-  </DialogContent>
-</Dialog>
-<Dialog
-  open={editData}
-  onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
-  aria-labelledby="alert-dialog-title"
-  aria-describedby="alert-dialog-description"
->
-  <DialogTitle id="alert-dialog-title" className="title">
-     Edit Patient's Details
-    <IconButton onClick={handleClose} style={{ float: 'right' }}>
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
-  <DialogContent>
-    <DialogContentText id="alert-dialog-description">
-      Let Google help apps determine location. This means sending anonymous
-      location data to Google, even when no apps are running.
-    </DialogContentText>
-  </DialogContent>
-</Dialog>
-<Dialog
-  open={deleteData}
-  onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
-  aria-labelledby="alert-dialog-title"
-  aria-describedby="alert-dialog-description"
->
-  <DialogTitle id="alert-dialog-title" className="title">
-     Delete Patient's Details
-    <IconButton onClick={handleClose} style={{ float: 'right' }}>
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
-  <DialogContent>
-    <DialogContentText id="alert-dialog-description">
-      Let Google help apps determine location. This means sending anonymous
-      location data to Google, even when no apps are running.
-    </DialogContentText>
-  </DialogContent>
-</Dialog>
-    </Box>
-    </>
-  );
-}
    
+     <CommonDialog 
+      open={openData || viewData || editData || deleteData} 
+      onClose={handleClose}
+      dialogTitle={ <>
+         {openData? "Create New Discount" : viewData ? "View Discount Details": editData?"Edit Discount Details":deleteData?"Delete Discount":null}
+      </>}
+      
+      dialogContent = {
+         openData ? <CreateDiscount handleSubmit={handleSubmit} handleClose={handleClose} /> :
+          viewData ? <ViewDiscount /> : 
+         editData ? <EditDiscount handleUpdate={handleUpdate} handleClose={handleClose} /> : 
+         deleteData? <DeleteDiscount handleDelete={handleDelete} handleClose={handleClose} />:null
+        
+      }
+
+      />
+
+      
+    </Box>
+    )
+}
+
+export default Discount;
