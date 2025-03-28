@@ -8,6 +8,9 @@ import LayoutDoctor from "./Layout/LayoutDoctor";
 import LayoutStaff from "./Layout/LayoutStaff";
 import LayoutLaboratory from "./Layout/LayoutLaboratory";
 import LayoutFinance from "./Layout/LayoutFinance";
+import LayoutDepartment from "./Layout/LayoutDepartment";
+
+
 
 
 
@@ -28,6 +31,8 @@ function App() {
         <Route path= "/staff" element={<LayoutStaff/>}/>
         <Route path= "/laboratory" element={<LayoutLaboratory/>}/>
         <Route path= "/finance" element={<LayoutFinance/>}/>
+        <Route path= "/department" element={<LayoutDepartment/>}/>
+
         
       </Routes>
     </BrowserRouter>

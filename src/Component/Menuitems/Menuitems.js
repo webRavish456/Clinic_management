@@ -35,6 +35,11 @@ const Menuitems = [
       label: "Finance",
       href: "/finance",
     },
+    {
+      icon:"/Sidebar/department.png",
+      label: "Department",
+      href: "/department",
+    }
 
 ];
 

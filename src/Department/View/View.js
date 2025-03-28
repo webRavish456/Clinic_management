@@ -1,7 +1,7 @@
 import React from "react"
 import { Box, Grid,  useMediaQuery} from "@mui/material";
 
-const ViewAppointment =()=>
+const ViewDepartment =()=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
@@ -12,10 +12,10 @@ const ViewAppointment =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
             
             <Grid item xs={6}>
-            <Box className="pageTitle">Patient Name:</Box> 
+            <Box className="pageTitle">Department Id:</Box> 
             </Grid>  
             <Grid item xs={6}>
-            <Box className="pageDescription">Saniya Singha</Box>
+            <Box className="pageDescription">01</Box>
             </Grid>
 
             </Grid>
@@ -23,20 +23,20 @@ const ViewAppointment =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Doctor:</Box>    
+            <Box className="pageTitle">Department Name:</Box>    
             </Grid>
             <Grid item xs={6}>
-            <Box className="pageDescription">Shruti</Box>
+            <Box className="pageDescription">Cardiology</Box>
             </Grid>
             </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Appointment Date:</Box> 
+            <Box className="pageTitle">Specialization:</Box> 
             </Grid>   
             <Grid item xs={6}>
-            <Box className="pageDescription">24-03-2025</Box>
+            <Box className="pageDescription">Cardiovascular Medicine</Box>
             </Grid>
 
             </Grid>
@@ -44,11 +44,11 @@ const ViewAppointment =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Status:</Box>
+            <Box className="pageTitle">Department Head:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">Pending</Box>
+            <Box className="pageDescription">Dr. A</Box>
             </Grid>
 
             </Grid>
@@ -56,13 +56,24 @@ const ViewAppointment =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Visit Type:</Box>
+            <Box className="pageTitle">Description:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">In person Visit</Box>
+            <Box className="pageDescription">Deals with heart related diseases</Box>
             </Grid>
 
+
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+
+<Grid item xs={6}>
+<Box className="pageTitle">Status:</Box>
+</Grid>
+
+<Grid item xs={6}>
+<Box className="pageDescription">Active</Box>
+</Grid>
             </Grid>
 
 
@@ -86,4 +97,4 @@ const ViewAppointment =()=>
      )
 }
 
-export default ViewAppointment
+export default ViewDepartment

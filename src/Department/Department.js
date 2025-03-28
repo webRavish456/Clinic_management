@@ -63,73 +63,45 @@ const handleDelete = () =>
   {
     setDeleteData(true)
   }
-
-    const columns = [
-        { id: 'patientname', label: 'Patient Name', flex:1,align:'center' },
+        
+      const columns = [
+        { id: 'si', label: 'SI.No', flex:1, align:'center' },
+        { id: 'departmentname', label: 'Department Name', flex:1, align:'center' },
         {
-          id: 'doctor',
-          label: 'Doctor',
+          id: 'description',
+          label: 'Description',
           flex:1,
-          align:'center'
+          align: 'center',
         },
         {
-          id: 'gender',
-          label: 'Gender',
+          id: 'departmenthead',
+          label: 'Department Head',
           flex:1,
-           align:'center'
+          align: 'center',
         },
-      
         {
-            id: 'date',
-            label: 'Date',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'time',
-            label: 'Time',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'mobile',
-            label: 'Mobile',
-            flex:1,
-            align:'center',
-          },
-    
-{
-          id: 'email',
-          label: 'Email',
+          id: 'date',
+          label: 'Date',
           flex:1,
-          align:'center',
+          align: 'center',
         },
-
-       { id: 'appointmentstatus',
-        label: 'Appointmentstatus',
-        flex:1,
-        align:'center',
-       },
-       {
-        id: 'visittype',
-        label: 'Visit Type',
-        flex:1,
-        align:'center',
-       },
-{
-        id: 'actions',
-        label: 'Actions',
-        flex:1,
-        align:'center',
-
-      },
+        
+        {
+          id: 'status',
+          label: 'Status',
+          flex:1,
+          align: 'center',
+        },
+        {
+          id: 'actions',
+          label: 'Actions',
+          flex:1,
+          align: 'center',
+        },
       ];
       
-      function createData(patientname,doctor,gender,date,time, mobile,email,appointmentstatus,visittype,actions) {
-        return {
-          patientname, 
-          doctor,
-          gender,date,time, mobile,email,appointmentstatus,visittype,actions: (
+        function createData(si, departmentname, description, departmenthead, date, status, actions ) {
+          return { si, departmentname, description, departmenthead, date, status, actions: (
             <>
               <IconButton style={{color:"#000", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
                 <VisibilityIcon  />
@@ -146,16 +118,26 @@ const handleDelete = () =>
       }
       
       const rows = [
-        createData( "Saniya Singha", "Shruti", "Female", "24-03-2025","10:00AM","6200000789","saniya0987@gmail.com","Pending","In-person Visit","Edit"),
-        createData( "Anaya Das", "Arohi", "Female", "24-03-2025","12:00PM","6200000789","anaya345@gmail.com","Completed","Online Consulation","Edit"),
-        createData( "Sarita kumari", "Shruti", "Female", "24-03-2025","9:00AM","6200000789","sarita456@gmail.com" ,"Rescheduled","In-person Visit","Edit"),
-        createData( "Adil Khan", "Sara", "Male", "24-03-2025","9:00AM","9234567895","adil23@gmail.com","Cancelled","Online Consulation","Edit"),
-        createData( "Amar Harsh", "Moumita", "Male", "24-03-2025","1:00PM","7654893423", "amar7543@gmail.com" ,"Completed","In-person Visit","Edit"),
-        createData( "Asutosh", "Madhabi", "Male", "24-03-2025","10:00PM","7545893452",    "asutosh@gmail.com","Confirmed","Online Consulation","Edit"),
-        createData( "Mukul Yadav", "Nil", "Male", "24-03-2025","9:00PM","3457892345",   "muk6767@gmail.com"   ,"Confirmed","In-person Visit","Edit"),
-        createData( "Dayal Patra", "Naresh", "Male", "24-03-2025","8:00PM","9876543289", "dayal98@gmail.com"    ,"Completed","Online Consulation","Edit"),
-        createData( "Sahanara Begum", "Mohua", "Female", "24-03-2025","10:00PM","7676895467",  "saha3434@gmail.com"    ,"Completed","In-person Visit","Edit"),
-        createData( "Riya Singh", "Ayushi", "Female", "24-03-2025","11:00AM","6289896754",   "riya2323@gmail.com"     ,"Pending","In-person Visit","Edit"),
+          createData('1', 'Cardiology', 'Deals with heart related diseases', 'Dr.A', '2025-03-29', 'Active', 'Edit/Delete/View'),
+           createData('2', 'Neurology', 'Focuses on nervous system disorders', 'Dr.B', '2025-03-28', 'Active', 'Edit/Delete/View'),
+         createData('3', 'Orthopedics', 'Treats bone and muscle conditions', 'Dr.C', '2025-03-26', 'Active',  'Edit/Delete/View'),
+          createData('4', 'Dermatology', 'Skin related treatments and diseases', 'Dr. D', '2025-03-20', 'Active', 'Edit/Delete/View'),
+          createData('5', 'Radiology', 'Imaging and scaning department', 'Dr.E', '2025-03-12', 'Active', 'Edit/Delete/View'),
+          createData('6', 'Pediatrics', 'Focusing on common childhood illness treatment', 'Dr.F', '2025-03-10', 'Active', 'Edit/Delete/View'),
+          createData('7', 'Pulmonology', 'Repiratory & Lung Care,asthma & COPD Treatment', 'Dr.G', '2025-03-07', 'Active', 'Edit/Delete/View'),
+          createData('8', 'Oncology', 'Cancer treatment, chemotherapy', 'Dr.H', '2025-03-06', 'Active', 'Edit/Delete/View'),
+          createData('9', 'Dental care', 'Oral Health & Surgery', 'Dr.I', '2025-03-03', 'Active', 'Edit/Delete/View'),
+          createData('10', 'Nephrology', 'Kidney Diseases Treatment,Dialysis', 'Dr.J', '2025-03-01', 'Active', 'Edit/Delete/View'),
+
+
+
+
+
+
+
+
+
+
       ];
 
       const [page, setPage] = useState(0);
@@ -251,7 +233,7 @@ const handleDelete = () =>
       open={openData || viewData || editData || deleteData} 
       onClose={handleClose}
       dialogTitle={ <>
-         {openData? "Create New Appointment" : viewData ? "View Appointment Details": editData?"Edit Appointment Details":deleteData?"Delete Appointment":null}
+         {openData? "Create New Appointment" : viewData ? "View Department Details": editData?"Edit Department Details":deleteData?"Delete Department Details":null}
       </>}
       
       dialogContent = {
