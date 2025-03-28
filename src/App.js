@@ -28,7 +28,7 @@ function App() {
         <Route path= "/patients/all-patients" element={<LayoutPatients/>}/>
         <Route path= "/appointment" element={<LayoutAppointment/>}/>
         <Route path= "/doctor/all-doctor" element={<LayoutDoctor/>}/>
-        <Route path= "/doctor/shift-management" element={<LayoutShift/>}/>
+
         <Route path= "/staff" element={<LayoutStaff/>}/>
         <Route path= "/laboratory" element={<LayoutLaboratory/>}/>
         <Route path= "/finance" element={<LayoutFinance/>}/>
