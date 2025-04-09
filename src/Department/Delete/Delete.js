@@ -9,7 +9,7 @@ const DeleteDiscount = ({handleClose, handleDelete}) =>
              Are you sure want to delete?
            </Box>
            <Box className="submit">
-             <Box className="submit" sx={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', margin: '20px'}}></Box>
+             <Box className="submit" sx={{ display: 'flex', justifyContent: 'flex-end', gap: '20px', margin: '20px'}}></Box>
             <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
             <Button onClick={handleDelete} className="primary_button">
               Delete

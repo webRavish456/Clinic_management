@@ -38,15 +38,15 @@ const Menuitems = [
     {
       icon: "/Sidebar/medical-appointment.png",
       label: "Patients",
-      href: "/patients/all-patients", 
+      href: "/patients/allpatients", 
       item : [
         {
            label: "All Patients",
-           href: "/patients/all-patients"
+           href: "/patients/allpatients"
         },
         {
            label: "Patients Records",
-           href:'/patients/patients-record'
+           href:'/patients/patientsrecords'
         }
       ]
     },
