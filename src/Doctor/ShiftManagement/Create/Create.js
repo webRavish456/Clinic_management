@@ -7,11 +7,11 @@ import {
     InputLabel,
     Grid,
     useMediaQuery,
-    Box,
     Button,
+    Box,
   } from "@mui/material";
 
-const EditDiscount =({handleUpdate, handleClose})=>
+const CreateDiscount =({handleSubmit, handleClose})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
@@ -30,7 +30,7 @@ const EditDiscount =({handleUpdate, handleClose})=>
 
      return (
         <>
-            <Grid container columnSpacing={2}>
+             <Grid container columnSpacing={2}>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
 
@@ -95,7 +95,7 @@ const EditDiscount =({handleUpdate, handleClose})=>
             />
             </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <Grid item xs={12} sm={12} md={12}>
             <TextField
             label={
             <>
@@ -110,22 +110,12 @@ const EditDiscount =({handleUpdate, handleClose})=>
             />
             </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <FormControl fullWidth margin="normal">
-            <InputLabel>Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
-            <Select name="Status" value={formData.status} onChange={handleChange}>
-            <MenuItem value="active">Active</MenuItem>
-            <MenuItem value="inactive">Inactive</MenuItem>
-            <MenuItem value="upcoming">Upcoming</MenuItem>
-            </Select>
-            </FormControl>
-            </Grid>
             </Grid>
 
-            <Box className="submit">
+            <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
             <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleUpdate} className="primary_button">
-             Update
+            <Button onClick={handleSubmit} className="primary_button">
+             Submit
             </Button>
             </Box>
 
@@ -133,4 +123,4 @@ const EditDiscount =({handleUpdate, handleClose})=>
      )
 }
 
-export default EditDiscount
+export default CreateDiscount

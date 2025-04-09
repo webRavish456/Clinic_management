@@ -1,10 +1,11 @@
 import React from "react";
 import Header from "../Component/Header/Header";
 import Sidebar from "../Component/Sidebar/Sidebar";
-import Doctor from "../Doctor/Doctor";
+import  ShiftManagement from "../Doctor/ShiftManagement/ShiftManagement";
 
 
-const LayoutDoctor=()=>
+
+const LayoutShiftManagement=()=>
 {
     return (
         <>
@@ -14,7 +15,7 @@ const LayoutDoctor=()=>
             <div className="content">
             <Header className="header" />
             
-            <Doctor className="dashboard" />
+            <ShiftManagement className="dashboard" />
             </div>
         </div>
         </div>
@@ -24,4 +25,4 @@ const LayoutDoctor=()=>
     )
 }
 
-export default LayoutDoctor;
+export default LayoutShiftManagement;
