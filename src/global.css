@@ -34,6 +34,9 @@ background-color: rgb(43, 43, 188) !important;
 .secondary_button:hover {
 background-color: #eeeeee !important;
 }
+.delete_button:hover {
+  background-color: rgb(240, 12, 16) !important;
+  }
 
 .container
 {

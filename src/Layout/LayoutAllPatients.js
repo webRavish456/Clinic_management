@@ -1,12 +1,11 @@
 import React from "react";
 import Header from "../Component/Header/Header";
 import Sidebar from "../Component/Sidebar/Sidebar";
-import Patients from "../Patients/Patient";
+import AllPatients from "../Patients/AllPatients/AllPatients";
 
 
 
-
-const LayoutPatients=()=>
+const LayoutAllPatients=()=>
 {
     return (
         <>
@@ -15,7 +14,8 @@ const LayoutPatients=()=>
             <Sidebar/>
             <div className="content">
             <Header className="header" />
-            <Patients className="dashboard" />
+            
+            <AllPatients className="dashboard" />
             </div>
         </div>
         </div>
@@ -25,4 +25,4 @@ const LayoutPatients=()=>
     )
 }
 
-export default LayoutPatients;
+export default LayoutAllPatients;
