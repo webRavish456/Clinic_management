@@ -5,7 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import CloseIcon from "@mui/icons-material/Close";
-import Search from "../Search/Search";
+
 
 import {
   Paper,
@@ -32,13 +32,15 @@ import {
   Grid,
   useMediaQuery,
 } from "@mui/material";
-import CommonDialog from "../Component/CommonDialog/CommonDialog";
-import ViewAppointment from "./View/View";
-import CreateAppointment from "./Create/Create";
-import EditAppointment from "./Edit/Edit";
-import DeleteAppointment from "./Delete/Delete";
+import CommonDialog from "../../Component/CommonDialog/CommonDialog";
+import ViewDiscount from "./View/View";
+import CreateDiscount from "./Create/Create";
+import EditDiscount from "./Edit/Edit";
+import DeleteDiscount from "./Delete/Delete";
+import Search from "../../Search/Search";
 
-const Appointment=()=>
+
+const Discount=()=>
 {
 
   const [openData, setOpenData] = useState(false)
@@ -65,79 +67,86 @@ const handleDelete = () =>
   }
 
     const columns = [
-        { id: 'patientname', label: 'Patient Name', flex:1,align:'center' },
+        { id: 'si', label: 'SI. No', flex:1, align:'center' },
+        { id: 'name', label: 'Name', flex:1,align:'center' },
         {
-          id: 'doctor',
-          label: 'Doctor',
+          id: 'department',
+          label: 'Department',
           flex:1,
           align:'center'
         },
         {
-          id: 'gender',
-          label: 'Gender',
+          id: 'specialization',
+          label: 'Specialization',
           flex:1,
            align:'center'
         },
-      
         {
-            id: 'date',
-            label: 'Date',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'time',
-            label: 'Time',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'mobile',
-            label: 'Mobile',
-            flex:1,
-            align:'center',
-          },
-    
-{
-          id: 'email',
-          label: 'Email',
+          id: 'shiftstartdate',
+          label: 'Shift Start Date',
           flex:1,
           align:'center',
         },
-
-       { id: 'appointmentstatus',
-        label: 'Appointmentstatus',
-        flex:1,
-        align:'center',
-       },
-       {
-        id: 'visittype',
-        label: 'Visit Type',
-        flex:1,
-        align:'center',
-       },
-{
-        id: 'actions',
-        label: 'Actions',
-        flex:1,
-        align:'center',
-
-      },
+        {
+            id: 'shiftenddate',
+            label: 'Shift End Date',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'workdays',
+            label: 'Work Days',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'shifthours',
+            label: 'ShiftHours',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'shifttype',
+            label: 'ShiftType',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'availabilitystatus',
+            label: ' AvailabilityStatus',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'action',
+            label: 'Action',
+            flex:1,
+            align:'center',
+          },
+          
       ];
       
-      function createData(patientname,doctor,gender,date,time, mobile,email,appointmentstatus,visittype,actions) {
+      function createData(si,name,department,specialization,shiftstartdate,shiftenddate,workdays,shifthours,shifttype,availabilitystatus) {
         return {
-          patientname, 
-          doctor,
-          gender,date,time, mobile,email,appointmentstatus,visittype,actions: (
+          si,
+          name,
+          department,
+          specialization,
+          shiftstartdate,
+          shiftenddate,
+          workdays,
+          shifthours,
+          shifttype,
+          availabilitystatus,
+          action: (
             <>
-              <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
+              <IconButton style={{color:"rgb(13,33,121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
                 <VisibilityIcon  />
               </IconButton>
-              <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
+              <IconButton style={{color:"rgb(98,99,102)", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
                 <EditIcon />
               </IconButton>
-              <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
+              <IconButton style={{color:"rgb(224,27,20)", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
                 <DeleteIcon />
               </IconButton>
             </>
@@ -146,16 +155,21 @@ const handleDelete = () =>
       }
       
       const rows = [
-        createData( "Saniya Singha", "Shruti", "Female", "24-03-2025","10:00AM","6200000789","saniya0987@gmail.com","Pending","In-person Visit","Edit"),
-        createData( "Anaya Das", "Arohi", "Female", "24-03-2025","12:00PM","6200000789","anaya345@gmail.com","Completed","Online Consulation","Edit"),
-        createData( "Sarita kumari", "Shruti", "Female", "24-03-2025","9:00AM","6200000789","sarita456@gmail.com" ,"Rescheduled","In-person Visit","Edit"),
-        createData( "Adil Khan", "Sara", "Male", "24-03-2025","9:00AM","9234567895","adil23@gmail.com","Cancelled","Online Consulation","Edit"),
-        createData( "Amar Harsh", "Moumita", "Male", "24-03-2025","1:00PM","7654893423", "amar7543@gmail.com" ,"Completed","In-person Visit","Edit"),
-        createData( "Asutosh", "Madhabi", "Male", "24-03-2025","10:00PM","7545893452",    "asutosh@gmail.com","Confirmed","Online Consulation","Edit"),
-        createData( "Mukul Yadav", "Nil", "Male", "24-03-2025","9:00PM","3457892345",   "muk6767@gmail.com"   ,"Confirmed","In-person Visit","Edit"),
-        createData( "Dayal Patra", "Naresh", "Male", "24-03-2025","8:00PM","9876543289", "dayal98@gmail.com"    ,"Completed","Online Consulation","Edit"),
-        createData( "Sahanara Begum", "Mohua", "Female", "24-03-2025","10:00PM","7676895467",  "saha3434@gmail.com"    ,"Completed","In-person Visit","Edit"),
-        createData( "Riya Singh", "Ayushi", "Female", "24-03-2025","11:00AM","6289896754",   "riya2323@gmail.com"     ,"Pending","In-person Visit","Edit"),
+        createData(1, "AMRITA", "Cardiologist", "Heart", "1/1/20", "7/1/20", "Monday-Friday","12","A","Monday-Friday"),
+        createData(2, "NITU", "Dermatologists", "Skin" ,"8/1/20", "16/1/20", "Monday-Friday","12","B","Monday-Tuesday"),
+        createData(3, "RITU", "Gastroenterologists", "Stomach", "17/1/20", "24/1/20", "Monday-Friday","12","C","Monday-Wednesday"),
+        createData(4, "RANI", "Hematologists", "Blood", "1/2/20", "7/2/20", "Monday-Friday","12","A","Monday-Saturday"),
+        createData(5, "SUMAN", "Internists", "Cancer", "14/2/20", "21/2/20", "Monday-Friday","12","A","Monday-Thursday"),
+        createData(6, "PRIYANKA", "Nephrologists", "Kidney disease", "22/2/20", "29/2/20", "Monday-Friday","12","B","Monday-Friday"),
+        createData(7, "ANNU", "Neurologists", "Brain", "6/3/20", "13/3/20", "Monday-Friday","12","A","Wednesday-Saturday"),
+        createData(8, "SNEHA", "Gynecologists", "Pregnancy", "20/3/20", "27/3/20", "Monday-Friday","12","C","Tuesday-Friday"),
+        createData(9, "PUNAM", "Oncologists", "Cancer", "4/4/20", "11/4/20", "Monday-Friday","12","D","Monday-Saturday"),
+        createData(10, "SONAL", "Ophthalmologists", "Eye", "18/4/20", "25/4/20", "Monday-Friday","12","A","Wednesday-Saturday"),
+        createData(11, "MITU", "Osteopaths", "Whole Body", "2/5/20", "9/5/20", "Monday-Friday","12","B","Tuesday-Friday"),
+        createData(12, "SUSMITA", "Otolaryngologists", "Ears", "16/5/20", "23/5/20", "Monday-Friday","12","C","Monday-Thursday"),
+        createData(13, "ISHA", "Physiatrists", "Back Pain", "30/5/20", "7/6/20", "Monday-Friday","12","D","","1/2/14","Tuesday-Saturday"),
+        createData(14, "PRIYA", "Podiatrists", "Feet", "14/6/20", "21/6/20", "Monday-Friday","12","A","Monday-Friday"),
+        createData(15, "ISHU", "Pulmonologists", "Lung cancer", "28/6/20", "5/6/20", "Monday-Friday","12","B","Monday-Friday"),
       ];
 
       const [page, setPage] = useState(0);
@@ -251,14 +265,14 @@ const handleDelete = () =>
       open={openData || viewData || editData || deleteData} 
       onClose={handleClose}
       dialogTitle={ <>
-         {openData? "Create New Appointment" : viewData ? "View Appointment Details": editData?"Edit Appointment Details":deleteData?"Delete Appointment":null}
+         {openData? "Create New Discount" : viewData ? "View Discount Details": editData?"Edit Discount Details":deleteData?"Delete Discount":null}
       </>}
       
       dialogContent = {
-         openData ? <CreateAppointment handleSubmit={handleSubmit} handleClose={handleClose} /> :
-          viewData ? <ViewAppointment /> : 
-         editData ? <EditAppointment handleUpdate={handleUpdate} handleClose={handleClose} /> : 
-         deleteData? <DeleteAppointment handleDelete={handleDelete} handleClose={handleClose} />:null
+         openData ? <CreateDiscount handleSubmit={handleSubmit} handleClose={handleClose} /> :
+          viewData ? <ViewDiscount /> : 
+         editData ? <EditDiscount handleUpdate={handleUpdate} handleClose={handleClose} /> : 
+         deleteData? <DeleteDiscount handleDelete={handleDelete} handleClose={handleClose} />:null
         
       }
 
@@ -269,4 +283,4 @@ const handleDelete = () =>
     )
 }
 
-export default Appointment;
+export default Discount;

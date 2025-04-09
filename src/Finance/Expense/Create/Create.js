@@ -11,15 +11,17 @@ import {
     Box,
   } from "@mui/material";
 
-const CreateDepartment =({handleSubmit, handleClose})=>
+const CreateAppointment =({handleSubmit, handleClose})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const [formData, setFormData] = useState({
-        departmentname: "",
-        specialization: "",
-        departmenthead: "",
-        description:"",
+        expensecategory: "",
+        payeename: "",
+        date: "",
+        time:"",
+        amount: "",
+         paymentmethod: "",
         status: "",  
 
      });
@@ -37,37 +39,43 @@ const CreateDepartment =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Department Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+               Expense Category  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="departmentname"
-            value={formData.departmentname}
+            name="expensecategory "
+            value={formData.expensecategory}
             onChange={handleChange}
             fullWidth
             margin="normal"
-            /></Grid>
-            
-                        <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-                        <FormControl fullWidth margin="normal">
-                        <InputLabel>Specialization<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
-                        <Select name="Specialization" value={formData.status} onChange={handleChange}>
-                        <MenuItem value="Electrohysiology">Electrohysiology</MenuItem>
-                        <MenuItem value="Interventional Cardiology">Interventional Cardiology</MenuItem>
-                        <MenuItem value="Non-Invasive Cardiology">Non-Invasive Cardiology</MenuItem>
-                        </Select>
-                        </FormControl>
-                        </Grid>
-           
+            />
+            </Grid>
+
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+
+            <TextField
+            label={
+            <>
+                Payee Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="payeename"
+            value={formData.payeename}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+
+            </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
             label={
             <>
-                Department Head <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Date<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="departmenthead"
-            value={formData.departmenthead}
+            name="date"
+            value={formData.date}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -78,10 +86,10 @@ const CreateDepartment =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Time<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="description"
+            name="time"
             value={formData.validFrom}
             onChange={handleChange}
             fullWidth
@@ -90,11 +98,36 @@ const CreateDepartment =({handleSubmit, handleClose})=>
             </Grid>
 
             <Grid item xs={12} sm={12} md={12}>
+            <TextField
+            label={
+            <>
+                Amount <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="amounnt"
+            value={formData.validTo}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid> </Grid>
 
+<Grid item xs={12} sm={12} md={12}>
+<TextField
+label={
+<>
+    Payment Method <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+</>
+}
+name="paymentmethod"
+value={formData.validTo}
+onChange={handleChange}
+fullWidth
+margin="normal"
+/>
+</Grid>
 
-            </Grid>
-
-            </Grid>
+    
 
             <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
             <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
@@ -107,4 +140,4 @@ const CreateDepartment =({handleSubmit, handleClose})=>
      )
 }
 
-export default CreateDepartment
+export default CreateAppointment

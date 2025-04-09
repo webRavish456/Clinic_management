@@ -31,8 +31,8 @@ const Search = ({ searchTerm, setSearchTerm, onAddClick }) => {
         className="search"
       />
        <Box className="buttonContainer">
-       <Button variant="contained" color="primary" className="primary_button"   marginLeft="0px" tartIcon={<AddIcon />} onClick={onAddClick}>
-       + Add new
+      <Button variant="contained" color="primary" className="primary_button"   marginLeft="0px" tartIcon={<AddIcon />} onClick={onAddClick}>
+       + Add New
       </Button>
       </Box>
     </Box>

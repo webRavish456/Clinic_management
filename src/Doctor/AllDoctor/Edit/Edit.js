@@ -11,7 +11,7 @@ import {
     Button,
   } from "@mui/material";
 
-const EditAppointment=({handleUpdate, handleClose})=>
+const EditDiscount =({handleUpdate, handleClose})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
@@ -37,27 +37,15 @@ const EditAppointment=({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Patient Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Discount Code <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="Patient Name"
+            name="discountCode"
             value={formData.discountCode}
             onChange={handleChange}
             fullWidth
             margin="normal"
             />
-            
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <FormControl fullWidth margin="normal">
-            <InputLabel>Doctor Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
-            <Select name="Doctor Name" value={formData.status} onChange={handleChange}>
-            <MenuItem value="Shruti">Shruti</MenuItem>
-            <MenuItem value="Arohi">Arohi</MenuItem>
-            <MenuItem value="Sara">Sara</MenuItem>
-            </Select>
-            </FormControl>
             </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
@@ -65,7 +53,7 @@ const EditAppointment=({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Gender <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Discount Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
             name="discountDescription"
@@ -75,46 +63,13 @@ const EditAppointment=({handleUpdate, handleClose})=>
             margin="normal"
             />
 
-</Grid>
-
-<Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-<TextField
-label={
-<>
-Date<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-</>
-}
-name="discountValue"
-value={formData.discountValue}
-onChange={handleChange}
-fullWidth
-margin="normal"
-/>
-
-</Grid>
-
-<Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-<TextField
-label={
-<>
-Time<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-</>
-}
-name="discountValue"
-value={formData.discountValue}
-onChange={handleChange}
-fullWidth
-margin="normal"
-/>
-
-
             </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
             label={
             <>
-                Mobile<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Discount Value <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
             name="discountValue"
@@ -129,7 +84,7 @@ margin="normal"
             <TextField
             label={
             <>
-                Email <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Valid From <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
             name="validFrom"
@@ -144,7 +99,7 @@ margin="normal"
             <TextField
             label={
             <>
-            Appointment Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Valid To <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
             name="validTo"
@@ -153,27 +108,21 @@ margin="normal"
             fullWidth
             margin="normal"
             />
-            </Grid></Grid>
-        
+            </Grid>
 
-<Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-<TextField
-label={
-<>
-Visit Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-</>
-}
-name="validTo"
-value={formData.validTo}
-onChange={handleChange}
-fullWidth
-margin="normal"
-/>
-</Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <FormControl fullWidth margin="normal">
+            <InputLabel>Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
+            <Select name="Status" value={formData.status} onChange={handleChange}>
+            <MenuItem value="active">Active</MenuItem>
+            <MenuItem value="inactive">Inactive</MenuItem>
+            <MenuItem value="upcoming">Upcoming</MenuItem>
+            </Select>
+            </FormControl>
+            </Grid>
+            </Grid>
 
-
-
-            <Box className="submit" sx={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', margin: '20px'}}>
+            <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
             <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
             <Button onClick={handleUpdate} className="primary_button">
              Update
@@ -184,4 +133,4 @@ margin="normal"
      )
 }
 
-export default EditAppointment
+export default EditDiscount
