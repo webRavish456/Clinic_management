@@ -28,6 +28,7 @@ const Menuitems = [
            label: "Shift Management",
            href:'/doctor/shift-management'
         }
+      
       ]
     },
     {
@@ -73,10 +74,26 @@ const Menuitems = [
     {
       icon: "/Sidebar/accounting.png",
       label: "Finance",
-      href: "/finance",
-    },
+      href: "/finance/income",
+      item : [
 
-];
+
+
+        {
+          label: "Income",
+          href: "/finance/income"
+       },
+       {
+          label: "Expense",
+          href:'/finance/expense'
+       }
+     ]
+   },
+
+
+  ]
+
+
 
 
 

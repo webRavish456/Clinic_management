@@ -1,11 +1,11 @@
 import React from "react";
 import Header from "../Component/Header/Header";
 import Sidebar from "../Component/Sidebar/Sidebar";
-import  Finance from "../Finance/Finance";
+import Income from "../Finance/Income/Income";
 
 
 
-const LayoutFinance=()=>
+const LayoutIncome=()=>
 {
     return (
         <>
@@ -15,7 +15,7 @@ const LayoutFinance=()=>
             <div className="content">
             <Header className="header" />
             
-            <Finance className="dashboard" />
+            <Income className="dashboard" />
             </div>
         </div>
         </div>
@@ -25,4 +25,4 @@ const LayoutFinance=()=>
     )
 }
 
-export default LayoutFinance;
+export default LayoutIncome;

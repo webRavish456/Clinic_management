@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import React from "react"
 
-const DeleteDepartment = ({handleClose, handleDelete}) =>
+const DeleteExpense = ({handleClose, handleDelete}) =>
 {
      return (
      <>
@@ -18,4 +18,4 @@ const DeleteDepartment = ({handleClose, handleDelete}) =>
      )
 }
 
-export default DeleteDepartment;
+export default DeleteExpense;

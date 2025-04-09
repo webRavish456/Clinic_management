@@ -7,8 +7,10 @@ import LayoutAppointment from "./Layout/LayoutAppointment";
 import LayoutDoctor from "./Layout/LayoutDoctor/LayoutDoctor";
 import LayoutStaff from "./Layout/LayoutStaff";
 import LayoutLaboratory from "./Layout/LayoutLaboratory";
-import LayoutFinance from "./Layout/LayoutFinance";
 import LayoutDepartment from "./Layout/LayoutDepartment";
+import LayoutIncome from "./Layout/LayoutIncome";
+import LayoutExpense from "./Layout/LayoutExpense";
+
 
 
 
@@ -31,10 +33,11 @@ function App() {
 
         <Route path= "/staff" element={<LayoutStaff/>}/>
         <Route path= "/laboratory" element={<LayoutLaboratory/>}/>
-        <Route path= "/finance" element={<LayoutFinance/>}/>
         <Route path= "/department" element={<LayoutDepartment/>}/>
-
-        
+  
+        <Route path= "/finance/income" element={<LayoutIncome/>}/>
+        <Route path= "/finance/expense" element={<LayoutExpense/>}/>
+  
       </Routes>
     </BrowserRouter>
   );

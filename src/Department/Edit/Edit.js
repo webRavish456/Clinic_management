@@ -62,22 +62,6 @@ const EditAppointment=({handleUpdate, handleClose})=>
             fullWidth
             margin="normal"
             />
-
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="discountValue"
-            value={formData.discountValue}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
             
 
 
