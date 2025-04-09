@@ -20,6 +20,13 @@ cursor:pointer;
 font-weight: 500 !important;
 box-sizing: border-box;
 }
+.delete_button {
+  text-transform: none !important;
+  background-color: rgb(240, 12, 16) !important;
+  color: #ffffff !important;
+  padding: 8px 16px !important;
+  cursor:pointer;
+}
 
 .primary_button:hover {
 background-color: rgb(43, 43, 188) !important;

@@ -7,16 +7,16 @@ import {
     InputLabel,
     Grid,
     useMediaQuery,
-    Button,
     Box,
+    Button,
   } from "@mui/material";
 
-const CreateLaboratory =({handleSubmit, handleClose})=>
+const EditLab =({handleUpdate, handleClose})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const [formData, setFormData] = useState({
-        labname: "",
+        discountCode: "",
         discountDescription: "",
         discountValue: "",
         validFrom: "",  
@@ -30,18 +30,18 @@ const CreateLaboratory =({handleSubmit, handleClose})=>
 
      return (
         <>
-             <Grid container columnSpacing={2}>
+            <Grid container columnSpacing={2}>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
 
             <TextField
             label={
             <>
-                Lab Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Discount Code <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="labname"
-            value={formData.labname}
+            name="discountCode"
+            value={formData.discountCode}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -95,7 +95,7 @@ const CreateLaboratory =({handleSubmit, handleClose})=>
             />
             </Grid>
 
-            <Grid item xs={12} sm={12} md={12}>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
             label={
             <>
@@ -110,12 +110,23 @@ const CreateLaboratory =({handleSubmit, handleClose})=>
             />
             </Grid>
 
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <FormControl fullWidth margin="normal">
+            <InputLabel>Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
+            <Select name="Status" value={formData.status} onChange={handleChange}>
+            <MenuItem value="active">Active</MenuItem>
+            <MenuItem value="inactive">Inactive</MenuItem>
+            <MenuItem value="upcoming">Upcoming</MenuItem>
+            </Select>
+            </FormControl>
+            </Grid>
             </Grid>
 
-            <Box className="submit">
+            <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
+ 
             <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleSubmit} className="primary_button">
-             Submit
+            <Button onClick={handleUpdate} className="primary_button">
+             Update
             </Button>
             </Box>
 
@@ -123,4 +134,4 @@ const CreateLaboratory =({handleSubmit, handleClose})=>
      )
 }
 
-export default CreateLaboratory
+export default EditLab;

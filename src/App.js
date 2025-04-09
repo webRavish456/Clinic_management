@@ -6,15 +6,11 @@ import LayoutPatients from "./Layout/LayoutPatients";
 import LayoutAppointment from "./Layout/LayoutAppointment";
 import LayoutDoctor from "./Layout/LayoutDoctor/LayoutDoctor";
 import LayoutStaff from "./Layout/LayoutStaff";
-import LayoutLaboratory from "./Layout/LayoutLaboratory";
+
 import LayoutFinance from "./Layout/LayoutFinance";
 import LayoutDepartment from "./Layout/LayoutDepartment";
-
-
-
-
-
-
+import LayoutAllLab from "./Layout/LayoutAllLab";
+import LayoutLabTest from "./Layout/LayoutLabTest";
 
 
 function App() {
@@ -30,11 +26,12 @@ function App() {
         <Route path= "/doctor/all-doctor" element={<LayoutDoctor/>}/>
 
         <Route path= "/staff" element={<LayoutStaff/>}/>
-        <Route path= "/laboratory" element={<LayoutLaboratory/>}/>
+        
         <Route path= "/finance" element={<LayoutFinance/>}/>
         <Route path= "/department" element={<LayoutDepartment/>}/>
+        <Route path = "/laboratory/alllab" element= {< LayoutAllLab/>}/>
+        <Route path = "/laboratory/labtest" element= {<LayoutLabTest/>}/>
 
-        
       </Routes>
     </BrowserRouter>
   );

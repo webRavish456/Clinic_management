@@ -1,27 +1,26 @@
 import React, {useState} from "react"
 import {
     TextField,
-    MenuItem,
-    Select,
-    FormControl,
-    InputLabel,
+    // MenuItem,
+    // Select,
+    // FormControl,
+    // InputLabel,
     Grid,
     useMediaQuery,
     Button,
     Box,
   } from "@mui/material";
 
-const CreateLaboratory =({handleSubmit, handleClose})=>
+const CreateLab =({handleSubmit, handleClose})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const [formData, setFormData] = useState({
-        labname: "",
-        discountDescription: "",
-        discountValue: "",
-        validFrom: "",  
-        validTo: "",
-        status: "",
+        labName: "",
+        labType: "",
+        assigneeStaff: "",
+        shift: "",  
+        
      });
 
      const handleChange = (e) => {
@@ -37,11 +36,11 @@ const CreateLaboratory =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Lab Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Lab Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="labname"
-            value={formData.labname}
+            name="labName"
+            value={formData.labName}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -53,11 +52,11 @@ const CreateLaboratory =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Discount Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Lab Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountDescription"
-            value={formData.discountDescription}
+            name="labType"
+            value={formData.labType}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -69,11 +68,11 @@ const CreateLaboratory =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Discount Value <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Assignee Staff <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountValue"
-            value={formData.discountValue}
+            name="assigneeStaff"
+            value={formData.assigneeStaff}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -84,35 +83,22 @@ const CreateLaboratory =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Valid From <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Shift <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="validFrom"
-            value={formData.validFrom}
+            name="shift"
+            value={formData.shift}
             onChange={handleChange}
             fullWidth
             margin="normal"
             />
             </Grid>
 
-            <Grid item xs={12} sm={12} md={12}>
-            <TextField
-            label={
-            <>
-                Valid To <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="validTo"
-            value={formData.validTo}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
+            
             </Grid>
 
-            </Grid>
-
-            <Box className="submit">
+            <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
+   
             <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
             <Button onClick={handleSubmit} className="primary_button">
              Submit
@@ -123,4 +109,4 @@ const CreateLaboratory =({handleSubmit, handleClose})=>
      )
 }
 
-export default CreateLaboratory
+export default CreateLab;
