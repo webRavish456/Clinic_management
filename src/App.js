@@ -7,7 +7,6 @@ import LayoutPatientsRecords from "./Layout/LayoutPatientsRecords";
 import LayoutAppointment from "./Layout/LayoutAppointment";
 import LayoutAllDoctor from "./Layout/LayoutAllDoctor";
 import LayoutShiftManagement from "./Layout/LayoutShiftManagement";
-import LayoutDoctor from "./Layout/LayoutDoctor/LayoutDoctor";
 import LayoutStaff from "./Layout/LayoutStaff";
 import LayoutLaboratory from "./Layout/LayoutLaboratory";
 import LayoutDepartment from "./Layout/LayoutDepartment";
@@ -32,12 +31,12 @@ function App() {
         <Route path="/forgot-password" element={<Forgot />}/>
         <Route path= "/appointment" element={<LayoutAppointment/>}/>
  
-        <Route path= "/doctor/alldoctor" element={<LayoutAllDoctor/>}/>
-        <Route path= "/doctor/shiftmanagement" element={<LayoutShiftManagement/>}/>
+        <Route path= "/doctor/all-doctor" element={<LayoutAllDoctor/>}/>
+        <Route path= "/doctor/shift-management" element={<LayoutShiftManagement/>}/>
         
         <Route path= "/patients/allpatients" element={<LayoutAllPatients/>}/>
         <Route path= "/patients/patientsrecords" element={<LayoutPatientsRecords/>}/>
-        <Route path= "/doctor/all-doctor" element={<LayoutDoctor/>}/>
+   
 
         <Route path= "/staff" element={<LayoutStaff/>}/>
         <Route path= "/laboratory" element={<LayoutLaboratory/>}/>

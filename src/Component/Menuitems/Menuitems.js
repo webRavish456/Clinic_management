@@ -16,16 +16,6 @@ const Menuitems = [
      href: "/department",
     },
     {
-      icon: '/Sidebar/patient.png',
-      label: "Branch",
-      href: "/branch",
-    },
-    {
-       icon: "/Sidebar/service.png",
-       label: "Department",
-       href: "/department",
-      },
-    {
       icon: "/Sidebar/medical-appointment.png",
       label: "Doctor",
       href: "/doctor/all-doctor", 
