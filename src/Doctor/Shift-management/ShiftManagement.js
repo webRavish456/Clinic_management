@@ -13,47 +13,49 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import{ Box } from '@mui/material';
-import Search from "../Search/Search";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CloseIcon from '@mui/icons-material/Close';
+import Search from '../../Search/Search';
 
 
 const columns = [
   { id: 'SI_no', label: 'SI NO.', flex: 1 },
-  { id: 'name', label: 'Name', flex: 1, align: 'center' },
-  { id: 'amount', label: 'Amount', flex: 1, align: 'center' },
-  { id: 'transactiontype', label: 'Transaction Type', flex: 1, align: 'center' },
-  {id: 'category', label: 'Category', flex: 1, align: 'center'},
-  {id: 'paymentmode', label: 'Payment Mode', flex: 1, align: 'center'},
-  {id: 'transactiondate', label: 'Transaction Date', flex: 1, align: 'center'},
-  {id: 'status', label: 'Action', flex: 1, align: 'center'},
+  { id: 'doctorName', label: 'Doctor Name', flex: 1, align: 'center' },
+  { id: 'email', label: 'Email', flex: 1, align: 'center' },
+  { id: 'phoneNo', label: 'Phone Number', flex: 1, align: 'center' },
+  { id: 'address', label: 'Address', flex: 1, align: 'center' },
+  {id: 'specialization', label: 'Specialization', flex: 1, align: 'center'},
+  {id: 'experienceyears', label: 'Experience Years', flex: 1, align: 'center'},
+  {id: 'qualification', label: 'Qualification', flex: 1, align: 'center'},
+  {id: 'hospitalname', label: 'Hospital Name', flex: 1, align: 'center'},
+  {id: 'status', label: 'Status', flex: 1, align: 'center'},
+  {id: 'joiningdate', label: 'Joining Date', flex: 1, align: 'center'},
   { id: 'action', label: 'Action', flex: 1, align: 'center' },
 ];
 
-function createData(SI_no, name, amount, transactiontype , category, paymentmode, transactiondate, status) {
-  return { SI_no, name,amount, transactiontype , category, paymentmode, transactiondate, status};
+function createData(SI_no, doctorName, email, phoneNo , address,specialization, experienceyears, qualification,hospitalname,status,joiningdate) {
+  return { SI_no, doctorName, email, phoneNo , address, specialization, experienceyears, qualification,hospitalname,status,joiningdate};
 }
 
 const rows = [
-  createData('1', 'subhashree',  100000, "Income", 'salary', 'cash',"12/03/2023","Pending"),
-  createData('2', 'snehanjali', 100000, "Expence", 'payment rent', 'bank transfer',"12/03/24","Completed"),
-  createData('3','ritu', 100000,'Income','salary',"UPI","14/05/24","Cancelled"),
-  createData('4','prerna',100000,'Expence','payment rent',"Credit card","16/08/24","Completed"),
-  createData('5','amrita', 100000,'Income','salary',"UPI","18/09/24","Pending"),
+  createData('1', 'subh', 'shri@gmailcom', 124556788,'Ranchi', "Cardiologist", 10, 'MBBS',"ranchi main hospital", 'Available days','3/03/2/12'),
+  createData('2', 'sneha', ' megha@gmail.com',123454321, 'Ranchi', "heart", 7, 'MBSS', "aims","timing",'4/09/15'),
+  createData('3','ritu', 'ritu23',123454321,'Ranchi',"skin",5,'MBSS',"sadar hospita","days",'12/12/12'),
+  createData('4','prerna', 'pre@gmail.com',345689765,'Ranchi',"eye",9,'MBSS',"government hospital","days",'25/8/17'),
+  createData('5','amrita', 'am@gmail.com',4567977654,'bhubneswar',"brain",2,'MBSS',"sum hospital","timing",'6/06/20'),
 ];
 
-export default function StickyHeadTable() {
+export default function ShiftManagement() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const [viewData, setViewData] =useState(false)
    const [editData, setEditData] =useState(false)
    const [deleteData, setDeleteData] =useState(false)
-  
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -93,7 +95,7 @@ export default function StickyHeadTable() {
 
   return (
     <>
-    <Box className="cointainer">
+    <Box className="container">
     <Search/>
     <Paper sx={{ width: '100%',overflow: 'hidden' }}>
       <TableContainer className="table" sx={{ maxHeight: 440, fontSize: '12px', marginLeft: '20px', marginTop: '0px', marginRight: '20px' }}>

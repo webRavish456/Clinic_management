@@ -1,11 +1,10 @@
 import React from "react";
-import Header from "../Component/Header/Header";
-import Sidebar from "../Component/Sidebar/Sidebar";
-import  Finance from "../Finance/Finance";
+import Header from "../../Component/Header/Header";
+import Sidebar from "../../Component/Sidebar/Sidebar";
+import ShiftManagement from "../../Doctor/Shift-management/ShiftManagement";
 
 
-
-const LayoutFinance=()=>
+const LayoutShift=()=>
 {
     return (
         <>
@@ -15,7 +14,7 @@ const LayoutFinance=()=>
             <div className="content">
             <Header className="header" />
             
-            <Finance className="dashboard" />
+            <ShiftManagement className="dashboard" />
             </div>
         </div>
         </div>
@@ -25,4 +24,4 @@ const LayoutFinance=()=>
     )
 }
 
-export default LayoutFinance;
+export default LayoutShift;

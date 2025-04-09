@@ -11,7 +11,7 @@ import {
     Button,
   } from "@mui/material";
 
-const EditAppointment=({handleUpdate, handleClose})=>
+const EditIncome=({handleUpdate, handleClose})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
@@ -184,4 +184,4 @@ margin="normal"
      )
 }
 
-export default EditAppointment
+export default EditIncome

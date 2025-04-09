@@ -2,13 +2,21 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignIn from "./Auth/SignIn";
 import Forgot from "./Auth/Forgot";
 import LayoutDashboard from "./Layout/LayoutDashboard";
-import LayoutPatients from "./Layout/LayoutPatients";
+import LayoutAllPatients from "./Layout/LayoutAllPatients";
+import LayoutPatientsRecords from "./Layout/LayoutPatientsRecords";
 import LayoutAppointment from "./Layout/LayoutAppointment";
-import LayoutStaff from "./Layout/LayoutStaff";
-import LayoutLaboratory from "./Layout/LayoutLaboratory";
-import LayoutFinance from "./Layout/LayoutFinance";
 import LayoutAllDoctor from "./Layout/LayoutAllDoctor";
 import LayoutShiftManagement from "./Layout/LayoutShiftManagement";
+import LayoutDoctor from "./Layout/LayoutDoctor/LayoutDoctor";
+import LayoutStaff from "./Layout/LayoutStaff";
+import LayoutLaboratory from "./Layout/LayoutLaboratory";
+import LayoutDepartment from "./Layout/LayoutDepartment";
+import LayoutIncome from "./Layout/LayoutIncome";
+import LayoutExpense from "./Layout/LayoutExpense";
+
+
+
+
 
 
 
@@ -22,13 +30,22 @@ function App() {
         <Route path="/sign-in" element={<SignIn />}/>
         <Route path="/" element={<LayoutDashboard/>}/>
         <Route path="/forgot-password" element={<Forgot />}/>
-        <Route path= "/patients" element={<LayoutPatients/>}/>
         <Route path= "/appointment" element={<LayoutAppointment/>}/>
-        <Route path= "/staff" element={<LayoutStaff/>}/>
-        <Route path= "/laboratory" element={<LayoutLaboratory/>}/>
-        <Route path= "/finance" element={<LayoutFinance/>}/>
+ 
         <Route path= "/doctor/alldoctor" element={<LayoutAllDoctor/>}/>
         <Route path= "/doctor/shiftmanagement" element={<LayoutShiftManagement/>}/>
+        
+        <Route path= "/patients/allpatients" element={<LayoutAllPatients/>}/>
+        <Route path= "/patients/patientsrecords" element={<LayoutPatientsRecords/>}/>
+        <Route path= "/doctor/all-doctor" element={<LayoutDoctor/>}/>
+
+        <Route path= "/staff" element={<LayoutStaff/>}/>
+        <Route path= "/laboratory" element={<LayoutLaboratory/>}/>
+        <Route path= "/department" element={<LayoutDepartment/>}/>
+  
+        <Route path= "/finance/income" element={<LayoutIncome/>}/>
+        <Route path= "/finance/expense" element={<LayoutExpense/>}/>
+  
       </Routes>
     </BrowserRouter>
   );

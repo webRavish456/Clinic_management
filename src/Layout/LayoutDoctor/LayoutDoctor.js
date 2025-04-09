@@ -1,12 +1,10 @@
 import React from "react";
-import Header from "../Component/Header/Header";
-import Sidebar from "../Component/Sidebar/Sidebar";
-import Patients from "../Patients/Patient";
+import Header from "../../Component/Header/Header";
+import Sidebar from "../../Component/Sidebar/Sidebar";
+import AllDoctor from "../../Doctor/All-doctor/Alldoctor";
 
 
-
-
-const LayoutPatients=()=>
+const LayoutDoctor=()=>
 {
     return (
         <>
@@ -15,7 +13,8 @@ const LayoutPatients=()=>
             <Sidebar/>
             <div className="content">
             <Header className="header" />
-            <Patients className="dashboard" />
+            
+            <AllDoctor className="dashboard" />
             </div>
         </div>
         </div>
@@ -25,4 +24,4 @@ const LayoutPatients=()=>
     )
 }
 
-export default LayoutPatients;
+export default LayoutDoctor;

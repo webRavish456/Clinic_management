@@ -33,12 +33,12 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import CommonDialog from "../Component/CommonDialog/CommonDialog";
-import ViewDiscount from "./View/View";
-import CreateDiscount from "./Create/Create";
-import EditDiscount from "./Edit/Edit";
-import DeleteDiscount from "./Delete/Delete";
+import ViewDepartment from "./View/View";
+import CreateDepartment from "./Create/Create";
+import EditDepartment from "./Edit/Edit";
+import DeleteDepartment from "./Delete/Delete";
 
-const Discount=()=>
+const Department=()=>
 {
 
   const [openData, setOpenData] = useState(false)
@@ -63,80 +63,54 @@ const handleDelete = () =>
   {
     setDeleteData(true)
   }
-
-    const columns = [
-        { id: 'si', label: 'SI. No.', flex:1, align:'center' },
-        { id: 'name', label: 'Name', flex:1,align:'center' },
+        
+      const columns = [
+        { id: 'si', label: 'SI.No', flex:1, align:'center' },
+        { id: 'departmentname', label: 'Department Name', flex:1, align:'center' },
+        { id: 'noofspecialization', label: 'No Of Specialization', flex:1, align:'center' },
         {
-          id: 'email',
-          label: 'Email',
+          id: 'description',
+          label: 'Description',
           flex:1,
-          align:'center'
+          align: 'center',
         },
         {
-          id: 'mobileno',
-          label: 'Mobile No.',
+          id: 'departmenthead',
+          label: 'Department Head',
           flex:1,
-           align:'center'
+          align: 'center',
         },
         {
-          id: 'role',
-          label: 'Role',
+          id: 'date',
+          label: 'Date',
           flex:1,
-          align:'center',
+          align: 'center',
+        },
+        
+        {
+          id: 'status',
+          label: 'Status',
+          flex:1,
+          align: 'center',
         },
         {
-            id: 'salary',
-            label: 'Salary',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'shift',
-            label: 'Shift',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'status',
-            label: 'Status',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'joiningdate',
-            label: 'Joining date',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'actions',
-            label: 'Action',
-            flex:1,
-            align:'center',
-          },
+          id: 'actions',
+          label: 'Actions',
+          flex:1,
+          align: 'center',
+        },
       ];
       
-      function createData(si, name, email, mobileno, role, salary, shift, status, joiningdate, action) {
-        return {
-          si,
-          name,
-          email,
-          mobileno,
-          role,
-          salary,
-          shift,
-          status,
-          joiningdate,
-          actions: (
+        function createData(si, departmentname,noofspecialization, description, departmenthead, date, status, actions ) {
+          return { si, departmentname,noofspecialization ,description, departmenthead, date, status, actions: (
             <>
-              <IconButton style={{color:"#000", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
+              <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
                 <VisibilityIcon  />
               </IconButton>
-              <IconButton style={{color:"#000", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
+              <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
                 <EditIcon />
               </IconButton>
-              <IconButton style={{color:"#000", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
+              <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
                 <DeleteIcon />
               </IconButton>
             </>
@@ -145,21 +119,26 @@ const handleDelete = () =>
       }
       
       const rows = [
-        createData(1, "Manish", "manish.cao@gmail.com", "8126797783", "Nurse", "60000", "Morning", "Active", "04/01/2024"),
-        createData(2, "Poonam", "poonam.jati@gmail.com", "9456862568", "Technician", "70000", "Evening", "Active", "15/06/2023"),
-        createData(3, "Sunil", "sunil1970@gmail.com", "9808315747", "Admin", "100000", "Rotational", "On Leave", "12/05/2022"),
-        createData(4, "Sandeep", "sandeep76@gmail.com", "9897741319", "Admin", "100000", "Evening", "Active", "10/11/2021"),
-        createData(5, "Aman", "aman.dei@gmail.com", "9927313370", "Nurse", "70000", "Morning", "Inactive", "25/02/2020"),
-        createData(6, "Radha", "radharani@gmail.com", "9410203288", "Receptionist", "80000", "Evening", "Active", "06/10/2022"),
-        createData(7, "Reema", "reema.johri@gmail.com", "8923538354", "Technician", "75000", "Morning", "Inactive", "15/12/2024"),
-        createData(8, "Ajay", "ajaysinha@gmail.com", "8445177997", "Admin", "150000", "Rotational", "Active", "27/07/2024"),
-        createData(9, "Khushboo", "khushboo31@gmail.com", "9457871060", "Support", "45000", "Morning", "Active", "13/09/2023"),
-        createData(10, "Kavita", "kavita5@gmail.com", "8439418577", "Nurse", "90000", "Evening", "On Leave", "22/05/2020"),
-        createData(11, "Aditya", "aditya77@gmail.com", "9358231669", "Nurse", "100000", "Evening", "Active", "09/12/2021"),
-        createData(12, "Sunil", "sunilk@gmail.com", "9456432260", "Receptionist", "75000", "Morning", "Active", "23/08/2024"),
-        createData(13, "Rakesh", "rakesh34@gmail.com", "9897346746", "Support", "50000", "Rotational", "Active"),
-        createData(14, "Jyoti", "jyotiverma@gmail.com", "7302386555", "Nurse", "100000", "Evening", "On Leave"),
-        createData(15, "Santosh", "santosh.dei@gmail.com", "9027541271", "Admin", "95000", "Morning", "Active")
+          createData('1', 'Cardiology', 'Electophysiology','Deals with heart related diseases', 'Dr.A', '2025-03-29', 'Active', 'Edit/Delete/View'),
+           createData('2', 'Neurology','Neurocritical Care' ,'Focuses on nervous system disorders', 'Dr.B', '2025-03-28', 'Active', 'Edit/Delete/View'),
+         createData('3', 'Orthopedics','Spine Surgery' ,'Treats bone and muscle conditions', 'Dr.C', '2025-03-26', 'Active',  'Edit/Delete/View'),
+          createData('4', 'Dermatology','Dermatopathalogy' ,'Skin related treatments and diseases', 'Dr. D', '2025-03-20', 'Active', 'Edit/Delete/View'),
+          createData('5', 'Radiology','Chest Radiology' ,'Imaging and scaning department', 'Dr.E', '2025-03-12', 'Active', 'Edit/Delete/View'),
+          createData('6', 'Pediatrics','Neonatology' ,'Focusing on common childhood illness treatment', 'Dr.F', '2025-03-10', 'Active', 'Edit/Delete/View'),
+          createData('7', 'Pulmonology','Lung Cancer' ,'Repiratory & Lung Care,asthma & COPD Treatment', 'Dr.G', '2025-03-07', 'Active', 'Edit/Delete/View'),
+          createData('8', 'Oncology', 'Gynecologic Oncology','Cancer treatment, chemotherapy', 'Dr.H', '2025-03-06', 'Active', 'Edit/Delete/View'),
+          createData('9', 'Dental care', 'Oral Pathology','Oral Health & Surgery', 'Dr.I', '2025-03-03', 'Active', 'Edit/Delete/View'),
+          createData('10', 'Nephrology', 'Dialysis Therapy','Kidney Diseases Treatment,Dialysis', 'Dr.J', '2025-03-01', 'Active', 'Edit/Delete/View'),
+
+
+
+
+
+
+
+
+
+
       ];
 
       const [page, setPage] = useState(0);
@@ -255,14 +234,14 @@ const handleDelete = () =>
       open={openData || viewData || editData || deleteData} 
       onClose={handleClose}
       dialogTitle={ <>
-         {openData? "Create New Discount" : viewData ? "View Discount Details": editData?"Edit Discount Details":deleteData?"Delete Discount":null}
+         {openData? "Create New Department" : viewData ? "View Department Details": editData?"Edit Department Details":deleteData?"Delete Department Details":null}
       </>}
       
       dialogContent = {
-         openData ? <CreateDiscount handleSubmit={handleSubmit} handleClose={handleClose} /> :
-          viewData ? <ViewDiscount /> : 
-         editData ? <EditDiscount handleUpdate={handleUpdate} handleClose={handleClose} /> : 
-         deleteData? <DeleteDiscount handleDelete={handleDelete} handleClose={handleClose} />:null
+         openData ? <CreateDepartment handleSubmit={handleSubmit} handleClose={handleClose} /> :
+          viewData ? <ViewDepartment /> : 
+         editData ? <EditDepartment handleUpdate={handleUpdate} handleClose={handleClose} /> : 
+         deleteData? <DeleteDepartment handleDelete={handleDelete} handleClose={handleClose} />:null
         
       }
 
@@ -273,4 +252,4 @@ const handleDelete = () =>
     )
 }
 
-export default Discount;
+export default Department;

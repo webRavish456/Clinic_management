@@ -15,7 +15,7 @@ const ViewAppointment =()=>
             <Box className="pageTitle">Patient Name:</Box> 
             </Grid>  
             <Grid item xs={6}>
-            <Box className="pageDescription">Saniya Singha</Box>
+            <Box className="pageDescription">Shanu</Box>
             </Grid>
 
             </Grid>
@@ -23,21 +23,10 @@ const ViewAppointment =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Doctor:</Box>    
+            <Box className="pageTitle">Doctor Assignee:</Box>    
             </Grid>
             <Grid item xs={6}>
             <Box className="pageDescription">Shruti</Box>
-            </Grid>
-
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
-
-            <Grid item xs={6}>
-            <Box className="pageTitle">Gender:</Box>    
-            </Grid>
-            <Grid item xs={6}>
-            <Box className="pageDescription">Female</Box>
             </Grid>
             </Grid>
 
@@ -52,46 +41,6 @@ const ViewAppointment =()=>
 
             </Grid>
 
-<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
-
-<Grid item xs={6}>
-<Box className="pageTitle">Time:</Box> 
-</Grid>   
-<Grid item xs={6}>
-<Box className="pageDescription">10:00AM</Box>
-
-</Grid>
-
-
-
-</Grid>
-
-<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
-
-<Grid item xs={6}>
-<Box className="pageTitle">Mobile:</Box> 
-</Grid>   
-<Grid item xs={6}>
-<Box className="pageDescription">62000000789</Box>
-
-</Grid>
-
-
-
-</Grid>
-
-<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
-
-<Grid item xs={6}>
-<Box className="pageTitle">Email:</Box> 
-</Grid>   
-<Grid item xs={6}>
-<Box className="pageDescription">saniya0987@gmail.com</Box>
-
-</Grid>
-
-            </Grid>
-
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
@@ -99,7 +48,7 @@ const ViewAppointment =()=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">Pending</Box>
+            <Box className="pageDescription">Scheduled</Box>
             </Grid>
 
             </Grid>
@@ -107,11 +56,11 @@ const ViewAppointment =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Visit Type:</Box>
+            <Box className="pageTitle">Checkup:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">In person Visit</Box>
+            <Box className="pageDescription">Fever</Box>
             </Grid>
 
             </Grid>

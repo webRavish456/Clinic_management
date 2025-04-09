@@ -12,53 +12,50 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import{ Box, Button } from '@mui/material';
-import Search from "../Search/Search";
+import{ Box } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CloseIcon from '@mui/icons-material/Close';
+import Search from '../../Search/Search';
+
 
 const columns = [
   { id: 'SI_no', label: 'SI NO.', flex: 1 },
-  { id: 'patientName', label: 'Patient Name', flex: 1, align: 'center' },
+  { id: 'doctorName', label: 'Doctor Name', flex: 1, align: 'center' },
   { id: 'email', label: 'Email', flex: 1, align: 'center' },
   { id: 'phoneNo', label: 'Phone Number', flex: 1, align: 'center' },
-  {id: 'address', label: 'Address', flex: 1, align: 'center'},
-  {id: 'dob', label: 'Date of Birth', flex: 1, align: 'center'},
-  {id: 'gender', label: 'Gender', flex: 1, align: 'center'},
-  {id: 'bloodGroup', label: 'Blood Group', flex: 1, align: 'center'},
-  {id: 'medicalHistory', label: 'Medical History', flex: 1, align: 'center'}, 
+  { id: 'address', label: 'Address', flex: 1, align: 'center' },
+  {id: 'specialization', label: 'Specialization', flex: 1, align: 'center'},
+  {id: 'experienceyears', label: 'Experience Years', flex: 1, align: 'center'},
+  {id: 'qualification', label: 'Qualification', flex: 1, align: 'center'},
+  {id: 'hospitalname', label: 'Hospital Name', flex: 1, align: 'center'},
+  {id: 'status', label: 'Status', flex: 1, align: 'center'},
+  {id: 'joiningdate', label: 'Joining Date', flex: 1, align: 'center'},
   { id: 'action', label: 'Action', flex: 1, align: 'center' },
 ];
 
-function createData(SI_no, patientName, email, phoneNo , address, dob, gender, bloodGroup, medicalHistory) {
-  return { SI_no, patientName, email, phoneNo , address, dob, gender, bloodGroup, medicalHistory};
+function createData(SI_no, doctorName, email, phoneNo , address,specialization, experienceyears, qualification,hospitalname,status,joiningdate) {
+  return { SI_no, doctorName, email, phoneNo , address, specialization, experienceyears, qualification,hospitalname,status,joiningdate};
 }
 
 const rows = [
-  createData('1', 'subhashree', 'sh12@gmail.com', '1234565432', "Ranchi", "2/9/2004", 'Female', 'O+','illness'),
-  createData('2', 'snehanjali', ' meg@gmail.com', '12354321', "Jsr", "2/7/2022", 'Female', 'O+','Surgery'),
-  createData('3','ritu', 'rit@gmail.com','987654567',"bbsr","3/02/2023",'Female','A+','Allergy'),
-  createData('4','prerna', 'pr@gmail.com','987567894',"Patna","12/12/12",'Female','B+','Immunization'),
-  createData('5','amrita', 'am@gmail.com','876567894',"BBSR","12/3/2023",'Female','AB+','Joint pain'),
-  createData('6','sakshi', 'sa@gmail.com','12377895',"Bihar","3/5/2024",'Female','O+','Neuropathies'),
-  createData('7','tripti', 'tr@gmail.com','98567894',"Ranchi","5/8/2005",'Female','B+','Polyuria'),
-  createData('8','anushu', 'anu@gmail.com','876954678',"JSR","3/2/24",'Female','AB+','Illness' ),
-  createData('9','sumona', 'sum@gmail.com','7678934567',"BBSR","4/4/12",'Female','A+','Surgery' ),
-  createData('10','Esneha', 'esh@gmail.com','234567898',"Ranchi","12/2/23",'Female','B+','Joint pain'),
-  createData('11','srawani', 'sra@gmail.com','678964536',"JSR","4/5/22",'Female','AB+','Allergy' ),
+  createData('1', 'subh', 'shri@gmailcom', 124556788,'Ranchi', "Cardiologist", 10, 'MBBS',"ranchi main hospital", 'Available days','3/03/2/12'),
+  createData('2', 'sneha', ' megha@gmail.com',123454321, 'Ranchi', "heart", 7, 'MBSS', "aims","timing",'4/09/15'),
+  createData('3','ritu', 'ritu23',123454321,'Ranchi',"skin",5,'MBSS',"sadar hospita","days",'12/12/12'),
+  createData('4','prerna', 'pre@gmail.com',345689765,'Ranchi',"eye",9,'MBSS',"government hospital","days",'25/8/17'),
+  createData('5','amrita', 'am@gmail.com',4567977654,'bhubneswar',"brain",2,'MBSS',"sum hospital","timing",'6/06/20'),
 ];
 
-export default function StickyHeadTable() {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+export default function AllDoctor() {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
- const [viewData, setViewData] =useState(false)
-  const [editData, setEditData] =useState(false)
-    const [deleteData, setDeleteData] =useState(false)
+  const [viewData, setViewData] =useState(false)
+   const [editData, setEditData] =useState(false)
+   const [deleteData, setDeleteData] =useState(false)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -76,6 +73,8 @@ export default function StickyHeadTable() {
 
   };
 
+  
+  
 
   const handleEdit = () => {
     
@@ -97,8 +96,7 @@ export default function StickyHeadTable() {
   return (
     <>
     <Box className="container">
-  <Search/>
-
+    <Search/>
     <Paper sx={{ width: '100%',overflow: 'hidden' }}>
       <TableContainer className="table" sx={{ maxHeight: 440, fontSize: '12px', marginLeft: '20px', marginTop: '0px', marginRight: '20px' }}>
         <Table stickyHeader aria-label="sticky table">
@@ -126,13 +124,13 @@ export default function StickyHeadTable() {
                       <TableCell key={column.id} align={column.align}>
                         {column.id === 'action' ? (
                           <div>
-                            <IconButton onClick={() => handleView()} color="black">
+                            <IconButton onClick={() => handleView(row.SI_no)} color="black">
                               <VisibilityIcon />
                             </IconButton>
-                            <IconButton onClick={() => handleEdit()} color="black">
+                            <IconButton onClick={() => handleEdit(row.SI_no)} color="black">
                               <EditIcon />
                             </IconButton>
-                            <IconButton onClick={() => handleDelete()} color="black">
+                            <IconButton onClick={() => handleDelete(row.SI_no)} color="black">
                               <DeleteIcon />
                             </IconButton>
                           </div>
@@ -157,28 +155,7 @@ export default function StickyHeadTable() {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
-
-    {/* <Dialog
-        open={viewData}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title" className='title'>
-          View Patient's Details
-          <CloseIcon onClick={handleClose}/>
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
-
-          </DialogContentText>
-        </DialogContent>
-    
-      </Dialog> */}
-      <Dialog
+    <Dialog
   open={viewData}
   onClose={handleClose}  // Ensures closing from anywhere else outside the dialog
   aria-labelledby="alert-dialog-title"
@@ -235,15 +212,7 @@ export default function StickyHeadTable() {
     </DialogContentText>
   </DialogContent>
 </Dialog>
-
     </Box>
     </>
   );
 }
-
-/*      <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit} className='primary_button'>
-            Submit
-          </Button>
-        </DialogActions> */

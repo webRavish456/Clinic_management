@@ -1,7 +1,7 @@
 import React from "react"
 import { Box, Grid,  useMediaQuery} from "@mui/material";
 
-const ViewAppointment =()=>
+const ViewIncome =()=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
@@ -12,10 +12,10 @@ const ViewAppointment =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
             
             <Grid item xs={6}>
-            <Box className="pageTitle">Patient Name:</Box> 
+            <Box className="pageTitle">Income id:</Box> 
             </Grid>  
             <Grid item xs={6}>
-            <Box className="pageDescription">Saniya Singha</Box>
+            <Box className="pageDescription">INC001</Box>
             </Grid>
 
             </Grid>
@@ -23,10 +23,10 @@ const ViewAppointment =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Doctor:</Box>    
+            <Box className="pageTitle">Source Name:</Box>    
             </Grid>
             <Grid item xs={6}>
-            <Box className="pageDescription">Shruti</Box>
+            <Box className="pageDescription">Patient Payment</Box>
             </Grid>
 
             </Grid>
@@ -34,10 +34,10 @@ const ViewAppointment =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Gender:</Box>    
+            <Box className="pageTitle">Description:</Box>    
             </Grid>
             <Grid item xs={6}>
-            <Box className="pageDescription">Female</Box>
+            <Box className="pageDescription">Consulation Fees</Box>
             </Grid>
             </Grid>
 
@@ -69,10 +69,10 @@ const ViewAppointment =()=>
 <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
 <Grid item xs={6}>
-<Box className="pageTitle">Mobile:</Box> 
+<Box className="pageTitle">Amount:</Box> 
 </Grid>   
 <Grid item xs={6}>
-<Box className="pageDescription">62000000789</Box>
+<Box className="pageDescription">500</Box>
 
 </Grid>
 
@@ -83,10 +83,10 @@ const ViewAppointment =()=>
 <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
 <Grid item xs={6}>
-<Box className="pageTitle">Email:</Box> 
+<Box className="pageTitle">Payment Method:</Box> 
 </Grid>   
 <Grid item xs={6}>
-<Box className="pageDescription">saniya0987@gmail.com</Box>
+<Box className="pageDescription">credit card</Box>
 
 </Grid>
 
@@ -107,11 +107,11 @@ const ViewAppointment =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Visit Type:</Box>
+            <Box className="pageTitle"></Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">In person Visit</Box>
+            <Box className="pageDescription"></Box>
             </Grid>
 
             </Grid>
@@ -137,4 +137,4 @@ const ViewAppointment =()=>
      )
 }
 
-export default ViewAppointment
+export default ViewIncome

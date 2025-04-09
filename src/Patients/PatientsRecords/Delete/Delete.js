@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import React from "react"
 
-const DeleteAppointment = ({handleClose, handleDelete}) =>
+const DeleteRecords= ({handleClose, handleDelete}) =>
 {
      return (
      <>
@@ -18,4 +18,4 @@ const DeleteAppointment = ({handleClose, handleDelete}) =>
      )
 }
 
-export default DeleteAppointment;
+export default DeleteRecords;
