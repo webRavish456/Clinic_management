@@ -7,16 +7,15 @@ const Search = ({ searchTerm, setSearchTerm, onAddClick }) => {
   return (
 
     <Box
+ 
      style={{ display:"flex", 
-     justifyContent:"flex-end",
-     height:"60px", 
+     justifyContent:"flex-end", 
      width:"100%",
       alignItems:"center", 
-      gridColumnGap:"18px", 
-      // marginBottom:"0px", 
-      // marginTop:"0px", 
-      // marginRight:"0px"
-    }}
+      gridColumnGap:"20px", 
+      marginBottom:"10px",
+     // marginTop:"10px",
+      marginRight:"0px"}}
      
     >
   

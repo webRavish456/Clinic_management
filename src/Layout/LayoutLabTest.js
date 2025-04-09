@@ -1,11 +1,12 @@
 import React from "react";
 import Header from "../Component/Header/Header";
 import Sidebar from "../Component/Sidebar/Sidebar";
-import  Laboratory from "../Laboratory/Laboratory";
+import LabTest from "../Laboratory/LabTest/LabTest";
 
 
 
-const LayoutLaboratory=()=>
+
+const LayoutLabTest=()=>
 {
     return (
         <>
@@ -15,7 +16,7 @@ const LayoutLaboratory=()=>
             <div className="content">
             <Header className="header" />
             
-            <Laboratory className="dashboard" />
+            <LabTest className="dashboard" />
             </div>
         </div>
         </div>
@@ -25,4 +26,4 @@ const LayoutLaboratory=()=>
     )
 }
 
-export default LayoutLaboratory;
+export default LayoutLabTest;

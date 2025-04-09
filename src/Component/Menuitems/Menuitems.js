@@ -59,15 +59,15 @@ const Menuitems = [
     {
       icon: "/Sidebar/experiment-results.png",
       label: "Laboratory",
-      href: "/laboratory",
+      href: "/laboratory/alllab",
       item : [
         {
-           label: "All Laboratory",
-           href: "/laboratory/all-labs"
+           label: "All Lab",
+           href: "/laboratory/alllab"
         },
         {
            label: "Lab Test",
-           href:'/laboratory/lab-test'
+           href:'/laboratory/labtest'
         }
       ]
     },
