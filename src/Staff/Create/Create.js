@@ -11,12 +11,12 @@ import {
     Box,
   } from "@mui/material";
 
-const CreateDiscount =({handleSubmit, handleClose})=>
+const CreateLaboratory =({handleSubmit, handleClose})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const [formData, setFormData] = useState({
-        discountCode: "",
+        labname: "",
         discountDescription: "",
         discountValue: "",
         validFrom: "",  
@@ -37,11 +37,11 @@ const CreateDiscount =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Discount Code <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Lab Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountCode"
-            value={formData.discountCode}
+            name="labname"
+            value={formData.labname}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -123,4 +123,4 @@ const CreateDiscount =({handleSubmit, handleClose})=>
      )
 }
 
-export default CreateDiscount
+export default CreateLaboratory

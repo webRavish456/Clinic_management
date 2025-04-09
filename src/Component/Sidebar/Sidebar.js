@@ -54,7 +54,7 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <LazyLoadImage src={'/logoo.png'} alt="logo" className="logo" />
+      <LazyLoadImage src={'/logo-white.png'} alt="logo" className="logo" />
 
       {Menuitems.map((item, index) => {
         const isActive = activeIndex === index;

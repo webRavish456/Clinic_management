@@ -20,7 +20,13 @@ cursor:pointer;
 font-weight: 500 !important;
 box-sizing: border-box;
 }
-
+.delete_button {
+  text-transform: none !important;
+  background-color: rgb(240, 12, 16) !important;
+  color: #ffffff !important;
+  padding: 8px 16px !important;
+  cursor:pointer;
+}
 .primary_button:hover {
 background-color: rgb(43, 43, 188) !important;
 }
@@ -28,6 +34,9 @@ background-color: rgb(43, 43, 188) !important;
 .secondary_button:hover {
 background-color: #eeeeee !important;
 }
+.delete_button:hover {
+  background-color: rgb(240, 12, 16) !important;
+  }
 
 .container
 {
@@ -266,9 +275,9 @@ width: fit-content !important;
    font-weight: 600 !important;
 }
 
-.MuiDialogActions-root {
+/* .MuiDialogActions-root {
     padding: 0px 24px 20px !important;
-}
+} */
 
 .MuiDialog-paper {
    max-width: 740px !important;

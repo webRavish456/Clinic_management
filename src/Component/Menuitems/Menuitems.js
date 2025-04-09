@@ -1,20 +1,20 @@
 const Menuitems = [
     
-    {
-        icon: '/Sidebar/dashboard.png',
-        label: "Dashboard",
-        href: "/",
+  {
+      icon: '/Sidebar/dashboard.png',
+      label: "Dashboard",
+      href: "/",
+  },
+  {
+    icon: '/Sidebar/patient.png',
+    label: "Branch",
+    href: "/branch",
+  },
+  {
+     icon: "/Sidebar/service.png",
+     label: "Department",
+     href: "/department",
     },
-    {
-      icon: '/Sidebar/patient.png',
-      label: "Branch",
-      href: "/branch",
-    },
-    {
-       icon: "/Sidebar/service.png",
-       label: "Department",
-       href: "/department",
-      },
     {
       icon: "/Sidebar/medical-appointment.png",
       label: "Doctor",
@@ -28,6 +28,7 @@ const Menuitems = [
            label: "Shift Management",
            href:'/doctor/shift-management'
         }
+      
       ]
     },
     {
@@ -38,15 +39,15 @@ const Menuitems = [
     {
       icon: "/Sidebar/medical-appointment.png",
       label: "Patients",
-      href: "/patients/all-patients", 
+      href: "/patients/allpatients", 
       item : [
         {
            label: "All Patients",
-           href: "/patients/all-patients"
+           href: "/patients/allpatients"
         },
         {
            label: "Patients Records",
-           href:'/patients/patients-record'
+           href:'/patients/patientsrecords'
         }
       ]
     },
@@ -58,25 +59,41 @@ const Menuitems = [
     {
       icon: "/Sidebar/experiment-results.png",
       label: "Laboratory",
-      href: "/laboratory",
+      href: "/laboratory/alllab",
       item : [
         {
-           label: "All Laboratory",
-           href: "/laboratory/all-labs"
+           label: "All Lab",
+           href: "/laboratory/alllab"
         },
         {
            label: "Lab Test",
-           href:'/laboratory/lab-test'
+           href:'/laboratory/labtest'
         }
       ]
     },
     {
       icon: "/Sidebar/accounting.png",
       label: "Finance",
-      href: "/finance",
-    },
+      href: "/finance/income",
+      item : [
 
-];
+
+
+        {
+          label: "Income",
+          href: "/finance/income"
+       },
+       {
+          label: "Expense",
+          href:'/finance/expense'
+       }
+     ]
+   },
+
+
+  ]
+
+
 
 
 
