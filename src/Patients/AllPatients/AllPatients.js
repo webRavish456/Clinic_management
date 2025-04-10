@@ -74,14 +74,14 @@ const handleDelete = () =>
     {id: 'email', label: 'Email', flex: 1, align: 'center'},
     {id: 'address', label: 'Address', flex: 1, align: 'center'},
     {id: 'bloodgroup', label: 'Blood Group', flex: 1, align: 'center'},
-    {id: 'medicakhistoryattachment', label: 'Medical History Attachment', flex: 1, align: 'center'},
+    {id: 'medicalhistoryattachment', label: 'Medical History Attachment', flex: 1, align: 'center'},
    { id: 'actions', label: 'Actions', flex: 1, align: 'center' },
   ];
   
       
-      function createData(patientsid, firstname, lastname, date , time, amount, paymentmethod, status, actions) {
-        return { patientsid, firstname,lastname, date , time, amount, paymentmethod, status,
-          actions: (
+      function createData(patientsid, firstname, lastname, dob , gender, phonenumber, email, address, bloodgroup,medicalhistoryattachment) {
+        return { patientsid, firstname,lastname, dob , gender, phonenumber, email, address,bloodgroup,medicalhistoryattachment, action
+          : (
             <>
               <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
                 <VisibilityIcon  />
@@ -98,16 +98,16 @@ const handleDelete = () =>
       }
       
       const rows = [
-        createData('001', 'sneha', 'biswal', "2/9/2004", '9:00', '500','Credit Card','Pending','View/Edit/Delete'),
-        createData('OO2', 'Subho', 'gupta ', "2/7/2022", '10:00', '900','Cash','Cancelled','View/Edit/Delete'),
-        createData('003','ayushi', 'biswal',"3/02/2023",'11:00','1000','Google Pay','Rescheduled','View/Edit/Delete'),
-        createData('004','aastha', 'kumari',"12/12/12",'12:00','1500','Phone Pay','Confirmed','View/Edit/Delete'),
-        createData('004','sumona','raut',"12/12/12",'12:00','2000','UPI','Completed','View/Edit/Delete'),
-        createData('006','ritu', 'sahoo',"3/5/2024",'8:00','2500','Bank Transfer','Pending','Completed','View/Edit/Delete'),
-        createData('007','prerna', 'sahoo',"5/8/2005",'7:00','3000','Credit Card','Confirmed',''),
-        createData('008','amrita', 'Clean & Co.',"3/2/24",'6:00','3500','Phone Pay','Completed','View/Edit/Delete' ),
-        createData('009','tripti', 'Telecom Ltd',"4/4/12",'7:00','4000','Cash','Confirmed','View/Edit/Delete' ),
-        createData('010','megha', 'Media Agency','8/9/12','6:00','5000','Google Pay','Cancelled','View/Edit/Delete'),
+        createData('001', 'sneha', 'biswal', "2/9/2004", 'Female', '5345678987','sneha12@gmail','jsr',''),
+        createData('OO2', 'Subho', 'gupta ', "2/7/2022", 'Female', '7898765678','subho1@gmail.com','ranchi',''),
+        createData('003','ayushi', 'biswal',"3/02/2023",'Female','1234321234','ayushi12@gmail.com','bbsr',''),
+        createData('004','aastha', 'kumari',"12/12/12",'Female','4565434567','astha12@gmail.com','jsr','View/Edit/Delete'),
+        createData('004','sumona','raut',"12/12/12",'Female','3454345678','sumona12@gmail.com','bbsr',''),
+        createData('006','ritu', 'sahoo',"3/5/2024",'Female','8987898765','ritu12@gmail.com','jsr','Completed','View/Edit/Delete'),
+        createData('007','prerna', 'sahoo',"5/8/2005",'Female','7898767898','prerna12@gmail.com','jsr',''),
+        createData('008','amrita', 'Clean & Co.',"3/2/24",'Female','3789876789','amrita12@gmail.com','ranchi','View/Edit/Delete' ),
+        createData('009','tripti', 'Telecom Ltd',"4/4/12",'Female','4567896789','tripti12@gmail.com','bbsr','View/Edit/Delete' ),
+        createData('010','megha', 'Media Agency','8/9/12','Female','5678765678','megha12@gmail.com','bbsr','View/Edit/Delete'),
         
       ];
       const [page, setPage] = useState(0);

@@ -108,6 +108,7 @@ color: #000000;
 
 .menu-item {
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .menu-link {
@@ -117,7 +118,7 @@ color: #000000;
   color: #ffffff;
   text-decoration: none;
   border-radius: 5px;
-  transition: background 0.3s ease;
+   transition:background 0.3s ease;
 }
 
 .menu-link:hover {
@@ -167,10 +168,10 @@ color: #000000;
   padding: 6px; 
   font-size: 14px;
   border-radius: 5px;
-  transition: background 0.3s ease;
   margin:6px 0px 2px;
   display: flex;
   align-items: center;
+ transition:background 0.3s ease;
 }
 .rightIcon {
    height: 20px !important;
@@ -181,7 +182,6 @@ color: #000000;
 .rightIcon.active {
   font-weight: 700;
 }
-
 
 
 /* Header */
@@ -236,7 +236,8 @@ width: fit-content !important;
    background-color: var(--primary_color);
   color: white;
   padding: 10px;
- max-height: 100%; 
+ max-height: 100%;
+ padding-top: 10px; 
 }
 
 .content {

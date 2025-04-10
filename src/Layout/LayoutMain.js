@@ -17,5 +17,4 @@ const LayoutMain = () => {
   );
 };
 
-
 export default LayoutMain;
