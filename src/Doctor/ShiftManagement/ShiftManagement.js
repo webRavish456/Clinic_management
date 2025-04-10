@@ -40,7 +40,7 @@ import DeleteDiscount from "./Delete/Delete";
 import Search from "../../Search/Search";
 
 
-const Discount=()=>
+const ShiftManagement=()=>
 {
 
   const [openData, setOpenData] = useState(false)
@@ -283,4 +283,4 @@ const handleDelete = () =>
     )
 }
 
-export default Discount;
+export default ShiftManagement;
