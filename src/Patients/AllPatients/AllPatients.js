@@ -32,13 +32,13 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import CommonDialog from "../../Component/CommonDialog/CommonDialog";
-import ViewAllPatients from "./View/View";
-import CreateAllPatients from "./Create/Create";
-import EditAllPatients from "./Edit/Edit";
-import DeleteAllPatients from "./Delete/Delete";
+import ViewExpense from "./View/View";
+import CreateExpense from "./Create/Create";
+import EditExpense from "./Edit/Edit";
+import DeleteExpense from "./Delete/Delete";
 import Search from "../../Search/Search";
 
-const AllPatients=()=>
+const PatientsRecords=()=>
 {
 
   const [openData, setOpenData] = useState(false)
@@ -65,23 +65,22 @@ const handleDelete = () =>
   }
 
   const columns = [
-    { id: 'patientsid', label: 'Patients Id', flex: 1 ,align:'center'},
-    { id: 'firstname', label: 'First Name', flex: 1, align: 'center' },
-    { id: 'lastname', label: 'Last Name', flex: 1, align: 'center' },
-    { id: 'dob', label: 'DOB', flex: 1, align: 'center' },
-    {id: 'gender', label: 'Gender', flex: 1, align: 'center'},
-    {id: 'phonenumber', label: 'Phone Number', flex: 1, align: 'center'},
-    {id: 'email', label: 'Email', flex: 1, align: 'center'},
-    {id: 'address', label: 'Address', flex: 1, align: 'center'},
-    {id: 'bloodgroup', label: 'Blood Group', flex: 1, align: 'center'},
-    {id: 'medicalhistoryattachment', label: 'Medical History Attachment', flex: 1, align: 'center'},
+    { id: 'sino', label: 'Si No', flex: 1, align:'center' },
+    { id: 'patientsId', label: 'Patients Id', flex: 1, align: 'center' },
+    { id: 'fullName', label: 'Full Name', flex: 1, align: 'center' },
+    { id: 'gender', label: 'Gender', flex: 1, align: 'center' },
+    {id: 'dateofAdmission', label: 'Date Of Admission', flex: 1, align: 'center'},
+    {id: 'treatment', label: 'Treatment', flex: 1, align: 'center'},
+    {id: 'labReports', label: 'Lab Reports', flex: 1, align: 'center'},
+    {id: 'nextfollow-up', label: 'Next Follow-Up', flex: 1, align: 'center'},
+    {id: 'status', label: 'Status', flex: 1, align: 'center'},
    { id: 'actions', label: 'Actions', flex: 1, align: 'center' },
   ];
   
       
-      function createData(patientsid, firstname, lastname, dob , gender, phonenumber, email, address, bloodgroup,medicalhistoryattachment) {
-        return { patientsid, firstname,lastname, dob , gender, phonenumber, email, address,bloodgroup,medicalhistoryattachment, action
-          : (
+      function createData(sino, patientsId, payeename, date , time, amount, paymentmethod, status, actions) {
+        return { sino, patientsId,payeename, date , time, amount, paymentmethod, status,
+          actions: (
             <>
               <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
                 <VisibilityIcon  />
@@ -89,7 +88,7 @@ const handleDelete = () =>
               <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
                 <EditIcon />
               </IconButton>
-              <IconButton style={{color:"rgb(237, 20, 13)", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
+              <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
                 <DeleteIcon />
               </IconButton>
             </>
@@ -98,16 +97,16 @@ const handleDelete = () =>
       }
       
       const rows = [
-        createData('001', 'sneha', 'biswal', "2/9/2004", 'Female', '5345678987','sneha12@gmail','jsr',''),
-        createData('OO2', 'Subho', 'gupta ', "2/7/2022", 'Female', '7898765678','subho1@gmail.com','ranchi',''),
-        createData('003','ayushi', 'biswal',"3/02/2023",'Female','1234321234','ayushi12@gmail.com','bbsr',''),
-        createData('004','aastha', 'kumari',"12/12/12",'Female','4565434567','astha12@gmail.com','jsr','View/Edit/Delete'),
-        createData('004','sumona','raut',"12/12/12",'Female','3454345678','sumona12@gmail.com','bbsr',''),
-        createData('006','ritu', 'sahoo',"3/5/2024",'Female','8987898765','ritu12@gmail.com','jsr','Completed','View/Edit/Delete'),
-        createData('007','prerna', 'sahoo',"5/8/2005",'Female','7898767898','prerna12@gmail.com','jsr',''),
-        createData('008','amrita', 'Clean & Co.',"3/2/24",'Female','3789876789','amrita12@gmail.com','ranchi','View/Edit/Delete' ),
-        createData('009','tripti', 'Telecom Ltd',"4/4/12",'Female','4567896789','tripti12@gmail.com','bbsr','View/Edit/Delete' ),
-        createData('010','megha', 'Media Agency','8/9/12','Female','5678765678','megha12@gmail.com','bbsr','View/Edit/Delete'),
+        createData('1', 'sneha Biswal', 'Med Euip Ltd', "2/9/2004", '9:00', '500','Credit Card','Pending','View/Edit/Delete'),
+        createData('2', 'Subhashree sahoo', 'Dr. John Doe ', "2/7/2022", '10:00', '900','Cash','Cancelled','View/Edit/Delete'),
+        createData('3','Utility Bills', 'Power Grid Co',"3/02/2023",'11:00','1000','Google Pay','Rescheduled','View/Edit/Delete'),
+        createData('4','Maintenance', 'ABC Services',"12/12/12",'12:00','1500','Phone Pay','Confirmed','View/Edit/Delete'),
+        createData('4','Office Services','Stationery Hub',"12/12/12",'12:00','2000','UPI','Completed','View/Edit/Delete'),
+        createData('6','Rent', 'XYX Properties',"3/5/2024",'8:00','2500','Bank Transfer','Pending','Completed','View/Edit/Delete'),
+        createData('7','Equipment Purchase', 'Medi Tech Inc',"5/8/2005",'7:00','3000','Credit Card','Confirmed',''),
+        createData('8','Cleaning Services', 'Clean & Co.',"3/2/24",'6:00','3500','Phone Pay','Completed','View/Edit/Delete' ),
+        createData('9','Internet & Phones', 'Telecom Ltd',"4/4/12",'7:00','4000','Cash','Confirmed','View/Edit/Delete' ),
+        createData('10','Advertising', 'Media Agency','8/9/12','6:00','5000','Google Pay','Cancelled','View/Edit/Delete'),
         
       ];
       const [page, setPage] = useState(0);
@@ -159,7 +158,7 @@ const handleDelete = () =>
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth, fontWeight:900 }}
+                  style={{ minWidth: column.minWidth, fontWeight:1000 }}
                 >
                   {column.label}
                 </TableCell>
@@ -203,14 +202,14 @@ const handleDelete = () =>
       open={openData || viewData || editData || deleteData} 
       onClose={handleClose}
       dialogTitle={ <>
-         {openData? "Create New Patients" : viewData ? "View Patients Details": editData?"Edit Patients Details":deleteData?"Delete Patients":null}
+         {openData? "Create New Expense" : viewData ? "View Expense Details": editData?"Edit Expense Details":deleteData?"Delete Expense":null}
       </>}
       
       dialogContent = {
-         openData ? <CreateAllPatients handleSubmit={handleSubmit} handleClose={handleClose} /> :
-          viewData ? <ViewAllPatients /> : 
-         editData ? <EditAllPatients handleUpdate={handleUpdate} handleClose={handleClose} /> : 
-         deleteData? <DeleteAllPatients handleDelete={handleDelete} handleClose={handleClose} />:null
+         openData ? <CreateExpense handleSubmit={handleSubmit} handleClose={handleClose} /> :
+          viewData ? <ViewExpense /> : 
+         editData ? <EditExpense handleUpdate={handleUpdate} handleClose={handleClose} /> : 
+         deleteData? <DeleteExpense handleDelete={handleDelete} handleClose={handleClose} />:null
         
       }
 
@@ -221,4 +220,4 @@ const handleDelete = () =>
     )
 }
 
-export default AllPatients;
+export default PatientsRecords;

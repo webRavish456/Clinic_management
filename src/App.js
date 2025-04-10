@@ -10,6 +10,7 @@ import Dashboard from "./Dashboard/Dashboard";
 import Appointment from "./Appointment/Appointment";
 import AllLab from "./Laboratory/AllLab/AllLab";
 import Staff from "./Staff/Staff";
+import Branch from "./Branch/Branch";
 import Department from "./Department/Department";
 import LabTest from "./Laboratory/LabTest/LabTest";
 import Income from "./Finance/Income/Income";
@@ -32,6 +33,7 @@ function App() {
           <Route path="patients/allpatients" element={<AllPatients />} />
           <Route path="patients/patientsrecords" element={<PatientsRecords />} />
           <Route path="staff" element={<Staff />} />
+          <Route path="branch" element={<Branch />} />
           <Route path="laboratory/alllab" element={<AllLab />} />
           <Route path="laboratory/labtest" element={<LabTest />} />
           <Route path="department" element={<Department />} />
