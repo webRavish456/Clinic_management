@@ -10,18 +10,22 @@ import {
     Box,
     Button,
   } from "@mui/material";
+import ShiftManagement from "../ShiftManagement";
 
-const EditDiscount =({handleUpdate, handleClose})=>
+const EditShiftManagement =({handleUpdate, handleClose})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const [formData, setFormData] = useState({
-        discountCode: "",
-        discountDescription: "",
-        discountValue: "",
-        validFrom: "",  
-        validTo: "",
-        status: "",
+        name: "",
+        department: "",  
+        specialization: "",
+        shiftStartDate: "",
+        shiftEndDate: "",
+        workDays: "",
+        shiftHours: "",
+        shiftType: "",
+        availabilityStatus: "",
      });
 
      const handleChange = (e) => {
@@ -37,11 +41,11 @@ const EditDiscount =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Discount Code <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                 Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountCode"
-            value={formData.discountCode}
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -53,11 +57,11 @@ const EditDiscount =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Discount Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Department <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountDescription"
-            value={formData.discountDescription}
+            name="department"
+            value={formData.department}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -69,11 +73,11 @@ const EditDiscount =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Discount Value <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Specialization <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountValue"
-            value={formData.discountValue}
+            name="specialization"
+            value={formData.specialization}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -84,11 +88,11 @@ const EditDiscount =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Valid From <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Shift Start Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="validFrom"
-            value={formData.validFrom}
+            name="shiftstartdate"
+            value={formData.shiftStartDate}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -99,26 +103,74 @@ const EditDiscount =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Valid To <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Shift End Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="validTo"
-            value={formData.validTo}
+            name="shiftenddate"
+            value={formData.shiftEndDate}
             onChange={handleChange}
             fullWidth
             margin="normal"
             />
             </Grid>
-
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <FormControl fullWidth margin="normal">
-            <InputLabel>Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
-            <Select name="Status" value={formData.status} onChange={handleChange}>
-            <MenuItem value="active">Active</MenuItem>
-            <MenuItem value="inactive">Inactive</MenuItem>
-            <MenuItem value="upcoming">Upcoming</MenuItem>
-            </Select>
-            </FormControl>
+            <TextField
+            label={
+            <>
+                Work Days <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="workdays"
+            value={formData.workDays}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Shift Hours <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="shifthours"
+            value={formData.shiftHours}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Shift Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="shifttype"
+            value={formData.shiftType}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Availability Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="availabilitystatus"
+            value={formData.availabilityStatus}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            
+
+            
             </Grid>
             </Grid>
 
@@ -133,4 +185,4 @@ const EditDiscount =({handleUpdate, handleClose})=>
      )
 }
 
-export default EditDiscount
+export default EditShiftManagement

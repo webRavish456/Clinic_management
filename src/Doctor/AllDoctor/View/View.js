@@ -1,7 +1,7 @@
 import React from "react"
 import { Box, Grid,  useMediaQuery} from "@mui/material";
 
-const ViewDiscount =()=>
+const ViewAllDoctor =()=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
@@ -12,10 +12,10 @@ const ViewDiscount =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
             
             <Grid item xs={6}>
-            <Box className="pageTitle">Discount Code:</Box> 
+            <Box className="pageTitle">Doctor Name:</Box> 
             </Grid>  
             <Grid item xs={6}>
-            <Box className="pageDescription">FESTIVE50</Box>
+            <Box className="pageDescription">Amrita</Box>
             </Grid>
 
             </Grid>
@@ -23,20 +23,20 @@ const ViewDiscount =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Discount Description:</Box>    
+            <Box className="pageTitle">Email:</Box>    
             </Grid>
             <Grid item xs={6}>
-            <Box className="pageDescription">Flat 50% off on festive season</Box>
+            <Box className="pageDescription">amrita@123</Box>
             </Grid>
             </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Discount Value:</Box> 
+            <Box className="pageTitle">Mobile No:</Box> 
             </Grid>   
             <Grid item xs={6}>
-            <Box className="pageDescription">50%</Box>
+            <Box className="pageDescription">9632154871</Box>
             </Grid>
 
             </Grid>
@@ -44,11 +44,11 @@ const ViewDiscount =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Valid From:</Box>
+            <Box className="pageTitle">Address:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">15-03-2025</Box>
+            <Box className="pageDescription">Ranchi</Box>
             </Grid>
 
             </Grid>
@@ -56,11 +56,11 @@ const ViewDiscount =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Valid To:</Box>
+            <Box className="pageTitle">Specialization:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">25-03-2025</Box>
+            <Box className="pageDescription">Eye</Box>
             </Grid>
 
             </Grid>
@@ -69,14 +69,65 @@ const ViewDiscount =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Status:</Box>
+            <Box className="pageTitle">Experience:</Box>
             </Grid>
 
+            <Grid item xs={6}>
+            <Box className="pageDescription">8</Box>
+            </Grid>
+
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+            
+            <Grid item xs={6}>
+            <Box className="pageTitle">Qualification:</Box> 
+            </Grid>  
+            <Grid item xs={6}>
+            <Box className="pageDescription">MBBS</Box>
+            </Grid>
+
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+            
+            <Grid item xs={6}>
+            <Box className="pageTitle">Hospital Name:</Box> 
+            </Grid>  
+            <Grid item xs={6}>
+            <Box className="pageDescription">Aims</Box>
+            </Grid>
+
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+            
+            <Grid item xs={6}>
+            <Box className="pageTitle">Availability:</Box> 
+            </Grid>  
+            <Grid item xs={6}>
+            <Box className="pageDescription">Yes</Box>
+            </Grid>
+
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+            
+            <Grid item xs={6}>
+            <Box className="pageTitle">Joinig Date:</Box> 
+            </Grid>  
+            <Grid item xs={6}>
+            <Box className="pageDescription">1/5/12</Box>
+            </Grid>
+
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+            
+            <Grid item xs={6}>
+            <Box className="pageTitle">Status:</Box> 
+            </Grid>  
             <Grid item xs={6}>
             <Box className="pageDescription">Active</Box>
             </Grid>
 
             </Grid>
+            
 
 
 
@@ -86,4 +137,4 @@ const ViewDiscount =()=>
      )
 }
 
-export default ViewDiscount
+export default ViewAllDoctor

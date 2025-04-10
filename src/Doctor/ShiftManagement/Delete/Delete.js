@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import React from "react"
 
-const DeleteRecords= ({handleClose, handleDelete}) =>
+const DeleteShiftManagement= ({handleClose, handleDelete}) =>
 {
      return (
      <>
@@ -18,4 +18,4 @@ const DeleteRecords= ({handleClose, handleDelete}) =>
      )
 }
 
-export default DeleteRecords;
+export default DeleteShiftManagement;

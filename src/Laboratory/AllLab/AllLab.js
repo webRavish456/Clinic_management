@@ -92,16 +92,16 @@ const handleDelete = () =>
       
       const rows = [
         createData('1', 'Health Trust Lab ', 'Clinical Laboratory', 'Aashu Kumari', 'Morning', 'Active'),
-        // createData('INCOO2', 'Insurance Claim', ' Reimbursement', "2/7/2022", '10:00', '800','Bank Transfer','Completed','View/Edit/Delete'),
-        // createData('INC003','Lab Test Payment', 'Blood Test Fees',"3/02/2023",'11:00','700','Cash','Rescheduled','View/Edit/Delete'),
-        // createData('INC004','Pharmacy Sale', 'Medicine Purchase',"12/12/12",'12:00','900','Cash','Cancelled','View/Edit/Delete'),
-        // createData('INC005','OPD Consulation','Doctor Consulation',"12/3/2023",'9:00','1000','Credit Card','Completed','View/Edit/Delete'),
-        // createData('INC006','Surgery Payment', 'Surgery Fees',"3/5/2024",'8:00','1200','Phone Pay','Confirmed','View/Edit/Delete'),
-        // createData('INC007','Insurance Claim', ' MRI Scan Fees', "2/7/2022", '10:00', '800','Bank Transfer','Completed','View/Edit/Delete'),
-        // createData('INC003','Lab Test Payment', 'Blood Test Fees',"5/8/2005",'7:00','1500','UPI','Completed','View/Edit/Delete'),
-        // createData('INC008','Health Package', 'Annual Health Check',"3/2/24",'6:00','1800','Google Pay','Pending','View/Edit/Delete' ),
-        // createData('INC009','Ambulance Service', 'Emergency Transport',"4/4/12",'7:00','2000','Credit Card','Rescheduled' ,'View/Edit/Delete'),
-        // createData('INC010','Donation', 'Charity Fund','8/9/12','6:00','5000','Cash','Completed','View/Edit/Delete'),
+        createData('2', 'QuickPath Diagnostics', 'Pathology Lab', 'Chandra Kaushal', 'Morning', 'Active'),
+        createData('3','ScanWell Imaging', 'Diagnostic Lab','Rahul Singh','Evening','Inactive'),
+        createData('4','GeneX Labs','Molecular Diagnostoics', 'Praveen Kumar','Morning','Active'),
+        createData('5','Hematology Lab','Hematology','Jhuma Das','Evening','Active'),
+        createData('6','Molecular Diagnostics Lab', 'Molecular Biology','Anil Kumar','Evening','Inactive'),
+        createData('7','Blood Bank', 'Transfusion Medicine', 'Neha Sehar', 'Morning', 'Active'),
+        createData('8','Toxicology Lab', 'Toxicology', 'Sandeep Mathur','Morning','Active'),
+        createData('9','Immunology Lab', 'Immunology', 'Renu Bansal','Morning','Active'),
+        createData('10','Parasitology Lab', 'Parasitology','Yogesh Kumar','Evening','Inactive'),
+      
         
       ];
 

@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
@@ -50,6 +51,7 @@ const Header=()=>
       if (path.includes("/dashboard")) return "Dashboard";
       if (path.includes("finance/expense")) return "Expense";
       if (path.includes("/department")) return "Departments";
+      if (path.includes("/appointment")) return "Appointment";
       if (path.includes("doctor/all-doctor")) return "Doctors";
       if (path.includes("doctor/shift-management")) return "Shifts";
       if (path.includes("laboratory/alllab")) return "Laboratory";
@@ -58,8 +60,6 @@ const Header=()=>
   
     };
   
-
-
 
     return (
         <>
