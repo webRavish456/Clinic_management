@@ -2,8 +2,15 @@ import React from "react";
 import { TextField, Button, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
 
-const Search = ({ searchTerm, setSearchTerm, onAddClick }) => {
+const Search = ({ searchTerm, setSearchTerm, onAddClick ,buttonText = "Add New " }) => {
+const navigate = useNavigate();
+
+const handleAddClick = ()=> {
+  navigate("/staffcreate")
+}
+  
   return (
 
     <Box
@@ -32,7 +39,7 @@ const Search = ({ searchTerm, setSearchTerm, onAddClick }) => {
       />
        <Box className="buttonContainer">
       <Button variant="contained" color="primary" className="primary_button"   marginLeft="0px" tartIcon={<AddIcon />} onClick={onAddClick}>
-       + Add New 
+       {buttonText}
       </Button>
       </Box>
     </Box>

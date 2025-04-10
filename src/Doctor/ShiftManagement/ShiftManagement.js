@@ -40,7 +40,7 @@ import DeleteDiscount from "./Delete/Delete";
 import Search from "../../Search/Search";
 
 
-const Discount=()=>
+const ShiftManagement=()=>
 {
 
   const [openData, setOpenData] = useState(false)
@@ -211,7 +211,7 @@ const handleDelete = () =>
     return (
       
       <Box className="container">
-        <Search onAddClick={onAddClick}/>
+        <Search onAddClick={onAddClick} buttonText="+ Add Shift"/>
      <Paper sx={{ width: '100%', overflow:"hidden" }}>
       <TableContainer  >
         <Table stickyHeader aria-label="sticky table">
@@ -283,4 +283,4 @@ const handleDelete = () =>
     )
 }
 
-export default Discount;
+export default ShiftManagement;

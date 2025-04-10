@@ -5,7 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import CloseIcon from "@mui/icons-material/Close";
-import Search from "../Search/Search";
+
 
 import {
   Paper,
@@ -33,12 +33,13 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import CommonDialog from "../Component/CommonDialog/CommonDialog";
-import ViewDepartment from "./View/View";
-import CreateDepartment from "./Create/Create";
-import EditDepartment from "./Edit/Edit";
-import DeleteDepartment from "./Delete/Delete";
+import ViewDiscount from "./View/View";
+import CreateDiscount from "./Create/Create";
+import EditDiscount from "./Edit/Edit";
+import DeleteDiscount from "./Delete/Delete";
+import Search from "../Search/Search";
 
-const Department=()=>
+const Branch=()=>
 {
 
   const [openData, setOpenData] = useState(false)
@@ -63,54 +64,41 @@ const handleDelete = () =>
   {
     setDeleteData(true)
   }
-     
-      const columns = [
-        { id: 'si', label: 'SI.No', flex:1, align:'center' },
-        { id: 'departmentname', label: 'Department Name', flex:1, align:'center' },
-        { id: 'noofspecialization', label: 'No Of Specialization', flex:1, align:'center' },
-        {
-          id: 'description',
-          label: 'Description',
-          flex:1,
-          align: 'center',
-        },
-        {
-          id: 'departmenthead',
-          label: 'Department Head',
-          flex:1,
-          align: 'center',
-        },
-        {
-          id: 'date',
-          label: 'Date',
-          flex:1,
-          align: 'center',
-        },
+
+    const columns = [
+        { id: 'si', label: 'SI. No.', flex:1, align:'center' },
+        { id: 'name', label: ' Branch Name', flex:1,align:'center' },
+        { id: 'location', label: ' Branch Location', flex:1,align:'center' },
         
-        {
-          id: 'status',
-          label: 'Status',
-          flex:1,
-          align: 'center',
-        },
-        {
-          id: 'actions',
-          label: 'Actions',
-          flex:1,
-          align: 'center',
-        },
+          {
+            id: 'status',
+            label: ' Status',
+            flex:1,
+            align:'center',
+          },
+          {
+            id: 'actions',
+            label: 'Action',
+            flex:1,
+            align:'center',
+          },
       ];
       
-        function createData(si, departmentname,noofspecialization, description, departmenthead, date, status, actions ) {
-          return { si, departmentname,noofspecialization ,description, departmenthead, date, status, actions: (
+      function createData(si, name, location, status, actions) {
+        return {
+          si,
+          name,
+          location,
+          status,
+          actions: (
             <>
-              <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
+              <IconButton style={{color:"blue", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
                 <VisibilityIcon  />
               </IconButton>
-              <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
+              <IconButton style={{color:"grey", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
                 <EditIcon />
               </IconButton>
-              <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
+              <IconButton style={{color:"red", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
                 <DeleteIcon />
               </IconButton>
             </>
@@ -119,27 +107,16 @@ const handleDelete = () =>
       }
       
       const rows = [
-          createData('1', 'Cardiology', 'Electophysiology','Deals with heart related diseases', 'Dr.A', '2025-03-29', 'Active', 'Edit/Delete/View'),
-           createData('2', 'Neurology','Neurocritical Care' ,'Focuses on nervous system disorders', 'Dr.B', '2025-03-28', 'Active', 'Edit/Delete/View'),
-         createData('3', 'Orthopedics','Spine Surgery' ,'Treats bone and muscle conditions', 'Dr.C', '2025-03-26', 'Active',  'Edit/Delete/View'),
-          createData('4', 'Dermatology','Dermatopathalogy' ,'Skin related treatments and diseases', 'Dr. D', '2025-03-20', 'Active', 'Edit/Delete/View'),
-          createData('5', 'Radiology','Chest Radiology' ,'Imaging and scaning department', 'Dr.E', '2025-03-12', 'Active', 'Edit/Delete/View'),
-          createData('6', 'Pediatrics','Neonatology' ,'Focusing on common childhood illness treatment', 'Dr.F', '2025-03-10', 'Active', 'Edit/Delete/View'),
-          createData('7', 'Pulmonology','Lung Cancer' ,'Repiratory & Lung Care,asthma & COPD Treatment', 'Dr.G', '2025-03-07', 'Active', 'Edit/Delete/View'),
-          createData('8', 'Oncology', 'Gynecologic Oncology','Cancer treatment, chemotherapy', 'Dr.H', '2025-03-06', 'Active', 'Edit/Delete/View'),
-          createData('9', 'Dental care', 'Oral Pathology','Oral Health & Surgery', 'Dr.I', '2025-03-03', 'Active', 'Edit/Delete/View'),
-          createData('10', 'Nephrology', 'Dialysis Therapy','Kidney Diseases Treatment,Dialysis', 'Dr.J', '2025-03-01', 'Active', 'Edit/Delete/View'),
-
-
-
-
-
-
-
-
-
-
-      ];
+        createData(1, "Bistupur baranch", "Bistupur", "open", ),
+        createData(2, "Sakchi baranch", "Sakchi", "open", ),
+        createData(3, "Mango baranch", "Mango", "open", ),
+        createData(4, "Sonari baranch", "Sonari", "open", ),
+        createData(5, "Adityapur baranch", "Adityapur", "open", ),
+        createData(7, "Kadma baranch", "Kadma", "open", ),
+        createData(8, "Kashidih baranch", "Kashidih", "open", ),
+        createData(9, "Dhanbaad baranch", "Dhanbaad", "open", ),
+        createData(10, "Ghatshila baranch", "Ghatshila", "open", )
+     ];
 
       const [page, setPage] = useState(0);
       const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -180,7 +157,7 @@ const handleDelete = () =>
     return (
       
       <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="+ Add Department"/>
+        <Search onAddClick={onAddClick} buttonText="+ Add Branch"/>
      <Paper sx={{ width: '100%', overflow:"hidden" }}>
       <TableContainer  >
         <Table stickyHeader aria-label="sticky table">
@@ -234,14 +211,14 @@ const handleDelete = () =>
       open={openData || viewData || editData || deleteData} 
       onClose={handleClose}
       dialogTitle={ <>
-         {openData? "Create New Department" : viewData ? "View Department Details": editData?"Edit Department Details":deleteData?"Delete Department Details":null}
+         {openData? "Create New Branch" : viewData ? "View Branch Details": editData?"Edit Branch Details":deleteData?"Delete Branch":null}
       </>}
       
       dialogContent = {
-         openData ? <CreateDepartment handleSubmit={handleSubmit} handleClose={handleClose} /> :
-          viewData ? <ViewDepartment /> : 
-         editData ? <EditDepartment handleUpdate={handleUpdate} handleClose={handleClose} /> : 
-         deleteData? <DeleteDepartment handleDelete={handleDelete} handleClose={handleClose} />:null
+         openData ? <CreateDiscount handleSubmit={handleSubmit} handleClose={handleClose} /> :
+          viewData ? <ViewDiscount /> : 
+         editData ? <EditDiscount handleUpdate={handleUpdate} handleClose={handleClose} /> : 
+         deleteData? <DeleteDiscount handleDelete={handleDelete} handleClose={handleClose} />:null
         
       }
 
@@ -252,4 +229,6 @@ const handleDelete = () =>
     )
 }
 
-export default Department;
+export default Branch;
+
+ 
