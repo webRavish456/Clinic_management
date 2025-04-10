@@ -211,7 +211,7 @@ const handleDelete = () =>
     return (
       
       <Box className="container">
-        <Search onAddClick={onAddClick}/>
+        <Search onAddClick={onAddClick} buttonText="+ Add Shift"/>
      <Paper sx={{ width: '100%', overflow:"hidden" }}>
       <TableContainer  >
         <Table stickyHeader aria-label="sticky table">

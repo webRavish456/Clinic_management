@@ -4,6 +4,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+
 import CloseIcon from "@mui/icons-material/Close";
 
 import {
@@ -37,6 +38,7 @@ import CreateExpense from "./Create/Create";
 import EditExpense from "./Edit/Edit";
 import DeleteExpense from "./Delete/Delete";
 import Search from "../../Search/Search";
+
 
 const PatientsRecords=()=>
 {
@@ -136,7 +138,7 @@ const handleDelete = () =>
        const handleSubmit = (e) => {
          e.preventDefault();
          setOpenData(false)
-         // console.log("Form Data Submitted:", formData);
+        
        }
 
        const handleUpdate = (e) => {
@@ -147,8 +149,9 @@ const handleDelete = () =>
 
     return (
       
+      
       <Box className="container">
-        <Search onAddClick={onAddClick}/>
+        <Search onAddClick={onAddClick} buttonText="+ Add Patient"/>
      <Paper sx={{ width: '100%', overflow:"hidden" }}>
       <TableContainer  >
         <Table stickyHeader aria-label="sticky table">
@@ -217,6 +220,7 @@ const handleDelete = () =>
 
       
     </Box>
+    
     )
 }
 

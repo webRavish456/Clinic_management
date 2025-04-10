@@ -112,7 +112,7 @@ const CreatePatientRecords =({handleSubmit, handleClose})=>
 
             </Grid>
 
-            <Box className="submit">
+            <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}} >
             <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
             <Button onClick={handleSubmit} className="primary_button">
              Submit

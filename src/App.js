@@ -15,6 +15,7 @@ import Department from "./Department/Department";
 import LabTest from "./Laboratory/LabTest/LabTest";
 import Income from "./Finance/Income/Income";
 import Expense from "./Finance/Expense/Expense";
+import CreateStaff from "./Staff/Create/Create";
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="department" element={<Department />} />
           <Route path="finance/income" element={<Income />} />
           <Route path="finance/expense" element={<Expense />} />
+          <Route path="staffcreate" element={<CreateStaff />} />
         </Route>
       </Routes>
     </BrowserRouter>

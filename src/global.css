@@ -142,11 +142,12 @@ color: #000000;
 .logo {
   height: 60px;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   font-size: 22px;
   cursor: pointer;
   font-weight: bold;
+  object-fit: contain;
 }
 
 .submenu {
@@ -237,7 +238,8 @@ width: fit-content !important;
   color: white;
   padding: 10px;
  max-height: 100%;
- padding-top: 10px; 
+ padding-top: 10px;
+
 }
 
 .content {
@@ -278,9 +280,4 @@ width: fit-content !important;
 
 .MuiDialog-paper {
    max-width: 740px !important;
-}
-.logo{
-  display:flex;
-  justify-content: center;
-  width:100%;
 }
