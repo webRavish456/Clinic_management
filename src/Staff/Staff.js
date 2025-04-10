@@ -38,7 +38,7 @@ import CreateDiscount from "./Create/Create";
 import EditDiscount from "./Edit/Edit";
 import DeleteDiscount from "./Delete/Delete";
 
-const Discount=()=>
+const Staff=()=>
 {
 
   const [openData, setOpenData] = useState(false)
@@ -273,4 +273,4 @@ const handleDelete = () =>
     )
 }
 
-export default Discount;
+export default Staff;

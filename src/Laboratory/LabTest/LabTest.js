@@ -38,7 +38,7 @@ import EditLaboratory from "./Edit/Edit";
 import DeleteLaboratory from "./Delete/Delete";
 import Search from "../../Search/Search";
 
-const Laboratory=()=>
+const LabTest=()=>
 {
 
   const [openData, setOpenData] = useState(false)
@@ -218,4 +218,4 @@ const handleDelete = () =>
     )
 }
 
-export default Laboratory;
+export default LabTest;

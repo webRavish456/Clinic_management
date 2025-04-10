@@ -148,10 +148,6 @@ color: #000000;
   font-weight: bold;
 }
 
-.hotelName {
-  padding-left: 6px;
-}
-
 .submenu {
   margin-left: 10px;
   display: flex;

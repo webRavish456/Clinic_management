@@ -4,6 +4,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 
 const Search = ({ searchTerm, setSearchTerm, onAddClick }) => {
+
+  
   return (
 
     <Box
