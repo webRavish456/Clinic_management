@@ -54,6 +54,7 @@ const Header=()=>
       if (path.includes("doctor/shift-management")) return "Shifts";
       if (path.includes("laboratory/alllab")) return "Laboratory";
       if (path.includes("laboratory/labtest")) return "Lab Tests";
+      if (path.includes("/appointment")) return "Appointments";
   
     };
   
@@ -65,7 +66,7 @@ const Header=()=>
         <AppBar position="static" style={{backgroundColor:"#ffffff", height:"60px"}}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between", px: 3 }}>
 
-        <Typography variant="h5" sx={{ color: "#333" }}>
+        <Typography variant="h6" sx={{ color: " #333" }}>
           {getHeadingFromPath()}
         </Typography>
 
