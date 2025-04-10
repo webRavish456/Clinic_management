@@ -7,21 +7,25 @@ import {
     InputLabel,
     Grid,
     useMediaQuery,
-    Button,
     Box,
+    Button,
   } from "@mui/material";
+import ShiftManagement from "../ShiftManagement";
 
-const CreateDiscount =({handleSubmit, handleClose})=>
+const CreateShiftManagement =({handleUpdate, handleClose})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const [formData, setFormData] = useState({
-        discountCode: "",
-        discountDescription: "",
-        discountValue: "",
-        validFrom: "",  
-        validTo: "",
-        status: "",
+        name: "",
+        department: "",  
+        specialization: "",
+        shiftStartDate: "",
+        shiftEndDate: "",
+        workDays: "",
+        shiftHours: "",
+        shiftType: "",
+        availabilityStatus: "",
      });
 
      const handleChange = (e) => {
@@ -30,50 +34,18 @@ const CreateDiscount =({handleSubmit, handleClose})=>
 
      return (
         <>
-             <Grid container columnSpacing={2}>
+            <Grid container columnSpacing={2}>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
 
             <TextField
             label={
             <>
-                Discount Code <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                 Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountCode"
-            value={formData.discountCode}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-
-            <TextField
-            label={
-            <>
-                Discount Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="discountDescription"
-            value={formData.discountDescription}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Discount Value <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="discountValue"
-            value={formData.discountValue}
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -81,41 +53,133 @@ const CreateDiscount =({handleSubmit, handleClose})=>
             </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+
             <TextField
             label={
             <>
-                Valid From <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Department <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="validFrom"
-            value={formData.validFrom}
+            name="department"
+            value={formData.department}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+
+            </Grid>
+
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Specialization <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="specialization"
+            value={formData.specialization}
             onChange={handleChange}
             fullWidth
             margin="normal"
             />
             </Grid>
 
-            <Grid item xs={12} sm={12} md={12}>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
             label={
             <>
-                Valid To <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Shift Start Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="validTo"
-            value={formData.validTo}
+            name="shiftstartdate"
+            value={formData.shiftStartDate}
             onChange={handleChange}
             fullWidth
             margin="normal"
             />
             </Grid>
 
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Shift End Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="shiftenddate"
+            value={formData.shiftEndDate}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Work Days <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="workdays"
+            value={formData.workDays}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Shift Hours <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="shifthours"
+            value={formData.shiftHours}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Shift Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="shifttype"
+            value={formData.shiftType}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Availability Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="availabilitystatus"
+            value={formData.availabilityStatus}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            
+            
+            
+            </Grid>
             </Grid>
 
             <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
             <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleSubmit} className="primary_button">
-             Submit
+            <Button onClick={handleUpdate} className="primary_button">
+             Update
             </Button>
             </Box>
 
@@ -123,4 +187,4 @@ const CreateDiscount =({handleSubmit, handleClose})=>
      )
 }
 
-export default CreateDiscount
+export default CreateShiftManagement

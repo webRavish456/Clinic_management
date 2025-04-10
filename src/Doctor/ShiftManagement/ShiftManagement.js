@@ -33,14 +33,15 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import CommonDialog from "../../Component/CommonDialog/CommonDialog";
-import ViewDiscount from "./View/View";
-import CreateDiscount from "./Create/Create";
-import EditDiscount from "./Edit/Edit";
-import DeleteDiscount from "./Delete/Delete";
+import ViewShiftManagement from "./View/View";
+import CreateShiftManagement from "./Create/Create";
+import EditShiftManagement from "./Edit/Edit";
+import DeleteShiftManagement from "./Delete/Delete";
 import Search from "../../Search/Search";
 
 
-const Discount=()=>
+
+const ShiftManagement=()=>
 {
 
   const [openData, setOpenData] = useState(false)
@@ -118,11 +119,12 @@ const handleDelete = () =>
             align:'center',
           },
           {
-            id: 'action',
-            label: 'Action',
+            id: 'actions',
+            label: 'Actions',
             flex:1,
             align:'center',
           },
+          
           
       ];
       
@@ -138,7 +140,7 @@ const handleDelete = () =>
           shifthours,
           shifttype,
           availabilitystatus,
-          action: (
+          actions: (
             <>
               <IconButton style={{color:"rgb(13,33,121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
                 <VisibilityIcon  />
@@ -265,14 +267,14 @@ const handleDelete = () =>
       open={openData || viewData || editData || deleteData} 
       onClose={handleClose}
       dialogTitle={ <>
-         {openData? "Create New Discount" : viewData ? "View Discount Details": editData?"Edit Discount Details":deleteData?"Delete Discount":null}
+         {openData? "Create ShiftManagement" : viewData ? "View ShiftManagement": editData?"Edit ShiftManagement":deleteData?"Delete ShiftManagement":null}
       </>}
       
       dialogContent = {
-         openData ? <CreateDiscount handleSubmit={handleSubmit} handleClose={handleClose} /> :
-          viewData ? <ViewDiscount /> : 
-         editData ? <EditDiscount handleUpdate={handleUpdate} handleClose={handleClose} /> : 
-         deleteData? <DeleteDiscount handleDelete={handleDelete} handleClose={handleClose} />:null
+         openData ? <CreateShiftManagement handleSubmit={handleSubmit} handleClose={handleClose} /> :
+          viewData ? <ViewShiftManagement /> : 
+         editData ? <EditShiftManagement handleUpdate={handleUpdate} handleClose={handleClose} /> : 
+         deleteData? <DeleteShiftManagement handleDelete={handleDelete} handleClose={handleClose} />:null
         
       }
 
@@ -283,4 +285,4 @@ const handleDelete = () =>
     )
 }
 
-export default Discount;
+export default ShiftManagement;

@@ -38,6 +38,10 @@ import CreateDiscount from "./Create/Create";
 import EditDiscount from "./Edit/Edit";
 import DeleteDiscount from "./Delete/Delete";
 import Search from "../../Search/Search";
+import CreateAllDoctor from "./Create/Create";
+import ViewAllDoctor from "./View/View";
+import EditAllDoctor from "./Edit/Edit";
+import DeleteAllDoctor from "./Delete/Delete";
 
 
 const AllDoctor=()=>
@@ -279,14 +283,14 @@ const handleDelete = () =>
       open={openData || viewData || editData || deleteData} 
       onClose={handleClose}
       dialogTitle={ <>
-         {openData? "Create New Discount" : viewData ? "View Discount Details": editData?"Edit Discount Details":deleteData?"Delete Discount":null}
+         {openData? "Create All Doctor" : viewData ? "View All Doctor": editData?"Edit All Doctor":deleteData?"Delete All Doctor":null}
       </>}
       
       dialogContent = {
-         openData ? <CreateDiscount handleSubmit={handleSubmit} handleClose={handleClose} /> :
-          viewData ? <ViewDiscount /> : 
-         editData ? <EditDiscount handleUpdate={handleUpdate} handleClose={handleClose} /> : 
-         deleteData? <DeleteDiscount handleDelete={handleDelete} handleClose={handleClose} />:null
+         openData ? <CreateAllDoctor handleSubmit={handleSubmit} handleClose={handleClose} /> :
+          viewData ? <ViewAllDoctor /> : 
+         editData ? <EditAllDoctor handleUpdate={handleUpdate} handleClose={handleClose} /> : 
+         deleteData? <DeleteAllDoctor handleDelete={handleDelete} handleClose={handleClose} />:null
         
       }
 
