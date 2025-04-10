@@ -63,7 +63,7 @@ const handleDelete = () =>
   {
     setDeleteData(true)
   }
-        
+     
       const columns = [
         { id: 'si', label: 'SI.No', flex:1, align:'center' },
         { id: 'departmentname', label: 'Department Name', flex:1, align:'center' },

@@ -23,20 +23,20 @@ const ViewLab =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Doctor Assignee:</Box>    
+            <Box className="pageTitle">Lab Type:</Box>    
             </Grid>
             <Grid item xs={6}>
-            <Box className="pageDescription">Shruti</Box>
+            <Box className="pageDescription">Clinical Laboratory</Box>
             </Grid>
             </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Appointment Date:</Box> 
+            <Box className="pageTitle">Assignee Staff:</Box> 
             </Grid>   
             <Grid item xs={6}>
-            <Box className="pageDescription">24-03-2025</Box>
+            <Box className="pageDescription">Aashu kumari</Box>
             </Grid>
 
             </Grid>
@@ -44,24 +44,14 @@ const ViewLab =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Status:</Box>
+            <Box className="pageTitle">Shift:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">Scheduled</Box>
+            <Box className="pageDescription">Morning</Box>
             </Grid>
 
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
-
-            <Grid item xs={6}>
-            <Box className="pageTitle">Checkup:</Box>
-            </Grid>
-
-            <Grid item xs={6}>
-            <Box className="pageDescription">Fever</Box>
-            </Grid>
+            
 
             </Grid>
 

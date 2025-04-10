@@ -16,10 +16,10 @@ const EditLab =({handleUpdate, handleClose})=>
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const [formData, setFormData] = useState({
-        discountCode: "",
-        discountDescription: "",
-        discountValue: "",
-        validFrom: "",  
+        labName: "",
+        labType: "",
+        assigneeStaff: "",
+        shift: "",  
         validTo: "",
         status: "",
      });
@@ -37,11 +37,11 @@ const EditLab =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Discount Code <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Lab Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountCode"
-            value={formData.discountCode}
+            name="labName"
+            value={formData.labName}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -53,11 +53,11 @@ const EditLab =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Discount Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Lab Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountDescription"
-            value={formData.discountDescription}
+            name="labType"
+            value={formData.labType}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -69,11 +69,11 @@ const EditLab =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Discount Value <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            Assignee Staff <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountValue"
-            value={formData.discountValue}
+            name="assigneeStaff"
+            value={formData.assigneeStaff}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -84,41 +84,16 @@ const EditLab =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Valid From <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Shift <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="validFrom"
-            value={formData.validFrom}
+            name="shift"
+            value={formData.shift}
             onChange={handleChange}
             fullWidth
             margin="normal"
             />
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Valid To <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="validTo"
-            value={formData.validTo}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <FormControl fullWidth margin="normal">
-            <InputLabel>Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
-            <Select name="Status" value={formData.status} onChange={handleChange}>
-            <MenuItem value="active">Active</MenuItem>
-            <MenuItem value="inactive">Inactive</MenuItem>
-            <MenuItem value="upcoming">Upcoming</MenuItem>
-            </Select>
-            </FormControl>
+           
             </Grid>
             </Grid>
 
