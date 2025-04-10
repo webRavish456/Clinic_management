@@ -9,11 +9,7 @@ import LayoutStaff from "./Layout/LayoutStaff";
 import LayoutLaboratory from "./Layout/LayoutLaboratory";
 import LayoutFinance from "./Layout/LayoutFinance";
 import LayoutDepartment from "./Layout/LayoutDepartment";
-
-
-
-
-
+import LayoutBranch from "./Layout/LayoutBranch";
 
 
 
@@ -21,20 +17,17 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
-        <Route path="/sign-in" element={<SignIn />}/>
-        <Route path="/" element={<LayoutDashboard/>}/>
-        <Route path="/forgot-password" element={<Forgot />}/>
-        <Route path= "/patients/all-patients" element={<LayoutPatients/>}/>
-        <Route path= "/appointment" element={<LayoutAppointment/>}/>
-        <Route path= "/doctor/all-doctor" element={<LayoutDoctor/>}/>
-
-        <Route path= "/staff" element={<LayoutStaff/>}/>
-        <Route path= "/laboratory" element={<LayoutLaboratory/>}/>
-        <Route path= "/finance" element={<LayoutFinance/>}/>
-        <Route path= "/department" element={<LayoutDepartment/>}/>
-
-        
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/" element={<LayoutDashboard />} />
+        <Route path="/forgot-password" element={<Forgot />} />
+        <Route path="/patients/all-patients" element={<LayoutPatients />} />
+        <Route path="/appointment" element={<LayoutAppointment />} />
+        <Route path="/doctor/all-doctor" element={<LayoutDoctor />} />
+        <Route path="/branch" element={<LayoutBranch/>}/>
+        <Route path="/staff" element={<LayoutStaff />} />
+        <Route path="/laboratory" element={<LayoutLaboratory />} />
+        <Route path="/finance" element={<LayoutFinance />} />
+        <Route path="/department" element={<LayoutDepartment />} />
       </Routes>
     </BrowserRouter>
   );

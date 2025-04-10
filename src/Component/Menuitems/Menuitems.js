@@ -6,7 +6,7 @@ const Menuitems = [
         href: "/",
     },
     {
-      icon: '/Sidebar/patient.png',
+      icon: '/Sidebar/branch.png',
       label: "Branch",
       href: "/branch",
     },
@@ -16,7 +16,7 @@ const Menuitems = [
        href: "/department",
       },
     {
-      icon: "/Sidebar/medical-appointment.png",
+      icon: "/Sidebar/doctor.png",
       label: "Doctor",
       href: "/doctor/all-doctor", 
       item : [
@@ -31,12 +31,12 @@ const Menuitems = [
       ]
     },
     {
-      icon: "/Sidebar/doctor.png",
+      icon: "/Sidebar/service.png",
       label: "Staff",
       href: "/staff",
     },
     {
-      icon: "/Sidebar/medical-appointment.png",
+      icon: "/Sidebar/patient.png",
       label: "Patients",
       href: "/patients/all-patients", 
       item : [
@@ -51,7 +51,7 @@ const Menuitems = [
       ]
     },
     {
-      icon: "/Sidebar/experiment-results.png",
+      icon: "/Sidebar/medical-appointment.png",
       label: "Appointment",
       href: "/appointment",
     },

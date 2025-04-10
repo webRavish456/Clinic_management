@@ -1,45 +1,51 @@
-import React from 'react'
-import {  InputAdornment,TextField,Button, Box } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/Add';
+import React from "react";
+import { TextField, Button, Box, InputAdornment } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import AddIcon from "@mui/icons-material/Add";
 
-const Search = () => {
+
+const Search = ({ searchTerm, setSearchTerm, onAddClick }) => {
+ 
+
   return (
-
-<Box className='flex'>
-    <TextField
-           className='search'
-size='small'
-        label="Search"
+    <Box
+      style={{
+        display: "flex",
+        justifyContent: "flex-end",
+        width: "100%",
+        alignItems: "center",
+        gridColumnGap: "20px",
+        marginBottom: "10px",
+        marginTop: "10px",
+        marginRight: "0px",
+      }}
+    >
+      <TextField
         variant="outlined"
-       // fullWidth
-      //  value={searchQuery}
-       // onChange={handleSearchChange}
+        size="small"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
         InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
+          endAdornment: <SearchIcon style={{ marginRight: 0 }} />, // Keeping original design
         }}
-        style={{ marginBottom: '20px',width:'200px' }}
+        className="search"
       />
 
-
-    <Button 
-    variant="contained" 
-   // color="primary" 
- //onClick={handleAddNew}
-    style={{ marginBottom: '20px',marginLeft:'20px' ,backgroundColor:'rgb(6, 38, 75)'}}
-  ><AddIcon/>
-    Add New
-  </Button>
-  
-
-  
-  </Box>
-  
-      )
-}
+      <Box className="buttonContainer">
+        <Button
+          variant="contained"
+          color="primary"
+          className="primary_button"
+          marginLeft="0px"
+          onClick={onAddClick}
+        >
+          <AddIcon /> {/* Keeping original design */}
+          Add New
+        </Button>
+      </Box>
+    </Box>
+  );
+};
 
 export default Search;

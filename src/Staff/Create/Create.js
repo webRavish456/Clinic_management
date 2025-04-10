@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, { useState } from "react";
 import {
     TextField,
     MenuItem,
@@ -6,121 +6,328 @@ import {
     FormControl,
     InputLabel,
     Grid,
-    useMediaQuery,
+    Typography,
     Button,
     Box,
-  } from "@mui/material";
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    FormLabel
+} from "@mui/material";
 
-const CreateDiscount =({handleSubmit, handleClose})=>
-{
-    const isSmScreen = useMediaQuery("(max-width:768px)");
-
+const CreateStaff = ({ handleSubmit, handleClose }) => {
     const [formData, setFormData] = useState({
-        discountCode: "",
-        discountDescription: "",
-        discountValue: "",
-        validFrom: "",  
-        validTo: "",
-        status: "",
-     });
+        staffName: "",
+        gender: "",
+        department:"",
+        dob: "",
+        salary:"",
+        mobileNo: "",
+        email: "",
+        experience: "",
+        qualification: "",
+        address: "",
+        branchName: "",
+        designation: "",
+        shift: "",
+        joiningDate: "",
+        resumeCertificate: "",
+        highestQualificationCertificate: "",
+        panCard: "",
+        aadharCard: "",
+        accountHolderName: "",
+        accountNumber: "",
+        bankName: "",
+        ifscCode: "",
+        bankBranch: "",
+        branchLocation: "",
+    });
 
-     const handleChange = (e) => {
+    const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+    };
 
-     return (
+    return (
         <>
-             <Grid container columnSpacing={2}>
+            <Grid container spacing={3} style={{ padding: "20px" }}>
+                {/* Personal Details */}
+                <Grid item xs={6}>
+                    <Box
+                        style={{
+                            border: "1px solid #ccc",
+                            padding: "20px",
+                            borderRadius: "8px",
+                            marginBottom: "20px",
+                        }}
+                    >
+                        <Typography variant="h6" gutterBottom>
+                            Personal Details
+                        </Typography>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <TextField
+                                    label="Staff Name"
+                                    name="staffName"
+                                    value={formData.staffName}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                <TextField
+                                    label="Mobile Number"
+                                    name="mobileNo"
+                                    type="number"
+                                    value={formData.mobileNo}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                            <FormControl component="fieldset">
+                                <FormLabel component="legend">Gender</FormLabel>
+                                <RadioGroup
+                                    name="gender"
+                                    value={formData.gender}
+                                    onChange={handleChange}
+                                    row
+                                >
+                                    <FormControlLabel value="male" control={<Radio />} label="Male" />
+                                    <FormControlLabel value="female" control={<Radio />} label="Female" />
+                                </RadioGroup>
+                            </FormControl>
+                                <TextField
+                                    label="Date of Birth"
+                                    name="dob"
+                                    type="date"
+                                    InputLabelProps={{ shrink: true }}
+                                    value={formData.dob}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    label="Email ID"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                <TextField
+                                    label="Experience"
+                                    name="experience"
+                                    value={formData.experience}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                <TextField
+                                    label="Qualification"
+                                    name="qualification"
+                                    value={formData.qualification}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                <TextField
+                                    label="Address"
+                                    name="address"
+                                    value={formData.address}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+                {/* Company Details */}
+                <Grid item xs={6}>
+                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
+                        <Typography variant="h6" gutterBottom>
+                            Company Details
+                        </Typography>
+                        <TextField
+                            label="Branch Name"
+                            name="branchName"
+                            value={formData.branchName}
+                            onChange={handleChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Designation"
+                            name="designation"
+                            value={formData.designation}
+                            onChange={handleChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Department"
+                            name="department"
+                            value={formData.department}
+                            onChange={handleChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Shift"
+                            name="shift"
+                            value={formData.shift}
+                            onChange={handleChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        
+                        
+                        
+                        <TextField
+                            label="Salary"
+                            name="salary"
+                            value={formData.salary}
+                            onChange={handleChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Joining Date"
+                            name="joiningDate"
+                            type="date"
+                            InputLabelProps={{ shrink: true }}
+                            value={formData.joiningDate}
+                            onChange={handleChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                    </Box>
+                </Grid>
 
-            <TextField
-            label={
-            <>
-                Discount Code <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="discountCode"
-            value={formData.discountCode}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
+                {/* Document Details */}
+                <Grid item xs={6}>
+                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
+                        <Typography variant="h6" gutterBottom>
+                            Document Details
+                        </Typography>
+                        <TextField
+                            label="Resume Certificate"
+                            name="resumeCertificate"
+                            type="file"
+                            InputLabelProps={{ shrink: true }}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Highest Qualification Certificate"
+                            name="highestQualificationCertificate"
+                            type="file"
+                            InputLabelProps={{ shrink: true }}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Pan Card"
+                            name="panCard"
+                            type="file"
+                            InputLabelProps={{ shrink: true }}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Aadhar Card"
+                            name="aadharCard"
+                            type="file"
+                            InputLabelProps={{ shrink: true }}
+                            fullWidth
+                            margin="normal"
+                        />
+                    </Box>
+                </Grid>
+
+                {/* Bank Details */}
+                <Grid item xs={6}>
+                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
+                        <Typography variant="h6" gutterBottom>
+                            Bank Details
+                        </Typography>
+                        <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                        <TextField
+                            label="Account Holder Name"
+                            name="accountHolderName"
+                            value={formData.accountHolderName}
+                            onChange={handleChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Account Number"
+                            name="accountNumber"
+                            value={formData.accountNumber}
+                            onChange={handleChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Bank Name"
+                            name="bankName"
+                            value={formData.bankName}
+                            onChange={handleChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        </Grid>
+                        <Grid item xs={6}>
+                        <TextField
+                            label="IFSC Code"
+                            name="ifscCode"
+                            value={formData.ifscCode}
+                            onChange={handleChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Bank Branch"
+                            name="bankBranch"
+                            value={formData.bankBranch}
+                            onChange={handleChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Branch Location"
+                            name="branchLocation"
+                            value={formData.branchLocation}
+                            onChange={handleChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        </Grid>
+                        </Grid>
+                    </Box>
+                </Grid>
+                <Box
+                    className="submit"
+                    sx={{
+                        display: "flex",
+                        gap: 2,
+                        marginTop: 2,
+                        justifyContent: "flex-end",
+                        width: "100%", // Ensure the box spans the full width
+                    }}
+                >
+                    <Button onClick={handleClose} className="secondary_button" >
+                        Cancel
+                    </Button>
+                    <Button onClick={handleSubmit} className="primary_button">
+                        Submit
+                    </Button>
+                </Box>
             </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-
-            <TextField
-            label={
-            <>
-                Discount Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="discountDescription"
-            value={formData.discountDescription}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Discount Value <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="discountValue"
-            value={formData.discountValue}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Valid From <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="validFrom"
-            value={formData.validFrom}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-
-            <Grid item xs={12} sm={12} md={12}>
-            <TextField
-            label={
-            <>
-                Valid To <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="validTo"
-            value={formData.validTo}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-
-            </Grid>
-
-            <Box className="submit">
-            <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleSubmit} className="primary_button">
-             Submit
-            </Button>
-            </Box>
-
         </>
-     )
-}
+    );
+};
 
-export default CreateDiscount
+export default CreateStaff;
