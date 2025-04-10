@@ -51,6 +51,7 @@ const Header=()=>
       if (path.includes("/dashboard")) return "Dashboard";
       if (path.includes("finance/expense")) return "Expense";
       if (path.includes("/department")) return "Departments";
+      if (path.includes("/appointment")) return "Appointment";
       if (path.includes("doctor/all-doctor")) return "Doctors";
       if (path.includes("doctor/shift-management")) return "Shifts";
       if (path.includes("laboratory/alllab")) return "Laboratory";
