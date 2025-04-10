@@ -5,7 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import CloseIcon from "@mui/icons-material/Close";
-import Search from "../Search/Search";
+
 
 import {
   Paper,
@@ -37,8 +37,9 @@ import ViewDiscount from "./View/View";
 import CreateDiscount from "./Create/Create";
 import EditDiscount from "./Edit/Edit";
 import DeleteDiscount from "./Delete/Delete";
+import Search from "../Search/Search";
 
-const Discount=()=>
+const Staff=()=>
 {
 
   const [openData, setOpenData] = useState(false)
@@ -66,7 +67,8 @@ const handleDelete = () =>
 
     const columns = [
         { id: 'si', label: 'SI. No.', flex:1, align:'center' },
-        { id: 'name', label: 'Name', flex:1,align:'center' },
+        { id: 'name', label: ' Staff Name', flex:1,align:'center' },
+        { id: 'desig', label: ' Designation', flex:1,align:'center' },
         {
           id: 'email',
           label: 'Email',
@@ -80,32 +82,33 @@ const handleDelete = () =>
            align:'center'
         },
         {
-          id: 'role',
-          label: 'Role',
+          id: 'shift',
+          label: 'Shift',
           flex:1,
           align:'center',
         },
         {
+            id: 'address',
+            label: 'Address',
+            flex:1,
+            align:'center',
+          },
+          {
             id: 'salary',
             label: 'Salary',
             flex:1,
             align:'center',
           },
+          
           {
-            id: 'shift',
-            label: 'Shift',
+            id: 'joiningdate',
+            label: 'Joining date',
             flex:1,
             align:'center',
           },
           {
             id: 'status',
-            label: 'Status',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'joiningdate',
-            label: 'Joining date',
+            label: ' Availability Status',
             flex:1,
             align:'center',
           },
@@ -117,26 +120,27 @@ const handleDelete = () =>
           },
       ];
       
-      function createData(si, name, email, mobileno, role, salary, shift, status, joiningdate, action) {
+      function createData(si, name,  desig, email, mobileno, shift, address, salary,  status, joiningdate, action) {
         return {
           si,
           name,
           email,
+          desig,
           mobileno,
-          role,
-          salary,
           shift,
+          address,
+          salary,
           status,
           joiningdate,
           actions: (
             <>
-              <IconButton style={{color:"#000", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
+              <IconButton style={{color:"blue", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
                 <VisibilityIcon  />
               </IconButton>
-              <IconButton style={{color:"#000", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
+              <IconButton style={{color:"grey", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
                 <EditIcon />
               </IconButton>
-              <IconButton style={{color:"#000", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
+              <IconButton style={{color:"red", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
                 <DeleteIcon />
               </IconButton>
             </>
@@ -201,7 +205,7 @@ const handleDelete = () =>
     return (
       
       <Box className="container">
-        <Search onAddClick={onAddClick}/>
+        <Search onAddClick={onAddClick}  buttonText="+ Add Staff"/>
      <Paper sx={{ width: '100%', overflow:"hidden" }}>
       <TableContainer  >
         <Table stickyHeader aria-label="sticky table">
@@ -255,7 +259,7 @@ const handleDelete = () =>
       open={openData || viewData || editData || deleteData} 
       onClose={handleClose}
       dialogTitle={ <>
-         {openData? "Create New Discount" : viewData ? "View Discount Details": editData?"Edit Discount Details":deleteData?"Delete Discount":null}
+         {openData? "Create New Staff" : viewData ? "View Staff Details": editData?"Edit Staff Details":deleteData?"Delete Staff":null}
       </>}
       
       dialogContent = {
@@ -273,4 +277,6 @@ const handleDelete = () =>
     )
 }
 
-export default Discount;
+export default Staff;
+
+ 

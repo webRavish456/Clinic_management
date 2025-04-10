@@ -11,15 +11,15 @@ import {
     Button,
   } from "@mui/material";
 
-const EditLab =({handleUpdate, handleClose})=>
+const EditBranch =({handleUpdate, handleClose})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const [formData, setFormData] = useState({
-        labName: "",
-        labType: "",
-        assigneeStaff: "",
-        shift: "",  
+        discountCode: "",
+        discountDescription: "",
+        discountValue: "",
+        validFrom: "",  
         validTo: "",
         status: "",
      });
@@ -32,32 +32,32 @@ const EditLab =({handleUpdate, handleClose})=>
         <>
             <Grid container columnSpacing={2}>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <Grid item xs={12} sm={12} md={12}>
 
             <TextField
             label={
             <>
-                Lab Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Branch Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="labName"
-            value={formData.labName}
+            name="branchName"
+            value={formData.branchName}
             onChange={handleChange}
             fullWidth
             margin="normal"
             />
             </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <Grid item xs={12} sm={12} md={12}>
 
             <TextField
             label={
             <>
-                Lab Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Branch Location <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="labType"
-            value={formData.labType}
+            name="branchLocation"
+            value={formData.branchLocation}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -65,40 +65,24 @@ const EditLab =({handleUpdate, handleClose})=>
 
             </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <Grid item xs={12} sm={12} md={12}>
             <TextField
             label={
             <>
-            Assignee Staff <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="assigneeStaff"
-            value={formData.assigneeStaff}
+            name="status"
+            value={formData.status}
             onChange={handleChange}
             fullWidth
             margin="normal"
             />
             </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Shift <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="shift"
-            value={formData.shift}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-           
-            </Grid>
             </Grid>
 
-            <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
- 
+            <Box className="submit"  sx={{ display: "flex", justifyContent: "flex-end",gap: 2, mt: 2,  }}>
             <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
             <Button onClick={handleUpdate} className="primary_button">
              Update
@@ -109,4 +93,4 @@ const EditLab =({handleUpdate, handleClose})=>
      )
 }
 
-export default EditLab;
+export default EditBranch;

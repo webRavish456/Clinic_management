@@ -38,7 +38,7 @@ import EditLaboratory from "./Edit/Edit";
 import DeleteLaboratory from "./Delete/Delete";
 import Search from "../../Search/Search";
 
-const Laboratory=()=>
+const LabTest=()=>
 {
 
   const [openData, setOpenData] = useState(false)
@@ -146,7 +146,7 @@ const handleDelete = () =>
     return (
       
       <Box className="container">
-        <Search onAddClick={onAddClick}/>
+        <Search onAddClick={onAddClick} buttonText="+ Add LabTest"/>
      <Paper sx={{ width: '100%', overflow:"hidden" }}>
       <TableContainer  >
         <Table stickyHeader aria-label="sticky table">
@@ -218,4 +218,4 @@ const handleDelete = () =>
     )
 }
 
-export default Laboratory;
+export default LabTest;

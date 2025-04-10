@@ -108,6 +108,7 @@ color: #000000;
 
 .menu-item {
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .menu-link {
@@ -117,7 +118,7 @@ color: #000000;
   color: #ffffff;
   text-decoration: none;
   border-radius: 5px;
-  transition: background 0.3s ease;
+   transition:background 0.3s ease;
 }
 
 .menu-link:hover {
@@ -141,15 +142,12 @@ color: #000000;
 .logo {
   height: 60px;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   font-size: 22px;
   cursor: pointer;
   font-weight: bold;
-}
-
-.hotelName {
-  padding-left: 6px;
+  object-fit: contain;
 }
 
 .submenu {
@@ -171,10 +169,10 @@ color: #000000;
   padding: 6px; 
   font-size: 14px;
   border-radius: 5px;
-  transition: background 0.3s ease;
   margin:6px 0px 2px;
   display: flex;
   align-items: center;
+ transition:background 0.3s ease;
 }
 .rightIcon {
    height: 20px !important;
@@ -185,7 +183,6 @@ color: #000000;
 .rightIcon.active {
   font-weight: 700;
 }
-
 
 
 /* Header */
@@ -240,7 +237,9 @@ width: fit-content !important;
    background-color: var(--primary_color);
   color: white;
   padding: 10px;
- max-height: 100%; 
+ max-height: 100%;
+ padding-top: 10px;
+
 }
 
 .content {
@@ -281,9 +280,4 @@ width: fit-content !important;
 
 .MuiDialog-paper {
    max-width: 740px !important;
-}
-.logo{
-  display:flex;
-  justify-content: center;
-  width:100%;
 }

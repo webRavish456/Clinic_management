@@ -19,8 +19,8 @@ const CommonDialog = ({open, onClose, dialogTitle, dialogContent}) =>
         open={open}
         onClose={onClose}
         TransitionComponent={React.Fragment}
-      
-         
+  keepMounted
+  disableEnforceFocus
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         style={{padding:"0px"}}
@@ -46,4 +46,4 @@ const CommonDialog = ({open, onClose, dialogTitle, dialogContent}) =>
      )
 }
 
-export default CommonDialog
+export default CommonDialog;

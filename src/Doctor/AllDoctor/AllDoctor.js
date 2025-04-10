@@ -229,7 +229,7 @@ const handleDelete = () =>
     return (
       
       <Box className="container">
-        <Search onAddClick={onAddClick}/>
+        <Search onAddClick={onAddClick } buttonText="+ Add Doctor"/>
      <Paper sx={{ width: '100%', overflow:"hidden" }}>
       <TableContainer  >
         <Table stickyHeader aria-label="sticky table">
