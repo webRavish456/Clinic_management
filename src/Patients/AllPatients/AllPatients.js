@@ -68,20 +68,22 @@ const handleDelete = () =>
 
   const columns = [
     { id: 'sino', label: 'Si No', flex: 1, align:'center' },
-    { id: 'patientsId', label: 'Patients Id', flex: 1, align: 'center' },
-    { id: 'fullName', label: 'Full Name', flex: 1, align: 'center' },
-    { id: 'gender', label: 'Gender', flex: 1, align: 'center' },
-    {id: 'dateofAdmission', label: 'Date Of Admission', flex: 1, align: 'center'},
-    {id: 'treatment', label: 'Treatment', flex: 1, align: 'center'},
-    {id: 'labReports', label: 'Lab Reports', flex: 1, align: 'center'},
-    {id: 'nextfollow-up', label: 'Next Follow-Up', flex: 1, align: 'center'},
+    { id: 'patientName', label: 'Patients Name', flex: 1, align: 'center' },
+    { id: 'treatment', label: 'Treatment', flex: 1, align: 'center' },
+    { id: 'mobileno', label: 'Mobile No.', flex: 1, align: 'center' },
+    {id: 'email', label: 'Email', flex: 1, align: 'center'},
+    {id: 'gender', label: 'Gender', flex: 1, align: 'center'},
+    {id: 'address', label: 'Address', flex: 1, align: 'center'},
+    {id: 'admissionDate', label: 'Admission Date', flex: 1, align: 'center'},
+    {id: 'doctorAss', label: 'Doctor Assigned', flex: 1, align: 'center'},
+    {id: 'bloodGrp', label: 'Blood Group', flex: 1, align: 'center'},
     {id: 'status', label: 'Status', flex: 1, align: 'center'},
    { id: 'actions', label: 'Actions', flex: 1, align: 'center' },
   ];
   
       
-      function createData(sino, patientsId, payeename, date , time, amount, paymentmethod, status, actions) {
-        return { sino, patientsId,payeename, date , time, amount, paymentmethod, status,
+      function createData(sino, patientName, treatment, mobileno , email, gender, address,admissionDate,doctorAss,bloodGrp, status, actions) {
+        return { sino, patientName,treatment, mobileno , email, gender, address,admissionDate,doctorAss,bloodGrp, status,
           actions: (
             <>
               <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
@@ -99,16 +101,16 @@ const handleDelete = () =>
       }
       
       const rows = [
-        createData('1', 'sneha Biswal', 'Med Euip Ltd', "2/9/2004", '9:00', '500','Credit Card','Pending','View/Edit/Delete'),
-        createData('2', 'Subhashree sahoo', 'Dr. John Doe ', "2/7/2022", '10:00', '900','Cash','Cancelled','View/Edit/Delete'),
-        createData('3','Utility Bills', 'Power Grid Co',"3/02/2023",'11:00','1000','Google Pay','Rescheduled','View/Edit/Delete'),
-        createData('4','Maintenance', 'ABC Services',"12/12/12",'12:00','1500','Phone Pay','Confirmed','View/Edit/Delete'),
-        createData('4','Office Services','Stationery Hub',"12/12/12",'12:00','2000','UPI','Completed','View/Edit/Delete'),
-        createData('6','Rent', 'XYX Properties',"3/5/2024",'8:00','2500','Bank Transfer','Pending','Completed','View/Edit/Delete'),
-        createData('7','Equipment Purchase', 'Medi Tech Inc',"5/8/2005",'7:00','3000','Credit Card','Confirmed',''),
-        createData('8','Cleaning Services', 'Clean & Co.',"3/2/24",'6:00','3500','Phone Pay','Completed','View/Edit/Delete' ),
-        createData('9','Internet & Phones', 'Telecom Ltd',"4/4/12",'7:00','4000','Cash','Confirmed','View/Edit/Delete' ),
-        createData('10','Advertising', 'Media Agency','8/9/12','6:00','5000','Google Pay','Cancelled','View/Edit/Delete'),
+        createData('1', 'sneha Biswal', 'illness', '9573456798', 'sneha12@gmail.com', 'female','Credit Card','Pending','View/Edit/Delete'),
+        createData('2', 'Subhashree sahoo', 'loosemotion ', '2898767890', 'subhu12@gmail.com', 'female','Cash','Cancelled','View/Edit/Delete'),
+        createData('3','Sweta', 'heart attack','789887769','sweta12@gmail.com','female','Google Pay','Rescheduled','View/Edit/Delete'),
+        createData('4','aastha', 'illness','1789876789','aastha12@gmail.com','female','Phone Pay','Confirmed','View/Edit/Delete'),
+        createData('4','sonal','joint pain','9878987656','sonal23@gmail.com','female','UPI','Completed','View/Edit/Delete'),
+        createData('6','tripti', 'fever','3987898765','tripti12@gmail.com','female','Bank Transfer','Pending','Completed','View/Edit/Delete'),
+        createData('7','ayushi', 'illness','59878987765','ayushi34@gmail.com','female','Credit Card','Confirmed',''),
+        createData('8','ritu', 'heart attack','3987898776','ritu23@gmail.com','female','Phone Pay','Completed','View/Edit/Delete' ),
+        createData('9','prerna', 'jaundice','6787656787','prerna34@gmail.com','female','Cash','Confirmed','View/Edit/Delete' ),
+        createData('10','anjali', 'illness','567876567','anjali89@gmail.com','female','Google Pay','Cancelled','View/Edit/Delete'),
         
       ];
       const [page, setPage] = useState(0);
@@ -205,7 +207,7 @@ const handleDelete = () =>
       open={openData || viewData || editData || deleteData} 
       onClose={handleClose}
       dialogTitle={ <>
-         {openData? "Create New Expense" : viewData ? "View Expense Details": editData?"Edit Expense Details":deleteData?"Delete Expense":null}
+         {openData? "Add New Patient" : viewData ? "View Patient Details": editData?"Edit Patient Details":deleteData?"Delete Patient":null}
       </>}
       
       dialogContent = {
