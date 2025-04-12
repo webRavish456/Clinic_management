@@ -9,6 +9,7 @@ import {
   } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
+
 const CommonDialog = ({open, onClose, dialogTitle, dialogContent}) =>
 {
       
@@ -18,28 +19,27 @@ const CommonDialog = ({open, onClose, dialogTitle, dialogContent}) =>
              <Dialog
         open={open}
         onClose={onClose}
-        TransitionComponent={React.Fragment}
-  keepMounted
-  disableEnforceFocus
+        disableEnforceFocus = {true}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         style={{padding:"0px"}}
       >
-          <DialogTitle id="alert-dialog-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+         {open && <> <DialogTitle id="alert-dialog-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             {dialogTitle}
-             {open &&<IconButton onClick={onClose} style={{ color: "inherit" }}>
+            <IconButton onClick={onClose} style={{ color: "inherit" }}>
              <CloseIcon />
-             </IconButton>}
+             </IconButton>
       </DialogTitle>
-
-        <DialogContent >
+      
+         <DialogContent>
           <DialogContentText id="alert-dialog-description">
 
           {dialogContent}
   
           </DialogContentText>
-        </DialogContent>
-     
+          </DialogContent>
+          </>
+}
       </Dialog>
 
         </>
