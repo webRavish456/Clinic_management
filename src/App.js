@@ -23,7 +23,7 @@ function App() {
     <BrowserRouter>
       <Routes>
      
-        <Route path="/sign-in" element={<SignIn/>} />
+        <Route path="/login" element={<SignIn/>} />
         <Route path="/forgot-password" element={<Forgot />} />
 
         <Route path="/" element={<LayoutMain />}>

@@ -65,11 +65,10 @@ const handleDelete = () =>
   }
 
   const columns = [
-    { id: 'sino', label: 'Si No', flex: 1, align:'center' },
-    { id: 'patientsId', label: 'Patients Id', flex: 1, align: 'center' },
-    { id: 'fullName', label: 'Full Name', flex: 1, align: 'center' },
-    { id: 'gender', label: 'Gender', flex: 1, align: 'center' },
-    {id: 'dateofAdmission', label: 'Date Of Admission', flex: 1, align: 'center'},
+    { id: 'sino', label: 'SI. No', flex: 1, align:'center' },
+    { id: 'patientsId', label: 'Patient ID', flex: 1, align: 'center' },
+    { id: 'patientName', label: 'Patient Name', flex: 1, align: 'center' },
+    { id: 'doa', label: 'Date of Admission', flex: 1, align: 'center' },
     {id: 'treatment', label: 'Treatment', flex: 1, align: 'center'},
     {id: 'labReports', label: 'Lab Reports', flex: 1, align: 'center'},
     {id: 'nextfollow-up', label: 'Next Follow-Up', flex: 1, align: 'center'},
@@ -202,7 +201,7 @@ const handleDelete = () =>
       open={openData || viewData || editData || deleteData} 
       onClose={handleClose}
       dialogTitle={ <>
-         {openData? "Create New Expense" : viewData ? "View Expense Details": editData?"Edit Expense Details":deleteData?"Delete Expense":null}
+         {openData? "Create New Patient Records" : viewData ? "View Patient Records": editData?"Edit Patient Records":deleteData?"Delete Record":null}
       </>}
       
       dialogContent = {
