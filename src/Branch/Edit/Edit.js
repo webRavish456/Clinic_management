@@ -1,96 +1,183 @@
-import React, {useState} from "react"
+import React, { useEffect, useState } from "react";
 import {
-    TextField,
-    MenuItem,
-    Select,
-    FormControl,
-    InputLabel,
-    Grid,
-    useMediaQuery,
-    Box,
-    Button,
-  } from "@mui/material";
+  TextField,
+  Grid,
+  useMediaQuery,
+  Box,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 
-const EditBranch =({handleUpdate, handleClose})=>
-{
-    const isSmScreen = useMediaQuery("(max-width:768px)");
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 
-    const [formData, setFormData] = useState({
-        discountCode: "",
-        discountDescription: "",
-        discountValue: "",
-        validFrom: "",  
-        validTo: "",
-        status: "",
-     });
+const schema = yup.object().shape({
+  branchName: yup.string().required("Branch Name is required"),
+  branchLocation: yup.string().required("Branch Location is required"),
+  status: yup.string()
+});
 
-     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+const EditBranch = ({ handleUpdate,  editData,  handleClose }) => {
 
-     return (
-        <>
-            <Grid container columnSpacing={2}>
 
-            <Grid item xs={12} sm={12} md={12}>
+  const token = Cookies.get('token');
 
-            <TextField
-            label={
-            <>
-                Branch Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
+  const Base_url = process.env.REACT_APP_BASE_URL;
+
+  const [loading, setLoading] = useState(false)
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  useEffect(() => {
+    if (editData) {
+      reset({
+        branchName: editData.branchName || "",
+        branchLocation: editData.branchLocation || "",
+        status: editData.status || "",
+      });
+    }
+  }, [editData, reset]);
+
+
+  const onSubmit = (data) => {
+  
+         setLoading(true)
+
+        const formdata = new FormData();
+        formdata.append("branchName", data.branchName);
+        formdata.append("branchLocation", data.branchLocation);
+        formdata.append("status", data.status);
+    
+        const requestOptions = {
+          method: "PATCH",
+          body: formdata,
+          headers: {
+            Authorization: `Bearer ${token}`, 
+           },
+        };
+    
+        fetch(`${Base_url}/branch/${editData._id}`, requestOptions)
+          .then((response) => response.text())
+    
+          .then((result) => {
+    
+            const res = JSON.parse(result)
+    
+            if(res.status==="success")
+            {
+              setLoading(false)
+             
+              toast.success("Branch Updated Successfully!")
+              handleUpdate(true)
+               handleClose()
+                reset();
+      
             }
-            name="branchName"
-            value={formData.branchName}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-
-            <Grid item xs={12} sm={12} md={12}>
-
-            <TextField
-            label={
-            <>
-                Branch Location <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
+            else {
+    
+              setLoading(false)
+              toast.error(res.message)
+    
             }
-            name="branchLocation"
-            value={formData.branchLocation}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
+          })
+          .catch((error) => console.error(error));
+  };
 
-            </Grid>
-
-            <Grid item xs={12} sm={12} md={12}>
+  return (
+    <>
+  
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container columnSpacing={2}>
+          <Grid item xs={12}>
             <TextField
-            label={
-            <>
-                Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              type="text"
+              label={
+                <>
+                  Branch Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="standard"
+              {...register("branchName")}
+              error={!!errors.branchName}
+              fullWidth
+              margin="normal"
             />
-            </Grid>
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.branchName?.message}
+            </div>
+          </Grid>
 
-            </Grid>
+          <Grid item xs={12}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Branch Location <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="standard"
+              {...register("branchLocation")}
+              error={!!errors.branchLocation}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.branchLocation?.message}
+            </div>
+          </Grid>
 
-            <Box className="submit"  sx={{ display: "flex", justifyContent: "flex-end",gap: 2, mt: 2,  }}>
-            <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleUpdate} className="primary_button">
-             Update
-            </Button>
-            </Box>
+          <Grid item xs={12}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="standard"
+              {...register("status")}
+              error={!!errors.status}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.status?.message}
+            </div>
+          </Grid>
+        </Grid>
 
-        </>
-     )
-}
+        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+          <Button onClick={handleClose} className="secondary_button">
+            Cancel
+          </Button>
+          <Button type="submit" className="primary_button">
+
+          {loading ? ( <>
+          <CircularProgress
+           size={18}
+           style={{ marginRight: 8, color: "#fff" }}
+          /> 
+            Updating
+          </> 
+          )   : "Update"}
+            
+         
+          </Button>
+        </Box>
+      </form>
+    </>
+  );
+};
 
 export default EditBranch;
