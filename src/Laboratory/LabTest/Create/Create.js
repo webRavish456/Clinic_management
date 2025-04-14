@@ -16,8 +16,8 @@ const CreateLaboratory =({handleSubmit, handleClose})=>
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const [formData, setFormData] = useState({
-        discountCode: "",
-        discountDescription: "",
+        patientName: "",
+        testName: "",
         discountValue: "",
         validFrom: "",  
         validTo: "",
@@ -37,11 +37,11 @@ const CreateLaboratory =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Discount Code <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Patient Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountCode"
-            value={formData.discountCode}
+            name="patientName"
+            value={formData.patientName}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -53,7 +53,7 @@ const CreateLaboratory =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Discount Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                 <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
             name="discountDescription"
