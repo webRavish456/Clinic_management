@@ -1,9 +1,11 @@
 import React from "react"
 import { Box, Grid,  useMediaQuery} from "@mui/material";
 
-const ViewBranch =()=>
+const ViewBranch =({viewData})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
+
+
 
      return (
         <>
@@ -15,7 +17,7 @@ const ViewBranch =()=>
             <Box className="pageTitle"> Branch Name:</Box> 
             </Grid>  
             <Grid item xs={6}>
-            <Box className="pageDescription">Bistupur branch</Box>
+            <Box className="pageDescription">{viewData.branchName}</Box>
             </Grid>
 
             </Grid>
@@ -26,7 +28,7 @@ const ViewBranch =()=>
             <Box className="pageTitle">Branch Location:</Box>    
             </Grid>
             <Grid item xs={6}>
-            <Box className="pageDescription">Bistupur</Box>
+            <Box className="pageDescription">{viewData.branchLocation}</Box>
             </Grid>
             </Grid>
 
@@ -36,7 +38,7 @@ const ViewBranch =()=>
             <Box className="pageTitle">Status:</Box> 
             </Grid>   
             <Grid item xs={6}>
-            <Box className="pageDescription">Open</Box>
+            <Box className="pageDescription">{viewData.status}</Box>
             </Grid>
 
             </Grid>

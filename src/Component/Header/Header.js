@@ -43,20 +43,24 @@ const Header=()=>
     const getHeadingFromPath = () => {
       const path = location.pathname;
   
-      if (path.includes("patients/allpatients")) return "Patients";
-      if (path.includes("patients/patientsrecords")) return "Patient Records";
+      if (path.includes("patients/allpatients")) return "Patient";
+      if (path.includes("patients/patientsrecords")) return "Patient Record";
       if (path.includes("/staff")) return "Staff";
       if (path.includes("/branch")) return "Branch";
       if (path.includes("finance/income")) return "Income";
       if (path.includes("/dashboard")) return "Dashboard";
       if (path.includes("finance/expense")) return "Expense";
-      if (path.includes("/department")) return "Departments";
+      if (path.includes("/department")) return "Department";
       if (path.includes("/appointment")) return "Appointment";
-      if (path.includes("doctor/all-doctor")) return "Doctors";
-      if (path.includes("doctor/shift-management")) return "Shifts";
+      if (path.includes("doctor/all-doctor")) return "Doctor";
+      if (path.includes("doctor/shift-management")) return "Shift";
       if (path.includes("laboratory/alllab")) return "Laboratory";
-      if (path.includes("laboratory/labtest")) return "Lab Tests";
-      if (path.includes("/appointment")) return "Appointments";
+      if (path.includes("laboratory/labtest")) return "Lab Test";
+      if (path.includes("/appointment")) return "Appointment";
+      if (path.includes("createstaff")) return "Create Staff";
+      if (path.includes("viewstaff")) return "View Staff Details";
+      if (path.includes("editstaff")) return "Edit Staff Details";
+          
   
     };
   
