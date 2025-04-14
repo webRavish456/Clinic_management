@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, { useState } from "react";
 import {
     TextField,
     MenuItem,
@@ -6,185 +6,163 @@ import {
     FormControl,
     InputLabel,
     Grid,
-    useMediaQuery,
-    Box,
+    Typography,
     Button,
-  } from "@mui/material";
-import ShiftManagement from "../ShiftManagement";
+    Box,
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    FormLabel
+} from "@mui/material";
 
-const CreateShiftManagement =({handleUpdate, handleClose})=>
-{
-    const isSmScreen = useMediaQuery("(max-width:768px)");
-
+const CreateShiftManagement = ({ handleSubmit, handleClose }) => {
     const [formData, setFormData] = useState({
-        name: "",
-        department: "",  
+        doctorName: "",
+        department: "",
         specialization: "",
-        shiftStartDate: "",
+        shiftStartDate: "",  
         shiftEndDate: "",
-        workDays: "",
+        workDays:"",
         shiftHours: "",
         shiftType: "",
-        availabilityStatus: "",
-     });
+         });
 
-     const handleChange = (e) => {
+    const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+    };
 
-     return (
+    return (
         <>
-            <Grid container columnSpacing={2}>
+        
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-
-            <TextField
-            label={
-            <>
-                 Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-
-            <TextField
-            label={
-            <>
-                Department <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="department"
-            value={formData.department}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Specialization <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="specialization"
-            value={formData.specialization}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Shift Start Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="shiftstartdate"
-            value={formData.shiftStartDate}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Shift End Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="shiftenddate"
-            value={formData.shiftEndDate}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Work Days <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="workdays"
-            value={formData.workDays}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Shift Hours <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="shifthours"
-            value={formData.shiftHours}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Shift Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="shifttype"
-            value={formData.shiftType}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Availability Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="availabilitystatus"
-            value={formData.availabilityStatus}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+        
+        
+            <Typography variant="h5" gutterBottom sx={{ marginLeft: 2, marginTop: 4 }}>
+                Create Shift Management
+            </Typography>
+            <Grid container spacing={6} style={{ padding: "20px" }}>
+                
+                <Grid item xs={6}>
+                    <Box
+                        style={{
+                            border: "1px solid #ccc",
+                            padding: "20px",
+                            borderRadius: "8px",
+                            marginBottom: "20px",
+                        }}
+                    >
+                        
+                        
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                               
+                                </Grid>
             
-            
-            
-            </Grid>
-            </Grid>
+             <Grid item xs={6}>
+            <FormControl fullWidth margin="normal">
+            <InputLabel>Doctor Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
+            <Select name="Doctor Name" value={formData.status} onChange={handleChange}>
+            <MenuItem value="Shruti">Shruti</MenuItem>
+            <MenuItem value="Arohi">Arohi</MenuItem>
+            <MenuItem value="Sara">Sara</MenuItem>
+            </Select>
+            </FormControl>
+                                           
+                                
+                               
+                                </Grid>
+            <Grid item xs={6}>  
+            <FormControl fullWidth margin="normal">
+            <InputLabel>Department<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
+            <Select name="Department" value={formData.status} onChange={handleChange}>
+            <MenuItem value="Skin">Skin</MenuItem>
+            <MenuItem value="Heart">Heart</MenuItem>
+            <MenuItem value="Eye">Eye</MenuItem>
+            </Select>
+            </FormControl>
 
-            <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
-            <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleUpdate} className="primary_button">
-             Update
-            </Button>
-            </Box>
+                                </Grid>
+            
+           <Grid item xs={6}>
+            <FormControl fullWidth margin="normal">
+            <InputLabel>Specialization<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
+            <Select name="Specialization" value={formData.status} onChange={handleChange}>
+            <MenuItem value="Skin Specialist">Skin Specialist</MenuItem>
+            <MenuItem value="Heart Specialist">Heart Specialist</MenuItem>
+            <MenuItem value="Eye Specialist">Eye Specialist</MenuItem>
+            </Select>
+            </FormControl>
+                                            
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    label="Shift Start Date"
+                                    name="shiftStartDate"
+                                    value={formData.shiftStartDate}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                    />
+                                    <TextField
+                                    label="Shift End Date"
+                                    name="shiftEndDate"
+                                    value={formData.shiftEndDate}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                <TextField
+                                    label="Work Days"
+                                    name="workDays"
+                                    value={formData.workDays}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                <TextField
+                                    label="Shift Hours"
+                                    name="shifthours"
+                                    value={formData.shiftHours}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                <TextField
+                                    label="Shift Type"
+                                    name="shiftType"
+                                    value={formData.shiftType}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                            </Grid>
+                        </Grid>
+                    </Box>
+                
 
+                
+
+                </Grid>
+                <Box
+                    className="submit"
+                    sx={{
+                        display: "flex",
+                        gap: 2,
+                        marginTop: 2,
+                        justifyContent: "flex-end",
+                        width: "100%", // Ensure the box spans the full width
+                    }}
+                >
+                    <Button onClick={handleClose} className="secondary_button" >
+                        Cancel
+                    </Button>
+                    <Button onClick={handleSubmit} className="primary_button">
+                        Submit
+                    </Button>
+                </Box>
+            </Grid>
         </>
-     )
-}
+    );
+};
 
-export default CreateShiftManagement
+export default CreateShiftManagement;

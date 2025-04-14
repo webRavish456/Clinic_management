@@ -16,6 +16,12 @@ import LabTest from "./Laboratory/LabTest/LabTest";
 import Income from "./Finance/Income/Income";
 import Expense from "./Finance/Expense/Expense";
 import CreateStaff from "./Staff/Create/Create";
+import CreateAllDoctor from "./Doctor/AllDoctor/Create/Create";
+import ViewAllDoctor from "./Doctor/AllDoctor/View/View";
+import EditAllDoctor from "./Doctor/AllDoctor/Edit/Edit";
+import CreateShiftManagement from "./Doctor/ShiftManagement/Create/Create";
+import ViewShiftManagement from "./Doctor/ShiftManagement/View/View";
+import EditShiftManagement from "./Doctor/ShiftManagement/Edit/Edit";
 
 
 function App() {
@@ -23,7 +29,7 @@ function App() {
     <BrowserRouter>
       <Routes>
      
-        <Route path="/sign-in" element={<SignIn/>} />
+        <Route path="/login" element={<SignIn/>} />
         <Route path="/forgot-password" element={<Forgot />} />
 
         <Route path="/" element={<LayoutMain />}>
@@ -41,6 +47,12 @@ function App() {
           <Route path="finance/income" element={<Income />} />
           <Route path="finance/expense" element={<Expense />} />
           <Route path="staffcreate" element={<CreateStaff />} />
+          <Route path="alldoctor" element={<CreateAllDoctor/>} /> 
+          <Route path="alldoctor" element={<ViewAllDoctor />} />
+          <Route path="alldoctor" element={<EditAllDoctor />} />
+          <Route path="shiftmanagement" element={<CreateShiftManagement />} />      
+          <Route path="shiftmanagement" element={<ViewShiftManagement />} />      
+          <Route path="shiftmanagement" element={<EditShiftManagement />} />           
         </Route>
       </Routes>
     </BrowserRouter>
