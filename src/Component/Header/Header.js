@@ -57,6 +57,10 @@ const Header=()=>
       if (path.includes("laboratory/alllab")) return "Laboratory";
       if (path.includes("laboratory/labtest")) return "Lab Test";
       if (path.includes("/appointment")) return "Appointment";
+      if (path.includes("createstaff")) return "Create Staff";
+      if (path.includes("viewstaff")) return "View Staff Details";
+      if (path.includes("editstaff")) return "Edit Staff Details";
+          
   
     };
   
