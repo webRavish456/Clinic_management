@@ -66,19 +66,19 @@ const handleDelete = () =>
 
   const columns = [
     { id: 'sino', label: 'SI. No', flex: 1, align:'center' },
-    { id: 'patientsId', label: 'Patient ID', flex: 1, align: 'center' },
     { id: 'patientName', label: 'Patient Name', flex: 1, align: 'center' },
+    { id: 'patientId', label: 'Patient ID', flex: 1, align: 'center' },
     { id: 'doa', label: 'Date of Admission', flex: 1, align: 'center' },
     {id: 'treatment', label: 'Treatment', flex: 1, align: 'center'},
     {id: 'labReports', label: 'Lab Reports', flex: 1, align: 'center'},
-    {id: 'nextfollow-up', label: 'Next Follow-Up', flex: 1, align: 'center'},
+    {id: 'nextfollowup', label: 'Next FollowUp', flex: 1, align: 'center'},
     {id: 'status', label: 'Status', flex: 1, align: 'center'},
    { id: 'actions', label: 'Actions', flex: 1, align: 'center' },
   ];
   
       
-      function createData(sino, patientsId, payeename, date , time, amount, paymentmethod, status, actions) {
-        return { sino, patientsId,payeename, date , time, amount, paymentmethod, status,
+      function createData(sino, patientName,  patientId, doa , treatment, labReports, nextfollowup, status, actions) {
+        return { sino, patientName, patientId, doa , treatment, labReports, nextfollowup, status,
           actions: (
             <>
               <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
@@ -96,16 +96,16 @@ const handleDelete = () =>
       }
       
       const rows = [
-        createData('1', 'sneha Biswal', 'Med Euip Ltd', "2/9/2004", '9:00', '500','Credit Card','Pending','View/Edit/Delete'),
-        createData('2', 'Subhashree sahoo', 'Dr. John Doe ', "2/7/2022", '10:00', '900','Cash','Cancelled','View/Edit/Delete'),
-        createData('3','Utility Bills', 'Power Grid Co',"3/02/2023",'11:00','1000','Google Pay','Rescheduled','View/Edit/Delete'),
-        createData('4','Maintenance', 'ABC Services',"12/12/12",'12:00','1500','Phone Pay','Confirmed','View/Edit/Delete'),
-        createData('4','Office Services','Stationery Hub',"12/12/12",'12:00','2000','UPI','Completed','View/Edit/Delete'),
-        createData('6','Rent', 'XYX Properties',"3/5/2024",'8:00','2500','Bank Transfer','Pending','Completed','View/Edit/Delete'),
-        createData('7','Equipment Purchase', 'Medi Tech Inc',"5/8/2005",'7:00','3000','Credit Card','Confirmed',''),
-        createData('8','Cleaning Services', 'Clean & Co.',"3/2/24",'6:00','3500','Phone Pay','Completed','View/Edit/Delete' ),
-        createData('9','Internet & Phones', 'Telecom Ltd',"4/4/12",'7:00','4000','Cash','Confirmed','View/Edit/Delete' ),
-        createData('10','Advertising', 'Media Agency','8/9/12','6:00','5000','Google Pay','Cancelled','View/Edit/Delete'),
+        createData('1', 'sneha Biswal', 'P001', "2/9/2004", 'Fever', '500','Credit Card','under observation','View/Edit/Delete'),
+        createData('2', 'Subhashree sahoo', 'P002 ', "2/7/2022", 'Fever', '900','Cash','under observation','View/Edit/Delete'),
+        createData('3','ritu', 'P003 ',"3/02/2023",'11:00','Fever','Google Pay','under observation','View/Edit/Delete'),
+        createData('4','aastha', 'P004 ',"12/12/12",'Fever','1500','Phone Pay','under observation','View/Edit/Delete'),
+        createData('4','amrita','P005 ',"12/12/12",'Fever','2000','UPI','under observation','View/Edit/Delete'),
+        createData('6','pari', 'P006 ',"3/5/2024",'Fever','2500','Bank Transfer','under treatment','Completed','View/Edit/Delete'),
+        createData('7','poonam', 'P007 ',"5/8/2005",'Fever','3000','Credit Card','recovered',''),
+        createData('8','ayushi', 'P008 ',"3/2/24",'Fever','3500','Phone Pay','under observation','View/Edit/Delete' ),
+        createData('9','bhumika', 'P009 ',"4/4/12",'Fever','4000','Cash','recovered','View/Edit/Delete' ),
+        createData('10','anushka', 'P010 ','8/9/12','Fever','5000','Google Pay','recovered','View/Edit/Delete'),
         
       ];
       const [page, setPage] = useState(0);

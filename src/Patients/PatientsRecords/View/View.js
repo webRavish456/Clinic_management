@@ -12,10 +12,10 @@ const ViewRecords =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
             
             <Grid item xs={6}>
-            <Box className="pageTitle">Discount Code:</Box> 
+            <Box className="pageTitle">patientName:</Box> 
             </Grid>  
             <Grid item xs={6}>
-            <Box className="pageDescription">FESTIVE50</Box>
+            <Box className="pageDescription">snehanjali</Box>
             </Grid>
 
             </Grid>
@@ -23,20 +23,20 @@ const ViewRecords =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Discount Description:</Box>    
+            <Box className="pageTitle">Treatment:</Box>    
             </Grid>
             <Grid item xs={6}>
-            <Box className="pageDescription">Flat 50% off on festive season</Box>
+            <Box className="pageDescription">Fever</Box>
             </Grid>
             </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Discount Value:</Box> 
+            <Box className="pageTitle">Date Of Admission:</Box> 
             </Grid>   
             <Grid item xs={6}>
-            <Box className="pageDescription">50%</Box>
+            <Box className="pageDescription">12/2/23</Box>
             </Grid>
 
             </Grid>
@@ -44,11 +44,11 @@ const ViewRecords =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Valid From:</Box>
+            <Box className="pageTitle">Lab Reports:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">15-03-2025</Box>
+            <Box className="pageDescription">test type</Box>
             </Grid>
 
             </Grid>
@@ -56,14 +56,27 @@ const ViewRecords =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Valid To:</Box>
+            <Box className="pageTitle">Doctor's Notes:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">25-03-2025</Box>
+            <Box className="pageDescription">Notes</Box>
             </Grid>
 
             </Grid>
+            
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+
+            <Grid item xs={6}>
+            <Box className="pageTitle">NextFollowUp:</Box>
+            </Grid>
+
+            <Grid item xs={6}>
+            <Box className="pageDescription">Tommrow</Box>
+            </Grid>
+
+            </Grid>
+
 
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
@@ -73,7 +86,7 @@ const ViewRecords =()=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">Active</Box>
+            <Box className="pageDescription">Under observation</Box>
             </Grid>
 
             </Grid>
