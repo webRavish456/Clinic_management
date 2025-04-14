@@ -16,11 +16,12 @@ const EditRecords =({handleUpdate, handleClose})=>
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const [formData, setFormData] = useState({
-        discountCode: "",
-        discountDescription: "",
-        discountValue: "",
-        validFrom: "",  
-        validTo: "",
+        patientname: "",
+        treatment: "",
+        dateofadmission: "",
+        labreports: "",  
+        doctorsnotes: "",
+        nextfollowup: "",
         status: "",
      });
 
@@ -37,11 +38,11 @@ const EditRecords =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Discount Code <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Patient Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountCode"
-            value={formData.discountCode}
+            name="patientname"
+            value={formData.patientname}
             onChange={handleChange}
             fullWidth
             margin="normal"

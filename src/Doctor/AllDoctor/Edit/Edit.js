@@ -10,17 +10,23 @@ import {
     Box,
     Button,
   } from "@mui/material";
+import AllDoctor from "../AllDoctor";
 
-const EditDiscount =({handleUpdate, handleClose})=>
+const EditAllDoctor =({handleUpdate, handleClose})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const [formData, setFormData] = useState({
-        discountCode: "",
-        discountDescription: "",
-        discountValue: "",
-        validFrom: "",  
-        validTo: "",
+        doctorName: "",
+        email: "",
+        mobileNo: "",
+        address: "",  
+        specialization: "",
+        experience: "",
+        qualification: "",
+        hospitalName: "",
+        availability: "",
+        joinigDate: "",
         status: "",
      });
 
@@ -37,11 +43,11 @@ const EditDiscount =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Discount Code <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Doctor Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountCode"
-            value={formData.discountCode}
+            name="doctorName"
+            value={formData.doctorName}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -53,11 +59,11 @@ const EditDiscount =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Discount Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Email <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountDescription"
-            value={formData.discountDescription}
+            name="emaii"
+            value={formData.email}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -69,11 +75,11 @@ const EditDiscount =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Discount Value <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Mobile No <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountValue"
-            value={formData.discountValue}
+            name="mobileNo"
+            value={formData.mobileNo}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -84,11 +90,11 @@ const EditDiscount =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Valid From <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Address <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="validFrom"
-            value={formData.validFrom}
+            name="address"
+            value={formData.address}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -99,26 +105,100 @@ const EditDiscount =({handleUpdate, handleClose})=>
             <TextField
             label={
             <>
-                Valid To <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Specialization <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="validTo"
-            value={formData.validTo}
+            name="specialization"
+            value={formData.specialization}
             onChange={handleChange}
             fullWidth
             margin="normal"
             />
             </Grid>
-
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <FormControl fullWidth margin="normal">
-            <InputLabel>Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
-            <Select name="Status" value={formData.status} onChange={handleChange}>
-            <MenuItem value="active">Active</MenuItem>
-            <MenuItem value="inactive">Inactive</MenuItem>
-            <MenuItem value="upcoming">Upcoming</MenuItem>
-            </Select>
-            </FormControl>
+            <TextField
+            label={
+            <>
+                Experience <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="experience"
+            value={formData.experience}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Qualification <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="qualifiction"
+            value={formData.qualification}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Hospital Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="hospitalname"
+            value={formData.hospitalName}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Availability <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="availability"
+            value={formData.availability}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Joinig Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="joiningdate"
+            value={formData.joiningDate}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            />
+            
             </Grid>
             </Grid>
 
@@ -133,4 +213,4 @@ const EditDiscount =({handleUpdate, handleClose})=>
      )
 }
 
-export default EditDiscount
+export default EditAllDoctor
