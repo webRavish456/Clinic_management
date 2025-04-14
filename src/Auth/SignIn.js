@@ -31,6 +31,7 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false)
 
   const onSubmit = (data) => {
+    console.log(data);
     
 
     setLoading(true)
