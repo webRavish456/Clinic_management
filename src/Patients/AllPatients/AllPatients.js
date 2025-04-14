@@ -101,16 +101,16 @@ const handleDelete = () =>
       }
       
       const rows = [
-        createData('1', 'sneha Biswal', 'illness', '9573456798', 'sneha12@gmail.com', 'female','Credit Card','Pending','View/Edit/Delete'),
-        createData('2', 'Subhashree sahoo', 'loosemotion ', '2898767890', 'subhu12@gmail.com', 'female','Cash','Cancelled','View/Edit/Delete'),
-        createData('3','Sweta', 'heart attack','789887769','sweta12@gmail.com','female','Google Pay','Rescheduled','View/Edit/Delete'),
-        createData('4','aastha', 'illness','1789876789','aastha12@gmail.com','female','Phone Pay','Confirmed','View/Edit/Delete'),
-        createData('4','sonal','joint pain','9878987656','sonal23@gmail.com','female','UPI','Completed','View/Edit/Delete'),
-        createData('6','tripti', 'fever','3987898765','tripti12@gmail.com','female','Bank Transfer','Pending','Completed','View/Edit/Delete'),
-        createData('7','ayushi', 'illness','59878987765','ayushi34@gmail.com','female','Credit Card','Confirmed',''),
-        createData('8','ritu', 'heart attack','3987898776','ritu23@gmail.com','female','Phone Pay','Completed','View/Edit/Delete' ),
-        createData('9','prerna', 'jaundice','6787656787','prerna34@gmail.com','female','Cash','Confirmed','View/Edit/Delete' ),
-        createData('10','anjali', 'illness','567876567','anjali89@gmail.com','female','Google Pay','Cancelled','View/Edit/Delete'),
+        createData('1', 'sneha Biswal', 'illness', '9573456798', 'sneha12@gmail.com', 'female','Chennai','12/12/12','snehanjali','A+','under observation'),
+        createData('2', 'Subhashree sahoo', 'loosemotion ', '2898767890', 'subhu12@gmail.com', 'female','canada','23/2/23','subhashree','B+','under observation'),
+        createData('3','Sweta', 'heart attack','789887769','sweta12@gmail.com','female','jsr','23/2/23','tarana','A+','under observation'),
+        createData('4','aastha', 'illness','1789876789','aastha12@gmail.com','female','Ranchi','12/2/24','sangita','B+','under tratement'),
+        createData('4','sonal','joint pain','9878987656','sonal23@gmail.com','female','Jsr','12/12/12','anushka','A+','under tratement'),
+        createData('6','tripti', 'fever','3987898765','tripti12@gmail.com','female','Ranchi','3/4/2/24','reet','O+','under tratement'),
+        createData('7','ayushi', 'illness','59878987765','ayushi34@gmail.com','female','Ranchi','23/2/23','poonam','A+','recovered'),
+        createData('8','ritu', 'heart attack','3987898776','ritu23@gmail.com','female','jsr','3/2/24','bhumika','A+','recovered' ),
+        createData('9','prerna', 'jaundice','6787656787','prerna34@gmail.com','female','ranchi','3/2/12','roshni','A+','recovered' ),
+        createData('10','anjali', 'illness','567876567','anjali89@gmail.com','female','chennai','12/12/12','ritu','A+','recovered'),
         
       ];
       const [page, setPage] = useState(0);

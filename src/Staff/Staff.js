@@ -5,7 +5,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import CloseIcon from "@mui/icons-material/Close";
-
+import Search from "../Search/Search";
+import { useNavigate } from "react-router-dom";
 
 import {
   Paper,
@@ -17,197 +18,128 @@ import {
   TablePagination,
   TableRow ,
   Box,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  TextField,
+ 
   IconButton,
-  Button,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  Grid,
-  useMediaQuery,
+  
 } from "@mui/material";
 import CommonDialog from "../Component/CommonDialog/CommonDialog";
-import ViewDiscount from "./View/View";
-import CreateDiscount from "./Create/Create";
-import EditDiscount from "./Edit/Edit";
-import DeleteDiscount from "./Delete/Delete";
-import Search from "../Search/Search";
+import DeleteStaff from "./Delete/Delete";
 
 const Staff=()=>
-{
-
-  const [openData, setOpenData] = useState(false)
-
-  const [viewData, setViewData] = useState(false)
-
-  const [editData, setEditData] = useState(false)
-
-  const [deleteData, setDeleteData] = useState(false)
-
- const handleView = () =>
   {
-    setViewData(true)
-  }
-
-const handleEdit = () =>
-{
-   setEditData(true)
-}
-
-const handleDelete = () =>
+  
+    const [openData, setOpenData] = useState(false)
+  
+    const [viewData, setViewData] = useState(false)
+  
+    const [editData, setEditData] = useState(false)
+  
+    const [deleteData, setDeleteData] = useState(false)
+   const navigate = useNavigate();
+   
+   
+  
+   const handleView = () =>
+    {
+      navigate("/viewstaff")
+    }
+  
+  const handleEdit = () =>
   {
-    setDeleteData(true)
+    navigate("/editstaff")
   }
-
-    const columns = [
-        { id: 'si', label: 'SI. No.', flex:1, align:'center' },
-        { id: 'name', label: ' Staff Name', flex:1,align:'center' },
-        { id: 'desig', label: ' Designation', flex:1,align:'center' },
-        {
-          id: 'email',
-          label: 'Email',
-          flex:1,
-          align:'center'
-        },
-        {
-          id: 'mobileno',
-          label: 'Mobile No.',
-          flex:1,
-           align:'center'
-        },
-        {
-          id: 'shift',
-          label: 'Shift',
-          flex:1,
-          align:'center',
-        },
-        {
-            id: 'address',
-            label: 'Address',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'salary',
-            label: 'Salary',
-            flex:1,
-            align:'center',
-          },
-          
-          {
-            id: 'joiningdate',
-            label: 'Joining date',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'status',
-            label: ' Availability Status',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'actions',
-            label: 'Action',
-            flex:1,
-            align:'center',
-          },
-      ];
-      
-      function createData(si, name,  desig, email, mobileno, shift, address, salary,  status, joiningdate, action) {
-        return {
-          si,
-          name,
-          email,
-          desig,
-          mobileno,
-          shift,
-          address,
-          salary,
-          status,
-          joiningdate,
-          actions: (
-            <>
-              <IconButton style={{color:"blue", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
-                <VisibilityIcon  />
-              </IconButton>
-              <IconButton style={{color:"grey", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
-                <EditIcon />
-              </IconButton>
-              <IconButton style={{color:"red", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
-                <DeleteIcon />
-              </IconButton>
-            </>
-          ),
-        };
-      }
-      
-      const rows = [
-        createData(1, "Manish", "manish.cao@gmail.com", "8126797783", "Nurse", "60000", "Morning", "Active", "04/01/2024"),
-        createData(2, "Poonam", "poonam.jati@gmail.com", "9456862568", "Technician", "70000", "Evening", "Active", "15/06/2023"),
-        createData(3, "Sunil", "sunil1970@gmail.com", "9808315747", "Admin", "100000", "Rotational", "On Leave", "12/05/2022"),
-        createData(4, "Sandeep", "sandeep76@gmail.com", "9897741319", "Admin", "100000", "Evening", "Active", "10/11/2021"),
-        createData(5, "Aman", "aman.dei@gmail.com", "9927313370", "Nurse", "70000", "Morning", "Inactive", "25/02/2020"),
-        createData(6, "Radha", "radharani@gmail.com", "9410203288", "Receptionist", "80000", "Evening", "Active", "06/10/2022"),
-        createData(7, "Reema", "reema.johri@gmail.com", "8923538354", "Technician", "75000", "Morning", "Inactive", "15/12/2024"),
-        createData(8, "Ajay", "ajaysinha@gmail.com", "8445177997", "Admin", "150000", "Rotational", "Active", "27/07/2024"),
-        createData(9, "Khushboo", "khushboo31@gmail.com", "9457871060", "Support", "45000", "Morning", "Active", "13/09/2023"),
-        createData(10, "Kavita", "kavita5@gmail.com", "8439418577", "Nurse", "90000", "Evening", "On Leave", "22/05/2020"),
-        createData(11, "Aditya", "aditya77@gmail.com", "9358231669", "Nurse", "100000", "Evening", "Active", "09/12/2021"),
-        createData(12, "Sunil", "sunilk@gmail.com", "9456432260", "Receptionist", "75000", "Morning", "Active", "23/08/2024"),
-        createData(13, "Rakesh", "rakesh34@gmail.com", "9897346746", "Support", "50000", "Rotational", "Active"),
-        createData(14, "Jyoti", "jyotiverma@gmail.com", "7302386555", "Nurse", "100000", "Evening", "On Leave"),
-        createData(15, "Santosh", "santosh.dei@gmail.com", "9027541271", "Admin", "95000", "Morning", "Active")
-      ];
-
-      const [page, setPage] = useState(0);
-      const [rowsPerPage, setRowsPerPage] = useState(10);
-    
-      const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-      };
-    
-      const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-      };
-
-      const onAddClick =()=>
-        {
-          setOpenData(true)
-        }
-   
-        const handleClose = () => {
-          setEditData(false)
-          setViewData(false)
-          setOpenData(false)
-          setDeleteData(false)
-       };
-   
-       const handleSubmit = (e) => {
-         e.preventDefault();
-         setOpenData(false)
-         // console.log("Form Data Submitted:", formData);
-       }
-
-       const handleUpdate = (e) => {
-          e.preventDefault();
-          setEditData(false)
-       }
+  
+  const handleDelete = () =>
+    {
+      setDeleteData(true)
+    }
   
 
-    return (
-      
-      <Box className="container">
-        <Search onAddClick={onAddClick}  buttonText="+ Add Staff"/>
-     <Paper sx={{ width: '100%', overflow:"hidden" }}>
-      <TableContainer  >
+const columns = [
+  { id: 'si', label: 'SI.No', flex:1, align:'center' },
+  { id: 'staffName', label: 'Staff Name', flex:1, align:'center' },
+  
+  {id: 'desig',label: 'Designation',flex:1,align: 'center',},
+  {id: 'mobileNo',label: 'Mobile No',flex:1,align: 'center',},
+  
+  {id: 'emailId',label: 'Email ID',flex:1, align: 'center',},
+  { id: 'shift',label: 'Shift ', flex:1, align: 'center',},
+ 
+  {id: 'address',label: 'Address ',flex:1,align: 'center',},
+  {id: 'salary',label: 'Salary',flex:1,align: 'center', },
+
+  {id: 'joiningDate',label: 'Joining Date ', flex:1, align: 'center',},
+  {id: 'status',label: ' Availability Status',flex:1,align: 'center', },
+  {id: 'action',label: 'Actions', flex:1,align: 'center', },
+ 
+];
+
+function createData(si, satffName, desig, mobileNo, emailId,  shift, address, salary, joiningDate,status ) {
+  return { si, satffName, desig, mobileNo, emailId,  shift, address, salary, joiningDate , status, action: (
+      <>
+      <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
+        <VisibilityIcon />
+      </IconButton>
+      <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px", transform:"scale(0.8)"}} onClick={handleEdit}>
+        <EditIcon />
+      </IconButton>
+      <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px", transform:"scale(0.8)"}} onClick={handleDelete}>
+        <DeleteIcon />
+      </IconButton>
+      </>
+    ),
+   };
+}
+
+
+const rows = [
+  createData('1', 'Ritu','BCA', '1234567812', 'ritu@gmail.com' , 'morning' ,'sakshi', '30000', '12-03-2025' ,'Active'),
+  createData('2', 'Rita','MCA', '1122334455', 'rita@gmail.com' , 'evening' ,'kadma', '20000', '10-03-2025' ,'Active'),
+  createData('3', 'Rinu','BSc', '1223445667', 'rinu@gmail.com' , 'night' ,'bistupur', '10000', '9-03-2025' ,'Active'),
+  createData('4', 'Rinki','BCom', '1234567890', 'rinki@gmail.com' , 'morning' ,'sonari', '350000', '6-03-2025' ,'Active'),
+];
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  const onAddClick =()=>
+    {
+       navigate("/createstaff")
+    }
+
+    const handleClose = () => {
+      setEditData(false)
+      setViewData(false)
+      setOpenData(false)
+      setDeleteData(false)
+   };
+
+   const handleSubmit = (e) => {
+     e.preventDefault();
+     setOpenData(false)
+     // console.log("Form Data Submitted:", formData);
+   }
+
+   const handleUpdate = (e) => {
+      e.preventDefault();
+      setEditData(false)
+   }
+
+
+  return (
+    <Box className="container">
+      <Search onAddClick={onAddClick} buttonText="+ Add Staff"/>
+    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -215,7 +147,7 @@ const handleDelete = () =>
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth, fontWeight:900 }}
+                  style={{ minWidth: column.minWidth, fontWeight: 700 }}
                 >
                   {column.label}
                 </TableCell>
@@ -254,29 +186,24 @@ const handleDelete = () =>
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
-   
-     <CommonDialog 
-      open={openData || viewData || editData || deleteData} 
+
+    <CommonDialog 
+      open={deleteData} 
       onClose={handleClose}
       dialogTitle={ <>
-         {openData? "Create New Staff" : viewData ? "View Staff Details": editData?"Edit Staff Details":deleteData?"Delete Staff":null}
+         {deleteData?"Delete Staff Details":null}
       </>}
       
       dialogContent = {
-         openData ? <CreateDiscount handleSubmit={handleSubmit} handleClose={handleClose} /> :
-          viewData ? <ViewDiscount /> : 
-         editData ? <EditDiscount handleUpdate={handleUpdate} handleClose={handleClose} /> : 
-         deleteData? <DeleteDiscount handleDelete={handleDelete} handleClose={handleClose} />:null
+         deleteData? <DeleteStaff handleDelete={handleDelete} handleClose={handleClose} />:null
         
       }
 
       />
 
-      
+   
     </Box>
-    )
+  );
 }
 
 export default Staff;
-
- 
