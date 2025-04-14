@@ -16,12 +16,11 @@ const CreatePatientRecords =({handleSubmit, handleClose})=>
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const [formData, setFormData] = useState({
-        discountCode: "",
-        discountDescription: "",
-        discountValue: "",
-        validFrom: "",  
-        validTo: "",
-        status: "",
+       patientName: "",
+        labReports: "",
+      doctorsNotes: "",
+      nextFollowUp: "",  
+            status: "",
      });
 
      const handleChange = (e) => {
@@ -37,11 +36,11 @@ const CreatePatientRecords =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Discount Code <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Patient Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountCode"
-            value={formData.discountCode}
+            name="patientName"
+            value={formData.patientName}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -51,13 +50,16 @@ const CreatePatientRecords =({handleSubmit, handleClose})=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
 
             <TextField
-            label={
-            <>
-                Discount Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="discountDescription"
-            value={formData.discountDescription}
+            // label={
+            // <>
+            //    Lab Reports<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            // </>
+            // }
+            name="labReports"
+            label="labReports"
+            value={formData.labReports}
+            type="file"
+            InputLabelProps={{shrink:true}}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -69,11 +71,11 @@ const CreatePatientRecords =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Discount Value <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Doctor's Notes <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="discountValue"
-            value={formData.discountValue}
+            name="doctorsNotes"
+            value={formData.doctorsNotes}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -84,11 +86,11 @@ const CreatePatientRecords =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Valid From <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+               Next Follow-Up <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="validFrom"
-            value={formData.validFrom}
+            name="nextFollowUp"
+            value={formData.nextFollowUp}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -99,11 +101,11 @@ const CreatePatientRecords =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Valid To <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+              Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="validTo"
-            value={formData.validTo}
+            name="status"
+            value={formData.status}
             onChange={handleChange}
             fullWidth
             margin="normal"

@@ -1,72 +1,152 @@
 import React, {useState} from "react"
 import {
     TextField,
-    MenuItem,
-    Select,
-    FormControl,
-    InputLabel,
     Grid,
-    useMediaQuery,
     Button,
     Box,
+    CircularProgress,
   } from "@mui/material";
 
-const CreateBranch =({handleSubmit, handleClose})=>
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import {  toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
+
+
+  const schema = yup.object().shape({
+    branchName: yup.string().required("Branch Name is required"),
+    branchLocation: yup.string().required("Branch Location is required"),
+  });
+
+const CreateBranch =({handleCreate, handleClose})=>
 {
-    const isSmScreen = useMediaQuery("(max-width:768px)");
 
-    const [formData, setFormData] = useState({
-        branchName: "",
-        branchLocation: "",
-        
-     });
+    const token = Cookies.get('token');
 
-     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+    const Base_url = process.env.REACT_APP_BASE_URL;
+  
+    const [loading, setLoading] = useState(false)
+  
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+      reset,
+    } = useForm({
+      resolver: yupResolver(schema),
+    });
+  
+
+  
+  
+    const onSubmit = (data) => {
+    
+           setLoading(true)
+  
+          const formdata = new FormData();
+          formdata.append("branchName", data.branchName);
+          formdata.append("branchLocation", data.branchLocation);
+      
+          const requestOptions = {
+            method: "POST",
+            body: formdata,
+            headers: {
+              Authorization: `Bearer ${token}`, 
+             },
+          };
+      
+          fetch(`${Base_url}/branch`, requestOptions)
+            .then((response) => response.text())
+      
+            .then((result) => {
+      
+              const res = JSON.parse(result)
+      
+              if(res.status==="success")
+              {
+                setLoading(false)
+               
+                toast.success("Branch Created Successfully!")
+                handleCreate(true)
+                handleClose()
+                reset();
+              }
+              else {
+      
+                setLoading(false)
+                toast.error(res.message)
+      
+              }
+            })
+            .catch((error) => console.error(error));
+    };
 
      return (
         <>
-             <Grid container columnSpacing={2}>
-            
-             <Grid item xs={12} sm={12} md={12}>
+        
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container columnSpacing={2}>
+          <Grid item xs={12}>
             <TextField
-            label={
-            <>
-                Branch Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="branchName"
-            value={formData.branchName}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              type="text"
+              label={
+                <>
+                  Branch Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="standard"
+              {...register("branchName")}
+              error={!!errors.branchName}
+              fullWidth
+              margin="normal"
             />
-            
-            </Grid>
-            <Grid item xs={12} sm={12} md={12}>
-            <TextField
-            label={
-            <>
-                Branch Location <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="branchLocation"
-            value={formData.branchLocation}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-            
-            </Grid>
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.branchName?.message}
+            </div>
+          </Grid>
 
-            <Box className="submit"  sx={{ display: "flex", justifyContent: "flex-end",gap: 2, mt: 2,  }}>
-            <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleSubmit} className="primary_button">
-             Submit
-            </Button>
-            </Box>
+          <Grid item xs={12}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Branch Location <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="standard"
+              {...register("branchLocation")}
+              error={!!errors.branchLocation}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.branchLocation?.message}
+            </div>
+          </Grid>
+
+        </Grid>
+
+        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+          <Button onClick={handleClose} className="secondary_button">
+            Cancel
+          </Button>
+          <Button type="submit" className="primary_button">
+
+          {loading ? (
+       <>
+         <CircularProgress size={18} 
+          style={{ marginRight: 8, color: "#fff" }} />
+                Submitting
+            </>
+            ) : (
+            "Submit"
+            )}
+
+          </Button>
+        </Box>
+      </form>
 
         </>
      )

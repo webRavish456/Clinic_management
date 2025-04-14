@@ -43,6 +43,11 @@ background-color: #eeeeee !important;
  padding: 10px 30px 0px;
 }
 
+.login_btn{
+  width: 100%;
+}
+
+
 .buttonContainer {
  display: flex;
  justify-content: space-between;

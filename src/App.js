@@ -10,18 +10,17 @@ import Dashboard from "./Dashboard/Dashboard";
 import Appointment from "./Appointment/Appointment";
 import AllLab from "./Laboratory/AllLab/AllLab";
 import Staff from "./Staff/Staff";
+import CreateStaff from "./Staff/Create/Create";
+import ViewStaff from "./Staff/View/View";
+import EditStaff from "./Staff/Edit/Edit";
+
 import Branch from "./Branch/Branch";
 import Department from "./Department/Department";
 import LabTest from "./Laboratory/LabTest/LabTest";
 import Income from "./Finance/Income/Income";
 import Expense from "./Finance/Expense/Expense";
-import CreateStaff from "./Staff/Create/Create";
-import CreateAllDoctor from "./Doctor/AllDoctor/Create/Create";
-import ViewAllDoctor from "./Doctor/AllDoctor/View/View";
-import EditAllDoctor from "./Doctor/AllDoctor/Edit/Edit";
-import CreateShiftManagement from "./Doctor/ShiftManagement/Create/Create";
-import ViewShiftManagement from "./Doctor/ShiftManagement/View/View";
-import EditShiftManagement from "./Doctor/ShiftManagement/Edit/Edit";
+
+
 
 
 function App() {
@@ -46,13 +45,10 @@ function App() {
           <Route path="department" element={<Department />} />
           <Route path="finance/income" element={<Income />} />
           <Route path="finance/expense" element={<Expense />} />
-          <Route path="staffcreate" element={<CreateStaff />} />
-          <Route path="alldoctor" element={<CreateAllDoctor/>} /> 
-          <Route path="alldoctor" element={<ViewAllDoctor />} />
-          <Route path="alldoctor" element={<EditAllDoctor />} />
-          <Route path="shiftmanagement" element={<CreateShiftManagement />} />      
-          <Route path="shiftmanagement" element={<ViewShiftManagement />} />      
-          <Route path="shiftmanagement" element={<EditShiftManagement />} />           
+          <Route path="createstaff" element={<CreateStaff />} />
+          <Route path="viewstaff" element={<ViewStaff/>}/>
+        <Route path="editstaff" element={<EditStaff/>}/>
+
         </Route>
       </Routes>
     </BrowserRouter>
