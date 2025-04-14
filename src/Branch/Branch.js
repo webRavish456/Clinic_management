@@ -13,35 +13,90 @@ import EditBranch from "./Edit/Edit";
 import DeleteBranch from "./Delete/Delete";
 import Search from "../Search/Search";
 import Cookies from 'js-cookie';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Branch = () => {
 
     const [openData, setOpenData] = useState(false)
 
-    const [viewData, setViewData] = useState(false)
+    const [viewShow, setViewShow] = useState(false)
 
-    const [editData, setEditData] = useState(false)
+    const [editShow, setEditShow] = useState(false)
 
-    const [deleteData, setDeleteData] = useState(false)
+    const [editData, setEditData] = useState(null)
+
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const [deleteId, setDeleteId] =useState(null)
+
+    const [deleteShow, setDeleteShow] = useState(false)
 
     const token = Cookies.get('token');
 
     const Base_url = process.env.REACT_APP_BASE_URL;
 
-    const [loading, setloading] =useState(true)
+    const [loading, setLoading] =useState(true)
     
     const [rows, setRows] = useState([])
 
-    const handleView = () => {
-        setViewData(true)
+    const [viewData, setViewData] = useState(null)
+
+    const handleView = (row) => {
+
+        setViewShow(true)
+        setViewData(row)
     }
 
-    const handleEdit = () => {
-        setEditData(true)
+    const handleEdit = (data) => {
+
+        setEditData(data)
+        setEditShow(true)
+    }
+
+    const handleShowDelete=(Id)=>
+    {
+        setDeleteId(Id)
+        setDeleteShow(true)
     }
 
     const handleDelete = () => {
-        setDeleteData(true)
+
+        setIsDeleting(true)
+        const requestOptions = {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`, 
+           },
+        };
+    
+        fetch(`${Base_url}/branch/${deleteId}`, requestOptions)
+          .then((response) => response.text())
+    
+          .then((result) => {
+    
+            const res = JSON.parse(result)
+    
+            if(res.status==="success")
+            {
+                setIsDeleting(false)
+                toast.success("Branch Deleted Successfully!")
+                handleClose()
+             
+                setLoading(true)
+              
+            }
+            else {
+    
+              setIsDeleting(false)
+              toast.error(res.message)
+    
+            }
+          })
+        .catch((error) => console.error(error));
+      
+   
     }
 
       const columns = [
@@ -55,7 +110,6 @@ const Branch = () => {
         },
     ];
 
-    
 
  useEffect(()=>
   {
@@ -76,7 +130,7 @@ const Branch = () => {
     
         if (res.status === "success") {
 
-           setloading(false);
+           setLoading(false);
 
            const formattedData = res.data.map((item, index) =>
             createData(index+1, item, item.branchName, item.branchLocation, item.status)
@@ -109,7 +163,7 @@ const Branch = () => {
                     <IconButton style={{ color: "#6b6666", padding: "4px", transform: "scale(0.8)" }} onClick={()=>handleEdit(row)}>
                         <EditIcon />
                     </IconButton>
-                    <IconButton style={{ color: "#e6130b", padding: "4px", transform: "scale(0.8)" }} onClick={()=>handleDelete(row)}>
+                    <IconButton style={{ color: "#e6130b", padding: "4px", transform: "scale(0.8)" }} onClick={()=>handleShowDelete(row._id)}>
                         <DeleteIcon />
                     </IconButton>
                 </>
@@ -135,27 +189,26 @@ const Branch = () => {
     }
 
     const handleClose = () => {
-        setEditData(false)
-        setViewData(false)
+        setEditShow(false)
+        setViewShow(false)
         setOpenData(false)
-        setDeleteData(false)
+        setDeleteShow(false)
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setOpenData(false)
-        // console.log("Form Data Submitted:", formData);
+
+    const handleCreate = (data) => {
+        setLoading(data)
     }
 
-    const handleUpdate = (e) => {
-        e.preventDefault();
-        setEditData(false)
-    }
+    const handleUpdate = (data) => {
+          setLoading(data)
+     }
     
 
 
     return (
-
+         <>
+        <ToastContainer/>
         <Box className="container">
             <Search onAddClick={onAddClick} buttonText='Add Branchlist' />
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -210,23 +263,24 @@ const Branch = () => {
             </Paper>
 
             <CommonDialog
-                open={openData || viewData || editData || deleteData}
+                open={openData || viewShow || editShow || deleteShow}
                 onClose={handleClose}
                 dialogTitle={<>
-                    {openData ? "Create New Branch " : viewData ? "View Branch " : editData ? "Edit Branch " : deleteData ? "Delete Branch " : null}
+                    {openData ? "Create New Branch " : viewShow ? "View Branch " : editShow ? "Edit Branch " : deleteShow ? "Delete Branch " : null}
                 </>}
 
                 dialogContent={
-                    openData ? <CreateBranch handleSubmit={handleSubmit} handleClose={handleClose} /> :
-                        viewData ? <ViewBranch /> :
-                            editData ? <EditBranch handleUpdate={handleUpdate} handleClose={handleClose} /> :
-                                deleteData ? <DeleteBranch handleDelete={handleDelete} handleClose={handleClose} /> : null
+                    openData ? <CreateBranch handleCreate={handleCreate} handleClose={handleClose} /> :
+                        viewShow ? <ViewBranch viewData={viewData}/> :
+                           editShow ? <EditBranch handleUpdate={handleUpdate} editData={editData} handleClose={handleClose} /> :
+                             deleteShow ? <DeleteBranch handleDelete={handleDelete} isDeleting={isDeleting} handleClose={handleClose} /> : null
 
                 }
 
             />
 
         </Box>
+        </>
     );
 }
 
