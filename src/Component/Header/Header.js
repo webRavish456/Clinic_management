@@ -49,6 +49,7 @@ const Header=()=>
       if (path.includes("/branch")) return "Branch";
       if (path.includes("finance/income")) return "Income";
       if (path.includes("/dashboard")) return "Dashboard";
+      if (path.includes("/appointment")) return "Appointment";
       if (path.includes("finance/expense")) return "Expense";
       if (path.includes("/department")) return "Department";
       if (path.includes("/appointment")) return "Appointment";

@@ -65,18 +65,19 @@ const handleDelete = () =>
   }
 
  const columns = [
-    { id: 'incomeid', label: 'Income Id', flex: 1,align: 'center'  },
-    { id: 'source', label: 'Source Name', flex: 1, align: 'center' },
-    { id: 'description', label: 'Description', flex: 1, align: 'center' },
-    { id: 'date', label: 'Date', flex: 1, align: 'center' },
-    {id: 'time', label: 'Time', flex: 1, align: 'center'},
-    {id: 'amount', label: 'Amount', flex: 1, align: 'center'},
-    {id: 'paymentmethod', label: 'Payment Method', flex: 1, align: 'center'},
-    {id: 'status', label: 'Status', flex: 1, align: 'center'},
+    { id: 'sino', label: 'SI.No', flex: 1,align: 'center'  },
+    { id: 'patientid', label: 'Patient Id', flex: 1, align: 'center' },
+    { id: 'patientname', label: 'Patient Name', flex: 1, align: 'center' },
+    { id: 'testname', label: 'Test Name', flex: 1, align: 'center' },
+    {id: 'samplecollectedon', label: 'Sample Collected On', flex: 1, align: 'center'},
+    {id: 'result', label: 'Result', flex: 1, align: 'center'},
+    {id: 'doctorname', label: 'Doctor Name', flex: 1, align: 'center'},
+    {id: 'assignedlabtechnician', label: 'Assigned Lab Technician', flex: 1, align: 'center'},
+   { id: 'status', label: 'Status', flex: 1, align: 'center' },
    { id: 'actions', label: 'Actions', flex: 1, align: 'center' },
   ];
-  function createData(incomeid,source ,description, date , time, amount, paymentmethod, status, actions) {
-    return {incomeid,source,description, date , time, amount, paymentmethod, status, actions: (
+  function createData(sino, patientid ,patientname, testname , samplecollectedon, result, doctorname, assignedlabtechnician,status, actions) {
+    return {sino, patientid ,patientname, testname , samplecollectedon, result, doctorname, assignedlabtechnician,status, actions: (
             <>
               <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
                 <VisibilityIcon  />
@@ -93,17 +94,17 @@ const handleDelete = () =>
       }
       
       const rows = [
-        createData('INC001', 'Patient Payment', 'Consulation Fees', "2/9/2004", '9:00', '500','Credit Card','Pending','view/Edit/Delete'),
-        createData('INCOO2', 'Insurance Claim', ' Reimbursement', "2/7/2022", '10:00', '800','Bank Transfer','Completed','View/Edit/Delete'),
-        createData('INC003','Lab Test Payment', 'Blood Test Fees',"3/02/2023",'11:00','700','Cash','Rescheduled','View/Edit/Delete'),
-        createData('INC004','Pharmacy Sale', 'Medicine Purchase',"12/12/12",'12:00','900','Cash','Cancelled','View/Edit/Delete'),
-        createData('INC005','OPD Consulation','Doctor Consulation',"12/3/2023",'9:00','1000','Credit Card','Completed','View/Edit/Delete'),
-        createData('INC006','Surgery Payment', 'Surgery Fees',"3/5/2024",'8:00','1200','Phone Pay','Confirmed','View/Edit/Delete'),
-        createData('INC007','Insurance Claim', ' MRI Scan Fees', "2/7/2022", '10:00', '800','Bank Transfer','Completed','View/Edit/Delete'),
-        createData('INC003','Lab Test Payment', 'Blood Test Fees',"5/8/2005",'7:00','1500','UPI','Completed','View/Edit/Delete'),
-        createData('INC008','Health Package', 'Annual Health Check',"3/2/24",'6:00','1800','Google Pay','Pending','View/Edit/Delete' ),
-        createData('INC009','Ambulance Service', 'Emergency Transport',"4/4/12",'7:00','2000','Credit Card','Rescheduled' ,'View/Edit/Delete'),
-        createData('INC010','Donation', 'Charity Fund','8/9/12','6:00','5000','Cash','Completed','View/Edit/Delete'),
+        createData('1', 'P001', 'John Smith', 'Blood Sugar', "22.9.24", 'Normal','Lina Patel','Alex Johnes','Active'),
+        createData('2', 'P002', 'Amina Yusuf', 'Liver Function Test', "3.01.25", 'Positive','Omar Hussian','Raj Mehta','Inactive'),
+        createData('3', 'P003', 'Rajesh Patel','Hemoglobin',"8.05.24",'13.5','Adam Jones','John Clark','Active'),
+        createData('4', 'P004', 'Nisha Rani','Widal Test',"27.11.23",'Negative','Rita Das','Sarah Kim','Active'),
+        createData('5', 'P005','Rahul Kumar','HIV Test',"11.03.25",'Negative','Zain Ali','Lisa Wong','Inactive'),
+        createData('6', 'P006', 'Isha Verma','Malaria Test',"17.06.23",'Positive','Mona Shah','Nancy Davis','Active'),
+        createData('7', 'P007', 'Supriya Das','MRI Brain', "14.12.24", 'Positive','Jack Singh','Tom Harris','Active'),
+        createData('8', 'P008', 'Kishore Singh','TORCH Panel',"20.05.23",'Negative','Asha Mehta','Susan Wilson','Active'),
+        createData('9', 'P009', 'Arti Maurya','Dengue NS1',"29.07.23",'Negative','David Clark','Neha Sharma','Inactive' ),
+        createData('10','P010', 'Aman Kumar','Vitamin D',"12.12.24",'28','Alia Kapoor','Rohan Verma' ,'Active'),
+        
         
       ];
 
