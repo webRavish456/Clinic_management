@@ -19,27 +19,29 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
     const [formData, setFormData] = useState({
         staffName: "",
         gender: "",
-        department:"",
+       
         dob: "",
         salary:"",
-        mobileNo: "",
-        email: "",
+        mobileNumber: "",
+        emailId: "",
         experience: "",
         qualification: "",
         address: "",
         branchName: "",
         designation: "",
+        department:"",
         shift: "",
+        salary:"",
         joiningDate: "",
-        resume: "",
-        certificate: "",
+        resumeCertificate: "",
+        highestQualificationCertificate: "",
         panCard: "",
         aadharCard: "",
         accountHolderName: "",
         accountNumber: "",
         bankName: "",
         ifscCode: "",
-        bankBranch: "",
+        branch: "",
         branchLocation: "",
     });
 
@@ -76,9 +78,9 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                                 />
                                 <TextField
                                     label="Mobile Number"
-                                    name="mobileNo"
+                                    name="mobileNumber"
                                     type="number"
-                                    value={formData.mobileNo}
+                                    value={formData.mobileNumber}
                                     onChange={handleChange}
                                     fullWidth
                                     margin="normal"
@@ -106,40 +108,19 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                                     fullWidth
                                     margin="normal"
                                 />
-                                <TextField
-                                    label="Address"
-                                    name="address"
-                                    value={formData.address}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    margin="normal"
-                                />
+                                
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
                                     label="Email ID"
-                                    name="email"
+                                    name="emailId"
                                     value={formData.email}
                                     onChange={handleChange}
                                     fullWidth
                                     margin="normal"
                                 />
-                                 <TextField
-                                    label="Department"
-                                    name="department"
-                                    value={formData.department}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                 <TextField
-                                    label="Salary"
-                                    name="salary"
-                                    value={formData.salary}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    margin="normal"
-                                />
+                                
+                                 
                                 <TextField
                                     label="Experience"
                                     name="experience"
@@ -152,6 +133,14 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                                     label="Qualification"
                                     name="qualification"
                                     value={formData.qualification}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                <TextField
+                                    label="Address"
+                                    name="address"
+                                    value={formData.address}
                                     onChange={handleChange}
                                     fullWidth
                                     margin="normal"
@@ -183,6 +172,14 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                             fullWidth
                             margin="normal"
                         />
+                         <TextField
+                                    label="Department"
+                                    name="department"
+                                    value={formData.department}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
                         <TextField
                             label="Shift"
                             name="shift"
@@ -191,6 +188,14 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                             fullWidth
                             margin="normal"
                         />
+                        <TextField
+                                    label="Salary"
+                                    name="salary"
+                                    value={formData.salary}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
                         <TextField
                             label="Joining Date"
                             name="joiningDate"
@@ -215,7 +220,7 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                         <Box marginBottom={2}>
                             <TextField
                                 label=" Highest Qualification Certificate"
-                                name="certificate"
+                                name="highestQualificationCertificate"
                                 type="file"
                                 InputLabelProps={{ shrink: true }}
                                 fullWidth
@@ -228,7 +233,7 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                         <Box marginBottom={2}>
                             <TextField
                                 label="Resume"
-                                name="resume"
+                                name="resumeCertificate"
                                 type="file"
                                 InputLabelProps={{ shrink: true }}
                                 fullWidth
@@ -310,7 +315,7 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                                 />
                                 <TextField
                                     label="Bank Branch"
-                                    name="bankBranch"
+                                    name="branch"
                                     value={formData.bankBranch}
                                     onChange={handleChange}
                                     fullWidth
