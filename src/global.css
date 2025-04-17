@@ -2,6 +2,7 @@
 body{
   background-color: #f0eeee;
   height: 100vh;
+  overflow-y: auto;
 }
 .primary_button {
   text-transform: none !important;
@@ -244,6 +245,7 @@ width: fit-content !important;
   padding: 10px;
  max-height: 100%;
  padding-top: 10px;
+ overflow: hidden;
 
 }
 
