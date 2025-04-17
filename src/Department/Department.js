@@ -176,7 +176,6 @@ const handleDelete = () =>
           setEditData(false)
        }
   
-
     return (
       
       <Box className="container">
