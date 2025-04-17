@@ -116,7 +116,7 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                                 <TextField
                                     label="Email ID"
                                     name="emailId"
-                                    value={formData.email}
+                                    value={formData.emailId}
                                     onChange={handleChange}
                                     fullWidth
                                     margin="normal"
