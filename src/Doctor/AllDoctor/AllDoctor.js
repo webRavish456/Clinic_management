@@ -42,6 +42,7 @@ import CreateAllDoctor from "./Create/Create";
 import ViewAllDoctor from "./View/View";
 import EditAllDoctor from "./Edit/Edit";
 import DeleteAllDoctor from "./Delete/Delete";
+import { Navigate } from "react-router-dom";
 
 
 const AllDoctor=()=>
@@ -71,7 +72,7 @@ const handleDelete = () =>
   }
 
     const columns = [
-        { id: 'si', label: 'SI. No', flex:1, align:'center' },
+        { id: 'si', label: 'SI.No', flex:1, align:'center' },
         { id: 'doctorname', label:  'Doctor Name', flex:1,align:'center' },
         {
           id: 'email',
@@ -142,7 +143,7 @@ const handleDelete = () =>
           
       ];
       
-      function createData(si,doctorname,email,mobileno,address,specialization,experience,qualification,hospitalname,availability,joiningdate,status) {
+      function createData(si, doctorname,  email,  mobileno,  address,  specialization,  experience,  qualification,  hospitalname,   availability,   joiningdate,   status) {
         return {
           si,
           doctorname,
@@ -173,21 +174,21 @@ const handleDelete = () =>
       }
       
       const rows = [
-        createData("1","AMRITA", "amrita@gmai","9876543212","Ranchi", "Heart", "10", "MBBS", "Aims","yes","12-6-2005","active"),
-        createData(2, "NITU", "nitu@123","4896325489","Ranchi", "Skin" ,"8", "MBBS", "Aims","yes","4/9/15","view"),
-        createData(3, "RITU", "ritu@123","2589631478","Bhubneswar", "Stomach", "7", "MBBS", "Ranchi main hospital","yes","5/6/16","active"),
-        createData(4, "RANI", "rani@123","1236958745","Delhi", "Blood", "9", "MBBS", "Government hospital","yes","9/5/18","active",),
-        createData(5, "SUMAN", "suman@123","4563217896","Ranchi", "Cancer", "14", "MBBS", "Aims","yes","5/8/20","view"),
-        createData(6, "PRIYANKA", "priyanka@123","2598745632","Delhi", "Kidney disease", "9", "MBBS", "Government hospital","yes","3/8/17","active"),
-        createData(7, "ANNU", "annu@123","3625265987","Parsudih", "Brain", "6", "MBBS", "Sadar hospital","yes","2/4/14","active"),
-        createData(8, "SNEHA", "sneha@123","2564563256","Delhi", "Pregnancy", "9", "MBBS", "Government hospital","yes","4/7/18","active"),
-        createData(9, "PUNAM", "punam@123","2365987456","Ranchi", "Cancer", "8", "MBBS", "Aims","yes","12/4/17","active"),
-        createData(10, "SONAL", "sonal@123","9874563212","Ranchi", "Eye", "9", "MBBS", "Aims","yes","6/9/19","active"),
-        createData(11, "MITU", "mitu@123","2596314587","Ranchi", "Whole Body", "9", "MBBS", "Aims","yes","1/7/14","active"),
-        createData(12, "SUSMITA", "susmita@123","2126541233","Ranchi", "Ears", "9", "MBBS", "Aims","yes","5/7/18","active"),
-        createData(13, "ISHA", "isha@123","9635248741","Delhi", "Back Pain", "7", "MBBS", "Government hospital","yes","4/7/12","active"),
-        createData(14, "PRIYA", "priya@123","9548712365","Ranchi", "Feet", "7", "MBBS", "Aims","yes","5/6/19","active"),
-      createData(15, "ISHU", "isha@123","9687456321","Ranchi","Lung cancer", "8", "MBBS", "Aims","yes","5/5/13","active"),
+      createData(1,    "AMRITA",     "amrita@gmail.com",      "9876543212",    "Ranchi",      "Heart",          "10",   "MBBS",    "Aims",                   "yes",      "12/5/12",    "active"),
+      createData(2,    "NITU",       "nitu@123gmail.com",     "4896325489",    "Ranchi",      "Skin" ,          "8",    "MBBS",    "Aims",                   "yes",      "4/9/15",     "active"),
+      createData(3,    "RITU",       "ritu@123gmail.com",     "2589631478",    "Bhubneswar",  "Stomach",        "7",    "MBBS",    "Ranchi main hospital",   "yes",      "5/6/16",     "active"),
+      createData(4,    "RANI",       "rani@123gmail.com",     "1236958745",    "Delhi",       "Blood",          "9",    "MBBS",    "Government hospital",    "yes",      "9/5/18",     "active",),
+      createData(5,    "SUMAN",      "suman@123gmail.com",    "4563217896",    "Ranchi",      "Cancer",         "14",   "MBBS",    "Aims",                   "yes",      "5/8/20",     "active"),
+      createData(6,    "PRIYANKA",   "priyanka@123gmail.com", "2598745632",    "Delhi",       "Kidney disease", "9",    "MBBS",    "Government hospital",    "yes",      "3/8/17",     "active"),
+      createData(7,    "ANNU",       "annu@123gmail.com",     "3625265987",    "Parsudih",    "Brain",          "6",    "MBBS",    "Sadar hospital",         "yes",      "2/4/14",     "active"),
+      createData(8,    "SNEHA",      "sneha@123gmail.com",    "2564563256",    "Delhi",       "Pregnancy",      "9",    "MBBS",    "Government hospital",    "yes",      "4/7/18",     "active"),
+      createData(9,    "PUNAM",      "punam@123gmail.com",    "2365987456",    "Ranchi",      "Cancer",         "8",    "MBBS",    "Aims",                   "yes",      "12/4/17",    "active"),
+      createData(10,   "SONAL",      "sonal@123gmail.com",    "9874563212",    "Ranchi",      "Eye",            "9",    "MBBS",    "Aims",                   "yes",      "6/9/19",     "active"),
+      createData(11,   "MITU",       "mitu@123gmail.com",     "2596314587",    "Ranchi",      "Whole Body",     "9",    "MBBS",    "Aims",                   "yes",      "1/7/14",     "active"),
+      createData(12,   "SUSMITA",    "susmita@123gmail.com",  "2126541233",    "Ranchi",      "Ears",           "9",    "MBBS",    "Aims",                   "yes",      "5/7/18",     "active"),
+      createData(13,   "ISHA",       "isha@123gmail.com",     "9635248741",    "Delhi",       "Back Pain",      "7",    "MBBS",    "Government hospital",    "yes",      "4/7/12",     "active"),
+      createData(14,   "PRIYA",      "priya@123gmail.com",    "9548712365",    "Ranchi",      "Feet",           "7",    "MBBS",    "Aims",                   "yes",      "5/6/19",     "active"),
+      createData(15,   "ISHU",       "isha@123gmail.com",     "9687456321",    "Ranchi",      "Lung cancer",    "8",    "MBBS",    "Aims",                   "yes",      "5/5/13",     "active"),
       ];
 
       const [page, setPage] = useState(0);
