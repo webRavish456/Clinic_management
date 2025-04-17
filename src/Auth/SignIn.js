@@ -63,15 +63,9 @@ const SignIn = () => {
             reset();
           }, 1500);
 
-<<<<<<< HEAD
-          const expiryDate= new Date(res.expiresAt)
-          const now = new Date()
-          const maxAgeSeconds = Math.floor((expiryDate-now)/1000);
-=======
           const expiryDate = new Date(res.expiresAt); 
           const now = new Date();
           const maxAgeSeconds = Math.floor((expiryDate - now) / 1000);
->>>>>>> 3bb6052f10f10cd6ff081c948690b7d7d7374441
 
           document.cookie = `token=${res.access_token}; path=/; Max-Age=${maxAgeSeconds}; SameSite=Strict`;
 
