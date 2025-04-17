@@ -85,18 +85,7 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                                     fullWidth
                                     margin="normal"
                                 />
-                                <FormControl component="fieldset">
-                                    <FormLabel component="legend" sx={{ marginLeft: 2 }}>Gender</FormLabel>
-                                    <RadioGroup
-                                        name="gender"
-                                        value={formData.gender}
-                                        onChange={handleChange}
-                                        row
-                                    >
-                                        <FormControlLabel value="male" control={<Radio sx={{ marginLeft: 2 }} />} label="Male" />
-                                        <FormControlLabel value="female" control={<Radio sx={{ marginLeft: 2 }} />} label="Female" />
-                                    </RadioGroup>
-                                </FormControl>
+                               
                                 <TextField
                                     sx={{ marginTop: 4 }}
                                     label="Date of Birth"
@@ -108,13 +97,26 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                                     fullWidth
                                     margin="normal"
                                 />
+                                 <FormControl component="fieldset">
+                                    <FormLabel component="legend" sx={{ marginLeft: 2 }}>Gender</FormLabel>
+                                    <RadioGroup
+                                        name="gender"
+                                        value={formData.gender}
+                                        onChange={handleChange}
+                                        row
+                                    >
+                                        <FormControlLabel value="male" control={<Radio sx={{ marginLeft: 2 }} />} label="Male" />
+                                        <FormControlLabel value="female" control={<Radio sx={{ marginLeft: 2 }} />} label="Female" />
+                                        <FormControlLabel value="others" control={<Radio sx={{ marginLeft: 2 }} />} label="Others" />
+                                    </RadioGroup>
+                                </FormControl>
                                 
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
                                     label="Email ID"
                                     name="emailId"
-                                    value={formData.email}
+                                    value={formData.emailId}
                                     onChange={handleChange}
                                     fullWidth
                                     margin="normal"
@@ -152,27 +154,36 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                 </Grid>
 
                 <Grid item xs={6}>
-                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
+                    <Box
+                        style={{
+                            border: "1px solid #ccc",
+                            padding: "20px",
+                            borderRadius: "8px",
+                            marginBottom: "20px",
+                        }}
+                    >
                         <Typography variant="h6" gutterBottom>
                             Company Details
                         </Typography>
-                        <TextField
-                            label="Branch Name"
-                            name="branchName"
-                            value={formData.branchName}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
-                       <TextField
-                            label="Designation"
-                            name="designation"
-                            value={formData.designation}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
-                         <TextField
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <TextField
+                                    label="Branch Name"
+                                    name="branchName"
+                                    value={formData.staffName}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                <TextField
+                                    label="Designation"
+                                    name="designation"
+                                    value={formData.designation}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                               <TextField
                                     label="Department"
                                     name="department"
                                     value={formData.department}
@@ -180,15 +191,21 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                                     fullWidth
                                     margin="normal"
                                 />
-                        <TextField
-                            label="Shift"
-                            name="shift"
-                            value={formData.shift}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
-                        <TextField
+                                
+                                
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    label="Shift"
+                                    name="shift"
+                                    value={formData.shift}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                
+                                 
+                                <TextField
                                     label="Salary"
                                     name="salary"
                                     value={formData.salary}
@@ -196,18 +213,23 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                                     fullWidth
                                     margin="normal"
                                 />
-                        <TextField
-                            label="Joining Date"
-                            name="joiningDate"
-                            type="date"
-                            InputLabelProps={{ shrink: true }}
-                            value={formData.joiningDate}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
+                                 <TextField
+                                     label="Joining Date"
+                                     name="joiningDate"
+                                     type="date"
+                                     InputLabelProps={{ shrink: true }}
+                                     value={formData.joiningDate}
+                                     onChange={handleChange}
+                                     fullWidth
+                                     margin="normal"
+                              />
+                                
+                                
+                            </Grid>
+                        </Grid>
                     </Box>
                 </Grid>
+
 
                 <Grid item xs={6}>
                     <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
@@ -226,9 +248,7 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                                 fullWidth
                                 margin="normal"
                             />
-                            <Typography variant="body2">
-                                View existing document: <a href="certificate.pdf" target="_blank" rel="noopener noreferrer">Certificate.pdf</a>
-                            </Typography>
+                           
                         </Box>
                         <Box marginBottom={2}>
                             <TextField
@@ -239,9 +259,7 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                                 fullWidth
                                 margin="normal"
                             />
-                            <Typography variant="body2">
-                                View existing document: <a href="resume.pdf" target="_blank" rel="noopener noreferrer">Resume.pdf</a>
-                            </Typography>
+                           
                         </Box>
                         <Box marginBottom={2}>
                             <TextField
@@ -252,9 +270,7 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                                 fullWidth
                                 margin="normal"
                             />
-                            <Typography variant="body2">
-                                View existing document: <a href="aadhar.pdf" target="_blank" rel="noopener noreferrer">Aadhar.pdf</a>
-                            </Typography>
+                           
                         </Box>
                         <Box marginBottom={2}>
                             <TextField
@@ -265,9 +281,7 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                                 fullWidth
                                 margin="normal"
                             />
-                            <Typography variant="body2">
-                                View existing document: <a href="panCard.pdf" target="_blank" rel="noopener noreferrer">PANCard.pdf</a>
-                            </Typography>
+                            
                         </Box>
                     </Box>
                 </Grid>
