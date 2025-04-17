@@ -118,6 +118,7 @@ const Branch = () => {
   });
 
   const handleView = (row) => {
+    
     setViewData(row);
     setViewShow(true);
   };

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import CloseIcon from "@mui/icons-material/Close";
+// import CloseIcon from "@mui/icons-material/Close";
+import Search from "../../Search/Search";
 
 import {
   Paper,
@@ -14,208 +14,276 @@ import {
   TableContainer,
   TableHead,
   TablePagination,
-  TableRow ,
+  TableRow,
   Box,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  TextField,
   IconButton,
-  Button,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  Grid,
-  useMediaQuery,
 } from "@mui/material";
 import CommonDialog from "../../Component/CommonDialog/CommonDialog";
+
 import ViewIncome from "./View/View";
 import CreateIncome from "./Create/Create";
 import EditIncome from "./Edit/Edit";
 import DeleteIncome from "./Delete/Delete";
-import Search from "../../Search/Search";
+import Cookies from 'js-cookie';
+import {toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const Income=()=>
-{
+const Income = () => {
 
-  const [openData, setOpenData] = useState(false)
+  const [openData, setOpenData] = useState(false);
+  const [viewShow, setViewShow] = useState(false);
+  const [editShow, setEditShow] = useState(false);
+  const [deleteShow, setDeleteShow] = useState(false);
 
-  const [viewData, setViewData] = useState(false)
+  const [viewData, setViewData] = useState(null);
+  const [editData, setEditData] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const [editData, setEditData] = useState(false)
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [deleteData, setDeleteData] = useState(false)
+  const token = Cookies.get("token");
 
- const handleView = () =>
-  {
-    setViewData(true)
-  }
+  const Base_url = process.env.REACT_APP_BASE_URL;
 
-const handleEdit = () =>
-{
-   setEditData(true)
-}
-
-const handleDelete = () =>
-  {
-    setDeleteData(true)
-  }
-
- const columns = [
-    { id: 'incomeid', label: 'Income Id', flex: 1,align: 'center'  },
-    { id: 'source', label: 'Source Name', flex: 1, align: 'center' },
-    { id: 'description', label: 'Description', flex: 1, align: 'center' },
-    { id: 'date', label: 'Date', flex: 1, align: 'center' },
-    {id: 'time', label: 'Time', flex: 1, align: 'center'},
-    {id: 'amount', label: 'Amount', flex: 1, align: 'center'},
-    {id: 'paymentmethod', label: 'Payment Method', flex: 1, align: 'center'},
-    {id: 'status', label: 'Status', flex: 1, align: 'center'},
-   { id: 'actions', label: 'Actions', flex: 1, align: 'center' },
-  ];
-  function createData(incomeid,source ,description, date , time, amount, paymentmethod, status, actions) {
-    return {incomeid,source,description, date , time, amount, paymentmethod, status, actions: (
-            <>
-              <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
-                <VisibilityIcon  />
-              </IconButton>
-              <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
-                <EditIcon />
-              </IconButton>
-              <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
-                <DeleteIcon />
-              </IconButton>
-            </>
-          ),
-        };
-      }
-      
-      const rows = [
-        createData('INC001', 'Patient Payment', 'Consulation Fees', "2/9/2004", '9:00', '500','Credit Card','Pending','view/Edit/Delete'),
-        createData('INCOO2', 'Insurance Claim', ' Reimbursement', "2/7/2022", '10:00', '800','Bank Transfer','Completed','View/Edit/Delete'),
-        createData('INC003','Lab Test Payment', 'Blood Test Fees',"3/02/2023",'11:00','700','Cash','Rescheduled','View/Edit/Delete'),
-        createData('INC004','Pharmacy Sale', 'Medicine Purchase',"12/12/12",'12:00','900','Cash','Cancelled','View/Edit/Delete'),
-        createData('INC005','OPD Consulation','Doctor Consulation',"12/3/2023",'9:00','1000','Credit Card','Completed','View/Edit/Delete'),
-        createData('INC006','Surgery Payment', 'Surgery Fees',"3/5/2024",'8:00','1200','Phone Pay','Confirmed','View/Edit/Delete'),
-        createData('INC007','Insurance Claim', ' MRI Scan Fees', "2/7/2022", '10:00', '800','Bank Transfer','Completed','View/Edit/Delete'),
-        createData('INC003','Lab Test Payment', 'Blood Test Fees',"5/8/2005",'7:00','1500','UPI','Completed','View/Edit/Delete'),
-        createData('INC008','Health Package', 'Annual Health Check',"3/2/24",'6:00','1800','Google Pay','Pending','View/Edit/Delete' ),
-        createData('INC009','Ambulance Service', 'Emergency Transport',"4/4/12",'7:00','2000','Credit Card','Rescheduled' ,'View/Edit/Delete'),
-        createData('INC010','Donation', 'Charity Fund','8/9/12','6:00','5000','Cash','Completed','View/Edit/Delete'),
-        
-      ];
-
-      const [page, setPage] = useState(0);
-      const [rowsPerPage, setRowsPerPage] = useState(10);
-    
-      const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-      };
-    
-      const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-      };
-
-      const onAddClick =()=>
-        {
-          setOpenData(true)
-        }
-   
-        const handleClose = () => {
-          setEditData(false)
-          setViewData(false)
-          setOpenData(false)
-          setDeleteData(false)
-       };
-   
-       const handleSubmit = (e) => {
-         e.preventDefault();
-         setOpenData(false)
-         // console.log("Form Data Submitted:", formData);
-       }
-
-       const handleUpdate = (e) => {
-          e.preventDefault();
-          setEditData(false)
-       }
+  const columns = [
+    { id: 'sourceName', label: 'Source Name', flex: 1, align: 'center' },
+  { id: 'incomeId', label: 'Income Id', flex: 1,align: 'center'  },
+      { id: 'description', label: 'Description', flex: 1, align: 'center' },
+      { id: 'date', label: 'Date', flex: 1, align: 'center' },
+      {id: 'amount', label: 'Amount', flex: 1, align: 'center'},
+      {id: 'paymentMethod', label: 'Payment Method', flex: 1, align: 'center'},
+      {id: 'status', label: 'Status', flex: 1, align: 'center'},
+     { id: 'action', label: 'Actions', flex: 1, align: 'center' },
+    ];
   
 
-    return (
+  useEffect(()=>
+    {
+  
+       const fetchIncomeData = async () => {
+  
+        try {
       
-      <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="+ Add Income"/>
-     <Paper sx={{ width: '100%', overflow:"hidden" }}>
-      <TableContainer  >
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth, fontWeight:900 }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
-   
-     <CommonDialog 
-      open={openData || viewData || editData || deleteData} 
-      onClose={handleClose}
-      dialogTitle={ <>
-         {openData? "Create New Income" : viewData ? "View Income Details": editData?"Edit Income Details":deleteData?"Delete Income":null}
-      </>}
+          const response = await fetch(`${Base_url}/income`, {
+           method: "GET",
+           headers: {
+              Authorization:` Bearer ${token}`, 
+             },
+        });
       
-      dialogContent = {
-         openData ? <CreateIncome handleSubmit={handleSubmit} handleClose={handleClose} /> :
-          viewData ? <ViewIncome /> : 
-         editData ? <EditIncome handleUpdate={handleUpdate} handleClose={handleClose} /> : 
-         deleteData? <DeleteIncome handleDelete={handleDelete} handleClose={handleClose} />:null
-        
-      }
+          const result = await response.text();
+          const res = JSON.parse(result);
+      
+          if (res.status === "success") {
+  
+             setLoading(false);
+  
+             const formattedData = res.data.map((item, index) =>
+              createData( item, item.sourceName, item._id, item.description, item.date,  item.amount, item.paymentMethod, item.status)
+            );
+         
+            setRows(formattedData)
+          } 
+  
+       } 
+          catch (error) {
+              console.error("Error fetching income data:", error);
+          }
+      };
+
+      if(loading)
+        {
+            fetchIncomeData();
+        }
+    
+     },[loading])
+    
+  const  createData = (row,sourceName,incomeId,description,date,amount,paymentMethod,status) => ({
+   row, sourceName,incomeId,description,date,amount,paymentMethod,status,action : (
+      <>
+                    <IconButton
+          style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
+          onClick={() => handleView(row)}
+        >
+          <VisibilityIcon />
+        </IconButton>
+        <IconButton
+          style={{ color: "#6b6666", padding: "4px", transform: "scale(0.8)" }}
+          onClick={() => handleEdit(row)}
+        >
+          <EditIcon />
+        </IconButton>
+        <IconButton
+          style={{ color: "#e6130b", padding: "4px", transform: "scale(0.8)" }}
+          onClick={() => handleShowDelete(row._id)}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </>
+    ),
+  });
+
+  const handleView = (row) => {
+    setViewData(row);
+    setViewShow(true);
+  };
+
+  const handleEdit = (data) => {
+    setEditData(data);
+    setEditShow(true);
+  };
+
+  const handleShowDelete = (id) => {
+    setDeleteId(id);
+    setDeleteShow(true);
+  };
+
+  const handleDelete = () => {
+    setIsDeleting(true);
+    fetch(`${Base_url}/income/${deleteId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.text())
+      .then((result) => {
+        const res = JSON.parse(result);
+        if (res.status === "success") {
+          toast.success("Income deleted successfully!");
+          setLoading(true);
+        } else {
+          toast.error(res.message);
+        }
+        setIsDeleting(false);
+        handleClose();
+      })
+      .catch((error) => {
+        console.error("Delete error:", error);
+        setIsDeleting(false);
+      });
+  };
+
+  const handleClose = () => {
+    setOpenData(false);
+    setViewShow(false);
+    setEditShow(false);
+    setDeleteShow(false);
+  };
+  const handleCreate = (refresh = true) => {
+    if (refresh) setLoading(true);
+    setOpenData(false);
+  };
+
+  const handleUpdate = (refresh = true) => {
+    if (refresh) setLoading(true);
+    setEditShow(false);
+  };
+
+  const onAddClick = () => setOpenData(true);
+  
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (_, newPage) => setPage(newPage);
+  const handleChangeRowsPerPage = (e) => {
+    setRowsPerPage(+e.target.value);
+    setPage(0);
+  };
+
+  return (
+    <>
+    <ToastContainer />
+
+    <Box className="container">
+      <Search onAddClick={onAddClick} buttonText="Add Income" />
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="income table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth, fontWeight: 700 }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, idx) => (
+
+                    <TableRow hover role="checkbox"  key={idx}>
+                      {columns.map((column) => (
+                        
+                          <TableCell key={column.id} align={column.align}>
+                            {row[column.id]}
+                          </TableCell>
+                            ))}
+                            </TableRow>
+                          ))}     
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+
+      <CommonDialog
+        open={openData || viewData || editData || deleteShow}
+        onClose={handleClose}
+        dialogTitle={
+          openData
+          ? "Create New Income"
+          : viewShow
+          ? "View Income"
+          : editShow
+          ? "Edit Income"
+          : deleteShow
+          ? "Delete Income"
+          : ""
+        }
+
+        dialogContent={
+          openData ? (
+            <CreateIncome handleCreate={handleCreate} handleClose={handleClose} />
+          ) : viewShow ? (
+            <ViewIncome viewData={viewData} />
+          ) : editShow ? (
+            <EditIncome
+              editData={editData}
+              handleUpdate={handleUpdate}
+              handleClose={handleClose}
+            />
+          ) : deleteShow ? (
+            <DeleteIncome
+              handleDelete={handleDelete}
+              isDeleting={isDeleting}
+              handleClose={handleClose}
+            />
+          ) : null
+        }
 
       />
 
-      
     </Box>
-    )
-}
+    </>
+    
+  );
+};
 
 export default Income;
