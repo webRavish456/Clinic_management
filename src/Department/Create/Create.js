@@ -1,110 +1,446 @@
 import React, {useState} from "react"
+
 import {
+
     TextField,
-    MenuItem,
-    Select,
-    FormControl,
-    InputLabel,
+
     Grid,
+
     useMediaQuery,
+
     Button,
+
     Box,
+
+    CircularProgress,
+
   } from "@mui/material";
 
-const CreateDepartment =({handleSubmit, handleClose})=>
+
+
+import { useForm } from "react-hook-form";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import * as yup from "yup";
+
+import {  toast } from "react-toastify";
+
+import 'react-toastify/dist/ReactToastify.css';
+
+import Cookies from 'js-cookie';
+
+
+
+
+
+  const schema = yup.object().shape({
+
+    
+
+    departmentName: yup.string().required("Department Name is required"),
+
+    specialization: yup.string().required("Specialization  is required"),
+
+    description: yup.string().required(" Description is required"),
+
+    departmentHead: yup.string().required(" Department Head  is required"),
+
+    date: yup.string().required("  Date is required"),
+    
+
+  });
+
+
+
+const CreateDepartment =({handleCreate, handleClose})=>
+
 {
-    const isSmScreen = useMediaQuery("(max-width:768px)");
 
-    const [formData, setFormData] = useState({
-        departmentname: "",
-        specialization: "",
-        departmenthead: "",
-        description:"",
-        status: "",  
+  const isSmScreen = useMediaQuery("(max-width:768px)");
 
-     });
 
-     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+
+    const token = Cookies.get('token');
+
+
+
+    const Base_url = process.env.REACT_APP_BASE_URL;
+
+  
+
+    const [loading, setLoading] = useState(false)
+
+  
+
+    const {
+
+      register,
+
+      handleSubmit,
+
+      formState: { errors },
+
+      reset,
+
+    } = useForm({
+
+      resolver: yupResolver(schema),
+
+    });
+
+  
+
+
+
+  
+
+  
+
+    const onSubmit = (data) => {
+
+    
+
+           setLoading(true)
+
+           console.log(data);
+
+  
+
+          const formdata = new FormData();
+
+          
+
+          formdata.append("departmentName", data.departmentName);
+
+          formdata.append("specialization", data.specialization);
+          formdata.append("description", data.description);
+          formdata.append("departmentHead", data.departmentHead);
+
+          formdata.append("date", data.date);
+
+
+      
+
+          const requestOptions = {
+
+            method: "POST",
+
+            body: formdata,
+
+            headers: {
+
+              Authorization:` Bearer ${token}`, 
+
+             },
+
+          };
+
+      
+
+          fetch(`${Base_url}/department`, requestOptions)
+
+            .then((response) => response.text())
+
+      
+
+            .then((result) => {
+
+      
+
+              const res = JSON.parse(result)
+
+      
+
+              if(res.status==="success")
+
+              {
+
+                setLoading(false)
+
+               
+
+                toast.success(" Department Created Successfully!")
+
+                handleCreate(true)
+
+                handleClose()
+
+                reset();
+
+              }
+
+              else {
+
+      
+
+                setLoading(false)
+
+                toast.error(res.message)
+
+      
+
+              }
+
+            })
+
+            .catch((error) => console.error(error));
+
+    };
+
+
 
      return (
+
         <>
-             <Grid container columnSpacing={2}>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+        
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+
+        <Grid container columnSpacing={2}>
+
+          
+
+
+
+          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
 
             <TextField
-            label={
-            <>
-                Department Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="departmentname"
-            value={formData.departmentname}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            /></Grid>
-            
-                        <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-                        <FormControl fullWidth margin="normal">
-                        <InputLabel>Specialization<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
-                        <Select name="Specialization" value={formData.status} onChange={handleChange}>
-                        <MenuItem value="Electrohysiology">Electrohysiology</MenuItem>
-                        <MenuItem value="Interventional Cardiology">Interventional Cardiology</MenuItem>
-                        <MenuItem value="Non-Invasive Cardiology">Non-Invasive Cardiology</MenuItem>
-                        </Select>
-                        </FormControl>
-                        </Grid>
-           
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Department Head <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="departmenthead"
-            value={formData.departmenthead}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              type="text"
+
+              label={
+
+                <>
+
+                  Department Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+
+                </>
+
+              }
+
+              variant="outlined"
+
+              {...register("departmentName")}
+
+              error={!!errors.departmentName}
+
+              fullWidth
+
+              margin="normal"
+
             />
-            </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+
+              {errors.departmentName?.message}
+
+            </div>
+
+          </Grid>
+
+          <Grid item xs={12}  sm={isSmScreen?12:6} md={6}>
+
             <TextField
-            label={
-            <>
-                Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="description"
-            value={formData.validFrom}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+
+              type="text"
+
+              label={
+
+                <>
+
+                  Specialization<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+
+                </>
+
+              }
+
+              variant="outlined"
+
+              {...register("specialization")}
+
+              error={!!errors.specialization}
+
+              fullWidth
+
+              margin="normal"
+
             />
-            </Grid>
 
-            <Grid item xs={12} sm={12} md={12}>
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+
+              {errors.specialization?.message}
+
+            </div>
+
+          </Grid>
+
+          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
+
+            <TextField
+
+              type="text"
+
+              label={
+
+                <>
+
+                  Description<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+
+                </>
+
+              }
+
+              variant="outlined"
+
+              {...register("description")}
+
+              error={!!errors.description}
+
+              fullWidth
+
+              margin="normal"
+
+            />
+
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+
+              {errors.description?.message}
+
+            </div>
+
+          </Grid>
+
+          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
+
+            <TextField
+
+              type="text"
+
+              label={
+
+                <>
+
+                  Department Head <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+
+                </>
+
+              }
+
+              variant="outlined"
+
+              {...register("departmentHead")}
+
+              error={!!errors.departmentHead}
+
+              fullWidth
+
+              margin="normal"
+
+            />
+
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+
+              {errors.departmentHead?.message}
+
+            </div>
+
+          </Grid>
+
+          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+
+            <TextField
+InputLabelProps={{ shrink: true }}
+              type="date"
+
+              label={
+
+                <>
+
+                  Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+
+                </>
+
+              }
+
+              variant="outlined"
+
+              {...register("date")}
+
+              error={!!errors.date}
+
+              fullWidth
+
+              margin="normal"
+
+            />
+
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+
+              {errors.date?.message}
+
+            </div>
+
+         
+
+          </Grid>
 
 
-            </Grid>
+          </Grid>
 
-            </Grid>
 
-            <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
-            <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleSubmit} className="primary_button">
-             Submit
-            </Button>
-            </Box>
+
+        
+
+
+
+        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+
+          <Button onClick={handleClose} className="secondary_button">
+
+            Cancel
+
+          </Button>
+
+          <Button type="submit" className="primary_button">
+
+
+
+          {loading ? (
+
+       <>
+
+         <CircularProgress size={18} 
+
+          style={{ marginRight: 8, color: "#fff" }} />
+
+                Submitting
+
+            </>
+
+            ) : (
+
+            "Submit"
+
+            )}
+
+
+
+          </Button>
+
+        </Box>
+
+      </form>
+
+
 
         </>
+
      )
+
 }
 
-export default CreateDepartment
+
+
+export default CreateDepartment;

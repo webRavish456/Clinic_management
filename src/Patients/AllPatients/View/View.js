@@ -1,7 +1,7 @@
 import React from "react"
 import { Box, Grid,  useMediaQuery} from "@mui/material";
 
-const ViewPatients =()=>
+const ViewPatient =({viewData})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
@@ -12,10 +12,10 @@ const ViewPatients =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
             
             <Grid item xs={6}>
-            <Box className="pageTitle">patientName:</Box> 
+            <Box className="pageTitle">Name:</Box> 
             </Grid>  
             <Grid item xs={6}>
-            <Box className="pageDescription">snehanjali</Box>
+            <Box className="pageDescription">{viewData.name}</Box>
             </Grid>
 
             </Grid>
@@ -23,10 +23,10 @@ const ViewPatients =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">BloodGroup:</Box>    
+            <Box className="pageTitle">Blood Group:</Box>    
             </Grid>
             <Grid item xs={6}>
-            <Box className="pageDescription">A+</Box>
+            <Box className="pageDescription">{viewData.bloodGroup}</Box>
             </Grid>
             </Grid>
 
@@ -36,19 +36,7 @@ const ViewPatients =()=>
             <Box className="pageTitle">Gender:</Box> 
             </Grid>   
             <Grid item xs={6}>
-            <Box className="pageDescription">female</Box>
-            </Grid>
-
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
-
-            <Grid item xs={6}>
-            <Box className="pageTitle">Age:</Box>
-            </Grid>
-
-            <Grid item xs={6}>
-            <Box className="pageDescription">15</Box>
+            <Box className="pageDescription">{viewData.gender}</Box>
             </Grid>
 
             </Grid>
@@ -60,7 +48,7 @@ const ViewPatients =()=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">9789876789</Box>
+            <Box className="pageDescription">{viewData.mobileNo}</Box>
             </Grid>
 
             </Grid>
@@ -73,7 +61,7 @@ const ViewPatients =()=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">Sneha12@gmail.com</Box>
+            <Box className="pageDescription">{viewData.email}</Box>
             </Grid>
 
             </Grid><Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
@@ -83,7 +71,7 @@ const ViewPatients =()=>
 </Grid>
 
 <Grid item xs={6}>
-<Box className="pageDescription">Ranchi</Box>
+<Box className="pageDescription">{viewData.address}</Box>
 </Grid>
 
 </Grid>
@@ -94,7 +82,7 @@ const ViewPatients =()=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">illness</Box>
+            <Box className="pageDescription">{viewData.treatment}</Box>
             </Grid>
 
             </Grid>
@@ -105,7 +93,7 @@ const ViewPatients =()=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">subhashree</Box>
+            <Box className="pageDescription">{viewData.doctorAssigned}</Box>
             </Grid>
 
             </Grid>
@@ -116,7 +104,7 @@ const ViewPatients =()=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">12/12/12</Box>
+            <Box className="pageDescription">{viewData.admissionDate}</Box>
             </Grid>
 
             </Grid>
@@ -127,7 +115,7 @@ const ViewPatients =()=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">Recovered</Box>
+            <Box className="pageDescription">{viewData.status}</Box>
             </Grid>
 
             </Grid>
@@ -138,7 +126,7 @@ const ViewPatients =()=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">Previous Report</Box>
+            <Box className="pageDescription">{viewData.medicalHistory}</Box>
             </Grid>
 
             </Grid>
@@ -150,4 +138,4 @@ const ViewPatients =()=>
      )
 }
 
-export default ViewPatients;
+export default ViewPatient;

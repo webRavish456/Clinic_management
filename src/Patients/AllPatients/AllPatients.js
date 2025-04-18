@@ -1,11 +1,7 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-
-
-import CloseIcon from "@mui/icons-material/Close";
 
 import {
   Paper,
@@ -15,215 +11,290 @@ import {
   TableContainer,
   TableHead,
   TablePagination,
-  TableRow ,
+  TableRow,
   Box,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  TextField,
   IconButton,
-  Button,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  Grid,
-  useMediaQuery,
 } from "@mui/material";
+
+
+
+import ViewAllPatients from "./View/View";
+import CreateAllPatients from "./Create/Create";
+import EditAllPatients from "./Edit/Edit";
+import DeleteAllPatients from "./Delete/Delete";
+
+import Cookies from "js-cookie";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import CommonDialog from "../../Component/CommonDialog/CommonDialog";
-import ViewExpense from "./View/View";
-import CreateExpense from "./Create/Create";
-import EditExpense from "./Edit/Edit";
-import DeleteExpense from "./Delete/Delete";
 import Search from "../../Search/Search";
 
+const AllPatients = () => {
+  const [openData, setOpenData] = useState(false);
+  const [viewShow, setViewShow] = useState(false);
+  const [editShow, setEditShow] = useState(false);
+  const [deleteShow, setDeleteShow] = useState(false);
 
-const PatientsRecords=()=>
-{
+  const [viewData, setViewData] = useState(null);
+  const [editData, setEditData] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const [openData, setOpenData] = useState(false)
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [viewData, setViewData] = useState(false)
-
-  const [editData, setEditData] = useState(false)
-
-  const [deleteData, setDeleteData] = useState(false)
-
- const handleView = () =>
-  {
-    setViewData(true)
-  }
-
-const handleEdit = () =>
-{
-   setEditData(true)
-}
-
-const handleDelete = () =>
-  {
-    setDeleteData(true)
-  }
+  const token = Cookies.get("token");
+  const Base_url = process.env.REACT_APP_BASE_URL;
 
   const columns = [
-    { id: 'sino', label: 'Si No', flex: 1, align:'center' },
-    { id: 'patientName', label: 'Patients Name', flex: 1, align: 'center' },
-    { id: 'treatment', label: 'Treatment', flex: 1, align: 'center' },
-    { id: 'mobileno', label: 'Mobile No.', flex: 1, align: 'center' },
-    {id: 'email', label: 'Email', flex: 1, align: 'center'},
-    {id: 'gender', label: 'Gender', flex: 1, align: 'center'},
-    {id: 'address', label: 'Address', flex: 1, align: 'center'},
-    {id: 'admissionDate', label: 'Admission Date', flex: 1, align: 'center'},
-    {id: 'doctorAss', label: 'Doctor Assigned', flex: 1, align: 'center'},
-    {id: 'bloodGrp', label: 'Blood Group', flex: 1, align: 'center'},
-    {id: 'status', label: 'Status', flex: 1, align: 'center'},
-   { id: 'actions', label: 'Actions', flex: 1, align: 'center' },
+    { id: "si", label: "SI.No", flex: 1, align: "center" },
+    { id: "name", label: " Name", flex: 1, align: "center" },
+    { id: "treatment", label: "treatment", flex: 1, align: "center" },
+    { id: "mobileNo", label: "Mobile No", flex: 1, align: "center" },
+    { id: "email", label: "Email", flex: 1, align: "center" },
+    { id: "gender", label: "gender", flex: 1, align: "center" },
+    { id: "address", label: "Address", flex: 1, align: "center" },
+    { id: "admissionDate", label: "Admission Date", flex: 1, align: "center" },
+    { id: "doctorAssigned", label: "Doctor Assigned", flex: 1, align: "center" },
+    { id: "bloodGroup", label: "Blood Group", flex: 1, align: "center" },
+    { id: "status", label: "Status", flex: 1, align: "center" },
+    { id: "action", label: "Action", flex: 1, align: "center" },
   ];
-  
-      
-      function createData(sino, patientName, treatment, mobileno , email, gender, address,admissionDate,doctorAss,bloodGrp, status, actions) {
-        return { sino, patientName,treatment, mobileno , email, gender, address,admissionDate,doctorAss,bloodGrp, status,
-          actions: (
-            <>
-              <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
-                <VisibilityIcon  />
-              </IconButton>
-              <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
-                <EditIcon />
-              </IconButton>
-              <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
-                <DeleteIcon />
-              </IconButton>
-            </>
-          ),
-        };
-      }
-      
-      const rows = [
-        createData('1', 'sneha Biswal', 'illness', '9573456798', 'sneha12@gmail.com', 'female','Chennai','12/12/12','snehanjali','A+','under observation'),
-        createData('2', 'Subhashree sahoo', 'loosemotion ', '2898767890', 'subhu12@gmail.com', 'female','canada','23/2/23','subhashree','B+','under observation'),
-        createData('3','Sweta', 'heart attack','789887769','sweta12@gmail.com','female','jsr','23/2/23','tarana','A+','under observation'),
-        createData('4','aastha', 'illness','1789876789','aastha12@gmail.com','female','Ranchi','12/2/24','sangita','B+','under tratement'),
-        createData('4','sonal','joint pain','9878987656','sonal23@gmail.com','female','Jsr','12/12/12','anushka','A+','under tratement'),
-        createData('6','tripti', 'fever','3987898765','tripti12@gmail.com','female','Ranchi','3/4/2/24','reet','O+','under tratement'),
-        createData('7','ayushi', 'illness','59878987765','ayushi34@gmail.com','female','Ranchi','23/2/23','poonam','A+','recovered'),
-        createData('8','ritu', 'heart attack','3987898776','ritu23@gmail.com','female','jsr','3/2/24','bhumika','A+','recovered' ),
-        createData('9','prerna', 'jaundice','6787656787','prerna34@gmail.com','female','ranchi','3/2/12','roshni','A+','recovered' ),
-        createData('10','anjali', 'illness','567876567','anjali89@gmail.com','female','chennai','12/12/12','ritu','A+','recovered'),
-        
-      ];
-      const [page, setPage] = useState(0);
-      const [rowsPerPage, setRowsPerPage] = useState(10);
-    
-      const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-      };
-    
-      const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-      };
 
-      const onAddClick =()=>
-        {
-          setOpenData(true)
+  useEffect(() => {
+    const fetchAllPatientsData = async () => {
+      try {
+        const response = await fetch(`${Base_url}/allpatients`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const result = await response.text();
+        const res = JSON.parse(result);
+
+        if (res.status === "success") {
+          setLoading(false);
+          const formattedData = res.data.map((item, index) =>
+            createData(
+              index + 1,
+              item,
+              item.name,
+              item.treatment,
+              item.mobileNo,
+              item.email,
+              item.gender,
+              item.address,
+              item.admissionDate,
+              item.doctorAssigned,
+              item.bloodGroup,
+              item.status
+            )
+          );
+          setRows(formattedData);
         }
-   
-        const handleClose = () => {
-          setEditData(false)
-          setViewData(false)
-          setOpenData(false)
-          setDeleteData(false)
-       };
-   
-       const handleSubmit = (e) => {
-         e.preventDefault();
-         setOpenData(false)
-        
-       }
-
-       const handleUpdate = (e) => {
-          e.preventDefault();
-          setEditData(false)
-       }
-  
-
-    return (
-      
-      
-      <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="+ Add Patient"/>
-     <Paper sx={{ width: '100%', overflow:"hidden" }}>
-      <TableContainer  >
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth, fontWeight:1000 }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
-   
-     <CommonDialog 
-      open={openData || viewData || editData || deleteData} 
-      onClose={handleClose}
-      dialogTitle={ <>
-         {openData? "Add New Patient" : viewData ? "View Patient Details": editData?"Edit Patient Details":deleteData?"Delete Patient":null}
-      </>}
-      
-      dialogContent = {
-         openData ? <CreateExpense handleSubmit={handleSubmit} handleClose={handleClose} /> :
-          viewData ? <ViewExpense /> : 
-         editData ? <EditExpense handleUpdate={handleUpdate} handleClose={handleClose} /> : 
-         deleteData? <DeleteExpense handleDelete={handleDelete} handleClose={handleClose} />:null
-        
+      } catch (error) {
+        console.error("Error fetching allpatients data:", error);
       }
+    };
 
-      />
+    if (loading) {
+      fetchAllPatientsData();
+    }
+  }, [loading]);
 
-      
-    </Box>
-    
-    )
-}
+  const createData = (si, row, name, treatment,mobileNo,email,gender,address,admissionDate,doctorAssigned,bloodGroup, status) => ({
+    si,
+    row,
+    name,
+    treatment,
+    mobileNo,
+    email,
+    gender,
+    address,
+    admissionDate,
+    doctorAssigned,
+    bloodGroup,
+    status,
+    action: (
+      <>
+        <IconButton
+          style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
+          onClick={() => handleView(row)}
+        >
+          <VisibilityIcon />
+        </IconButton>
+        <IconButton
+          style={{ color: "#6b6666", padding: "4px", transform: "scale(0.8)" }}
+          onClick={() => handleEdit(row)}
+        >
+          <EditIcon />
+        </IconButton>
+        <IconButton
+          style={{ color: "#e6130b", padding: "4px", transform: "scale(0.8)" }}
+          onClick={() => handleShowDelete(row._id)}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </>
+    ),
+  });
 
-export default PatientsRecords;
+  const handleView = (row) => {
+    console.log("row",row)
+    setViewData(row);
+    setViewShow(true);
+  };
+
+  const handleEdit = (data) => {
+    setEditData(data);
+    setEditShow(true);
+  };
+
+  const handleShowDelete = (id) => {
+    setDeleteId(id);
+    setDeleteShow(true);
+  };
+
+  const handleDelete = () => {
+    setIsDeleting(true);
+    fetch(`${Base_url}/allpatients/${deleteId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.text())
+      .then((result) => {
+        const res = JSON.parse(result);
+        if (res.status === "success") {
+          toast.success("allpatients deleted successfully!");
+          setLoading(true);
+        } else {
+          toast.error(res.message);
+        }
+        setIsDeleting(false);
+        handleClose();
+      })
+      .catch((error) => {
+        console.error("Delete error:", error);
+        setIsDeleting(false);
+      });
+  };
+
+  const handleClose = () => {
+    setOpenData(false);
+    setViewShow(false);
+    setEditShow(false);
+    setDeleteShow(false);
+  };
+
+  const handleCreate = (refresh = true) => {
+    if (refresh) setLoading(true);
+    setOpenData(false);
+  };
+
+  const handleUpdate = (refresh = true) => {
+    if (refresh) setLoading(true);
+    setEditShow(false);
+  };
+
+  const onAddClick = () => setOpenData(true);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (_, newPage) => setPage(newPage);
+  const handleChangeRowsPerPage = (e) => {
+    setRowsPerPage(+e.target.value);
+    setPage(0);
+  };
+
+  return (
+    <>
+      <ToastContainer />
+      <Box className="container">
+        <Search onAddClick={onAddClick} buttonText="+ Add New Patients" />
+        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          <TableContainer sx={{ maxHeight: 440 }}>
+            <Table stickyHeader aria-label="allpatients table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ fontWeight: 700 }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, idx) => (
+                    <TableRow hover role="checkbox" key={idx}>
+                      {columns.map((column) => (
+                        <TableCell key={column.id} align={column.align}>
+                          {row[column.id]}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+
+        <CommonDialog
+          open={openData || viewShow || editShow || deleteShow}
+          onClose={handleClose}
+          dialogTitle={
+            openData
+              ? "Create New Patients"
+              : viewShow
+              ? "View Patients"
+              : editShow
+              ? "Edit patients"
+              : deleteShow
+              ? "Delete Patients"
+              : ""
+          }
+          dialogContent={
+            openData ? (
+              <CreateAllPatients handleCreate={handleCreate} handleClose={handleClose} />
+            ) : viewShow ? (
+              <ViewAllPatients viewData={viewData} />
+            ) : editShow ? (
+              <EditAllPatients
+                editData={editData}
+                handleUpdate={handleUpdate}
+                handleClose={handleClose}
+              />
+            ) : deleteShow ? (
+              <DeleteAllPatients
+                handleDelete={handleDelete}
+                isDeleting={isDeleting}
+                handleClose={handleClose}
+              />
+            ) : null
+          }
+        />
+      </Box>
+    </>
+  );
+};
+
+export default AllPatients;
