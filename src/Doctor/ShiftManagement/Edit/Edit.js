@@ -1,168 +1,280 @@
 import React, { useState } from "react";
 import {
-    TextField,
-    MenuItem,
-    Select,
-    FormControl,
-    InputLabel,
-    Grid,
-    Typography,
-    Button,
-    Box,
-    Radio,
-    RadioGroup,
-    FormControlLabel,
-    FormLabel
+  TextField,
+  Grid,
+  useMediaQuery,
+  Button,
+  Box,
+  CircularProgress,
+  MenuItem,
+  FormHelperText,
+  FormControl,
+  Select,
+  InputLabel,
 } from "@mui/material";
 
-const EditShiftManagement = ({ handleSubmit, handleClose }) => {
-    const [formData, setFormData] = useState({
-        doctorName: "",
-        department: "",
-        specialization: "",
-        shiftStartDate: "",  
-        shiftEndDate: "",
-        workDays:"",
-        shiftHours: "",
-        shiftType: "",
-         });
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+const schema = yup.object().shape({
+  doctorname: yup.string().required("Doctor Name is required"),
+  department: yup.string().required("Department is required"),
+  specialization: yup.string().required("Specialization is required"),
+  shiftstartdate: yup.string().required("Shift Start Date is required"),
+  shiftenddate: yup.string().required("Shift End Date is required"),
+  workdays: yup.string().required("Work Days is required"),
+  shifthours: yup.string().required("Shift Hours is required"),
+  shifttype: yup.string().required("Shift Type is required"),
+});
+
+const EditShiftManagement = ({ handleCreate, handleClose }) => {
+  const isSmScreen = useMediaQuery("(max-width:768px)");
+  const token = Cookies.get("token");
+  const Base_url = process.env.REACT_APP_BASE_URL;
+
+  const [loading, setLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (data) => {
+    setLoading(true);
+    console.log(data);
+
+    const formdata = new FormData();
+    formdata.append("doctorname", data.doctorname);
+    formdata.append("department", data.department);
+    formdata.append("specialization", data.specialization);
+    formdata.append("shiftstartdate", data.shiftstartdate);
+    formdata.append("shiftenddate", data.shiftenddate);
+    formdata.append("workdays", data.workdays);
+    formdata.append("shifthours", data.shifthours);
+    formdata.append("shifttype", data.shifttype);
+
+    const requestOptions = {
+      method: "POST",
+      body: formdata,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     };
 
-    return (
-        <>
-        
+    fetch(`${Base_url}/shiftmanagement`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        const res = JSON.parse(result);
 
-        
-        
-            <Typography variant="h5" gutterBottom sx={{ marginLeft: 2, marginTop: 4 }}>
-                Edit Shift Management
-            </Typography>
-            <Grid container spacing={6} style={{ padding: "20px" }}>
-                
-                <Grid item xs={6}>
-                    <Box
-                        style={{
-                            border: "1px solid #ccc",
-                            padding: "20px",
-                            borderRadius: "8px",
-                            marginBottom: "20px",
-                        }}
-                    >
-                        
-                        
-                        <Grid container spacing={2}>
-                            <Grid item xs={6}>
-                               
-                                </Grid>
-            
-             <Grid item xs={6}>
-            <FormControl fullWidth margin="normal">
-            <InputLabel>Doctor Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
-            <Select name="Doctor Name" value={formData.status} onChange={handleChange}>
-            <MenuItem value="Shruti">Shruti</MenuItem>
-            <MenuItem value="Arohi">Arohi</MenuItem>
-            <MenuItem value="Sara">Sara</MenuItem>
-            </Select>
+        if (res.status === "success") {
+          setLoading(false);
+          toast.success("Shift Management Edit Successfully!");
+          handleCreate(true);
+          handleClose();
+        } else {
+          setLoading(false);
+          toast.error(res.message);
+        }
+      })
+      .catch((error) => console.error(error));
+  };
+
+  return (
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container columnSpacing={2}>
+        < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          <FormControl fullWidth margin="normal" error={!!errors.doctorname}>
+              <InputLabel id="doctorname-label">
+                Doctor Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+              </InputLabel>
+              <Select
+                labelId="DoctorName-label"
+                id="doctorname"
+                label="doctorname"
+                defaultValue=""
+                {...register("DoctorName")}
+              >
+                <MenuItem value="complete">Complete</MenuItem>
+                <MenuItem value="active">Active</MenuItem>
+                <MenuItem value="uncomplete">Uncomplete</MenuItem>
+              </Select>
+              <FormHelperText>{errors.doctorname?.message}</FormHelperText>
             </FormControl>
-                                           
-                                
-                               
-                                </Grid>
-            <Grid item xs={6}>  
-            <FormControl fullWidth margin="normal">
-            <InputLabel>Department<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
-            <Select name="Department" value={formData.status} onChange={handleChange}>
-            <MenuItem value="Skin">Skin</MenuItem>
-            <MenuItem value="Heart">Heart</MenuItem>
-            <MenuItem value="Eye">Eye</MenuItem>
-            </Select>
-            </FormControl>
-
-                                </Grid>
-            
-           <Grid item xs={6}>
-            <FormControl fullWidth margin="normal">
-            <InputLabel>Specialization<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
-            <Select name="Specialization" value={formData.status} onChange={handleChange}>
-            <MenuItem value="Skin Specialist">Skin Specialist</MenuItem>
-            <MenuItem value="Heart Specialist">Heart Specialist</MenuItem>
-            <MenuItem value="Eye Specialist">Eye Specialist</MenuItem>
-            </Select>
-            </FormControl>
-                                            
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    label="Shift Start Date"
-                                    name="shiftStartDate"
-                                    value={formData.shiftStartDate}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    margin="normal"
-                                    />
-                                    <TextField
-                                    label="Shift End Date"
-                                    name="shiftEndDate"
-                                    value={formData.shiftEndDate}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                <TextField
-                                    label="Work Days"
-                                    name="workDays"
-                                    value={formData.workDays}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                <TextField
-                                    label="Shift Hours"
-                                    name="shifthours"
-                                    value={formData.shiftHours}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                <TextField
-                                    label="Shift Type"
-                                    name="shiftType"
-                                    value={formData.shiftType}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                            </Grid>
-                        </Grid>
-                    </Box>
-                
-
-                
-
-                </Grid>
-                <Box
-                    className="submit"
-                    sx={{
-                        display: "flex",
-                        gap: 2,
-                        marginTop: 2,
-                        justifyContent: "flex-end",
-                        width: "100%", // Ensure the box spans the full width
-                    }}
-                >
-                    <Button onClick={handleClose} className="secondary_button" >
-                        Cancel
-                    </Button>
-                    <Button onClick={handleSubmit} className="primary_button">
-                        Submit
-                    </Button>
-                </Box>
             </Grid>
-        </>
-    );
+
+            < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          <FormControl fullWidth margin="normal" error={!!errors.department}>
+              <InputLabel id="department-label">
+                Department<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+              </InputLabel>
+              <Select
+                labelId="department-label"
+                id="department"
+                label="department"
+                defaultValue=""
+                {...register("department")}
+              >
+                <MenuItem value="complete">Complete</MenuItem>
+                <MenuItem value="active">Active</MenuItem>
+                <MenuItem value="uncomplete">Uncomplete</MenuItem>
+              </Select>
+              <FormHelperText>{errors.department?.message}</FormHelperText>
+            </FormControl>
+            </Grid>
+
+            < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          <FormControl fullWidth margin="normal" error={!!errors.taskStatus}>
+              <InputLabel id="specialization-label">
+                Specialization<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+              </InputLabel>
+              <Select
+                labelId="specialization-label"
+                id="specialization"
+                label="specialization"
+                defaultValue=""
+                {...register("specialization")}
+              >
+                <MenuItem value="complete">Complete</MenuItem>
+                <MenuItem value="active">Active</MenuItem>
+                <MenuItem value="uncomplete">Uncomplete</MenuItem>
+              </Select>
+              <FormHelperText>{errors.specialization?.message}</FormHelperText>
+            </FormControl>
+            </Grid>
+
+            < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Shift Start Date{" "}
+                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("shiftstartdate")}
+              error={!!errors.shiftstartdate}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.shiftstartdate?.message}
+            </div>
+          </Grid>
+
+          < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Shift End Date{" "}
+                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("shiftenddate")}
+              error={!!errors.shiftenddate}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.shiftenddate?.message}
+            </div>
+          </Grid>
+
+          < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Work Days{" "}
+                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("workdays")}
+              error={!!errors.workdays}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.workdays?.message}
+            </div>
+          </Grid>
+
+          < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Shift Hours{" "}
+                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("shifthours")}
+              error={!!errors.shifthours}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.shifthours?.message}
+            </div>
+          </Grid>
+
+          < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Shift Type{" "}
+                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("shifttype")}
+              error={!!errors.shifttype}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.shifttype?.message}
+            </div>
+          </Grid>
+        </Grid>
+
+        <Box
+          sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}
+        >
+          <Button onClick={handleClose} className="secondary_button">
+            Cancel
+          </Button>
+          <Button type="submit" className="primary_button">
+            {loading ? (
+              <>
+                <CircularProgress
+                  size={18}
+                  style={{ marginRight: 8, color: "#fff" }}
+                />
+                Submitting
+              </>
+            ) : (
+              "Submit"
+            )}
+          </Button>
+        </Box>
+      </form>
+    </>
+  );
 };
 
 export default EditShiftManagement;
