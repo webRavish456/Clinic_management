@@ -108,15 +108,15 @@ const Appointment= () => {
    row,patientName,doctorName,gender,date,mobile,email,appointmentStatus,visitType,status,action : (
       <>
                     <IconButton style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
-                     onClick={()=>handleView(rows)}>
+                     onClick={()=>handleView(row)}>
                         <VisibilityIcon />
                     </IconButton>
                     <IconButton style={{ color: "#6b6666", padding: "4px", transform: "scale(0.8)" }} 
-                    onClick={()=>handleEdit(rows)}>
+                    onClick={()=>handleEdit(row)}>
                         <EditIcon />
                     </IconButton>
                     <IconButton style={{ color: "#e6130b", padding: "4px", transform: "scale(0.8)" }} 
-                    onClick={()=>handleShowDelete(rows._id)}>
+                    onClick={()=>handleShowDelete(row._id)}>
                         <DeleteIcon />
                     </IconButton>
                 </>
