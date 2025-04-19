@@ -96,7 +96,7 @@ const CreateBranch =({handleCreate, handleClose})=>
                   Branch Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
-              variant="standard"
+              variant="outlined"
               {...register("branchName")}
               error={!!errors.branchName}
               fullWidth
@@ -115,7 +115,7 @@ const CreateBranch =({handleCreate, handleClose})=>
                   Branch Location <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
-              variant="standard"
+              variant="outlined"
               {...register("branchLocation")}
               error={!!errors.branchLocation}
               fullWidth

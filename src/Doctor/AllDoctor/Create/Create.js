@@ -15,34 +15,35 @@ import {
     FormLabel
 } from "@mui/material";
 
-const CreateAllDoctor = ({ handleSubmit, handleClose }) => {
+const CreateDoctor = ({ handleSubmit, handleClose }) => {
     const [formData, setFormData] = useState({
-        name: "",
-        hospitalName: "",
+        doctorName: "",
+        hospitalName:"",
         gender: "",
-        dob: "",  
-        mobileNo: "",
+       
+        dob: "",
+        mobileNumber: "",
         emailId: "",
         experience: "",
         qualification: "",
         address: "",
         branchName: "",
-        department: "",
         specialization: "",
-        salary: "",
+        department:"",
+        salary:"",
         joiningDate: "",
         resumeCertificate: "",
-        licenseCertificate: "",
-        higestQualificationCertificate: "",
+        licenseCertificate:"",
+        highestQualificationCertificate: "",
         panCard: "",
         aadharCard: "",
         accountHolderName: "",
         accountNumber: "",
         bankName: "",
         ifscCode: "",
-        bankBranch: "",
+        branch: "",
         branchLocation: "",
-         });
+    });
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -50,9 +51,7 @@ const CreateAllDoctor = ({ handleSubmit, handleClose }) => {
 
     return (
         <>
-            <Typography variant="h5" gutterBottom sx={{ marginLeft: 2, marginTop: 4 }}>
-                Create All Doctor
-            </Typography>
+            
             <Grid container spacing={6} style={{ padding: "20px" }}>
                 {/* Personal Details */}
                 <Grid item xs={6}>
@@ -70,9 +69,9 @@ const CreateAllDoctor = ({ handleSubmit, handleClose }) => {
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <TextField
-                                    label=" Name"
-                                    name="Name"
-                                    value={formData.name}
+                                    label="Doctor Name"
+                                    name="doctorName"
+                                    value={formData.doctorName}
                                     onChange={handleChange}
                                     fullWidth
                                     margin="normal"
@@ -80,26 +79,23 @@ const CreateAllDoctor = ({ handleSubmit, handleClose }) => {
                                 <TextField
                                     label="Hospital Name"
                                     name="hospitalName"
-                                    type="number"
                                     value={formData.hospitalName}
                                     onChange={handleChange}
                                     fullWidth
                                     margin="normal"
                                 />
-                                <FormControl component="fieldset">
-                                    <FormLabel component="legend" sx={{ marginLeft: 2 }}>Gender</FormLabel>
-                                    <RadioGroup
-                                        name="gender"
-                                        value={formData.gender}
-                                        onChange={handleChange}
-                                        row
-                                    >
-                                        <FormControlLabel value="male" control={<Radio sx={{ marginLeft: 2 }} />} label="Male" />
-                                        <FormControlLabel value="female" control={<Radio sx={{ marginLeft: 2 }} />} label="Female" />
-                                    </RadioGroup>
-                                </FormControl>
                                 <TextField
-                                    sx={{ marginTop: 4 }}
+                                    label="Mobile Number"
+                                    name="mobileNumber"
+                                    type="number"
+                                    value={formData.mobileNumber}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                               
+                                <TextField
+                                    sx={{ marginTop: 2 }}
                                     label="Date of Birth"
                                     name="dob"
                                     type="date"
@@ -109,24 +105,32 @@ const CreateAllDoctor = ({ handleSubmit, handleClose }) => {
                                     fullWidth
                                     margin="normal"
                                 />
+                                 <FormControl component="fieldset">
+                                    <FormLabel component="legend" sx={{ marginLeft: 2 }}>Gender</FormLabel>
+                                    <RadioGroup
+                                        name="gender"
+                                        value={formData.gender}
+                                        onChange={handleChange}
+                                        row
+                                    >
+                                        <FormControlLabel value="male" control={<Radio sx={{ marginLeft: 2 }} />} label="Male" />
+                                        <FormControlLabel value="female" control={<Radio sx={{ marginLeft: 2 }} />} label="Female" />
+                                        <FormControlLabel value="others" control={<Radio sx={{ marginLeft: 2 }} />} label="Others" />
+                                    </RadioGroup>
+                                </FormControl>
+                                
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
-                                    label="Mobile No"
-                                    name="mobileNo"
-                                    value={formData.mobileNo}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    margin="normal"
-                                    />
-                                    <TextField
-                                    label="Email Id"
+                                    label="Email ID"
                                     name="emailId"
-                                    value={formData.emailId}
+                                    value={formData.email}
                                     onChange={handleChange}
                                     fullWidth
                                     margin="normal"
                                 />
+                                
+                                 
                                 <TextField
                                     label="Experience"
                                     name="experience"
@@ -151,62 +155,80 @@ const CreateAllDoctor = ({ handleSubmit, handleClose }) => {
                                     fullWidth
                                     margin="normal"
                                 />
+                                
                             </Grid>
                         </Grid>
                     </Box>
                 </Grid>
 
                 <Grid item xs={6}>
-                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
+                    <Box
+                        style={{
+                            border: "1px solid #ccc",
+                            padding: "20px",
+                            borderRadius: "8px",
+                            marginBottom: "20px",
+                        }}
+                    >
                         <Typography variant="h6" gutterBottom>
                             Company Details
                         </Typography>
-                        <TextField
-                            label="Branch Name"
-                            name="branchName"
-                            value={formData.branchName}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
-                         <TextField
-                            label="Department"
-                            name="department"
-                            value={formData.department}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
-                            <TextField
-                            label="Specialization"
-                            name="specialization"
-                            value={formData.specialization}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
-                        
-                            
-                        <TextField
-                            label="Salary"
-                            name="salary"
-                            value={formData.salary}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
-                        <TextField
-                            label="Joining Date"
-                            name="joiningDate"
-                            type="date"
-                            InputLabelProps={{ shrink: true }}
-                            value={formData.joiningDate}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <TextField
+                                    label="Branch Name"
+                                    name="branchName"
+                                    value={formData.staffName}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                <TextField
+                                    label="Specialization"
+                                    name="specialization"
+                                    value={formData.specialization}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                               <TextField
+                                    label="Department"
+                                    name="department"
+                                    value={formData.department}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                
+                                
+                            </Grid>
+                            <Grid item xs={6}>
+                               
+                                 <TextField
+                                    label="Salary"
+                                    name="salary"
+                                    value={formData.salary}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                 <TextField
+                                     label="Joining Date"
+                                     name="joiningDate"
+                                     type="date"
+                                     InputLabelProps={{ shrink: true }}
+                                     value={formData.joiningDate}
+                                     onChange={handleChange}
+                                     fullWidth
+                                     margin="normal"
+                              />
+                                
+                                
+                            </Grid>
+                        </Grid>
                     </Box>
                 </Grid>
+
 
                 <Grid item xs={6}>
                     <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
@@ -218,20 +240,35 @@ const CreateAllDoctor = ({ handleSubmit, handleClose }) => {
                         </Typography> */}
                         <Box marginBottom={2}>
                             <TextField
-                                label=" Resume Certificate"
-                                name="resumeCrtificate"
+                                label=" Highest Qualification Certificate"
+                                name="highestQualificationCertificate"
                                 type="file"
                                 InputLabelProps={{ shrink: true }}
                                 fullWidth
                                 margin="normal"
                             />
                             <Typography variant="body2">
-                                View existing document: <a href="resumeCertificate.pdf" target="_blank" rel="noopener noreferrer">ResumeCertificate.pdf</a>
+                                View existing document: <a href="highestQualificationCertificate.pdf" target="_blank" rel="noopener noreferrer">highestQualificationCertificate.pdf</a>
                             </Typography>
                         </Box>
+
                         <Box marginBottom={2}>
                             <TextField
-                                label="License Certificate"
+                                label="Resume"
+                                name="resumeCertificate"
+                                type="file"
+                                InputLabelProps={{ shrink: true }}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <Typography variant="body2">
+                                View existing document: <a href="resumeCertificate.pdf" target="_blank" rel="noopener noreferrer">resumeCertificate.pdf</a>
+                            </Typography>
+                        </Box>
+
+                        <Box marginBottom={2}>
+                            <TextField
+                                label=" License Certificate"
                                 name="licenseCertificate"
                                 type="file"
                                 InputLabelProps={{ shrink: true }}
@@ -239,12 +276,25 @@ const CreateAllDoctor = ({ handleSubmit, handleClose }) => {
                                 margin="normal"
                             />
                             <Typography variant="body2">
-                                View existing document: <a href="licenseCertificate.pdf" target="_blank" rel="noopener noreferrer">LicenseCertificate.pdf</a>
+                                View existing document: <a href="licensecertificate.pdf" target="_blank" rel="noopener noreferrer">licenseCertificate.pdf</a>
+                            </Typography>
+                            </Box>
+                        <Box marginBottom={2}>
+                            <TextField
+                                label="Aadhar Document"
+                                name="aadharCard"
+                                type="file"
+                                InputLabelProps={{ shrink: true }}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <Typography variant="body2">
+                                View existing document: <a href="aadhar.pdf" target="_blank" rel="noopener noreferrer">Aadhar.pdf</a>
                             </Typography>
                         </Box>
                         <Box marginBottom={2}>
                             <TextField
-                                label="PAN Card"
+                                label="PAN Card Document"
                                 name="panCard"
                                 type="file"
                                 InputLabelProps={{ shrink: true }}
@@ -253,31 +303,6 @@ const CreateAllDoctor = ({ handleSubmit, handleClose }) => {
                             />
                             <Typography variant="body2">
                                 View existing document: <a href="panCard.pdf" target="_blank" rel="noopener noreferrer">PANCard.pdf</a>
-                            </Typography>
-                        </Box>
-                        <Box marginBottom={2}>
-                            <TextField
-                                label="Aadhar Card"
-                                name="aadharCard"
-                                type="file"
-                                InputLabelProps={{ shrink: true }}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <Typography variant="body2">
-                                View existing document: <a href="aadharCard.pdf" target="_blank" rel="noopener noreferrer">AadharCard.pdf</a>
-                            </Typography>
-                        </Box>
-                        <Box marginBottom={2}>
-                            <TextField
-                                label="Higest Qualification Certificate"
-                                name="higestQualificationCertificate"
-                                type="file"
-                                InputLabelProps={{ shrink: true }}
-                                fullWidth
-                                margin="normal"
-                            /><Typography variant="body2">
-                            View existing document: <a href="higestQualificationCertificate.pdf" target="_blank" rel="noopener noreferrer">higestQualificationCertificate.pdf</a>
                             </Typography>
                         </Box>
                     </Box>
@@ -326,7 +351,7 @@ const CreateAllDoctor = ({ handleSubmit, handleClose }) => {
                                 />
                                 <TextField
                                     label="Bank Branch"
-                                    name="bankBranch"
+                                    name="branch"
                                     value={formData.bankBranch}
                                     onChange={handleChange}
                                     fullWidth
@@ -351,7 +376,7 @@ const CreateAllDoctor = ({ handleSubmit, handleClose }) => {
                         gap: 2,
                         marginTop: 2,
                         justifyContent: "flex-end",
-                        width: "100%", // Ensure the box spans the full width
+                        width: "100%", 
                     }}
                 >
                     <Button onClick={handleClose} className="secondary_button" >
@@ -366,4 +391,4 @@ const CreateAllDoctor = ({ handleSubmit, handleClose }) => {
     );
 };
 
-export default CreateAllDoctor;
+export default CreateDoctor;

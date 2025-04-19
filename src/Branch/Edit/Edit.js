@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  MenuItem,
 } from "@mui/material";
 
 import { useForm } from "react-hook-form";
@@ -107,7 +108,7 @@ const EditBranch = ({ handleUpdate,  editData,  handleClose }) => {
                   Branch Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
-              variant="standard"
+              variant="outlined"
               {...register("branchName")}
               error={!!errors.branchName}
               fullWidth
@@ -126,7 +127,7 @@ const EditBranch = ({ handleUpdate,  editData,  handleClose }) => {
                   Branch Location <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
-              variant="standard"
+              variant="outlined"
               {...register("branchLocation")}
               error={!!errors.branchLocation}
               fullWidth
@@ -139,18 +140,21 @@ const EditBranch = ({ handleUpdate,  editData,  handleClose }) => {
 
           <Grid item xs={12}>
             <TextField
-              type="text"
+              select
               label={
                 <>
                   Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
-              variant="standard"
-              {...register("status")}
-              error={!!errors.status}
+              variant="outlined"
               fullWidth
               margin="normal"
-            />
+              {...register("status")}
+              error={!!errors.status}
+            >
+            <MenuItem value ="Active">Active</MenuItem>
+            <MenuItem value ="Inactive">Inactive</MenuItem>
+            </TextField>
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.status?.message}
             </div>

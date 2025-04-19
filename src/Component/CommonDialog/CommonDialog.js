@@ -24,13 +24,14 @@ const CommonDialog = ({open, onClose, dialogTitle, dialogContent}) =>
         aria-describedby="alert-dialog-description"
         style={{padding:"0px"}}
       >
-         {open && <> <DialogTitle id="alert-dialog-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+         {open &&  <DialogTitle id="alert-dialog-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             {dialogTitle}
             <IconButton onClick={onClose} style={{ color: "inherit" }}>
              <CloseIcon />
              </IconButton>
       </DialogTitle>
-      
+         }
+         {open &&
          <DialogContent>
           <DialogContentText id="alert-dialog-description">
 
@@ -38,7 +39,7 @@ const CommonDialog = ({open, onClose, dialogTitle, dialogContent}) =>
   
           </DialogContentText>
           </DialogContent>
-          </>
+          
 }
       </Dialog>
 
