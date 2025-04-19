@@ -1,141 +1,461 @@
 import React, {useState} from "react"
+
 import {
+
     TextField,
-    MenuItem,
-    Select,
-    FormControl,
-    InputLabel,
+
     Grid,
+
     useMediaQuery,
+
     Button,
+
     Box,
+
+    CircularProgress,
+
   } from "@mui/material";
 
-const CreateIncome =({handleSubmit, handleClose})=>
+
+
+import { useForm } from "react-hook-form";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import * as yup from "yup";
+
+import {  toast } from "react-toastify";
+
+import 'react-toastify/dist/ReactToastify.css';
+
+import Cookies from 'js-cookie';
+
+
+
+
+
+  const schema = yup.object().shape({
+
+    sourceName: yup.string().required("Source Name is required"),
+
+    
+    description: yup.string().required(" Description is required"),
+
+    date: yup.string().required(" Date is required"),
+
+   
+
+    amount: yup.string().required(" Amount is required"),
+
+    paymentMethod: yup.string().required(" Payment Method is required"),
+
+    
+    
+
+    
+
+  });
+
+
+
+const CreateIncome =({handleCreate, handleClose})=>
+
 {
-    const isSmScreen = useMediaQuery("(max-width:768px)");
 
-    const [formData, setFormData] = useState({
-         sourcename: "",
-        description: "",
-        date: "",
-        time:"",
-        amount: "",
-        paymentmethod:"",
-        status: "",  
+  const isSmScreen = useMediaQuery("(max-width:768px)");
 
-     });
 
-     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+
+    const token = Cookies.get('token');
+
+
+
+    const Base_url = process.env.REACT_APP_BASE_URL;
+
+  
+
+    const [loading, setLoading] = useState(false)
+
+  
+
+    const {
+
+      register,
+
+      handleSubmit,
+
+      formState: { errors },
+
+      reset,
+
+    } = useForm({
+
+      resolver: yupResolver(schema),
+
+    });
+
+  
+
+
+
+  
+
+  
+
+    const onSubmit = (data) => {
+
+    
+
+           setLoading(true)
+
+           console.log(data);
+
+  
+
+          const formdata = new FormData();
+
+          formdata.append("sourceName", data.sourceName);
+
+          
+
+          formdata.append("description", data.description);
+
+          formdata.append("date", data.date);
+
+          
+
+          formdata.append("amount", data.amount);
+
+          formdata.append("paymentMethod", data.paymentMethod);
+
+          
+
+          
+
+      
+
+          const requestOptions = {
+
+            method: "POST",
+
+            body: formdata,
+
+            headers: {
+
+              Authorization:` Bearer ${token}`, 
+
+             },
+
+          };
+
+      
+
+          fetch(`${Base_url}/income`, requestOptions)
+
+            .then((response) => response.text())
+
+      
+
+            .then((result) => {
+
+      
+
+              const res = JSON.parse(result)
+
+      
+
+              if(res.status==="success")
+
+              {
+
+                setLoading(false)
+
+               
+
+                toast.success(" Income Created Successfully!")
+
+                handleCreate(true)
+
+                handleClose()
+
+                reset();
+
+              }
+
+              else {
+
+      
+
+                setLoading(false)
+
+                toast.error(res.message)
+
+      
+
+              }
+
+            })
+
+            .catch((error) => console.error(error));
+
+    };
+
+
 
      return (
+
         <>
-             <Grid container columnSpacing={2}>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+        
 
-            <TextField
-            label={
-            <>
-                Source Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name=" Sourcename"
-            value={formData.sourcename}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
+      <form onSubmit={handleSubmit(onSubmit)}>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+        <Grid container columnSpacing={2}>
+
+          <Grid item xs={12}>
 
             <TextField
-            label={
-            <>
-                Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+
+              type="text"
+
+              label={
+
+                <>
+
+                  Source Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+
+                </>
+
+              }
+
+              variant="outlined"
+
+              {...register("sourceName")}
+
+              error={!!errors.sourceName}
+
+              fullWidth
+
+              margin="normal"
+
             />
 
-            </Grid>
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+              {errors.sourceName?.message}
+
+            </div>
+
+          </Grid>
+
+
+
+          
+  
+
+          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
+
             <TextField
-            label={
-            <>
-                Date   <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+              type="text"
+
+              label={
+
+                <>
+
+                  Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+
+                </>
+
+              }
+
+              variant="outlined"
+
+              {...register("description")}
+
+              error={!!errors.description}
+
+              fullWidth
+
+              margin="normal"
+
+            />
+
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+
+              {errors.description?.message}
+
+            </div>
+
+          </Grid>
+
+          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
+
             <TextField
-            label={
-            <>
-                Time <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="time"
-            value={formData.validFrom}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
+InputLabelProps={{ shrink: true }}
+              type="date"
 
-            <Grid item xs={12} sm={12} md={12}>
+              label={
+
+                <>
+
+                  Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+
+                </>
+
+              }
+
+              variant="outlined"
+
+              {...register("date")}
+
+              error={!!errors.date}
+
+              fullWidth
+
+              margin="normal"
+
+            />
+
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+
+              {errors.date?.message}
+
+            </div>
+
+          </Grid>
+
+       
+
+          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
+
             <TextField
-            label={
-            <>
-                Amount <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="amount"
-            value={formData.validTo}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+
+              type="text"
+
+              label={
+
+                <>
+
+                  Amount <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+
+                </>
+
+              }
+
+              variant="outlined"
+
+              {...register("amount")}
+
+              error={!!errors.amount}
+
+              fullWidth
+
+              margin="normal"
+
             />
-            </Grid> <Grid item xs={12} sm={12} md={12}>
+
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+
+              {errors.amount?.message}
+
+            </div>
+
+          </Grid>
+
+          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
+
             <TextField
-            label={
-            <>
-                Payment Method<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="paymentmethod"
-            value={formData.validTo}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+
+              type="text"
+
+              label={
+
+                <>
+
+                  Payment Method <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+
+                </>
+
+              }
+
+              variant="outlined"
+
+              {...register("paymentMethod")}
+
+              error={!!errors.paymentMethod}
+
+              fullWidth
+
+              margin="normal"
+
             />
-            </Grid>
 
-            </Grid>
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
 
-            <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
-            <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleSubmit} className="primary_button">
-             Submit
-            </Button>
-            </Box>
+              {errors.paymentMethod?.message}
+
+            </div>
+
+         
+          </Grid>
+
+         
+
+          </Grid>
+
+
+
+        
+
+
+
+        <Box className="submit" sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+
+          <Button onClick={handleClose} className="secondary_button">
+
+            Cancel
+
+          </Button>
+
+          <Button type="submit" className="primary_button">
+
+
+
+          {loading ? (
+
+       <>
+
+         <CircularProgress size={18} 
+
+          style={{ marginRight: 8, color: "#fff" }} />
+
+                Submitting
+
+            </>
+
+            ) : (
+
+            "Submit"
+
+            )}
+
+
+
+          </Button>
+
+        </Box>
+
+      </form>
+
+
 
         </>
+
      )
+
 }
 
-export default CreateIncome
+
+
+export default CreateIncome;

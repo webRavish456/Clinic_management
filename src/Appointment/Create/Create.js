@@ -1,192 +1,233 @@
-import React, {useState} from "react"
+import React, { useState } from "react";
 import {
-    TextField,
-    MenuItem,
-    Select,
-    FormControl,
-    InputLabel,
-    Grid,
-    useMediaQuery,
-    Button,
-    Box,
-  } from "@mui/material";
+  TextField,
+  Grid,
+  useMediaQuery,
+  Button,
+  Box,
+  CircularProgress,
+} from "@mui/material";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 
-const CreateAppointment =({handleSubmit, handleClose})=>
-{
-    const isSmScreen = useMediaQuery("(max-width:768px)");
+const schema = yup.object().shape({
+  patientName: yup.string().required("Patient Name is required"),
+  doctorName: yup.string().required("Doctor Name is required"),
+  gender: yup.string().required("Gender is required"),
+  date: yup.string().required("Date is required"),
+  mobile: yup.string().required("Mobile is required"),
+  email: yup.string().required("Email is required"),
+  appointmentStatus: yup.string().required("Appointment Status is required"),
+  visitType: yup.string().required("Visit Type is required"),
+});
 
-    const [formData, setFormData] = useState({
-        patientname: "",
-        checkup: "",
-        doctorassignee: "",
-        appointmentdate:"",
-        status: "",  
+const CreateAppointment = ({ handleCreate, handleClose }) => {
+  const isSmScreen = useMediaQuery("(max-width:768px)");
+  const token = Cookies.get('token');
+  const Base_url = process.env.REACT_APP_BASE_URL;
+  const [loading, setLoading] = useState(false);
 
-     });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+  const onSubmit = (data) => {
+    setLoading(true);
+    console.log(data);
 
-     return (
-        <>
-             <Grid container columnSpacing={2}>
+    const formdata = new FormData();
+    formdata.append("patientName", data.patientName);
+    formdata.append("doctorName", data.doctorName);
+    formdata.append("gender", data.gender);
+    formdata.append("date", data.date);
+    formdata.append("mobile", data.mobile);
+    formdata.append("email", data.email);
+    formdata.append("appointmentStatus", data.appointmentStatus);
+    formdata.append("visitType", data.visitType);
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+    const requestOptions = {
+      method: "POST",
+      body: formdata,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
+    fetch(`${Base_url}/appointment`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        const res = JSON.parse(result);
+        if (res.status === "success") {
+          setLoading(false);
+          toast.success("Appointment Created Successfully!");
+          handleCreate(true);
+          handleClose();
+          reset();
+        } else {
+          setLoading(false);
+          toast.error(res.message);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error("Something went wrong!");
+        console.error(error);
+      });
+  };
+
+  return (
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container columnSpacing={2}>
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
-            label={
-            <>
-                Patient Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="patientName"
-            value={formData.patientName}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              type="text"
+              label={<><span style={{ color: "red" }}>*</span> Patient Name</>}
+              variant="outlined"
+              {...register("patientName")}
+              error={!!errors.patientName}
+              fullWidth
+              margin="normal"
             />
-            </Grid>
-            
-                        <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-                        <FormControl fullWidth margin="normal">
-                        <InputLabel>Doctor Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
-                        <Select name="Doctor Name" value={formData.status} onChange={handleChange}>
-                        <MenuItem value="Shruti">Shruti</MenuItem>
-                        <MenuItem value="Arohi">Arohi</MenuItem>
-                        <MenuItem value="Sara">Sara</MenuItem>
-                        </Select>
-                        </FormControl>
-                        </Grid>
+            <div style={{ color: "red", fontSize: "0.8rem" }}>
+              {errors.patientName?.message}
+            </div>
+          </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
-            label={
-            <>
-                Gender<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              type="text"
+              label={<><span style={{ color: "red" }}>*</span> Doctor</>}
+              variant="outlined"
+              {...register("doctorName")}
+              error={!!errors.doctorName}
+              fullWidth
+              margin="normal"
             />
+            <div style={{ color: "red", fontSize: "0.8rem" }}>
+              {errors.doctorName?.message}
+            </div>
+          </Grid>
 
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
-            label={
-            <>
-                Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              type="text"
+              label={<><span style={{ color: "red" }}>*</span> Gender</>}
+              variant="outlined"
+              {...register("gender")}
+              error={!!errors.gender}
+              fullWidth
+              margin="normal"
             />
-            </Grid>
+            <div style={{ color: "red", fontSize: "0.8rem" }}>
+              {errors.gender?.message}
+            </div>
+          </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
-            label={
-            <>
-                Time <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="time"
-            value={formData.time}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              InputLabelProps={{ shrink: true }}
+              type="date"
+              label={<><span style={{ color: "red" }}>*</span> Date</>}
+              variant="outlined"
+              {...register("date")}
+              error={!!errors.date}
+              fullWidth
+              margin="normal"
             />
-            </Grid>
+            <div style={{ color: "red", fontSize: "0.8rem" }}>
+              {errors.date?.message}
+            </div>
+          </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
-            label={
-            <>
-                Mobile<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="mobile"
-            value={formData.mobile}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              type="text"
+              label={<><span style={{ color: "red" }}>*</span> Mobile</>}
+              variant="outlined"
+              {...register("mobile")}
+              error={!!errors.mobile}
+              fullWidth
+              margin="normal"
             />
-            </Grid>
+            <div style={{ color: "red", fontSize: "0.8rem" }}>
+              {errors.mobile?.message}
+            </div>
+          </Grid>
 
-
-
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
-            label={
-            <>
-                Email <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              type="text"
+              label={<><span style={{ color: "red" }}>*</span> Email</>}
+              variant="outlined"
+              {...register("email")}
+              error={!!errors.email}
+              fullWidth
+              margin="normal"
             />
-            </Grid>
+            <div style={{ color: "red", fontSize: "0.8rem" }}>
+              {errors.email?.message}
+            </div>
+          </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
-            label={
-            <>
-                Appointment Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="appointmentstatus"
-            value={formData.appointmentsatus}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              type="text"
+              label={<><span style={{ color: "red" }}>*</span> Appointment Status</>}
+              variant="outlined"
+              {...register("appointmentStatus")}
+              error={!!errors.appointmentStatus}
+              fullWidth
+              margin="normal"
             />
-            </Grid>
+            <div style={{ color: "red", fontSize: "0.8rem" }}>
+              {errors.appointmentStatus?.message}
+            </div>
+          </Grid>
 
-
-        
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
-            label={
-            <>
-                Vist Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="vistType"
-            value={formData.vistType}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              type="text"
+              label={<><span style={{ color: "red" }}>*</span> Visit Type</>}
+              variant="outlined"
+              {...register("visitType")}
+              error={!!errors.visitType}
+              fullWidth
+              margin="normal"
             />
-            </Grid>
+            <div style={{ color: "red", fontSize: "0.8rem" }}>
+              {errors.visitType?.message}
+            </div>
+          </Grid>
+        </Grid>
 
-
-
-            
-            <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
-            <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleSubmit} className="primary_button">
-             Submit
-            </Button>
-            </Box>
-
-        </>
-     )
-}
+        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+          <Button onClick={handleClose} className="secondary_button">
+            Cancel
+          </Button>
+          <Button type="submit" className="primary_button">
+            {loading ? (
+              <>
+                <CircularProgress size={18} style={{ marginRight: 8, color: "#fff" }} />
+                Submitting
+              </>
+            ) : (
+              "Submit"
+            )}
+          </Button>
+        </Box>
+      </form>
+    </>
+  );
+};
 
 export default CreateAppointment;

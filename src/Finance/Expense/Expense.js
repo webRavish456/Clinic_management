@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import CloseIcon from "@mui/icons-material/Close";
-
-
+// import CloseIcon from "@mui/icons-material/Close";
+import Search from "../../Search/Search";
 
 import {
   Paper,
@@ -16,209 +14,273 @@ import {
   TableContainer,
   TableHead,
   TablePagination,
-  TableRow ,
+  TableRow,
   Box,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  TextField,
   IconButton,
-  Button,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  Grid,
-  useMediaQuery,
 } from "@mui/material";
 import CommonDialog from "../../Component/CommonDialog/CommonDialog";
+
 import ViewExpense from "./View/View";
 import CreateExpense from "./Create/Create";
 import EditExpense from "./Edit/Edit";
 import DeleteExpense from "./Delete/Delete";
-import Search from "../../Search/Search";
+import Cookies from 'js-cookie';
+import {toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const Expense=()=>
-{
+const Expense= () => {
 
-  const [openData, setOpenData] = useState(false)
+  const [openData, setOpenData] = useState(false);
+  const [viewShow, setViewShow] = useState(false);
+  const [editShow, setEditShow] = useState(false);
+  const [deleteShow, setDeleteShow] = useState(false);
 
-  const [viewData, setViewData] = useState(false)
+  const [viewData, setViewData] = useState(null);
+  const [editData, setEditData] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const [editData, setEditData] = useState(false)
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [deleteData, setDeleteData] = useState(false)
+  const token = Cookies.get("token");
 
- const handleView = () =>
-  {
-    setViewData(true)
-  }
-
-const handleEdit = () =>
-{
-   setEditData(true)
-}
-
-const handleDelete = () =>
-  {
-    setDeleteData(true)
-  }
+  const Base_url = process.env.REACT_APP_BASE_URL;
 
   const columns = [
-    { id: 'expenseid', label: 'Transaction Id', flex: 1, align: 'center' },
-    { id: 'expensecategory', label: 'Expense Category', flex: 1, align: 'center' },
-    { id: 'payeename', label: 'Payee Name', flex: 1, align: 'center' },
-    { id: 'date', label: 'Date', flex: 1, align: 'center' },
-    {id: 'time', label: 'Time', flex: 1, align: 'center'},
-    {id: 'amount', label: 'Amount', flex: 1, align: 'center'},
-    {id: 'paymentmethod', label: 'Payment Method', flex: 1, align: 'center'},
-    {id: 'status', label: 'Status', flex: 1, align: 'center'},
-   { id: 'actions', label: 'Actions', flex: 1, align: 'center' },
-  ];
+    { id: 'expenseCategory', label: 'Expense Category', flex: 1, align: 'center' },
+  { id: 'expenseId', label: 'Expense Id', flex: 1,align: 'center'  },
+      { id: 'payeeName', label: 'Payee Name', flex: 1, align: 'center' },
+      { id: 'date', label: 'Date', flex: 1, align: 'center' },
+      
+      {id: 'amount', label: 'Amount', flex: 1, align: 'center'},
+      {id: 'paymentMethod', label: 'Payment Method', flex: 1, align: 'center'},
+      {id: 'status', label: 'Status', flex: 1, align: 'center'},
+     { id: 'action', label: 'Actions', flex: 1, align: 'center' },
+    ];
   
+
+  useEffect(()=>
+    {
+  
+       const fetchExpenseData = async () => {
+  
+        try {
       
-      function createData(expenseid, expensecategory, payeename, date , time, amount, paymentmethod, status, actions) {
-        return { expenseid, expensecategory,payeename, date , time, amount, paymentmethod, status,
-          actions: (
-            <>
-              <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
-                <VisibilityIcon  />
-              </IconButton>
-              <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
-                <EditIcon />
-              </IconButton>
-              <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
-                <DeleteIcon />
-              </IconButton>
-            </>
-          ),
-        };
-      }
+          const response = await fetch(`${Base_url}/expense`, {
+           method: "GET",
+           headers: {
+              Authorization: `Bearer ${token}`, 
+             },
+        });
       
-      const rows = [
-        createData('EXP001', 'Medical Supplies', 'Med Euip Ltd', "2/9/2004", '9:00', '500','Credit Card','Pending','View/Edit/Delete'),
-        createData('EXPOO2', 'Staff Salaries', 'Dr. John Doe ', "2/7/2022", '10:00', '900','Cash','Cancelled','View/Edit/Delete'),
-        createData('EXP003','Utility Bills', 'Power Grid Co',"3/02/2023",'11:00','1000','Google Pay','Rescheduled','View/Edit/Delete'),
-        createData('EXP004','Maintenance', 'ABC Services',"12/12/12",'12:00','1500','Phone Pay','Confirmed','View/Edit/Delete'),
-        createData('EXP004','Office Services','Stationery Hub',"12/12/12",'12:00','2000','UPI','Completed','View/Edit/Delete'),
-        createData('EXP006','Rent', 'XYX Properties',"3/5/2024",'8:00','2500','Bank Transfer','Pending','Completed','View/Edit/Delete'),
-        createData('EXP007','Equipment Purchase', 'Medi Tech Inc',"5/8/2005",'7:00','3000','Credit Card','Confirmed',''),
-        createData('EXP008','Cleaning Services', 'Clean & Co.',"3/2/24",'6:00','3500','Phone Pay','Completed','View/Edit/Delete' ),
-        createData('EXP009','Internet & Phones', 'Telecom Ltd',"4/4/12",'7:00','4000','Cash','Confirmed','View/Edit/Delete' ),
-        createData('EXP010','Advertising', 'Media Agency','8/9/12','6:00','5000','Google Pay','Cancelled','View/Edit/Delete'),
-        
-      ];
-      const [page, setPage] = useState(0);
-      const [rowsPerPage, setRowsPerPage] = useState(10);
-    
-      const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-      };
-    
-      const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
+          const result = await response.text();
+          const res = JSON.parse(result);
+
+          console.log(res)
+      
+          if (res.status === "success") {
+  
+             setLoading(false);
+  
+             const formattedData = res.data.map((item, index) =>
+              createData(item, item.expenseCategory, item._id, item.payeeName, item.date, item.amount, item.paymentMethod, item.status)
+            );
+         
+            setRows(formattedData)
+          } 
+  
+       } 
+          catch (error) {
+              console.error("Error fetching income data:", error);
+          }
       };
 
-      const onAddClick =()=>
+      if(loading)
         {
-          setOpenData(true)
+            fetchExpenseData();
         }
-   
-        const handleClose = () => {
-          setEditData(false)
-          setViewData(false)
-          setOpenData(false)
-          setDeleteData(false)
-       };
-   
-       const handleSubmit = (e) => {
-         e.preventDefault();
-         setOpenData(false)
-         // console.log("Form Data Submitted:", formData);
-       }
+    
+     },[loading])
+    
+  const  createData = (row,expenseCategory,expenseId,payeeName,date,amount,paymentMethod,status) => ({
+   row,expenseCategory,expenseId,payeeName,date,amount,paymentMethod,status,action : (
+      <>
+                    <IconButton style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
+                     onClick={()=>handleView(rows)}>
+                        <VisibilityIcon />
+                    </IconButton>
+                    <IconButton style={{ color: "#6b6666", padding: "4px", transform: "scale(0.8)" }} 
+                    onClick={()=>handleEdit(rows)}>
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton style={{ color: "#e6130b", padding: "4px", transform: "scale(0.8)" }} 
+                    onClick={()=>handleShowDelete(rows._id)}>
+                        <DeleteIcon />
+                    </IconButton>
+                </>
+    ),
+  });
 
-       const handleUpdate = (e) => {
-          e.preventDefault();
-          setEditData(false)
-       }
+  const handleView = (row) => {
+    setViewData(row);
+    setViewShow(true);
+  };
+
+  const handleEdit = (data) => {
+    setEditData(data);
+    setEditShow(true);
+  };
+
+  const handleShowDelete = (id) => {
+    setDeleteId(id);
+    setDeleteShow(true);
+  };
+
+  const handleDelete = () => {
+    setIsDeleting(true);
+    fetch(`${Base_url}/expense/${deleteId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.text())
+      .then((result) => {
+        const res = JSON.parse(result);
+        if (res.status === "success") {
+          toast.success("Expense deleted successfully!");
+          setLoading(true);
+        } else {
+          toast.error(res.message);
+        }
+        setIsDeleting(false);
+        handleClose();
+      })
+      .catch((error) => {
+        console.error("Delete error:", error);
+        setIsDeleting(false);
+      });
+  };
+
+  const handleClose = () => {
+    setOpenData(false);
+    setViewShow(false);
+    setEditShow(false);
+    setDeleteShow(false);
+  };
+  const handleCreate = (refresh = true) => {
+    if (refresh) setLoading(true);
+    setOpenData(false);
+  };
+
+  const handleUpdate = (refresh = true) => {
+    if (refresh) setLoading(true);
+    setEditShow(false);
+  };
+
+  const onAddClick = () => setOpenData(true);
   
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-    return (
-      
-      <Box className="container">
-        <Search onAddClick={onAddClick}  buttonText="+ Add Expense"/>
-     <Paper sx={{ width: '100%', overflow:"hidden" }}>
-      <TableContainer  >
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth, fontWeight:900 }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+  const handleChangePage = (_, newPage) => setPage(newPage);
+  const handleChangeRowsPerPage = (e) => {
+    setRowsPerPage(+e.target.value);
+    setPage(0);
+  };
+
+  return (
+    <>
+    <ToastContainer />
+
+    <Box className="container">
+      <Search onAddClick={onAddClick} buttonText="+Add Expense" />
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="Expense table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth, fontWeight: 700 }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, idx) => (
+
+                    <TableRow hover role="checkbox"  key={idx}>
+                      {columns.map((column) => (
+                        
+                          <TableCell key={column.id} align={column.align}>
+                            {row[column.id]}
+                          </TableCell>
+                            ))}
+                            </TableRow>
+                          ))}     
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+
+      <CommonDialog
+        open={openData || viewData || editData || deleteShow}
+        onClose={handleClose}
+        dialogTitle={
+          openData
+          ? "Create New Expense"
+          : viewShow
+          ? "View Expense"
+          : editShow
+          ? "Edit Expense"
+          : deleteShow
+          ? "Delete Expense"
+          : ""
+        }
+
+        dialogContent={
+          openData ? (
+            <CreateExpense handleCreate={handleCreate} handleClose={handleClose} />
+          ) : viewShow ? (
+            <ViewExpense viewData={viewData} />
+          ) : editShow ? (
+            <EditExpense
+              editData={editData}
+              handleUpdate={handleUpdate}
+              handleClose={handleClose}
+            />
+          ) : deleteShow ? (
+            <DeleteExpense
+              handleDelete={handleDelete}
+              isDeleting={isDeleting}
+              handleClose={handleClose}
+            />
+          ) : null
+        }
+
       />
-    </Paper>
-   
-     <CommonDialog 
-      open={openData || viewData || editData || deleteData} 
-      onClose={handleClose}
-      dialogTitle={ <>
-         {openData? "Create New Expense" : viewData ? "View Expense Details": editData?"Edit Expense Details":deleteData?"Delete Expense":null}
-      </>}
-      
-      dialogContent = {
-         openData ? <CreateExpense handleSubmit={handleSubmit} handleClose={handleClose} /> :
-          viewData ? <ViewExpense /> : 
-         editData ? <EditExpense handleUpdate={handleUpdate} handleClose={handleClose} /> : 
-         deleteData? <DeleteExpense handleDelete={handleDelete} handleClose={handleClose} />:null
-        
-      }
 
-      />
-
-      
     </Box>
-    )
-}
+    </>
+    
+  );
+};
 
 export default Expense;

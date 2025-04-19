@@ -63,7 +63,11 @@ const SignIn = () => {
             reset();
           }, 1500);
 
-          document.cookie = `token=${res.access_token}; path=/; max-age=${res.expiresAt}; SameSite=Strict`;
+          const expiryDate = new Date(res.expiresAt); 
+          const now = new Date();
+          const maxAgeSeconds = Math.floor((expiryDate - now) / 1000);
+
+          document.cookie = `token=${res.access_token}; path=/; Max-Age=${maxAgeSeconds}; SameSite=Strict`;
 
         }
         else {

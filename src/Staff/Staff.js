@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
@@ -24,6 +24,9 @@ import {
 } from "@mui/material";
 import CommonDialog from "../Component/CommonDialog/CommonDialog";
 import DeleteStaff from "./Delete/Delete";
+import Cookies from "js-cookie";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Staff=()=>
   {
@@ -35,18 +38,25 @@ const Staff=()=>
     const [editData, setEditData] = useState(false)
   
     const [deleteData, setDeleteData] = useState(false)
-   const navigate = useNavigate();
+
+     const [rows, setRows] = useState([]);
+      const [loading, setLoading] = useState(true);
+    
+      const token = Cookies.get("token");
+      const Base_url = process.env.REACT_APP_BASE_URL;
+
+      const navigate = useNavigate();
    
    
   
-   const handleView = () =>
+   const handleView = (id) =>
     {
-      navigate("/viewstaff")
+      navigate(`/viewstaff/${id}`)
     }
   
-  const handleEdit = () =>
+  const handleEdit = (id) =>
   {
-    navigate("/editstaff")
+    navigate(`/editstaff/${id}`)
   }
   
   const handleDelete = () =>
@@ -59,8 +69,8 @@ const columns = [
   { id: 'si', label: 'SI.No', flex:1, align:'center' },
   { id: 'staffName', label: 'Staff Name', flex:1, align:'center' },
   
-  {id: 'desig',label: 'Designation',flex:1,align: 'center',},
-  {id: 'mobileNo',label: 'Mobile No',flex:1,align: 'center',},
+  {id: 'designation',label: 'Designation',flex:1,align: 'center',},
+  {id: 'mobileNumber',label: 'Mobile Number',flex:1,align: 'center',},
   
   {id: 'emailId',label: 'Email ID',flex:1, align: 'center',},
   { id: 'shift',label: 'Shift ', flex:1, align: 'center',},
@@ -74,16 +84,59 @@ const columns = [
  
 ];
 
-function createData(si, satffName, desig, mobileNo, emailId,  shift, address, salary, joiningDate,status ) {
-  return { si, satffName, desig, mobileNo, emailId,  shift, address, salary, joiningDate , status, action: (
+useEffect(() => {
+  const fetchStaffData = async () => {
+    try {
+      const response = await fetch(`${Base_url}/staff`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const result = await response.text();
+      const res = JSON.parse(result);
+
+
+      if (res.status === "success") {
+        setLoading(false);
+        const formattedData = res.data.map((item, index) =>
+          createData(
+            index + 1,
+            item._id,
+            item.staffName,
+            item.companyDetails.designation,
+            item.mobileNumber,
+            item.emailId,
+            item.shift,
+            item.address,
+            item.companyDetails.salary,
+            item.companyDetails.joiningDate,
+            item.availabilityStatus
+          )
+        );
+        setRows(formattedData);
+      }
+    } catch (error) {
+      console.error("Error fetching staff data:", error);
+    }
+  };
+
+  if (loading) {
+    fetchStaffData();
+  }
+}, [loading]);
+
+function createData(si, id, staffName, designation, mobileNumber, emailId,  shift, address, salary, joiningDate,status ) {
+  return { si, id, staffName, designation, mobileNumber, emailId,  shift, address, salary, joiningDate , status, action: (
       <>
-      <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
+      <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleView(id)}>
         <VisibilityIcon />
       </IconButton>
-      <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px", transform:"scale(0.8)"}} onClick={handleEdit}>
+      <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleEdit(id)}>
         <EditIcon />
       </IconButton>
-      <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px", transform:"scale(0.8)"}} onClick={handleDelete}>
+      <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleDelete(id)}>
         <DeleteIcon />
       </IconButton>
       </>
@@ -91,13 +144,6 @@ function createData(si, satffName, desig, mobileNo, emailId,  shift, address, sa
    };
 }
 
-
-const rows = [
-  createData('1', 'Ritu','BCA', '1234567812', 'ritu@gmail.com' , 'morning' ,'sakshi', '30000', '12-03-2025' ,'Active'),
-  createData('2', 'Rita','MCA', '1122334455', 'rita@gmail.com' , 'evening' ,'kadma', '20000', '10-03-2025' ,'Active'),
-  createData('3', 'Rinu','BSc', '1223445667', 'rinu@gmail.com' , 'night' ,'bistupur', '10000', '9-03-2025' ,'Active'),
-  createData('4', 'Rinki','BCom', '1234567890', 'rinki@gmail.com' , 'morning' ,'sonari', '350000', '6-03-2025' ,'Active'),
-];
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
