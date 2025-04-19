@@ -98,7 +98,7 @@ const EditStaff = () => {
               setLoading(false);
             
               reset({
-                staffName: res.data.staffName,
+                staffName: res.data.staffName || "",
                 gender: res.data.gender,
                 dob: res.data.dob,
                 mobileNumber: res.data.mobileNumber,

@@ -14,42 +14,205 @@ import {
     FormControlLabel,
     FormLabel
 } from "@mui/material";
-
-const EditDoctor = ({ handleSubmit, handleClose }) => {
-    const [formData, setFormData] = useState({
-        doctorName: "",
-        hospitalName:"",
-        gender: "",
-       
-        dob: "",
-        mobileNumber: "",
-        emailId: "",
-        experience: "",
-        qualification: "",
-        address: "",
-        branchName: "",
-        specialization: "",
-        department:"",
-        salary:"",
-        joiningDate: "",
-        resumeCertificate: "",
-        licenseCertificate:"",
-        highestQualificationCertificate: "",
-        panCard: "",
-        aadharCard: "",
-        accountHolderName: "",
-        accountNumber: "",
-        bankName: "",
-        ifscCode: "",
-        branch: "",
-        branchLocation: "",
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import {  toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
+import { useNavigate, useParams } from "react-router-dom";
+ 
+const schema = yup.object().shape({
+    doctorName: yup.string().required("Doctor Name is required"),
+    hospitalName:yup.string().required("Hospital Name is required"),
+    gender: yup.string().required("Gender is required"),
+    dob: yup.string().required("Date of birth is required"),
+    mobileNumber: yup.string().required("Mobile number is required"),
+    emailId: yup.string().required("Email ID is required"),
+    experience: yup.string().required("Experience is required"),
+    qualification: yup.string().required("Qualification is required"),
+    address: yup.string().required("Address is required"),
+    branchName: yup.string().required("Branch name is required"),
+    specialization: yup.string().required("Specialization is required"),
+    department:yup.string().required("Department is required"),
+    salary:yup.string().required("Salary is required"),
+    joiningDate: yup.string().required(" Joining date is required"),
+    resumeCertificate: yup.string().required("Resume is required"),
+    licenseCertificate:yup.string().required("Lincense is required"),
+    highestQualificationCertificate: yup.string().required("Highest qualification certificate is required"),
+    panCard: yup.string().required("Pan card is required"),
+    aadharCard: yup.string().required("Aadhar card is required"),
+    accountHolderName: yup.string().required("Account holder name is required"),
+    accountNumber: yup.string().required("Account number is required"),
+    bankName: yup.string().required("Bank name is required"),
+    ifscCode: yup.string().required("IFSC code is required"),
+    branch: yup.string().required("Branch  is required"),
+    branchLocation: yup.string().required("Branch name is required"),
     });
+const EditDoctor = () => {
+   
+       
+    const { Id } = useParams();
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const token = Cookies.get('token');
+
+    const Base_url = process.env.REACT_APP_BASE_URL;
+  
+    const [loading, setLoading] = useState(false)
+
+    const [loadingdata, setLoadingdata] = useState(true)
+
+    const navigate= useNavigate()
+  
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+      reset,
+    } = useForm({
+      resolver: yupResolver(schema),
+
+ });
+
+    
+ useEffect(() => {
+
+    const fetchStaffData = async () => {
+      try {
+        const response = await fetch(`${Base_url}/doctor/${Id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        const result = await response.text();
+        const res = JSON.parse(result);
+  
+  
+        if (res.status === "success") {
+          setLoading(false);
+    
+          reset({
+            
+            doctorName: res.data.doctorName|| "",
+            hospitalName: res.data.hospitalName,
+            gender: res.data.gender,
+            dob: res.data.dob,
+            mobileNumber: res.data.mobileNumber,
+            emailId: res.data.emailId,
+            experience: res.data.experience,
+            qualification:res.data.qualification,
+            address:res.data.address,
+            branchName:res.data.companyDetails.branchName,
+            salary: res.data.companyDetails.salary,
+            specialization:res.data.companyDetails.specialization,
+            joiningDate:res.data.companyDetails.joiningDate,
+            department:res.data.companyDetails.department,
+            accountHolderName:res.data.bankDetails.accountHolderName,
+            accountNumber:res.data.bankDetails.accountNumber,
+            bankName:res.data.bankDetails.bankName,
+            ifscCode:res.data.bankDetails.ifscCode,
+            branch:res.data.bankDetails.branch,
+            branchLocation:res.data.bankDetails.branchLocation
+        
+         });
+         setLoadingdata(false)
+        }
+      } catch (error) {
+        console.error("Error fetching doctor data:", error);
+      }
     };
+  
+    if (loadingdata) {
+      fetchDoctorData();
+    }
+  }, [loadingdata]);
+    
+    
+    
+  const onSubmit = (data) => {
+    
+    setLoading(true)
 
-    return (
+
+    const companyDetails = {
+        salary: data.salary,
+        branchName:data.branchName,
+        designation:data.designation,
+        joiningDate:data.joiningDate,
+        department:data.department,
+       
+      };
+     
+      const bankDetails = {
+        accountHolderName:data.accountHolderName,
+        accountNumber:data.accountNumber,
+        bankName:data.bankName,
+        ifscCode:data.ifscCode,
+        branch:data.branch,
+        branchLocation:data.branchLocation
+      }
+      const formdata = new FormData();
+       formdata.append("doctorName", data.staffName);
+       formdata.append("gender", data.gender);
+       formdata.append("dob", data.dob);
+
+       formdata.append("companyDetails", JSON.stringify(companyDetails))
+       formdata.append("bankDetails", JSON.stringify(bankDetails))
+
+       formdata.append("mobileNumber", data.mobileNumber);
+       formdata.append("emailId", data.emailId);
+       formdata.append("experience", data.experience);
+       formdata.append("qualification", data.qualification);
+       formdata.append("address", data.address);
+
+       
+       formdata.append("documents.resumeCertificate", data.resumeCertificate[0]);
+       formdata.append("documents.licenseCertificate", data.licenseCertificate[0]);
+       formdata.append("documents.highestQualificationCertificate", data.highestQualificationCertificate[0]);
+       formdata.append("documents.panCard", data.panCard[0]);
+       formdata.append("documents.aadharCard", data.aadharCard[0]);
+          
+       
+       const requestOptions = {
+        method: "PATCH",
+        body: formdata,
+        headers: {
+          Authorization: `Bearer ${token}`, 
+         },
+      };
+
+   fetch(`${Base_url}/doctor/${Id}`, requestOptions)
+               .then((response) => response.text())
+         
+               .then((result) => {
+         
+                 const res = JSON.parse(result)
+         
+                 if(res.status==="success")
+                 {
+                   setLoading(false)
+                  
+                   toast.success(" Doctor Created Successfully!")
+                   navigate("/doctor")
+                   reset();
+                 }
+                 else {
+                    setLoading(false)
+                    toast.error(res.message)
+          
+                  }
+                })
+                .catch((error) => console.error(error));
+        };
+    
+        const handleCancel = () =>
+        {
+             navigate("/doctor")
+        }
+
+       return (
         <>
             
             <Grid container spacing={6} style={{ padding: "20px" }}>
