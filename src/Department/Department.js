@@ -59,7 +59,6 @@ const Department= () => {
      { id: 'action', label: 'Actions', flex: 1, align: 'center' },
     ];
   
-<<<<<<< HEAD
 
   useEffect(()=>
     {
@@ -67,9 +66,6 @@ const Department= () => {
        const fetchDepartmentData = async () => {
   
         try {
-=======
-    return (
->>>>>>> f07f5488337c30509bd5d732a4bb3d9960abe2ed
       
           const response = await fetch(`${Base_url}/department`, {
            method: "GET",

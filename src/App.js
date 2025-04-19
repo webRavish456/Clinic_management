@@ -19,6 +19,9 @@ import Department from "./Department/Department";
 import LabTest from "./Laboratory/LabTest/LabTest";
 import Income from "./Finance/Income/Income";
 import Expense from "./Finance/Expense/Expense";
+import CreateDoctor from "./Doctor/AllDoctor/Create/Create";
+import ViewDoctor from "./Doctor/AllDoctor/View/View";
+import EditDoctor from "./Doctor/AllDoctor/Edit/Edit";
 
 
 
@@ -46,8 +49,11 @@ function App() {
           <Route path="finance/income" element={<Income />} />
           <Route path="finance/expense" element={<Expense />} />
           <Route path="createstaff" element={<CreateStaff />} />
-          <Route path="viewstaff" element={<ViewStaff/>}/>
-        <Route path="editstaff" element={<EditStaff/>}/>
+          <Route path="viewstaff/:Id" element={<ViewStaff/>}/>
+        <Route path="editstaff/:Id" element={<EditStaff/>}/>
+        <Route path="createDoctor" element={<CreateDoctor/>}/>
+        <Route path="viewDoctor"   element={<ViewDoctor/>}/>
+        <Route path="editDoctor"   element={<EditDoctor/>}/>
 
         </Route>
       </Routes>
