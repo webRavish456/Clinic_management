@@ -56,6 +56,8 @@ const departmentHeads = [
 ];
 
 const EditDepartment = ({ handleUpdate, editData, handleClose }) => {
+
+  
   const isSmScreen = useMediaQuery("(max-width:768px)");
   const token = Cookies.get("token");
   const Base_url = process.env.REACT_APP_BASE_URL;

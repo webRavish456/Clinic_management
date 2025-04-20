@@ -227,5 +227,3 @@ const ViewDoctor = () => {
 };           
  
 export default ViewDoctor;
-
-                
