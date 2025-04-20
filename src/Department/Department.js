@@ -42,13 +42,13 @@ const Department = () => {
   const Base_url = process.env.REACT_APP_BASE_URL;
 
   const columns = [
-    { id: "si", label: "SI.No", flex: 1, align: "center" },
-    { id: "departmentName", label: "Department Name", flex: 1, align: "center" },
-    { id: "specialization", label: "Specialization", flex: 1, align: "center" },
-    { id: "description", label: "Description", flex: 1, align: "center" },
-    { id: "departmentHead", label: "Department Head", flex: 1, align: "center" },
-    { id: "status", label: "Status", flex: 1, align: "center" },
-    { id: "action", label: "Actions", flex: 1, align: "center" },
+    { id: "si", label: "SI.No", align: "center" },
+    { id: "departmentName", label: "Department Name", align: "center" },
+    { id: "specialization", label: "Specialization Count", align: "center" },
+    { id: "description", label: "Description", align: "center" },
+    { id: "departmentHead", label: "Department Head", align: "center" },
+    { id: "status", label: "Status", align: "center" },
+    { id: "action", label: "Actions", align: "center" },
   ];
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const Department = () => {
         const response = await fetch(`${Base_url}/department`, {
           method: "GET",
           headers: {
-            Authorization:`Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -71,7 +71,9 @@ const Department = () => {
               index + 1,
               item,
               item.departmentName,
-              item.specialization,
+              Array.isArray(item.specialization)
+                ? item.specialization.length
+                : item.specialization?.split(",").length || 0,
               item.description,
               item.departmentHead,
               item.status
@@ -93,7 +95,7 @@ const Department = () => {
     si,
     row,
     departmentName,
-    specialization,
+    specializationCount,
     description,
     departmentHead,
     status
@@ -101,8 +103,11 @@ const Department = () => {
     si,
     row,
     departmentName,
-    specialization,
-    description,
+    specialization: specializationCount,
+    description:
+      description && description.length > 60
+        ? `${description.slice(0, 60)}...`
+        : description,
     departmentHead,
     status,
     action: (
@@ -225,8 +230,8 @@ const Department = () => {
               <TableBody>
                 {rows
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, idx) => (
-                    <TableRow hover role="checkbox" key={idx}>
+                  .map((row) => (
+                    <TableRow hover role="checkbox" key={row.row._id || row.si}>
                       {columns.map((column) => (
                         <TableCell
                           key={column.id}
@@ -256,7 +261,7 @@ const Department = () => {
         </Paper>
 
         <CommonDialog
-          open={openData || viewData || editData || deleteShow}
+          open={openData || viewShow || editShow || deleteShow}
           onClose={handleClose}
           dialogTitle={
             openData

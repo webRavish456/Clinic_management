@@ -11,19 +11,21 @@ import {
   Box,
   CircularProgress,
   useMediaQuery,
+  OutlinedInput,
+  Checkbox,
+  ListItemText,
 } from "@mui/material";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 import Cookies from "js-cookie";
 
 const schema = yup.object().shape({
   departmentName: yup.string().required("Department Name is required"),
-  specialization: yup.string().required("Specialization is required"),
+  specialization: yup.array().min(1, "Select at least one specialization"),
   description: yup.string().required("Description is required"),
-  departmentHead: yup.string(),
+  departmentHead: yup.string().required("Department Head is required"),
 });
 
 const departmentSpecializations = {
@@ -44,9 +46,18 @@ const departmentSpecializations = {
   Endocrinology: ["Hormonal disorders", "Diabetes", "Thyroid", "PCOS", "Adrenal issues"]
 };
 
+// Sample department heads (replace with actual API data if needed)
+const departmentHeads = [
+  "Dr. Anita Sharma",
+  "Dr. Vikram Singh",
+  "Dr. Priya Das",
+  "Dr. Rohan Mehta",
+  "Dr. Neha Kapoor"
+];
+
 const EditDepartment = ({ handleUpdate, editData, handleClose }) => {
   const isSmScreen = useMediaQuery("(max-width:768px)");
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
   const Base_url = process.env.REACT_APP_BASE_URL;
 
   const [loading, setLoading] = useState(false);
@@ -60,20 +71,24 @@ const EditDepartment = ({ handleUpdate, editData, handleClose }) => {
     setValue,
     watch,
   } = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
+
+  const specializationValue = watch("specialization");
 
   useEffect(() => {
     if (editData) {
       const deptNameNormalized = Object.keys(departmentSpecializations).find(
-        key => key.toUpperCase() === editData.departmentName?.toUpperCase()
+        (key) => key.toUpperCase() === editData.departmentName?.toUpperCase()
       );
+
       reset({
         departmentHead: editData.departmentHead || "",
-        specialization: editData.specialization || "",
+        specialization: editData.specialization || [],
         description: editData.description || "",
         departmentName: deptNameNormalized || "",
       });
+
       setSelectedDepartment(deptNameNormalized || "");
     }
   }, [editData, reset]);
@@ -83,36 +98,34 @@ const EditDepartment = ({ handleUpdate, editData, handleClose }) => {
     const formdata = new FormData();
 
     formdata.append("departmentName", data.departmentName);
-    formdata.append("specialization", data.specialization);
     formdata.append("description", data.description);
     formdata.append("departmentHead", data.departmentHead);
+    data.specialization.forEach((spec, index) => {
+      formdata.append(`specialization[${index}]`, spec);
+    });
 
-    const requestOptions = {
+    fetch(`${Base_url}/department/${editData._id}`, {
       method: "PATCH",
       body: formdata,
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    };
-
-    fetch(`${Base_url}/department/${editData._id}`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => {
-        const res = JSON.parse(result);
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        setLoading(false);
         if (res.status === "success") {
-          setLoading(false);
           toast.success("Department updated successfully!");
           handleUpdate(true);
           handleClose();
           reset();
         } else {
-          setLoading(false);
           toast.error(res.message);
         }
       })
       .catch((error) => {
-        setLoading(false);
         console.error(error);
+        setLoading(false);
         toast.error("Something went wrong!");
       });
   };
@@ -120,56 +133,48 @@ const EditDepartment = ({ handleUpdate, editData, handleClose }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container columnSpacing={2}>
-        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+        <Grid item xs={12} sm={isSmScreen ? 12 : 6}>
           <FormControl fullWidth margin="normal" error={!!errors.departmentName}>
-            <InputLabel id="departmentName-label">
-              Department Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </InputLabel>
+            <InputLabel id="departmentName-label">Department Name *</InputLabel>
             <Select
               labelId="departmentName-label"
-              id="departmentName"
-              label="Department Name"
               value={selectedDepartment}
               onChange={(e) => {
                 const value = e.target.value;
                 setSelectedDepartment(value);
                 setValue("departmentName", value);
-                setValue("specialization", ""); // Reset specialization
+                setValue("specialization", []);
               }}
-              MenuProps={{
-                PaperProps: {
-                  style: {
-                    maxHeight: 200,
-                    overflowY: "auto",
-                  },
-                },
-              }}
+              
+              MenuProps={{PaperProps:{style:{maxHeight:200,
+                overflowY:"auto",
+              },
+            },
+          }}
             >
               {Object.keys(departmentSpecializations).map((dept) => (
-                <MenuItem key={dept} value={dept}>
-                  {dept.replace(/_/g, " ")}
-                </MenuItem>
+                <MenuItem key={dept} value={dept}>{dept}</MenuItem>
               ))}
             </Select>
             <FormHelperText>{errors.departmentName?.message}</FormHelperText>
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+        <Grid item xs={12} sm={isSmScreen ? 12 : 6}>
           <FormControl fullWidth margin="normal" error={!!errors.specialization}>
-            <InputLabel id="specialization-label">
-              Specialization<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </InputLabel>
+            <InputLabel id="specialization-label">Specialization *</InputLabel>
             <Select
               labelId="specialization-label"
-              id="specialization"
-              label="Specialization"
-              value={watch("specialization") || ""}
+              multiple
+              value={Array.isArray(specializationValue) ? specializationValue : []}
               onChange={(e) => setValue("specialization", e.target.value)}
+              input={<OutlinedInput label="Specialization" />}
+              renderValue={(selected) => Array.isArray(selected) ? selected.join(", ") : ""}
             >
               {(departmentSpecializations[selectedDepartment] || []).map((spec) => (
                 <MenuItem key={spec} value={spec}>
-                  {spec}
+                  <Checkbox checked={Array.isArray(specializationValue) && specializationValue.includes(spec)} />
+                  <ListItemText primary={spec} />
                 </MenuItem>
               ))}
             </Select>
@@ -177,12 +182,11 @@ const EditDepartment = ({ handleUpdate, editData, handleClose }) => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+        <Grid item xs={12} sm={isSmScreen ? 12 : 6}>
           <TextField
             label="Description *"
             fullWidth
             margin="normal"
-            type="text"
             variant="outlined"
             {...register("description")}
             error={!!errors.description}
@@ -190,17 +194,24 @@ const EditDepartment = ({ handleUpdate, editData, handleClose }) => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-          <TextField
-            label="Department Head *"
-            fullWidth
-            margin="normal"
-            type="text"
-            variant="outlined"
-            {...register("departmentHead")}
-            error={!!errors.departmentHead}
-            helperText={errors.departmentHead?.message}
-          />
+        <Grid item xs={12} sm={isSmScreen ? 12 : 6}>
+          <FormControl fullWidth margin="normal" error={!!errors.departmentHead}>
+            <InputLabel id="departmentHead-label">Department Head *</InputLabel>
+            <Select
+              labelId="departmentHead-label"
+              defaultValue=""
+              {...register("departmentHead")}
+              onChange={(e) => setValue("departmentHead", e.target.value)}
+              value={watch("departmentHead") || ""}
+            >
+              {departmentHeads.map((head) => (
+                <MenuItem key={head} value={head}>
+                  {head}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText>{errors.departmentHead?.message}</FormHelperText>
+          </FormControl>
         </Grid>
       </Grid>
 
@@ -211,8 +222,7 @@ const EditDepartment = ({ handleUpdate, editData, handleClose }) => {
         <Button type="submit" className="primary_button">
           {loading ? (
             <>
-              <CircularProgress size={18} style={{ marginRight: 8, color: "#fff" }} />
-              Submitting
+              <CircularProgress size={18} sx={{ mr: 1, color: "#fff" }} /> Submitting
             </>
           ) : (
             "Submit"
