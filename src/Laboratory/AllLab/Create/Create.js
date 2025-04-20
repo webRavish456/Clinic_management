@@ -1,34 +1,106 @@
-import React, {useState} from "react"
+import React, {useState} from "react";
+
+
 import {
     TextField,
-    // MenuItem,
-    // Select,
-    // FormControl,
-    // InputLabel,
     Grid,
-    useMediaQuery,
     Button,
     Box,
+    CircularProgress,
+    useMediaQuery,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    FormHelperText,
   } from "@mui/material";
 
-const CreateLab =({handleSubmit, handleClose})=>
-{
-    const isSmScreen = useMediaQuery("(max-width:768px)");
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import {  toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
+ 
 
-    const [formData, setFormData] = useState({
-        labName: "",
-        labType: "",
-        assigneeStaff: "",
-        shift: "",  
+const schema = yup.object().shape({
+   labName: yup.string().required("Lab Name is required"),
+     labType: yup.string().required("Lab Type is required"),
+     AssigneeStaff: yup.string().required("Assignee Staff is required"),
+     Shift: yup.string().required("Shift is required"),
+    
+  });
+
+
+const CreateAllLab =({handleCreate, handleClose})=>
+{   
+    const token = Cookies.get('token');
+
+    const Base_url = process.env.REACT_APP_BASE_URL;
+
+
+ const [loading, setLoading] = useState(false)
+  
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+      reset,
+    } = useForm({
+      resolver: yupResolver(schema),
+    });
+
+    const onSubmit = (data) => {
+    
+       console.log(data)
+        setLoading(true)
+
+       const formdata = new FormData();
+       formdata.append("labName", data.labName);
+       formdata.append("labType", data.labType);
+       formdata.append("assigneeStaff", data.AssigneeStaff);
+       formdata.append("shift", data.Shift);
         
-     });
+       const requestOptions = {
+         method: "POST",
+         body: formdata,
+         headers: {
+           Authorization: `Bearer ${token}`, 
+          },
+       };
+   
+       fetch(`${Base_url}/alllab`, requestOptions)
+         .then((response) => response.text())
+   
+         .then((result) => {
+   
+           const res = JSON.parse(result)
+   
+           if(res.status==="success")
+           {
+            setLoading(false)
+               
+            toast.success("Lab Created Successfully!")
+            handleCreate(true)
+            handleClose()
+            reset();
+          }
+          else {
+  
+            setLoading(false)
+            toast.error(res.message)
+  
+          }
+        })
+        .catch((error) => console.error(error));
+    };
 
-     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
-
+    
+    const isSmScreen = useMediaQuery("(max-width:768px)");
      return (
-        <>
+        <>   
+            <form onSubmit={handleSubmit(onSubmit)}>
+
              <Grid container columnSpacing={2}>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
@@ -36,12 +108,13 @@ const CreateLab =({handleSubmit, handleClose})=>
             <TextField
             label={
             <>
-                Lab Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                Lab Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
             name="labName"
-            value={formData.labName}
-            onChange={handleChange}
+            variant="outlined"
+            {...register("labName")}
+            error={!!errors.labName}
             fullWidth
             margin="normal"
             />
@@ -56,9 +129,11 @@ const CreateLab =({handleSubmit, handleClose})=>
             </>
             }
             name="labType"
-            value={formData.labType}
-            onChange={handleChange}
+            variant="outlined"
+            {...register("labType")}
+            error={!!errors.labType}
             fullWidth
+
             margin="normal"
             />
 
@@ -71,9 +146,10 @@ const CreateLab =({handleSubmit, handleClose})=>
                 Assignee Staff <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="assigneeStaff"
-            value={formData.assigneeStaff}
-            onChange={handleChange}
+            name="AssigneeStaff"
+            variant="outlined"
+            {...register("AssigneeStaff")}
+            error={!!errors.AssigneeStaff}
             fullWidth
             margin="normal"
             />
@@ -86,27 +162,78 @@ const CreateLab =({handleSubmit, handleClose})=>
                 Shift <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="shift"
-            value={formData.shift}
-            onChange={handleChange}
+            name="Shift"
+            variant="outlined"
+            {...register("Shift")}
+            error={!!errors.Shift}
             fullWidth
             margin="normal"
             />
             </Grid>
 
             
+            
+
+            
+
+            {/* <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+                        <TextField
+                          type="text"
+                          label={
+                            <>
+                              Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                            </>
+                          }
+                          variant="outlined"
+                          {...register("Status")}
+                          error={!!errors.Status}
+                          fullWidth
+                          margin="normal"
+                        />
+                        <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                          {errors.Status?.message}
+                        </div>
+                      </Grid> */}
+{/* <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+<FormControl fullWidth margin="normal" error={!!errors.status}>
+  <InputLabel id="status-label">
+    Status<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+  </InputLabel>
+  <Select
+    labelId="status-label"
+    id="status"
+    label="Status"
+    defaultValue=""
+    {...register("status")}
+  >
+    <MenuItem value="complete">Complete</MenuItem>
+    <MenuItem value="active">Active</MenuItem>
+    <MenuItem value="uncomplete">Uncomplete</MenuItem>
+  </Select>
+  <FormHelperText>{errors.status?.message}</FormHelperText>
+</FormControl>
+</Grid> */}
             </Grid>
 
-            <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
-   
+            <Box className="submit" sx={{display :'flex', justifyContent : 'flex-end', gap :'10px'}}>
             <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleSubmit} className="primary_button">
-             Submit
+            <Button type="submit"  className="primary_button">
+            {loading ? (
+       <>
+         <CircularProgress size={18} 
+          style={{ marginRight: 8, color: "#fff" }} />
+                Submitting
+            </>
+            ) : (
+            "Submit"
+            )}
+
+
             </Button>
             </Box>
-
+           </form>
         </>
      )
 }
 
-export default CreateLab;
+export default CreateAllLab;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
@@ -24,6 +24,9 @@ import {
 } from "@mui/material";
 import CommonDialog from "../../Component/CommonDialog/CommonDialog";
 import DeleteDoctor from "./Delete/Delete";
+import Cookies from "js-cookie";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AllDoctor=()=>
   {
@@ -35,11 +38,19 @@ const AllDoctor=()=>
     const [editData, setEditData] = useState(false)
   
     const [deleteData, setDeleteData] = useState(false)
-   const navigate = useNavigate();
    
+    const [loading, setLoading] = useState(true)
+
+    const [rows, setRows] = useState([]);
+   
+   const token = Cookies.get("token");
+      const Base_url = process.env.REACT_APP_BASE_URL;
+
+      const navigate = useNavigate();
    
   
-   const handleView = () =>
+   
+      const handleView = () =>
     {
       navigate("/viewDoctor")
     }
@@ -74,6 +85,51 @@ const columns = [
   {id: 'action',label: 'Actions', flex:1,align: 'center', },
  
 ];
+useEffect(() => {
+
+  const fetchDoctorData = async () => {
+    try {
+      const response = await fetch(`${Base_url}/doctor`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const result = await response.text();
+      const res = JSON.parse(result);
+
+
+      if (res.status === "success") {
+        setLoading(false);
+        const formattedData = res.data.map((item, index) =>
+          createData(
+            index + 1,
+            item._id,
+            item.doctorName,
+            item.emailId,
+            item.mobileNumber,
+            item.address,
+            item.companyDetails.specialization,
+            item.qualification,
+            item.experience,
+            item.hospitalName,
+            item.availabilityStatus,
+            item.companyDetails.joiningDate
+            )
+        );
+        setRows(formattedData);
+      }
+    } catch (error) {
+      console.error("Error fetching doctor data:", error);
+    }
+  };
+
+  if (loading) {
+    fetchDoctorData();
+  }
+}, [loading]);
+
 
 function createData(si, doctorName, mobileNumber, emailId, address, specialization, qualification, experience, hospitalName,  joiningDate,status ) {
   return { si, doctorName, mobileNumber, emailId, address, specialization, qualification, experience, hospitalName,joiningDate , status, action: (
@@ -93,16 +149,9 @@ function createData(si, doctorName, mobileNumber, emailId, address, specializati
 }
 
 
-const rows = [
-  createData('1', 'Ritu', 'ritu@gmail.com' ,'1223448975', 'Sakchi', 'eye','MBBS','Two years', 'Sita Raman Hospital' ,'12/10/2023','Availabel'),
-  createData('2', 'Rita', 'rita@gmail.com' ,'9988776655', 'Bistupur', 'eye','MBBS','one years', 'Sita Raman Hospital' ,'12/10/2023','Availabel'),
-  createData('3', 'Rinki', 'rinki@gmail.com' ,'1223448975', 'Kadma', 'eye','MBBS','Three years', 'Sita Raman Hospital' ,'12/10/2023','Availabel'),
-  createData('4', 'Rashi', 'rashi@gmail.com' ,'1223448975', 'Ranchi', 'eye','MBBS',' Four years', 'Sita Raman Hospital' ,'12/10/2023','Availabel'),
-  createData('5', 'Rashmi', 'rashmi@gmail.com' ,'1223448975', 'Sonari', 'eye','MBBS','One years', 'Sita Raman Hospital' ,'12/10/2023','Availabel'),
-  createData('6', 'Ritika', 'ritika@gmail.com' ,'1223448975', 'Mango', 'eye','MBBS','Three years', 'Sita Raman Hospital' ,'12/10/2023','Availabel'),
-];
 
-  const [page, setPage] = React.useState(0);
+
+const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event, newPage) => {

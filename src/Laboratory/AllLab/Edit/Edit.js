@@ -1,112 +1,213 @@
-import React, {useState} from "react"
+import React, { useEffect, useState } from "react"
 import {
     TextField,
-    MenuItem,
-    Select,
-    FormControl,
-    InputLabel,
     Grid,
-    useMediaQuery,
-    Box,
     Button,
-  } from "@mui/material";
+    Box,
+    CircularProgress,
+    useMediaQuery,
+} from "@mui/material";
+import * as  yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { toast, } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from "js-cookie"
 
-const EditLab =({handleUpdate, handleClose})=>
-{
+const schema = yup.object().shape({
+    labName: yup.string().required("Lab Name is required"),
+    labType: yup.string().required("Lab Type is required"),
+    assigneeStaff: yup.string().required("Assignee Staff is required"),
+    shift: yup.string().required("Shift is required"),
+});
+
+const EditAllLab = ({ handleUpdate,  editData, handleClose}) => {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
-    const [formData, setFormData] = useState({
-        labName: "",
-        labType: "",
-        assigneeStaff: "",
-        shift: "",  
-        validTo: "",
-        status: "",
-     });
+    const token = Cookies.get('token');
 
-     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+    const Base_url = process.env.REACT_APP_BASE_URL;
+  
+    const [loading, setLoading] = useState(false)
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset
+    } = useForm({
+        resolver: yupResolver(schema)
+    });
 
-     return (
+    useEffect(() => {
+        if (editData) {
+          reset({
+            labName: editData.labName || "",
+            labType: editData.labName || "",
+            assigneeStaff: editData.assigneeStaff || "",
+            shift: editData.shift || "",
+          });
+        }
+      }, [editData, reset]);
+
+
+    const onSubmit = (data) => {
+
+        setLoading(true)
+
+        const formdata = new FormData();
+        formdata.append("labName", data.labName);
+        formdata.append("labType", data.labType);
+        formdata.append("assigneeStaff", data.assigneeStaff);
+        formdata.append("shift", data.shift);
+        
+
+        const requestOptions = {
+            method: "PATCH",
+            body: formdata,
+            headers: {
+                Authorization: `Bearer ${token}`, 
+               },
+        };
+
+        fetch(`${Base_url}/alllab/${editData._id}`, requestOptions)
+            .then((response) => response.text())
+
+            .then((result) => {
+
+                const res = JSON.parse(result)
+
+                if (res.status === "success") {
+                    setLoading(false)
+
+                    toast.success("New AllLab Added Successful!")
+
+                    handleUpdate(true)
+                handleClose()
+                reset();
+              }
+                else {
+
+                    setLoading(false)
+                    toast.error(res.message)
+
+                }
+            })
+            .catch((error) => console.error(error));
+    };
+
+    return (
         <>
-            <Grid container columnSpacing={2}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+                <Grid container columnSpacing={2}>
+                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
 
-            <TextField
-            label={
-            <>
-                Lab Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                            <TextField
+                            type="text"
+                                label={
+                                    <>
+                                        Lab Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                                    </>
+                                }
+                                fullWidth
+                                margin="normal"
+                                variant="outlined"
+                                {...register("labName")}
+                                error={!!errors.labName}
+                            />
+                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                                {errors.labName?.message}
+                            </div>
+                        </Grid>
+
+                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+
+                            <TextField
+                                label={
+                                    <>
+                                        Lab Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                                    </>
+                                }
+                                fullWidth
+                                margin="normal"
+                                type="text"
+                                variant="outlined"
+                                {...register("labType")}
+                                error={!!errors.labType}
+                            />
+                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                                {errors.labType?.message}
+                            </div>
+
+                        </Grid>
+
+                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+                        <TextField
+                                label={
+                                    <>
+                                        Assignee Staff <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                                    </>
+                                }
+                                fullWidth
+                                margin="normal"
+                                type="text"
+                                variant="outlined"
+                                {...register("assigneeStaff")}
+                                error={!!errors.assigneeStaff}
+                            />
+                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                                {errors.assigneeStaff?.message}
+                            </div>
+
+                        </Grid>
+
+                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+                            <TextField
+                                label={
+                                    <>
+                                        Shift  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                                    </>
+                                }
+                                type="text"
+                                variant="outlined"
+                                {...register("shift")}
+                                error={!!errors.shift}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                                {errors.shift?.message}
+                            </div>
+                        </Grid>
+
+                        
+                                           
+                </Grid>
+
+                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+          <Button onClick={handleClose} className="secondary_button">
+            Cancel
+          </Button>
+          <Button type="submit" className="primary_button">
+
+          {loading ? (
+       <>
+         <CircularProgress size={18} 
+          style={{ marginRight: 8, color: "#fff" }} />
+                Submitting
             </>
-            }
-            name="labName"
-            value={formData.labName}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
+            ) : (
+            "Submit"
+            )}
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          </Button>
+        </Box>
+      </form>
 
-            <TextField
-            label={
-            <>
-                Lab Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="labType"
-            value={formData.labType}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
 
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-            Assignee Staff <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="assigneeStaff"
-            value={formData.assigneeStaff}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Shift <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="shift"
-            value={formData.shift}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-           
-            </Grid>
-            </Grid>
-
-            <Box className="submit"sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
- 
-            <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleUpdate} className="primary_button">
-             Update
-            </Button>
-            </Box>
 
         </>
-     )
+    )
 }
 
-export default EditLab;
+export default EditAllLab;

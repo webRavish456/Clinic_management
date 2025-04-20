@@ -97,6 +97,7 @@ useEffect(() => {
       const result = await response.text();
       const res = JSON.parse(result);
 
+      console.log("res",res)
 
       if (res.status === "success") {
         setLoading(false);
@@ -108,7 +109,7 @@ useEffect(() => {
             item.companyDetails.designation,
             item.mobileNumber,
             item.emailId,
-            item.shift,
+            item.companyDetails.shift,
             item.address,
             item.companyDetails.salary,
             item.companyDetails.joiningDate,
