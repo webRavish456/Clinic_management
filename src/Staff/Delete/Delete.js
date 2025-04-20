@@ -1,7 +1,7 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button,CircularProgress } from "@mui/material";
 import React from "react"
 
-const DeleteStaff= ({handleClose, handleDelete}) =>
+const DeleteStaff= ({handleClose,isDeleting, handleDelete}) =>
 {
      return (
      <>

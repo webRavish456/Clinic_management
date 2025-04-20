@@ -26,7 +26,6 @@ import { useNavigate } from "react-router-dom";
 
 const schema = yup.object().shape({
 doctorName: yup.string().required("Doctor Name is required"),
-hospitalName:yup.string().required("Hospital Name is required"),
 gender: yup.string().required("Gender is required"),
 dob: yup.string().required("Date of birth is required"),
 mobileNumber: yup.string().required("Mobile number is required"),
@@ -190,24 +189,7 @@ const CreateDoctor = () => {
                                     {errors.doctorName?.message}
                                     </div>
                                 </Box>
-                                <Box>
-                                <TextField
-                                    type="text"
-                                    label={
-                                        <>
-                                        Hospital Name
-                                        </>
-                                    }
-                                    variant="outlined"
-                                    {...register("hospitalName")}
-                                    error={!!errors.hospitalName}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.hospitalName?.message}
-                                    </div>
-                                </Box>
+                               
                                 <Box>
                                 <TextField
                                     type="number"

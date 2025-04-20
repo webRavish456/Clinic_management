@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect,useState } from "react";
 import {
     TextField,
     MenuItem,
@@ -13,6 +13,7 @@ import {
     RadioGroup,
     FormControlLabel,
     FormLabel
+
 } from "@mui/material";
 import { NavLink, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -83,12 +84,7 @@ const ViewDoctor = () => {
                              value={formData.doctorName || ""} 
                              margin="normal" />
              
-                            <TextField 
-                              fullWidth 
-                              label="Hospital Name" 
-                              value={formData.hospitalName || ""} 
-                              margin="normal" />
-             
+                            
                             <TextField
                                 fullWidth 
                                 label="Mobile Number" 
