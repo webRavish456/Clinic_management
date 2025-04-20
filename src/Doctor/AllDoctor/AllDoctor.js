@@ -92,7 +92,7 @@ useEffect(() => {
       const response = await fetch(`${Base_url}/doctor`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization:`Bearer ${token}`,
         },
       });
 
