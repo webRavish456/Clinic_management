@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
@@ -39,6 +39,9 @@ const AllDoctor=()=>
   
     const [deleteData, setDeleteData] = useState(false)
    
+    const [loading, setLoading] = useState(true)
+
+    const [rows, setRows] = useState([]);
    
    const token = Cookies.get("token");
       const Base_url = process.env.REACT_APP_BASE_URL;
@@ -83,7 +86,8 @@ const columns = [
  
 ];
 useEffect(() => {
-  const fetchStaffData = async () => {
+
+  const fetchDoctorData = async () => {
     try {
       const response = await fetch(`${Base_url}/doctor`, {
         method: "GET",

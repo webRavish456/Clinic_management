@@ -47,7 +47,6 @@ const ViewStaff = () => {
       
             if (res.status === "success") {
               setLoading(false);
-              console.log("data", res.data)
               setformData(res.data)
        
             }

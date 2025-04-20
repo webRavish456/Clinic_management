@@ -21,7 +21,7 @@ import * as yup from "yup";
 import {  toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
-import { useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
  
 
 
@@ -65,6 +65,11 @@ const EditStaff = () => {
 
        const [loadingdata, setLoadingdata] = useState(true)
 
+       const [existingDocuments, setExistingDocuments] = useState({});
+
+       const [gender, setGender]=useState([])
+
+
        const navigate= useNavigate()
      
        const {
@@ -72,9 +77,9 @@ const EditStaff = () => {
          handleSubmit,
          formState: { errors },
          reset,
-       } = useForm({
+       } = useForm({ 
          resolver: yupResolver(schema),
-   
+      
     });
 
 
@@ -93,14 +98,15 @@ const EditStaff = () => {
             const result = await response.text();
             const res = JSON.parse(result);
       
+            setGender(res.data.gender)
       
             if (res.status === "success") {
               setLoading(false);
             
               reset({
-                staffName: res.data.staffName || "",
+                staffName: res.data.staffName,
                 gender: res.data.gender,
-                dob: res.data.dob,
+                dob: res.data.dob ? new Date(res.data.dob).toISOString().split("T")[0] : "",
                 mobileNumber: res.data.mobileNumber,
                 emailId: res.data.emailId,
                 experience: res.data.experience,
@@ -109,7 +115,7 @@ const EditStaff = () => {
                 salary: res.data.companyDetails.salary,
                 branchName:res.data.companyDetails.branchName,
                 designation:res.data.companyDetails.designation,
-                joiningDate:res.data.companyDetails.joiningDate,
+                joiningDate:res.data.companyDetails.joiningDate ? new Date(res.data.companyDetails.joiningDate).toISOString().split("T")[0] : "",
                 department:res.data.companyDetails.department,
                 shift:res.data.companyDetails.shift,
                 accountHolderName:res.data.bankDetails.accountHolderName,
@@ -118,10 +124,11 @@ const EditStaff = () => {
                 ifscCode:res.data.bankDetails.ifscCode,
                 branch:res.data.bankDetails.branch,
                 branchLocation:res.data.bankDetails.branchLocation
-            
+                
                  
                });
       
+               setExistingDocuments(res.data.documents || {});
                setLoadingdata(false)
             }
           } catch (error) {
@@ -134,7 +141,7 @@ const EditStaff = () => {
         }
       }, [loadingdata]);
 
-       
+ 
 
     const onSubmit = (data) => {
     
@@ -219,7 +226,7 @@ const EditStaff = () => {
 
     return (
         <>
-           
+          {!loadingdata &&
             <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={6} style={{ padding: "20px" }}>
                 
@@ -239,6 +246,7 @@ const EditStaff = () => {
                             <Grid item xs={6}>
                                 <Box>
                                 <TextField
+                                    InputLabelProps={{ shrink: true }}
                            
                                     label={
                                         <>
@@ -258,6 +266,7 @@ const EditStaff = () => {
                                 <Box>
                                 <TextField
                                     type="number"
+                                    InputLabelProps={{ shrink: true }}
                                     label={
                                         <>
                                         Mobile Number
@@ -274,7 +283,10 @@ const EditStaff = () => {
                                     </div>
                                 </Box>
                                 <Box>
-                                <TextField InputLabelProps={{shrink:true}}
+                               
+
+                                <TextField
+                                    InputLabelProps={{shrink:true}}
                                     type="date"
                                     label={
                                         <>
@@ -286,46 +298,45 @@ const EditStaff = () => {
                                     error={!!errors.dob}
                                     fullWidth
                                     margin="normal"
-                                />
+                                    />
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
                                     {errors.dob?.message}
                                     </div>
                                 </Box>
                                
-                               
-                               
                     <FormControl component="fieldset" fullWidth margin="normal" error={!!errors.gender}>
-                        <FormLabel component="legend" sx={{ marginLeft: 2 }}>Gender</FormLabel>
-                        <RadioGroup row>
-                            <FormControlLabel
-                                value="male"
-                                control={<Radio sx={{ marginLeft: 2 }} {...register("gender")} />}
-                                label="Male"
-                                error={!!errors.gender}
-                            />
-                            <FormControlLabel
-                                value="female"
-                                control={<Radio sx={{ marginLeft: 2 }} {...register("gender")} />}
-                                label="Female"
-                                error={!!errors.gender}
-                            />
-                            <FormControlLabel
-                                value="others"
-                                control={<Radio sx={{ marginLeft: 2 }} {...register("gender")} />}
-                                label="Others"
-                                error={!!errors.gender}
-                            />
-                        </RadioGroup>
-                        <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                            {errors.gender?.message}
-                        </div>
-                    </FormControl>
+
+                    <FormLabel component="legend" sx={{ marginLeft: 2 }}>Gender</FormLabel>
+
+                       <RadioGroup row defaultValue={gender}>
+                        <FormControlLabel
+                            value="male"
+                            control={<Radio sx={{ marginLeft: 2 }} {...register("gender")} />}
+                            label="Male"
+                        />
+                        <FormControlLabel
+                            value="female"
+                            control={<Radio sx={{ marginLeft: 2 }} {...register("gender")} />}
+                            label="Female"
+                        />
+                        <FormControlLabel
+                            value="others"
+                            control={<Radio sx={{ marginLeft: 2 }} {...register("gender")} />}
+                            label="Others"
+                        />
+                    </RadioGroup>
+                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                        {errors.gender?.message}
+                    </div>
+
+            </FormControl>
 
                                 
                             </Grid>
                             <Grid item xs={6}>
                             <Box>
                                 <TextField
+                                InputLabelProps={{shrink:true}}
                                     type="text"
                                     label={
                                         <>
@@ -344,6 +355,7 @@ const EditStaff = () => {
                                 </Box>
                                 <Box>
                                 <TextField
+                                InputLabelProps={{shrink:true}}
                                     type="text"
                                     label={
                                         <>
@@ -362,6 +374,7 @@ const EditStaff = () => {
                                 </Box>
                                 <Box>
                                 <TextField
+                                InputLabelProps={{shrink:true}}
                                     type="text"
                                     label={
                                         <>
@@ -380,6 +393,7 @@ const EditStaff = () => {
                                 </Box>
                                 <Box>
                                 <TextField
+                                 InputLabelProps={{ shrink: true }}
                                     type="text"
                                     label={
                                         <>
@@ -417,6 +431,7 @@ const EditStaff = () => {
                             <Grid item xs={6}>
                             <Box>
                                 <TextField
+                                  InputLabelProps={{ shrink: true }}
                                     type="text"
                                     label={
                                         <>
@@ -435,6 +450,7 @@ const EditStaff = () => {
                                 </Box>
                                 <Box>
                                 <TextField
+                                  InputLabelProps={{ shrink: true }}
                                     type="text"
                                     label={
                                         <>
@@ -453,6 +469,7 @@ const EditStaff = () => {
                                 </Box>
                                 <Box>
                                 <TextField
+                                 InputLabelProps={{ shrink: true }}
                                     type="text"
                                     label={
                                         <>
@@ -473,6 +490,7 @@ const EditStaff = () => {
                             <Grid item xs={6}>
                             <Box>
                                 <TextField
+                                 InputLabelProps={{ shrink: true }}
                                     type="text"
                                     label={
                                         <>
@@ -491,6 +509,7 @@ const EditStaff = () => {
                                 </Box>
                                 <Box>
                                 <TextField
+                                 InputLabelProps={{ shrink: true }}
                                     type="text"
                                     label={
                                         <>
@@ -508,7 +527,8 @@ const EditStaff = () => {
                                     </div>
                                 </Box>
                                 <Box>
-                                <TextField InputLabelProps={{shrink:true}}
+                                <TextField 
+                                 InputLabelProps={{shrink:true}}
                                     type="date"
                                     label={
                                         <>
@@ -530,90 +550,53 @@ const EditStaff = () => {
                     </Box>
                 </Grid>
 
+                <Grid item xs={12} md={6}>
 
-                <Grid item xs={6}>
-                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
-                        <Typography variant="h6" gutterBottom>
-                            Document Details
-                        </Typography>
-                        
-                        <Box marginBottom={2}>
-                                <TextField InputLabelProps={{shrink:true}}
-                                    type="file"
-                                    label={
-                                        <>
-                                        Highest Qualification Certificate
-                                        </>
-                                    }
-                                    variant="outlined"
-                                    {...register("highestQualificationCertificate")}
-                                    error={!!errors.highestQualificationCertificate}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.highestQualificationCertificate?.message}
-                                    </div>
-                                </Box>
+            <Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3 }}>
+            <Typography variant="h6" gutterBottom>
+                Document Details
+            </Typography>
+            {[
+                { label: "Highest Qualification Certificate", name: "highestQualificationCertificate", file: "certificate.pdf" },
+                { label: "Resume", name: "resumeCertificate", file: "resume.pdf" },
+                { label: "Aadhar Document", name: "aadharCard", file: "aadhar.pdf" },
+                { label: "PAN Card Document", name: "panCard", file: "panCard.pdf" }
+            ].map(({ label, name, file }) => (
+                <Box key={name} marginBottom={2}>
+                  <TextField 
+                    InputLabelProps={{ shrink: true }}
+                    type="file"
+                    label={label}
+                    variant="outlined"
+                    {...register(name)}
+                    error={!!errors[name]}
+                    fullWidth
+                    margin="normal"
+                  />
+              
+                  {existingDocuments?.[name] && (
+                    <Typography variant="body2" sx={{ mt: 1 }}>
+                      View existing document:&nbsp;
+                      <NavLink 
+                        to={existingDocuments[name]} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                      >
+                        {file}
+                      </NavLink>
+                    </Typography>
+                  )}
+              
+                  {errors[name]?.message && (
+                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                      {errors[name].message}
+                    </div>
+                  )}
+                </Box>
+              ))}
+            </Box>
 
-                                <Box marginBottom={2}>
-                                <TextField InputLabelProps={{shrink:true}}
-                                    type="file"
-                                    label={
-                                        <>
-                                        Resume
-                                        </>
-                                    }
-                                    variant="outlined"
-                                    {...register("resumeCertificate")}
-                                    error={!!errors.resumeCertificate}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.resumeCertificate?.message}
-                                    </div>
-                                </Box>   
-                        
-                                <Box marginBottom={2}>
-                                <TextField InputLabelProps={{shrink:true}}
-                                    type="file"
-                                    label={
-                                        <>
-                                        Aadhar Card
-                                        </>
-                                    }
-                                    variant="outlined"
-                                    {...register("aadharCard")}
-                                    error={!!errors.aadharCard}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.aadharCard?.message}
-                                    </div>
-                                </Box>
-                        
-                                <Box marginBottom={2}>
-                                <TextField InputLabelProps={{shrink:true}}
-                                    type="file"
-                                    label={
-                                        <>
-                                        Pan Card
-                                        </>
-                                    }
-                                    variant="outlined"
-                                    {...register("panCard")}
-                                    error={!!errors.panCard}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.panCard?.message}
-                                    </div>
-                                </Box> 
-                            </Box>
-                     </Grid>
+            </Grid>
 
                 <Grid item xs={6}>
                     <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
@@ -624,6 +607,7 @@ const EditStaff = () => {
                             <Grid item xs={12}>
                             <Box>
                                 <TextField
+                                 InputLabelProps={{ shrink: true }}
                                     type="text"
                                     label={
                                         <>
@@ -642,6 +626,7 @@ const EditStaff = () => {
                                 </Box>
                                 <Box>
                                 <TextField
+                                 InputLabelProps={{ shrink: true }}
                                     type="text"
                                     label={
                                         <>
@@ -660,6 +645,7 @@ const EditStaff = () => {
                                 </Box>
                                 <Box>
                                 <TextField
+                                 InputLabelProps={{ shrink: true }}
                                     type="text"
                                     label={
                                         <>
@@ -680,6 +666,7 @@ const EditStaff = () => {
                             <Grid item xs={12}>
                             <Box>
                                 <TextField
+                                 InputLabelProps={{ shrink: true }}
                                     type="text"
                                     label={
                                         <>
@@ -698,6 +685,7 @@ const EditStaff = () => {
                                 </Box>
                                 <Box>
                                 <TextField
+                                 InputLabelProps={{ shrink: true }}
                                     type="text"
                                     label={
                                         <>
@@ -716,6 +704,7 @@ const EditStaff = () => {
                                 </Box>
                                 <Box>
                                 <TextField
+                                 InputLabelProps={{ shrink: true }}
                                     type="text"
                                     label={
                                         <>
@@ -738,7 +727,7 @@ const EditStaff = () => {
                 </Grid>
                 <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
                 <Button onClick={handleCancel} className="secondary_button">
-            Cancel
+                  Cancel
                 </Button>
                 <Button type="submit" className="primary_button">
 
@@ -756,8 +745,10 @@ const EditStaff = () => {
              </Box>
             </Grid>
             </form>
+ }
         </>
     );
 };
 
 export default EditStaff;
+
