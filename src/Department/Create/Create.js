@@ -29,7 +29,7 @@ const schema = yup.object().shape({
     .min(1, "Select at least one specialization")
     .required("Specialization is required"),
   description: yup.string().required("Description is required"),
-  departmentHead: yup.string().required("Department Head is required"),
+  departmentHead: yup.string(),
 });
 
 const departmentSpecializations = {
@@ -69,6 +69,7 @@ const departmentDescriptions = {
 };
 
 const CreateDepartment = ({ handleCreate, handleClose }) => {
+
   const isSmScreen = useMediaQuery("(max-width:768px)");
   const token = Cookies.get("token");
   const Base_url = process.env.REACT_APP_BASE_URL;
@@ -92,28 +93,18 @@ const CreateDepartment = ({ handleCreate, handleClose }) => {
 
   const selectedSpecs = watch("specialization") || [];
 
-  useEffect(() => {
-    fetch(`${Base_url}/staff`, {
-      headers: { Authorization:`Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.status === "success") {
-          const heads = res.data.filter((staff) => staff.role === "Doctor");
-          setDepartmentHeads(heads);
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching department heads:", err);
-      });
-  }, [Base_url, token]);
 
   const onSubmit = (data) => {
+
+
     setLoading(true);
+
+    console.log("department", data)
+
     const formdata = new FormData();
     formdata.append("departmentName", data.departmentName);
     formdata.append("description", data.description);
-    formdata.append("departmentHead", data.departmentHead);
+
     data.specialization.forEach((spec, i) =>
       formdata.append(`specialization[${i}]`, spec)
     );
@@ -222,7 +213,6 @@ const CreateDepartment = ({ handleCreate, handleClose }) => {
             margin="normal"
             variant="outlined"
             multiline
-            rows={3}
             value={watch("description") || ""}
             onChange={(e) => setValue("description", e.target.value)}
             error={!!errors.description}
