@@ -89,7 +89,7 @@ useEffect(() => {
 
   const fetchDoctorData = async () => {
     try {
-      const response = await fetch(`${Base_url}/doctor`, {
+      const response = await fetch(`${Base_url}/alldoctor`, {
         method: "GET",
         headers: {
           Authorization:`Bearer ${token}`,

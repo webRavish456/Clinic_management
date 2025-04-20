@@ -12,7 +12,8 @@ import {
     Radio,
     RadioGroup,
     FormControlLabel,
-    FormLabel
+    FormLabel,
+    CircularProgress
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -122,7 +123,7 @@ const CreateDoctor = () => {
              },
           };
    
-       fetch(`${Base_url}/doctor`, requestOptions)
+       fetch(`${Base_url}/alldoctor`, requestOptions)
                    .then((response) => response.text())
              
                    .then((result) => {

@@ -183,7 +183,7 @@ const EditDoctor = () => {
          },
       };
 
-   fetch(`${Base_url}/doctor/${Id}`, requestOptions)
+   fetch(`${Base_url}/alldoctor/${Id}`, requestOptions)
                .then((response) => response.text())
          
                .then((result) => {
@@ -239,6 +239,7 @@ const EditDoctor = () => {
                                     fullWidth
                                     margin="normal"
                                 />
+                                
                                 <TextField
                                     label="Hospital Name"
                                     name="hospitalName"

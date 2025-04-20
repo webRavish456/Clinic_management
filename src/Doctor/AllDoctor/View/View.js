@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     TextField,
     MenuItem,
@@ -19,6 +19,7 @@ import Cookies from "js-cookie";
 
 
 const ViewDoctor = () => {
+
     const { Id } = useParams();
 
     console.log()

@@ -21,13 +21,14 @@ import Cookies from 'js-cookie';
     bloodGroup: yup.string().required(" Blood Group is required"),
     gender: yup.string().required(" Gender is required"),
     admissionDate: yup.string().required("Admission Date is required"),
-    mobileNo: yup.string().required(" Mobile No is required"),
-    email: yup.string().required(" Email is required"),
+    mobileNo: yup
+    .string()
+    .required("Mobile No is required")
+    .matches(/^[6-9]\d{9}$/, "Enter a valid Mobile Number"),
+    email: yup.string().email().required(" Email is required"),
     address: yup.string().required(" Address is required"),
     treatment: yup.string().required(" Treatment is required"),
-    doctorAssigned: yup.string().required(" Doctor Assigned is required"),
-    medicalHistory: yup.string().required(" Medical History is required"),
-    status: yup.string().required(" Status is required"),
+    medicalHistory: yup.mixed().required(" Medical History is required"),
 
   });
 
@@ -68,10 +69,8 @@ const CreateAllPatients =({handleCreate, handleClose})=>
           formdata.append("gender", data.gender);
           formdata.append("address", data.address);
           formdata.append("admissionDate", data.admissionDate);
-          formdata.append("doctorAssigned", data.doctorAssigned)
           formdata.append("bloodGroup", data.bloodGroup);
-          formdata.append("medicalHistory", data.medicalHistory);
-          formdata.append("status", data.status);
+          formdata.append("medicalHistory", data.medicalHistory[0]);
       
           const requestOptions = {
             method: "POST",
@@ -117,7 +116,7 @@ const CreateAllPatients =({handleCreate, handleClose})=>
               type="text"
               label={
                 <>
-                  Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                 Patient Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -136,61 +135,7 @@ const CreateAllPatients =({handleCreate, handleClose})=>
               type="text"
               label={
                 <>
-                  treatment <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("treatment")}
-              error={!!errors.treatment}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.treatment?.message}
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}> 
-            <TextField
-              type="text"
-              label={
-                <>
-                  mobileNo <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("mobileNo")}
-              error={!!errors.mobileNo}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.mobileNo?.message}
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  email <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("email")}
-              error={!!errors.email}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.email?.message}
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  gender <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Gender <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -203,67 +148,51 @@ const CreateAllPatients =({handleCreate, handleClose})=>
               {errors.gender?.message}
             </div>
           </Grid>
+
+          <Grid item xs={12} sm={isSmScreen?12:6} md={6}> 
+            <TextField
+              type="number"
+              label={
+                <>
+                  Mobile No <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("mobileNo")}
+              error={!!errors.mobileNo}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.mobileNo?.message}
+            </div>
+          </Grid>
+
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
               type="text"
               label={
                 <>
-                  address <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Email Id <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
-              {...register("address")}
-              error={!!errors.address}
+              {...register("email")}
+              error={!!errors.email}
               fullWidth
               margin="normal"
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.address?.message}
+              {errors.email?.message}
             </div>
           </Grid>
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            InputLabelProps={{ shrink: true }}
-              type="date"
-              label={
-                <>
-                  admissionDate <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("admissionDate")}
-              error={!!errors.admissionDate}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.admissionDate?.message}
-            </div>
-          </Grid>
+
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
               type="text"
               label={
                 <>
-                  doctorAssigned <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("doctorAssigned")}
-              error={!!errors.doctorAssigned}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.doctorAssigned?.message}
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  bloodGroup <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Blood Group <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -280,6 +209,26 @@ const CreateAllPatients =({handleCreate, handleClose})=>
 
 
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Treatment <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("treatment")}
+              error={!!errors.treatment}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.treatment?.message}
+            </div>
+          </Grid>
+
+         
+          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
           <TextField
               type="file"
               InputLabelProps={{ shrink: true }}
@@ -289,7 +238,7 @@ const CreateAllPatients =({handleCreate, handleClose})=>
                 <>
                 
                 
-                  medicalHistory <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Medical History <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -303,28 +252,47 @@ const CreateAllPatients =({handleCreate, handleClose})=>
               {errors.medicalHistory?.message}
             </div>
           </Grid>
+
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-          <TextField
-              type="text"
-              
+            <TextField
+            InputLabelProps={{ shrink: true }}
+              type="date"
               label={
                 <>
-                
-                
-                  status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Admit Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
-              {...register("status")}
-              error={!!errors.status}
+              {...register("admissionDate")}
+              error={!!errors.admissionDate}
               fullWidth
               margin="normal"
             />
-           
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.status?.message}
+              {errors.admissionDate?.message}
             </div>
           </Grid>
+
+          <Grid item xs={12} sm={12} md={12}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Address <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("address")}
+              error={!!errors.address}
+              fullWidth
+              multiline
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.address?.message}
+            </div>
+          </Grid>
+         
 
         </Grid>
 
