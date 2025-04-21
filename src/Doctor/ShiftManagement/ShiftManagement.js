@@ -156,21 +156,21 @@ const handleDelete = () =>
       }
       
       const rows = [
-      createData(1,   "AMRITA",   "Cardiologist",          "Heart",           "1/1/20",     "7/1/20",     "Monday-Friday",   "12",   "A",    "Monday-Friday"),
-      createData(2,   "NITU",     "Dermatologists",        "Skin" ,           "8/1/20",     "16/1/20",    "Monday-Friday",   "12",   "B",    "Monday-Tuesday"),
-      createData(3,   "RITU",     "Gastroenterologists",   "Stomach",         "17/1/20",    "24/1/20",    "Monday-Friday",   "12",   "C",    "Monday-Wednesday"),
-      createData(4,   "RANI",     "Hematologists",         "Blood",           "1/2/20",     "7/2/20",     "Monday-Friday",   "12",   "A",    "Monday-Saturday"),
-      createData(5,   "SUMAN",    "Internists",            "Cancer",          "14/2/20",    "21/2/20",    "Monday-Friday",   "12",   "A",    "Monday-Thursday"),
-      createData(6,   "PRIYANKA", "Nephrologists",         "Kidney disease",  "22/2/20",    "29/2/20",    "Monday-Friday",   "12",   "B",    "Monday-Friday"),
-      createData(7,   "ANNU",     "Neurologists",          "Brain",           "6/3/20",     "13/3/20",    "Monday-Friday",   "12",   "A",    "Wednesday-Saturday"),
-      createData(8,   "SNEHA",    "Gynecologists",         "Pregnancy",       "20/3/20",    "27/3/20",    "Monday-Friday",   "12",   "C",    "Tuesday-Friday"),
-      createData(9,   "PUNAM",    "Oncologists",           "Cancer",          "4/4/20",     "11/4/20",    "Monday-Friday",   "12",   "D",    "Monday-Saturday"),
-      createData(10,  "SONAL",    "Ophthalmologists",      "Eye",             "18/4/20",    "25/4/20",    "Monday-Friday",   "12",   "A",    "Wednesday-Saturday"),
-      createData(11,  "MITU",     "Osteopaths",            "Whole Body",      "2/5/20",     "9/5/20",     "Monday-Friday",   "12",   "B",    "Tuesday-Friday"),
-      createData(12,  "SUSMITA",  "Otolaryngologists",     "Ears",            "16/5/20",    "23/5/20",    "Monday-Friday",   "12",   "C",    "Monday-Thursday"),
-      createData(13,  "ISHA",     "Physiatrists",          "Back Pain",       "30/5/20",    "7/6/20",     "Monday-Friday",   "12",   "D",    "Tuesday-Saturday"),
-      createData(14,  "PRIYA",    "Podiatrists",           "Feet",            "14/6/20",    "21/6/20",    "Monday-Friday",   "12",   "A",    "Monday-Friday"),
-      createData(15,  "ISHU",     "Pulmonologists",        "Lung cancer",     "28/6/20",    "5/6/20",     "Monday-Friday",   "12",   "B",    "Monday-Friday"),
+      createData(1,   "Amrita",   "Cardiologist",          "Heart",           "1/1/20",     "7/1/20",     "Monday-Friday",   "12",   "A",    "Monday-Friday"),
+      createData(2,   "Nitu",     "Dermatologists",        "Skin" ,           "8/1/20",     "16/1/20",    "Monday-Friday",   "12",   "B",    "Monday-Tuesday"),
+      createData(3,   "Ritu",     "Gastroenterologists",   "Stomach",         "17/1/20",    "24/1/20",    "Monday-Friday",   "12",   "C",    "Monday-Wednesday"),
+      createData(4,   "Rani",     "Hematologists",         "Blood",           "1/2/20",     "7/2/20",     "Monday-Friday",   "12",   "A",    "Monday-Saturday"),
+      createData(5,   "Suman",    "Internists",            "Cancer",          "14/2/20",    "21/2/20",    "Monday-Friday",   "12",   "A",    "Monday-Thursday"),
+      createData(6,   "Priyanka", "Nephrologists",         "Kidney disease",  "22/2/20",    "29/2/20",    "Monday-Friday",   "12",   "B",    "Monday-Friday"),
+      createData(7,   "Annu",     "Neurologists",          "Brain",           "6/3/20",     "13/3/20",    "Monday-Friday",   "12",   "A",    "Wednesday-Saturday"),
+      createData(8,   "Sneha",    "Gynecologists",         "Pregnancy",       "20/3/20",    "27/3/20",    "Monday-Friday",   "12",   "C",    "Tuesday-Friday"),
+      createData(9,   "Punam",    "Oncologists",           "Cancer",          "4/4/20",     "11/4/20",    "Monday-Friday",   "12",   "D",    "Monday-Saturday"),
+      createData(10,  "Sonal",    "Ophthalmologists",      "Eye",             "18/4/20",    "25/4/20",    "Monday-Friday",   "12",   "A",    "Wednesday-Saturday"),
+      createData(11,  "Mitu",     "Osteopaths",            "Whole Body",      "2/5/20",     "9/5/20",     "Monday-Friday",   "12",   "B",    "Tuesday-Friday"),
+      createData(12,  "Susmita",  "Otolaryngologists",     "Ears",            "16/5/20",    "23/5/20",    "Monday-Friday",   "12",   "C",    "Monday-Thursday"),
+      createData(13,  "Isha",     "Physiatrists",          "Back Pain",       "30/5/20",    "7/6/20",     "Monday-Friday",   "12",   "D",    "Tuesday-Saturday"),
+      createData(14,  "Priya",    "Podiatrists",           "Feet",            "14/6/20",    "21/6/20",    "Monday-Friday",   "12",   "A",    "Monday-Friday"),
+      createData(15,  "Ishu",     "Pulmonologists",        "Lung cancer",     "28/6/20",    "5/6/20",     "Monday-Friday",   "12",   "B",    "Monday-Friday"),
       ];
 
       const [page, setPage] = useState(0);
