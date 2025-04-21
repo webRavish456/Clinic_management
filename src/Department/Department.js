@@ -44,7 +44,7 @@ const Department = () => {
   const columns = [
     { id: "si", label: "SI.No", align: "center" },
     { id: "departmentName", label: "Department Name", align: "center" },
-    { id: "specialization", label: "Specialization Count", align: "center" },
+    { id: "specialization", label: "N.o of Specialization ", align: "center" },
     { id: "description", label: "Description", align: "center" },
     { id: "departmentHead", label: "Department Head", align: "center" },
     { id: "status", label: "Status", align: "center" },
@@ -95,7 +95,7 @@ const Department = () => {
     si,
     row,
     departmentName,
-    specializationCount,
+    specialization,
     description,
     departmentHead,
     status
@@ -103,7 +103,7 @@ const Department = () => {
     si,
     row,
     departmentName,
-    specialization: specializationCount,
+    specialization,
     description:
       description && description.length > 60
         ? `${description.slice(0, 60)}...`

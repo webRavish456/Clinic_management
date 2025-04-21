@@ -46,7 +46,6 @@ const departmentSpecializations = {
   Endocrinology: ["Hormonal disorders", "Diabetes", "Thyroid", "PCOS", "Adrenal issues"]
 };
 
-// Sample department heads (replace with actual API data if needed)
 const departmentHeads = [
   "Dr. Anita Sharma",
   "Dr. Vikram Singh",
@@ -56,14 +55,12 @@ const departmentHeads = [
 ];
 
 const EditDepartment = ({ handleUpdate, editData, handleClose }) => {
-
-  
   const isSmScreen = useMediaQuery("(max-width:768px)");
   const token = Cookies.get("token");
   const Base_url = process.env.REACT_APP_BASE_URL;
 
   const [loading, setLoading] = useState(false);
-  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [currentSpecs, setCurrentSpecs] = useState([]);
 
   const {
     register,
@@ -76,24 +73,40 @@ const EditDepartment = ({ handleUpdate, editData, handleClose }) => {
     resolver: yupResolver(schema),
   });
 
+  const departmentNameValue = watch("departmentName");
   const specializationValue = watch("specialization");
 
   useEffect(() => {
     if (editData) {
-      const deptNameNormalized = Object.keys(departmentSpecializations).find(
-        (key) => key.toUpperCase() === editData.departmentName?.toUpperCase()
-      );
-
       reset({
         departmentHead: editData.departmentHead || "",
         specialization: editData.specialization || [],
         description: editData.description || "",
-        departmentName: deptNameNormalized || "",
+        departmentName: editData.departmentName || "",
       });
 
-      setSelectedDepartment(deptNameNormalized || "");
+      // Set specialization list if department name is known
+      const deptKey = Object.keys(departmentSpecializations).find(
+        (key) => key.toLowerCase() === editData.departmentName?.toLowerCase()
+      );
+      if (deptKey) {
+        setCurrentSpecs(departmentSpecializations[deptKey]);
+      }
     }
   }, [editData, reset]);
+
+  useEffect(() => {
+    const matchedDept = Object.keys(departmentSpecializations).find(
+      (key) => key.toLowerCase() === departmentNameValue?.toLowerCase()
+    );
+    if (matchedDept) {
+      setCurrentSpecs(departmentSpecializations[matchedDept]);
+      setValue("specialization", departmentSpecializations[matchedDept]);
+    } else {
+      setCurrentSpecs([]);
+      setValue("specialization", []);
+    }
+  }, [departmentNameValue, setValue]);
 
   const onSubmit = (data) => {
     setLoading(true);
@@ -136,30 +149,15 @@ const EditDepartment = ({ handleUpdate, editData, handleClose }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container columnSpacing={2}>
         <Grid item xs={12} sm={isSmScreen ? 12 : 6}>
-          <FormControl fullWidth margin="normal" error={!!errors.departmentName}>
-            <InputLabel id="departmentName-label">Department Name *</InputLabel>
-            <Select
-              labelId="departmentName-label"
-              value={selectedDepartment}
-              onChange={(e) => {
-                const value = e.target.value;
-                setSelectedDepartment(value);
-                setValue("departmentName", value);
-                setValue("specialization", []);
-              }}
-              
-              MenuProps={{PaperProps:{style:{maxHeight:200,
-                overflowY:"auto",
-              },
-            },
-          }}
-            >
-              {Object.keys(departmentSpecializations).map((dept) => (
-                <MenuItem key={dept} value={dept}>{dept}</MenuItem>
-              ))}
-            </Select>
-            <FormHelperText>{errors.departmentName?.message}</FormHelperText>
-          </FormControl>
+          <TextField
+            label="Department Name *"
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            {...register("departmentName")}
+            error={!!errors.departmentName}
+            helperText={errors.departmentName?.message}
+          />
         </Grid>
 
         <Grid item xs={12} sm={isSmScreen ? 12 : 6}>
@@ -169,13 +167,13 @@ const EditDepartment = ({ handleUpdate, editData, handleClose }) => {
               labelId="specialization-label"
               multiple
               value={Array.isArray(specializationValue) ? specializationValue : []}
-              onChange={(e) => setValue("specialization", e.target.value)}
               input={<OutlinedInput label="Specialization" />}
               renderValue={(selected) => Array.isArray(selected) ? selected.join(", ") : ""}
+              onChange={(e) => setValue("specialization", e.target.value)}
             >
-              {(departmentSpecializations[selectedDepartment] || []).map((spec) => (
+              {(currentSpecs || []).map((spec) => (
                 <MenuItem key={spec} value={spec}>
-                  <Checkbox checked={Array.isArray(specializationValue) && specializationValue.includes(spec)} />
+                  <Checkbox checked={specializationValue?.includes(spec)} />
                   <ListItemText primary={spec} />
                 </MenuItem>
               ))}
@@ -201,10 +199,8 @@ const EditDepartment = ({ handleUpdate, editData, handleClose }) => {
             <InputLabel id="departmentHead-label">Department Head *</InputLabel>
             <Select
               labelId="departmentHead-label"
-              defaultValue=""
-              {...register("departmentHead")}
-              onChange={(e) => setValue("departmentHead", e.target.value)}
               value={watch("departmentHead") || ""}
+              onChange={(e) => setValue("departmentHead", e.target.value)}
             >
               {departmentHeads.map((head) => (
                 <MenuItem key={head} value={head}>
