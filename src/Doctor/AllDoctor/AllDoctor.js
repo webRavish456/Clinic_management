@@ -50,14 +50,14 @@ const AllDoctor=()=>
    
   
    
-      const handleView = () =>
+      const handleView = (id) =>
     {
-      navigate("/viewDoctor")
+      navigate(`/viewDoctor/${id}`)
     }
   
-  const handleEdit = () =>
+  const handleEdit = (id) =>
   {
-    navigate("/editDoctor")
+    navigate(`/editDoctor/${id}`)
   }
   
   const handleDelete = () =>
@@ -79,7 +79,7 @@ const columns = [
   {id: 'qualification',label: 'Qualification ',flex:1,align: 'center',},
   {id: 'experience',label: 'Experience',flex:1,align: 'center', },
 
-  {id: 'hospitalName',label: 'Hospital Name ', flex:1, align: 'center',},
+
   {id: 'joiningDate',label: 'Joining Date', flex:1, align: 'center',},
   {id: 'status',label: ' Availability Status',flex:1,align: 'center', },
   {id: 'action',label: 'Actions', flex:1,align: 'center', },
@@ -89,7 +89,7 @@ useEffect(() => {
 
   const fetchDoctorData = async () => {
     try {
-      const response = await fetch(`${Base_url}/doctor`, {
+      const response = await fetch(`${Base_url}/alldoctor`, {
         method: "GET",
         headers: {
           Authorization:`Bearer ${token}`,
@@ -113,7 +113,6 @@ useEffect(() => {
             item.companyDetails.specialization,
             item.qualification,
             item.experience,
-            item.hospitalName,
             item.availabilityStatus,
             item.companyDetails.joiningDate
             )
@@ -131,8 +130,8 @@ useEffect(() => {
 }, [loading]);
 
 
-function createData(si, doctorName, mobileNumber, emailId, address, specialization, qualification, experience, hospitalName,  joiningDate,status ) {
-  return { si, doctorName, mobileNumber, emailId, address, specialization, qualification, experience, hospitalName,joiningDate , status, action: (
+function createData(si, doctorName, mobileNumber, emailId, address, specialization, qualification, experience, joiningDate,status ) {
+  return { si, doctorName, mobileNumber, emailId, address, specialization, qualification, experience,joiningDate , status, action: (
       <>
       <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
         <VisibilityIcon />
