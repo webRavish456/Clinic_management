@@ -58,8 +58,7 @@ const CreateDepartment = ({ handleCreate, handleClose }) => {
 
   const [loading, setLoading] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState("");
-  const [departmentHeads, setDepartmentHeads] = useState([]);
-
+  
   const {
     register,
     handleSubmit,
