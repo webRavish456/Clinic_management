@@ -49,14 +49,12 @@ const AllPatients = () => {
   const columns = [
     { id: "si", label: "SI.No", flex: 1, align: "center" },
     { id: "name", label: " Name", flex: 1, align: "center" },
-    { id: "treatment", label: "treatment", flex: 1, align: "center" },
+    { id: "gender", label: "gender", flex: 1, align: "center" },
     { id: "mobileNo", label: "Mobile No", flex: 1, align: "center" },
     { id: "email", label: "Email", flex: 1, align: "center" },
-    { id: "gender", label: "gender", flex: 1, align: "center" },
-    { id: "address", label: "Address", flex: 1, align: "center" },
-    { id: "admissionDate", label: "Admission Date", flex: 1, align: "center" },
-    { id: "doctorAssigned", label: "Doctor Assigned", flex: 1, align: "center" },
     { id: "bloodGroup", label: "Blood Group", flex: 1, align: "center" },
+    { id: "admissionDate", label: "Admit Date", flex: 1, align: "center" },
+    { id: "address", label: "Address", flex: 1, align: "center" },
     { id: "status", label: "Status", flex: 1, align: "center" },
     { id: "action", label: "Action", flex: 1, align: "center" },
   ];
@@ -81,14 +79,12 @@ const AllPatients = () => {
               index + 1,
               item,
               item.name,
-              item.treatment,
               item.mobileNo,
               item.email,
               item.gender,
-              item.address,
-              item.admissionDate,
-              item.doctorAssigned,
               item.bloodGroup,
+              item.address,
+              new Date(item.admissionDate).toLocaleDateString("en-IN"),       
               item.status
             )
           );
@@ -104,18 +100,16 @@ const AllPatients = () => {
     }
   }, [loading]);
 
-  const createData = (si, row, name, treatment,mobileNo,email,gender,address,admissionDate,doctorAssigned,bloodGroup, status) => ({
+  const createData = (si, row, name,mobileNo,email,gender,bloodGroup,address,admissionDate, status) => ({
     si,
     row,
     name,
-    treatment,
     mobileNo,
     email,
     gender,
+    bloodGroup,
     address,
     admissionDate,
-    doctorAssigned,
-    bloodGroup,
     status,
     action: (
       <>
@@ -190,13 +184,13 @@ const AllPatients = () => {
     setDeleteShow(false);
   };
 
-  const handleCreate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleCreate = () => {
+    setLoading(true);
     setOpenData(false);
   };
 
-  const handleUpdate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleUpdate = () => {
+     setLoading(true);
     setEditShow(false);
   };
 
@@ -206,8 +200,9 @@ const AllPatients = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (_, newPage) => setPage(newPage);
+
   const handleChangeRowsPerPage = (e) => {
-    setRowsPerPage(+e.target.value);
+    setRowsPerPage(e.target.value);
     setPage(0);
   };
 

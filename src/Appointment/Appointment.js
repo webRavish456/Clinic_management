@@ -49,17 +49,16 @@ const Appointment= () => {
 
   const columns = [
     { id: 'patientName', label: 'Patient Name', flex: 1, align: 'center' },
-  { id: 'doctorName', label: 'Doctor', flex: 1,align: 'center'  },
+    { id: 'treatment', label: 'Treatment', flex: 1, align: 'center' },
+      { id: 'doctorAssigned', label: 'Assigned Doctor', flex: 1,align: 'center'  },
       { id: 'gender', label: 'Gender', flex: 1, align: 'center' },
-      { id: 'date', label: 'Date', flex: 1, align: 'center' },
-     
-      {id: 'mobile', label: 'Mobile', flex: 1, align: 'center'},
-      {id: 'email', label: 'email', flex: 1, align: 'center'},
+      {id: 'mobileNo', label: 'Mobile No', flex: 1, align: 'center'},
+      {id: 'emailId', label: 'Email Id', flex: 1, align: 'center'},
+      { id: 'appointmentDate', label: 'Appointment Date', flex: 1, align: 'center' },
       {id: 'appointmentStatus', label: 'Appointment Status', flex: 1, align: 'center'},
-     { id: 'visitType', label: 'Visit Type', flex: 1, align: 'center' },
-
-     { id: 'status', label: 'Status', flex: 1, align: 'center' }, 
-     { id: 'action', label: 'Actions', flex: 1, align: 'center' },
+      { id: 'visitType', label: 'Visit Type', flex: 1, align: 'center' },
+      { id: 'status', label: 'Status', flex: 1, align: 'center' }, 
+      { id: 'action', label: 'Actions', flex: 1, align: 'center' },
     ];
   
 
@@ -85,7 +84,7 @@ const Appointment= () => {
              setLoading(false);
   
              const formattedData = res.data.map((item, index) =>
-              createData( item, item.patientName, item.doctorName, item.gender, item.date,item.mobile, item.email, item.appointmentStatus,item.visitType,item.status)
+              createData( item, item.patientName, item.doctorAssigned, item.treatment, item.gender, item.appointmentDate, item.mobileNo, item.emailId, item.appointmentStatus, item.visitType, item.status)
             );
          
             setRows(formattedData)
@@ -104,8 +103,8 @@ const Appointment= () => {
     
      },[loading])
     
-  const  createData = (row,patientName,doctorName,gender,date,mobile,email,appointmentStatus,visitType,status) => ({
-   row,patientName,doctorName,gender,date,mobile,email,appointmentStatus,visitType,status,action : (
+  const  createData = (row, patientName, doctorAssigned, treatment, gender, appointmentDate, mobileNo, emailId, appointmentStatus, visitType, status) => ({
+      row,patientName, doctorAssigned, gender, treatment, appointmentDate, mobileNo, emailId, appointmentStatus, visitType, status, action : (
       <>
                     <IconButton style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
                      onClick={()=>handleView(row)}>

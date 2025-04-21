@@ -1,233 +1,210 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
-  Grid,
-  useMediaQuery,
-  Button,
-  Box,
-  CircularProgress,
   MenuItem,
   Select,
   InputLabel,
   FormControl,
-  FormHelperText
+  FormHelperText,
+  Grid,
+  Button,
+  Box,
+  CircularProgress,
+  useMediaQuery,
+  OutlinedInput,
+  Checkbox,
+  ListItemText,
 } from "@mui/material";
-
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import Cookies from 'js-cookie';
+
+const schema = yup.object().shape({
+  departmentName: yup.string().required("Department Name is required"),
+  specialization: yup
+    .array()
+    .min(1, "Select at least one specialization")
+    .required("Specialization is required"),
+  description: yup.string().required("Description is required"),
+  departmentHead: yup.string(),
+});
 
 const departmentSpecializations = {
-  cardiology: ["Heart Diseases", "Arrhythmia", "Hypertension", "Heart Failure", "Angioplasty"],
-  gynecology: ["Female reproductive health", "Pregnancy", "Menstruation", "Menopause", "Fertility"],
-  neurology: ["Brain and Nervous system disorders", "Epilepsy", "Parkinson’s", "Stroke"],
-  pediatrics: ["Child Health", "Vaccinations", "Growth disorders", "Pediatric infections"],
-  orthopedics: ["Bones", "Joints", "Fractures", "Arthritis", "Spinal Problems", "Sports injuries"],
+  Cardiology:["Heart Diseases", "Arrhythmia", "Hypertension", "Heart Failure", "Angioplasty"],
+  Gynecology: ["Female reproductive health", "Pregnancy", "Menstruation", "Menopause", "Fertility"],
+  Neurology: ["Brain and Nervous system disorders", "Epilepsy", "Parkinson’s", "Stroke"],
+  Pediatrics: ["Child Health", "Vaccinations", "Growth disorders", "Pediatric infections"],
+  Orthopedics: ["Bones", "Joints", "Fractures", "Arthritis", "Spinal Problems", "Sports injuries"],
   ENT: ["Hearing issues", "Sinus Problems", "Throat infections", "Tonsillitis"],
-  General_Medicine: ["Primary care", "Diabetes", "Hypertension", "Infections", "Routine checkups"],
-  dermatalogy: ["Skin diseases", "Acne", "Eczema", "Psoriasis", "Cosmetic skin treatments"],
+  GeneralMedicine: ["Primary care", "Diabetes", "Hypertension", "Infections", "Routine checkups"],
+  Dermatology: ["Skin diseases", "Acne", "Eczema", "Psoriasis", "Cosmetic skin treatments"],
   Psychiatry: ["Mental health", "Depression", "Anxiety", "Bipolar disorder", "Schizophrenia"],
-  Oncology: ["Cancer treatment(chemotherapy, radiotherapy)", "Tumor management"],
+  Oncology: ["Cancer treatment", "Tumor management"],
   Urology: ["Kidney", "Bladder", "Prostate", "Urinary infections", "Male reproductive health"],
   Gastroenterology: ["Digestive system", "Liver disease", "Acid reflux", "IBS", "Colonoscopy"],
   Nephrology: ["Kidney health", "Dialysis", "Chronic kidney disease", "kidney transplants"],
   Pulmonology: ["Lungs and respiratory system", "Asthma", "COPD", "Pneumonia", "Sleep apnea"],
-  Endocrinology: ["Hormonal disorders", "Diabetes", "Thyroid", "PCOS", "Adrenal issues"]
+  Endocrinology: ["Hormonal disorders", "Diabetes", "Thyroid", "PCOS", "Adrenal issues"],
 };
 
-const schema = yup.object().shape({
-  departmentName: yup.string().required("Department Name is required"),
-  specialization: yup.string().required("Specialization is required"),
-  description: yup.string().required("Description is required"),
-  departmentHead: yup.string().required("Department Head is required"),
-});
 
 const CreateDepartment = ({ handleCreate, handleClose }) => {
+
   const isSmScreen = useMediaQuery("(max-width:768px)");
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
   const Base_url = process.env.REACT_APP_BASE_URL;
 
   const [loading, setLoading] = useState(false);
-  const [selectedDept, setSelectedDept] = useState("cardiology");
-
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    reset,
     setValue,
-    watch
+    formState: { errors },
+    watch,
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      departmentName: "cardiology",
-      specialization: "Heart Diseases"
-    }
   });
 
-  useEffect(() => {
-    // Set default specialization when default department is selected
-    setValue("specialization", departmentSpecializations["cardiology"][0]);
-  }, [setValue]);
+  const selectedSpecs = watch("specialization") || [];
+
 
   const onSubmit = (data) => {
+
+
     setLoading(true);
+
+    console.log("department", data)
 
     const formdata = new FormData();
     formdata.append("departmentName", data.departmentName);
-    formdata.append("specialization", data.specialization);
     formdata.append("description", data.description);
-    formdata.append("departmentHead", data.departmentHead);
+
+    data.specialization.forEach((spec, i) =>
+      formdata.append(`specialization[${i}]`, spec)
+    );
 
     fetch(`${Base_url}/department`, {
       method: "POST",
-      body: formdata,
       headers: {
         Authorization:` Bearer ${token}`,
       },
+      body: formdata,
     })
       .then((res) => res.json())
       .then((res) => {
         if (res.status === "success") {
-          toast.success("Department Created Successfully!");
+          toast.success("Department created successfully!");
           handleCreate(true);
-          handleClose();
           reset();
         } else {
-          toast.error(res.message);
+          toast.error(res.message || "Something went wrong!");
         }
-        setLoading(false);
       })
-      .catch((error) => {
-        console.error(error);
-        setLoading(false);
-      });
+      .catch((err) => {
+        console.error(err);
+        toast.error("Something went wrong!");
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container columnSpacing={2}>
-          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-            <FormControl fullWidth margin="normal" error={!!errors.departmentName}>
-              <InputLabel>Department Name *</InputLabel>
-              <Select
-                value={watch("departmentName") || ""}
-                label="Department Name"
-                {...register("departmentName")}
-                onChange={(e) => {
-                  const dept = e.target.value;
-                  setValue("departmentName", dept);
-                  setSelectedDept(dept);
-                  const defaultSpec = departmentSpecializations[dept]?.[0] || "";
-                  setValue("specialization", defaultSpec);
-                }}
-                MenuProps={{
-                  PaperProps: {
-                    style: {
-                      maxHeight: 200,
-                      overflowY: "auto",
-                    },
-                  },
-                }}
-              >
-                {Object.keys(departmentSpecializations).map((dept) => (
-                  <MenuItem key={dept} value={dept}>
-                    {dept.charAt(0).toUpperCase() + dept.slice(1)}
-                  </MenuItem>
-                ))}
-              </Select>
-              <FormHelperText>{errors.departmentName?.message}</FormHelperText>
-            </FormControl>
-          </Grid>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth margin="normal" error={!!errors.departmentName}>
+            <InputLabel>Department Name *</InputLabel>
+            <Select
+              value={selectedDepartment}
+              onChange={(e) => {
+            
+                const value = e.target.value;
+                setSelectedDepartment(value);
+                setValue("departmentName", value);
+                setValue("specialization", []);
+               
+              }}
+              label="Department Name"
 
-          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-            <FormControl fullWidth margin="normal" error={!!errors.specialization}>
-              <InputLabel>Specialization *</InputLabel>
-              <Select
-                value={watch("specialization") || ""}
-                label="Specialization"
-                {...register("specialization")}
-                disabled={!selectedDept}
-              >
-                {(departmentSpecializations[selectedDept] || []).map((spec) => (
-                  <MenuItem key={spec} value={spec}>
-                    {spec}
-                  </MenuItem>
-                ))}
-              </Select>
-              <FormHelperText>{errors.specialization?.message}</FormHelperText>
-            </FormControl>
-          </Grid>
 
-          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-            <TextField
-              type="text"
-              label="Description *"
-              variant="outlined"
-              {...register("description")}
-              error={!!errors.description}
-              fullWidth
-              multiline
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.description?.message}
-            </div>
-          </Grid>
+              MenuProps={{PaperProps:{style:{maxHeight:200,
+                overflowY:"auto",
+              },
+            },
+          }}
+            >
 
-          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-            <TextField
-              type="text"
-              label="Department Head *"
-              variant="outlined"
-              {...register("departmentHead")}
-              error={!!errors.departmentHead}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.departmentHead?.message}
-            </div>
-          </Grid>
 
-          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-            <TextField
-              InputLabelProps={{ shrink: true }}
-              type="date"
-              label="Date *"
-              variant="outlined"
-              {...register("date")}
-              error={!!errors.date}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.date?.message}
-            </div>
-          </Grid>
+
+
+              {Object.keys(departmentSpecializations).map((dept) => (
+                <MenuItem key={dept} value={dept}>
+                  {dept}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText>{errors.departmentName?.message}</FormHelperText>
+          </FormControl>
         </Grid>
 
-        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
-          <Button onClick={handleClose} className="secondary_button">
-            Cancel
-          </Button>
-          <Button type="submit" className="primary_button">
-            {loading ? (
-              <>
-                <CircularProgress size={18} style={{ marginRight: 8, color: "#fff" }} />
-                Submitting
-              </>
-            ) : (
-              "Submit"
-            )}
-          </Button>
-        </Box>
-      </form>
-    </>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth margin="normal" error={!!errors.specialization}>
+            <InputLabel>Specialization *</InputLabel>
+            <Select
+              multiple
+              value={watch("specialization") || []}
+              onChange={(e) => setValue("specialization", e.target.value)}
+              input={<OutlinedInput label="Specialization" />}
+              renderValue={(selected) => selected.join(", ")}
+            >
+              {(departmentSpecializations[selectedDepartment] || []).map((spec) => (
+                <MenuItem key={spec} value={spec}>
+                  <Checkbox checked={watch("specialization")?.includes(spec)} />
+                  <ListItemText primary={spec} />
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText>{errors.specialization?.message}</FormHelperText>
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} >
+          <TextField
+            label="Description *"
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            multiline
+            value={watch("description") || ""}
+            onChange={(e) => setValue("description", e.target.value)}
+            error={!!errors.description}
+            helperText={errors.description?.message}
+          />
+        </Grid>
+
+       
+      </Grid>
+
+      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 3 }}>
+        <Button onClick={handleClose} className="secondary_button">
+          Cancel
+        </Button>
+        <Button type="submit" className="primary_button">
+          {loading ? (
+            <>
+              <CircularProgress size={18} sx={{ mr: 1, color: "#fff" }} />
+              Submitting
+            </>
+          ) : (
+            "Submit"
+          )}
+        </Button>
+      </Box>
+    </form>
   );
 };
 

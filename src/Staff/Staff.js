@@ -97,7 +97,6 @@ useEffect(() => {
       const result = await response.text();
       const res = JSON.parse(result);
 
-
       if (res.status === "success") {
         setLoading(false);
         const formattedData = res.data.map((item, index) =>
@@ -108,7 +107,7 @@ useEffect(() => {
             item.companyDetails.designation,
             item.mobileNumber,
             item.emailId,
-            item.shift,
+            item.companyDetails.shift,
             item.address,
             item.companyDetails.salary,
             item.companyDetails.joiningDate,
