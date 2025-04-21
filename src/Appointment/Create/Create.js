@@ -16,7 +16,7 @@ import Cookies from 'js-cookie';
 
 const schema = yup.object().shape({
   patientName: yup.string().required("Patient Name is required"),
-  doctorName: yup.string().required("Doctor Name is required"),
+  doctorAssigned: yup.string().required("Assigned Doctor is required"),
   gender: yup.string().required("Gender is required"),
   date: yup.string().required("Date is required"),
   mobile: yup.string().required("Mobile is required"),
@@ -26,6 +26,7 @@ const schema = yup.object().shape({
 });
 
 const CreateAppointment = ({ handleCreate, handleClose }) => {
+
   const isSmScreen = useMediaQuery("(max-width:768px)");
   const token = Cookies.get('token');
   const Base_url = process.env.REACT_APP_BASE_URL;
@@ -42,15 +43,16 @@ const CreateAppointment = ({ handleCreate, handleClose }) => {
 
   const onSubmit = (data) => {
     setLoading(true);
-    console.log(data);
+   
 
     const formdata = new FormData();
     formdata.append("patientName", data.patientName);
-    formdata.append("doctorName", data.doctorName);
+    formdata.append("doctorAssigned", data.doctorAssigned);
+    formdata.append("treatment", data.treatment);
     formdata.append("gender", data.gender);
-    formdata.append("date", data.date);
-    formdata.append("mobile", data.mobile);
-    formdata.append("email", data.email);
+    formdata.append("appointmentDate", data.appointmentDate);
+    formdata.append("mobileNo", data.mobileNo);
+    formdata.append("emailId", data.emailId);
     formdata.append("appointmentStatus", data.appointmentStatus);
     formdata.append("visitType", data.visitType);
 
@@ -108,13 +110,13 @@ const CreateAppointment = ({ handleCreate, handleClose }) => {
               type="text"
               label={<><span style={{ color: "red" }}>*</span> Doctor</>}
               variant="outlined"
-              {...register("doctorName")}
-              error={!!errors.doctorName}
+              {...register("doctorAssigned")}
+              error={!!errors.doctorAssigned}
               fullWidth
               margin="normal"
             />
             <div style={{ color: "red", fontSize: "0.8rem" }}>
-              {errors.doctorName?.message}
+              {errors.doctorAssigned?.message}
             </div>
           </Grid>
 

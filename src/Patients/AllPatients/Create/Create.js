@@ -27,7 +27,6 @@ import Cookies from 'js-cookie';
     .matches(/^[6-9]\d{9}$/, "Enter a valid Mobile Number"),
     email: yup.string().email().required(" Email is required"),
     address: yup.string().required(" Address is required"),
-    treatment: yup.string().required(" Treatment is required"),
     medicalHistory: yup.mixed().required(" Medical History is required"),
 
   });
@@ -206,27 +205,6 @@ const CreateAllPatients =({handleCreate, handleClose})=>
               {errors.bloodGroup?.message}
             </div>
           </Grid>
-
-
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  Treatment <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("treatment")}
-              error={!!errors.treatment}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.treatment?.message}
-            </div>
-          </Grid>
-
          
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
           <TextField
@@ -273,7 +251,7 @@ const CreateAllPatients =({handleCreate, handleClose})=>
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={12}>
+          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
               type="text"
               label={

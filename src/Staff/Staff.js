@@ -97,8 +97,6 @@ useEffect(() => {
       const result = await response.text();
       const res = JSON.parse(result);
 
-      console.log("res",res)
-
       if (res.status === "success") {
         setLoading(false);
         const formattedData = res.data.map((item, index) =>

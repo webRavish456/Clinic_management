@@ -49,7 +49,6 @@ const AllPatients = () => {
   const columns = [
     { id: "si", label: "SI.No", flex: 1, align: "center" },
     { id: "name", label: " Name", flex: 1, align: "center" },
-    { id: "treatment", label: "treatment", flex: 1, align: "center" },
     { id: "gender", label: "gender", flex: 1, align: "center" },
     { id: "mobileNo", label: "Mobile No", flex: 1, align: "center" },
     { id: "email", label: "Email", flex: 1, align: "center" },
@@ -80,7 +79,6 @@ const AllPatients = () => {
               index + 1,
               item,
               item.name,
-              item.treatment,
               item.mobileNo,
               item.email,
               item.gender,
@@ -102,11 +100,10 @@ const AllPatients = () => {
     }
   }, [loading]);
 
-  const createData = (si, row, name, treatment,mobileNo,email,gender,bloodGroup,address,admissionDate, status) => ({
+  const createData = (si, row, name,mobileNo,email,gender,bloodGroup,address,admissionDate, status) => ({
     si,
     row,
     name,
-    treatment,
     mobileNo,
     email,
     gender,
