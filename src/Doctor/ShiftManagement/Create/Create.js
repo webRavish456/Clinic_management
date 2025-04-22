@@ -22,13 +22,14 @@ import Cookies from "js-cookie";
 
 const schema = yup.object().shape({
   doctorname: yup.string().required("Doctor Name is required"),
-  department: yup.string().required("Department is required"),
-  specialization: yup.string().required("Specialization is required"),
+  mobileNo: yup.string().required("Mobile No. is required"),
   shiftstartdate: yup.string().required("Shift Start Date is required"),
   shiftenddate: yup.string().required("Shift End Date is required"),
   workdays: yup.string().required("Work Days is required"),
   shifthours: yup.string().required("Shift Hours is required"),
   shifttype: yup.string().required("Shift Type is required"),
+  availabilityStatus: yup.string().required("Availability Status is required"),
+  
 });
 
 const CreateShiftManagement = ({ handleCreate, handleClose }) => {
@@ -53,14 +54,13 @@ const CreateShiftManagement = ({ handleCreate, handleClose }) => {
 
     const formdata = new FormData();
     formdata.append("doctorname", data.doctorname);
-    formdata.append("department", data.department);
-    formdata.append("specialization", data.specialization);
+    formdata.append("mobileno", data.mobileno);
     formdata.append("shiftstartdate", data.shiftstartdate);
     formdata.append("shiftenddate", data.shiftenddate);
     formdata.append("workdays", data.workdays);
     formdata.append("shifthours", data.shifthours);
     formdata.append("shifttype", data.shifttype);
-
+    formdata.append("availabilitystatus", data.availabilitystatus);
     const requestOptions = {
       method: "POST",
       body: formdata,
@@ -100,12 +100,21 @@ const CreateShiftManagement = ({ handleCreate, handleClose }) => {
                           labelId="doctorname-label"
                           id="doctorname"
                           label="doctorname"
+
+                          MenuProps={{PaperProps:{style:{maxHeight:200,overflowY:"auto",}}}}
                           defaultValue=""
                           {...register("doctorname")}
                         >
-                          <MenuItem value="complete">Complete</MenuItem>
-                          <MenuItem value="active">Active</MenuItem>
-                          <MenuItem value="uncomplete">Uncomplete</MenuItem>
+                          <MenuItem value="Amrita">Amrita</MenuItem>
+                          <MenuItem value="Nitu">Nitu</MenuItem>
+                          <MenuItem value="Ritu">Ritu</MenuItem>
+                          <MenuItem value="Rani">Rani</MenuItem>
+                          <MenuItem value="Suman">Suman</MenuItem>
+                          <MenuItem value="Priyanka">Priyanka</MenuItem>
+                          <MenuItem value="Annu">Annu</MenuItem>
+                          <MenuItem value="Sneha">Sneha</MenuItem>
+                          <MenuItem value="Punam">Punam</MenuItem>
+                          <MenuItem value="Sonal">Sonal</MenuItem>
                         </Select>
                         <FormHelperText>{errors.doctorname?.message}</FormHelperText>
                       </FormControl>
@@ -115,14 +124,14 @@ const CreateShiftManagement = ({ handleCreate, handleClose }) => {
                       <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
                     <FormControl fullWidth margin="normal" error={!!errors.department}>
                         <InputLabel id="department-label">
-                          Department<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                          Mobile No<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                         </InputLabel>
                         <Select
-                          labelId="department-label"
-                          id="department"
-                          label="department"
+                          labelId="mobileno-label"
+                          id="mobileno"
+                          label="mobileno"
                           defaultValue=""
-                          {...register("department")}
+                          {...register("mobileno")}
                         >
                           <MenuItem value="complete">Complete</MenuItem>
                           <MenuItem value="active">Active</MenuItem>
@@ -132,25 +141,7 @@ const CreateShiftManagement = ({ handleCreate, handleClose }) => {
                       </FormControl>
                       </Grid>
 
-                     <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-                    <FormControl fullWidth margin="normal" error={!!errors.specialization}>
-                        <InputLabel id="specialization-label">
-                          Specialization<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                        </InputLabel>
-                        <Select
-                          labelId="specialization-label"
-                          id="specialization"
-                          label="specialization"
-                          defaultValue=""
-                          {...register("specialization")}
-                        >
-                          <MenuItem value="complete">Complete</MenuItem>
-                          <MenuItem value="active">Active</MenuItem>
-                          <MenuItem value="uncomplete">Uncomplete</MenuItem>
-                        </Select>
-                        <FormHelperText>{errors.specialization?.message}</FormHelperText>
-                      </FormControl>
-                      </Grid>
+                    
 
            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
@@ -249,6 +240,26 @@ const CreateShiftManagement = ({ handleCreate, handleClose }) => {
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.shifttype?.message}
+            </div>
+          </Grid>
+
+          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Availability Status{" "}
+                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("availabilitystatus")}
+              error={!!errors.availabilitystatus}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.availabilitystatus?.message}
             </div>
           </Grid>
         </Grid>
