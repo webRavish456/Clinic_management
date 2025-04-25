@@ -6,6 +6,11 @@ import {
     Button,
     Box,
     CircularProgress,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    FormHelperText,
   } from "@mui/material";
 
 import { useForm } from "react-hook-form";
@@ -136,7 +141,7 @@ const CreateAllPatients =({handleCreate, handleClose})=>
               type="text"
               label={
                 <>
-                  treatment <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Treatment <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -154,7 +159,7 @@ const CreateAllPatients =({handleCreate, handleClose})=>
               type="text"
               label={
                 <>
-                  mobileNo <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                    MobileNo <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -172,7 +177,7 @@ const CreateAllPatients =({handleCreate, handleClose})=>
               type="text"
               label={
                 <>
-                  email <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Email <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -185,12 +190,12 @@ const CreateAllPatients =({handleCreate, handleClose})=>
               {errors.email?.message}
             </div>
           </Grid>
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          {/* <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
               type="text"
               label={
                 <>
-                  gender <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Gender <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -202,13 +207,32 @@ const CreateAllPatients =({handleCreate, handleClose})=>
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.gender?.message}
             </div>
-          </Grid>
+          </Grid> */}
+          < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          <FormControl fullWidth margin="normal" error={!!errors.taskStatus}>
+              <InputLabel id="gender-label">
+                Gender<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+              </InputLabel>
+              <Select
+                labelId="gender-label"
+                id="gender"
+                label="gender"
+                defaultValue=""
+                {...register("gender")}
+              >
+                <MenuItem value="Male">Male</MenuItem>
+                <MenuItem value="Female">Female</MenuItem>
+                <MenuItem value="Other">Other</MenuItem>
+              </Select>
+              <FormHelperText>{errors.taskStatus?.message}</FormHelperText>
+            </FormControl>
+            </Grid>
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
               type="text"
               label={
                 <>
-                  address <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Address <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -227,7 +251,7 @@ const CreateAllPatients =({handleCreate, handleClose})=>
               type="date"
               label={
                 <>
-                  admissionDate <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  AdmissionDate <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -240,12 +264,12 @@ const CreateAllPatients =({handleCreate, handleClose})=>
               {errors.admissionDate?.message}
             </div>
           </Grid>
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          {/* <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
               type="text"
               label={
                 <>
-                  doctorAssigned <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  DoctorAssigned <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -257,8 +281,27 @@ const CreateAllPatients =({handleCreate, handleClose})=>
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.doctorAssigned?.message}
             </div>
-          </Grid>
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          </Grid> */}
+          < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          <FormControl fullWidth margin="normal" error={!!errors.taskStatus}>
+              <InputLabel id="doctorAssigned-label">
+              Doctor Assigned  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+              </InputLabel>
+              <Select
+                labelId="doctorAssigned-label"
+                id="doctorAssigned"
+                label="doctorAssigned"
+                defaultValue=""
+                {...register("doctorAssigned")}
+              >
+                <MenuItem value="complete">Complete</MenuItem>
+                <MenuItem value="active">Active</MenuItem>
+                <MenuItem value="uncomplete">Uncomplete</MenuItem>
+              </Select>
+              <FormHelperText>{errors.doctorAssigned?.message}</FormHelperText>
+            </FormControl>
+            </Grid>
+          {/* <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
               type="text"
               label={
@@ -276,7 +319,27 @@ const CreateAllPatients =({handleCreate, handleClose})=>
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.bloodGroup?.message}
             </div>
-          </Grid>
+          </Grid> */}
+          < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          <FormControl fullWidth margin="normal" error={!!errors.taskStatus}>
+              <InputLabel id="bloodGroup-label">
+                Blood Group<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+              </InputLabel>
+              <Select
+                labelId="bloodGroup-label"
+                id="bloodGroup"
+                label="bloodGroup"
+                defaultValue=""
+                {...register("bloodGroup")}
+              >
+                <MenuItem value="O+">O+</MenuItem>
+                <MenuItem value="A+">A+</MenuItem>
+                <MenuItem value="B+">B+</MenuItem>
+                <MenuItem value="AB+">AB+</MenuItem>
+              </Select>
+              <FormHelperText>{errors.bloodGroup?.message}</FormHelperText>
+            </FormControl>
+            </Grid>
 
 
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
@@ -303,7 +366,7 @@ const CreateAllPatients =({handleCreate, handleClose})=>
               {errors.medicalHistory?.message}
             </div>
           </Grid>
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          {/* <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
           <TextField
               type="text"
               
@@ -324,7 +387,26 @@ const CreateAllPatients =({handleCreate, handleClose})=>
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.status?.message}
             </div>
-          </Grid>
+          </Grid> */}
+          < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          <FormControl fullWidth margin="normal" error={!!errors.taskStatus}>
+              <InputLabel id="taskStatus-label">
+                Status<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+              </InputLabel>
+              <Select
+                labelId="Status-label"
+                id="Status"
+                label="Status"
+                defaultValue=""
+                {...register("Status")}
+              >
+                <MenuItem value="complete">Complete</MenuItem>
+                <MenuItem value="active">Active</MenuItem>
+                <MenuItem value="uncomplete">Uncomplete</MenuItem>
+              </Select>
+              <FormHelperText>{errors.taskStatus?.message}</FormHelperText>
+            </FormControl>
+            </Grid>
 
         </Grid>
 

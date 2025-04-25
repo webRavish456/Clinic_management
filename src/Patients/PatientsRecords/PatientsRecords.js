@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 import {
   Paper,
@@ -49,12 +50,12 @@ const PatientsRecords = () => {
   const columns = [
     { id: "si", label: "SI.No", flex: 1, align: "center" },
     { id: "patientID", label: " Patient ID", flex: 1, align: "center" },
-    { id: "patientname", label: "Patient Name", flex: 1, align: "center" },
+    { id: "patientName", label: "Patient Name", flex: 1, align: "center" },
     { id: "admissionDate", label: "Admission Date", flex: 1, align: "center" },
     { id: "treatment", label: "Treatment", flex: 1, align: "center" },
-    { id: "labreport", label: "Lab Report", flex: 1, align: "center" },
+    { id: "labReport", label: "Lab Report", flex: 1, align: "center" },
 
-    { id: "nextfollowup", label: "Next FollowUp", flex: 1, align: "center" },
+    { id: "nextFollowUp", label: "Next FollowUp", flex: 1, align: "center" },
     
     { id: "status", label: "Status", flex: 1, align: "center" },
     { id: "action", label: "Action", flex: 1, align: "center" },
@@ -79,14 +80,16 @@ const PatientsRecords = () => {
             createData(
               index + 1,
               item,
-              item.patientID,
-              item.treatment,
-              item.patientname,
-              item.labreport,
+              item.patient._id,
              
-              item.nextfollowup,
-              item.admissionDate,
-              item.status
+              item.patientName,
+              item.patient.admissionDate,
+              item.patient.treatment,
+              item.labReport,
+             
+              item.nextFollowUp,
+              
+              item.patient.status,
             )
           );
           setRows(formattedData);
@@ -101,16 +104,17 @@ const PatientsRecords = () => {
     }
   }, [loading]);
 
-  const createData = (si, row, patientID, treatment,patientname,labreport,nextfollowup,admissionDate, status) => ({
+  const createData = (si, row, patientID,patientName,admissionDate,treatment,labReport,nextFollowUp, status) => ({
     si,
     row,
     patientID,
-    treatment,
-    patientname,
-    labreport,
-    
-    nextfollowup,
+    patientName,
     admissionDate,
+    treatment,
+ labReport,
+    
+ nextFollowUp,
+    
     status,
     action: (
       <>
@@ -210,7 +214,7 @@ const PatientsRecords = () => {
     <>
       <ToastContainer />
       <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="+ Add Patient Record" />
+        <Search onAddClick={onAddClick} buttonText=" Add Patient Record" />
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="patientsrecords table">

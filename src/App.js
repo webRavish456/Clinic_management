@@ -19,6 +19,11 @@ import Department from "./Department/Department";
 import LabTest from "./Laboratory/LabTest/LabTest";
 import Income from "./Finance/Income/Income";
 import Expense from "./Finance/Expense/Expense";
+import CreateDoctor from "./Doctor/AllDoctor/Create/Create";
+import ViewDoctor from "./Doctor/AllDoctor/View/View";
+import EditDoctor from "./Doctor/AllDoctor/Edit/Edit";
+import Profile from "./MyProfile/MyProfile";
+
 
 
 
@@ -48,6 +53,11 @@ function App() {
           <Route path="createstaff" element={<CreateStaff />} />
           <Route path="viewstaff" element={<ViewStaff/>}/>
         <Route path="editstaff" element={<EditStaff/>}/>
+       <Route path= "createDoctor" element={<CreateDoctor/>}/>
+        <Route path="viewDoctor" element={<ViewDoctor/>}/>
+        <Route path="editDoctor" element={<EditDoctor/>}/>
+        <Route path="/profile" element={<Profile/>}/>
+
 
         </Route>
       </Routes>

@@ -14,44 +14,128 @@ import {
     FormControlLabel,
     FormLabel
 } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import {  toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 
-const CreateStaff = ({ handleSubmit, handleClose }) => {
-    const [formData, setFormData] = useState({
-        staffName: "",
-        gender: "",
-       
-        dob: "",
-        salary:"",
-        mobileNumber: "",
-        emailId: "",
-        experience: "",
-        qualification: "",
-        address: "",
-        branchName: "",
-        designation: "",
-        department:"",
-        shift: "",
-        salary:"",
-        joiningDate: "",
-        resumeCertificate: "",
-        highestQualificationCertificate: "",
-        panCard: "",
-        aadharCard: "",
-        accountHolderName: "",
-        accountNumber: "",
-        bankName: "",
-        ifscCode: "",
-        branch: "",
-        branchLocation: "",
+ const schema = yup.object().shape({
+    staffName: yup.string().required("Staff Name is required"),
+    gender: yup.string().required("Gender is required"),
+    dob: yup.string().required("Date of birth is required"),
+    salary: yup.string().required("Salary is required"),
+    mobileNumber: yup.string().required("Mobile number  is required"),
+    emailId: yup.string().required("Email ID is required"),
+    experience: yup.string().required("Experience is required"),
+    qualification: yup.string().required("Qualification is required"),
+    address: yup.string().required("address is required"),
+    branchName: yup.string().required("Branch name is required"),
+    designation: yup.string().required("Designation is required"),
+    department: yup.string().required("Department is required"),
+    shift: yup.string().required("Shift is required"),
+    salary: yup.string().required("Salary is required"),
+    joiningDate: yup.string().required("Joining date is required"),
+    resumeCertificate: yup.string().required("Resume is required"),
+    highestQualificationCertificate: yup.string().required("Highest qualification certificate is required"),
+    panCard: yup.string().required("Pancard  is required"),
+    aadharCard: yup.string().required("Aadhar card is required"),
+    accountHolderName: yup.string().required("Account holder name is required"),
+    bankName: yup.string().required("Bank name is required"),
+    ifscCode: yup.string().required("IFSC code is required"),
+    branchName: yup.string().required("Branch Name is required"),
+    branchLocation: yup.string().required("Branch location is required"),
+  });
+
+
+const CreateStaff = () => {
+    const token = Cookies.get('token');
+   
+       const Base_url = process.env.REACT_APP_BASE_URL;
+     
+       const [loading, setLoading] = useState(false)
+     
+       const {
+         register,
+         handleSubmit,
+         formState: { errors },
+         reset,
+       } = useForm({
+         resolver: yupResolver(schema),
+   
     });
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+    const onSubmit = (data) => {
+    
+        setLoading(true)
+
+       const formdata = new FormData();
+       formdata.append("staffName", data.staffName);
+       formdata.append("gender", data.gender);
+       formdata.append("dob", data.dob);
+       formdata.append("salary", data.salary);
+       formdata.append("mobileNumber", data.mobileNumber);
+       formdata.append("emailId", data.emailId);
+       formdata.append("experience", data.experience);
+       formdata.append("qualification", data.qualification);
+       formdata.append("address", data.address);
+       formdata.append("branchName", data.branchName);
+       formdata.append("designation", data.designation);
+       formdata.append("depatment", data.department);
+       formdata.append("shift", data.shift);
+       formdata.append("salary", data.salary);
+       formdata.append("joiningDate", data.joiningDate);
+       formdata.append(" resumeCertificate", data.resumeCertificate);
+       formdata.append(" highestQualificationCertificate", data.highestQualificationCertificate);
+       formdata.append(" panCard", data.panCard);
+       formdata.append("aadharCard", data.aadharCard);
+       formdata.append("accountHolderName ", data.accountHolderName);
+       formdata.append("bankName", data.bankName);
+       formdata.append("ifscCode ", data.ifscCode);
+       formdata.append("branchName", data.branchName);
+       formdata.append("branchLocation ", data.branchLocation);
+   
+   
+       const requestOptions = {
+         method: "POST",
+         body: formdata,
+         headers: {
+           Authorization: `Bearer ${token}`, 
+          },
+       };
+
+    fetch(`${Base_url}/staff`, requestOptions)
+                .then((response) => response.text())
+          
+                .then((result) => {
+          
+                  const res = JSON.parse(result)
+          
+                  if(res.status==="success")
+                  {
+                    setLoading(false)
+                   
+                    toast.success("Staff Created Successfully!")
+                    handleCreate(true)
+                    handleClose()
+                    reset();
+                  }
+                  else {
+          
+                    setLoading(false)
+                    toast.error(res.message)
+          
+                  }
+                })
+                .catch((error) => console.error(error));
+        };
+    
 
     return (
         <>
-            
+           
+            <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={6} style={{ padding: "20px" }}>
                 {/* Personal Details */}
                 <Grid item xs={6}>
@@ -68,23 +152,43 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                         </Typography>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
+                                <Box>
                                 <TextField
-                                    label="Staff Name"
-                                    name="staffName"
-                                    value={formData.staffName}
-                                    onChange={handleChange}
+                                    type="text"
+                                    label={
+                                        <>
+                                        Staff Name
+                                        </>
+                                    }
+                                    variant="standard"
+                                    {...register("staffName")}
+                                    error={!!errors.staffName}
                                     fullWidth
                                     margin="normal"
                                 />
+                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                                    {errors.staffName?.message}
+                                    </div>
+                                </Box>
+                                <Box>
                                 <TextField
-                                    label="Mobile Number"
-                                    name="mobileNumber"
                                     type="number"
-                                    value={formData.mobileNumber}
-                                    onChange={handleChange}
+                                    label={
+                                        <>
+                                        Mobile Number
+                                        </>
+                                    }
+                                    variant="standard"
+                                    {...register("mobileNumber")}
+                                    error={!!errors.mobileNumber}
                                     fullWidth
                                     margin="normal"
                                 />
+                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                                    {errors.mobileNumber?.message}
+                                    </div>
+                                </Box>
+                               
                                
                                 <TextField
                                     sx={{ marginTop: 4 }}
@@ -360,11 +464,12 @@ const CreateStaff = ({ handleSubmit, handleClose }) => {
                     <Button onClick={handleClose} className="secondary_button" >
                         Cancel
                     </Button>
-                    <Button onClick={handleSubmit} className="primary_button">
+                    <Button type="submit" className="primary_button">
                         Submit
                     </Button>
                 </Box>
             </Grid>
+            </form>
         </>
     );
 };

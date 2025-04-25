@@ -1,5 +1,6 @@
 import React from "react"
 import { Box, Grid,  useMediaQuery} from "@mui/material";
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 const ViewPatient =({viewData})=>
 {
@@ -126,7 +127,7 @@ const ViewPatient =({viewData})=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.medicalHistory}</Box>
+            <Box className="pageDescription">< PictureAsPdfIcon/></Box>
             </Grid>
 
             </Grid>

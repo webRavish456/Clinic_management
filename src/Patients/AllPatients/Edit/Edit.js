@@ -26,7 +26,7 @@ import Cookies from 'js-cookie';
     address: yup.string().required(" Address is required"),
     treatment: yup.string().required(" Treatment is required"),
     doctorAssigned: yup.string().required(" Doctor Assigned is required"),
-    medicalHistory: yup.string().required(" Medical History is required"),
+    medicalHistory: yup.mixed().required(" Medical History is required"),
   });
 
 const EditPatient =({handleCreate, editData, handleClose})=>
@@ -84,17 +84,17 @@ const EditPatient =({handleCreate, editData, handleClose})=>
           formdata.append("admissionDate", data.admissionDate);
           formdata.append("doctorAssigned", data.doctorAssigned)
           formdata.append("bloodGroup", data.bloodGroup);
-          formdata.append("medicalHistory", data.medicalHistory);
+          formdata.append("medicalHistory", data.medicalHistory[0]);
       
           const requestOptions = {
-            method: "POST",
+            method: "PATCH",
             body: formdata,
             headers: {
               Authorization: `Bearer ${token}`, 
              },
           };
       
-          fetch(`${Base_url}/allpatients`, requestOptions)
+          fetch(`${Base_url}/allpatients/${editData._id}`, requestOptions)
             .then((response) => response.text())
       
             .then((result) => {
