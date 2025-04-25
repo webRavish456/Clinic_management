@@ -1,7 +1,7 @@
 import React from "react"
 import { Box, Grid,  useMediaQuery} from "@mui/material";
 
-const ViewLab =()=>
+const ViewAllLab =({viewData})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
@@ -12,10 +12,10 @@ const ViewLab =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
             
             <Grid item xs={6}>
-            <Box className="pageTitle">Lab Name</Box> 
+            <Box className="pageTitle">Lab Name:</Box> 
             </Grid>  
             <Grid item xs={6}>
-            <Box className="pageDescription">Health Trust Lab</Box>
+            <Box className="pageDescription">{viewData.labName}</Box>
             </Grid>
 
             </Grid>
@@ -26,7 +26,7 @@ const ViewLab =()=>
             <Box className="pageTitle">Lab Type:</Box>    
             </Grid>
             <Grid item xs={6}>
-            <Box className="pageDescription">Clinical Laboratory</Box>
+            <Box className="pageDescription">{viewData.labType}</Box>
             </Grid>
             </Grid>
 
@@ -36,7 +36,7 @@ const ViewLab =()=>
             <Box className="pageTitle">Assignee Staff:</Box> 
             </Grid>   
             <Grid item xs={6}>
-            <Box className="pageDescription">Aashu kumari</Box>
+            <Box className="pageDescription">{viewData.assigneeStaff}</Box>
             </Grid>
 
             </Grid>
@@ -48,26 +48,20 @@ const ViewLab =()=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">Morning</Box>
+            <Box className="pageDescription">{viewData.shift}</Box>
+            </Grid>
+
             </Grid>
 
             
+            
 
-            </Grid>
 
+            
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+           
 
-            <Grid item xs={6}>
-            <Box className="pageTitle"></Box>
-            </Grid>
-
-            <Grid item xs={6}>
-            <Box className="pageDescription"></Box>
-            </Grid>
-
-            </Grid>
-
+           
 
 
             </Grid>
@@ -76,4 +70,4 @@ const ViewLab =()=>
      )
 }
 
-export default ViewLab;
+export default ViewAllLab;

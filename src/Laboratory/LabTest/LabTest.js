@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import CloseIcon from "@mui/icons-material/Close";
+// import CloseIcon from "@mui/icons-material/Close";
 
 import {
   Paper,
@@ -14,209 +13,276 @@ import {
   TableContainer,
   TableHead,
   TablePagination,
-  TableRow ,
+  TableRow,
   Box,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  TextField,
   IconButton,
-  Button,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  Grid,
-  useMediaQuery,
 } from "@mui/material";
+
+import ViewLabTest from "./View/View";
+
+import EditLabTest from "./Edit/Edit";
+import DeleteLabTest from "./Delete/Delete";
+import Cookies from 'js-cookie';
+import {toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import CommonDialog from "../../Component/CommonDialog/CommonDialog";
-import ViewLaboratory from "./View/View";
-import CreateLaboratory from "./Create/Create";
-import EditLaboratory from "./Edit/Edit";
-import DeleteLaboratory from "./Delete/Delete";
 import Search from "../../Search/Search";
+import CreateLabTest from "./Create/Create";
 
-const LabTest=()=>
-{
+const LabTest = () => {
 
-  const [openData, setOpenData] = useState(false)
+  const [openData, setOpenData] = useState(false);
+  const [viewShow, setViewShow] = useState(false);
+  const [editShow, setEditShow] = useState(false);
+  const [deleteShow, setDeleteShow] = useState(false);
 
-  const [viewData, setViewData] = useState(false)
+  const [viewData, setViewData] = useState(null);
+  const [editData, setEditData] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const [editData, setEditData] = useState(false)
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [deleteData, setDeleteData] = useState(false)
+  const token = Cookies.get("token");
 
- const handleView = () =>
-  {
-    setViewData(true)
-  }
+  const Base_url = process.env.REACT_APP_BASE_URL;
 
-const handleEdit = () =>
-{
-   setEditData(true)
-}
-
-const handleDelete = () =>
-  {
-    setDeleteData(true)
-  }
-
- const columns = [
-    { id: 'sino', label: 'SI.No', flex: 1,align: 'center'  },
-    { id: 'patientid', label: 'Patient Id', flex: 1, align: 'center' },
-    { id: 'patientname', label: 'Patient Name', flex: 1, align: 'center' },
-    { id: 'testname', label: 'Test Name', flex: 1, align: 'center' },
-    {id: 'samplecollectedon', label: 'Sample Collected On', flex: 1, align: 'center'},
+  const columns = [
+    { id: 'siNo', label: 'SI.No', flex: 1,align: 'center'  },
+    { id: 'patientId', label: 'Patient Id', flex: 1, align: 'center' },
+    { id: 'patientName', label: 'Patient Name', flex: 1, align: 'center' },
+    { id: 'mobileNo', label: 'Mobile No.', flex: 1, align: 'center' },
+    { id: 'testName', label: 'Test Name', flex: 1, align: 'center' },
+    {id: 'sampleCollectedOn', label: 'Sample Collected On', flex: 1, align: 'center'},
     {id: 'result', label: 'Result', flex: 1, align: 'center'},
-    {id: 'doctorname', label: 'Doctor Name', flex: 1, align: 'center'},
-    {id: 'assignedlabtechnician', label: 'Assigned Lab Technician', flex: 1, align: 'center'},
+    {id: 'doctorName', label: 'Doctor Name', flex: 1, align: 'center'},
+    {id: 'assignedLabTechnician', label: 'Assigned Lab Technician', flex: 1, align: 'center'},
    { id: 'status', label: 'Status', flex: 1, align: 'center' },
    { id: 'actions', label: 'Actions', flex: 1, align: 'center' },
   ];
-  function createData(sino, patientid ,patientname, testname , samplecollectedon, result, doctorname, assignedlabtechnician,status, actions) {
-    return {sino, patientid ,patientname, testname , samplecollectedon, result, doctorname, assignedlabtechnician,status, actions: (
-            <>
-              <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
-                <VisibilityIcon  />
-              </IconButton>
-              <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
-                <EditIcon />
-              </IconButton>
-              <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
-                <DeleteIcon />
-              </IconButton>
-            </>
-          ),
-        };
-      }
-      
-      const rows = [
-        createData('1', 'P001', 'John Smith', 'Blood Sugar', "22.9.24", 'Normal','Lina Patel','Alex Johnes','Active'),
-        createData('2', 'P002', 'Amina Yusuf', 'Liver Function Test', "3.01.25", 'Positive','Omar Hussian','Raj Mehta','Inactive'),
-        createData('3', 'P003', 'Rajesh Patel','Hemoglobin',"8.05.24",'13.5','Adam Jones','John Clark','Active'),
-        createData('4', 'P004', 'Nisha Rani','Widal Test',"27.11.23",'Negative','Rita Das','Sarah Kim','Active'),
-        createData('5', 'P005','Rahul Kumar','HIV Test',"11.03.25",'Negative','Zain Ali','Lisa Wong','Inactive'),
-        createData('6', 'P006', 'Isha Verma','Malaria Test',"17.06.23",'Positive','Mona Shah','Nancy Davis','Active'),
-        createData('7', 'P007', 'Supriya Das','MRI Brain', "14.12.24", 'Positive','Jack Singh','Tom Harris','Active'),
-        createData('8', 'P008', 'Kishore Singh','TORCH Panel',"20.05.23",'Negative','Asha Mehta','Susan Wilson','Active'),
-        createData('9', 'P009', 'Arti Maurya','Dengue NS1',"29.07.23",'Negative','David Clark','Neha Sharma','Inactive' ),
-        createData('10','P010', 'Aman Kumar','Vitamin D',"12.12.24",'28','Alia Kapoor','Rohan Verma' ,'Active'),
-        
-        
-      ];
 
-      const [page, setPage] = useState(0);
-      const [rowsPerPage, setRowsPerPage] = useState(10);
-    
-      const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-      };
-    
-      const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-      };
-
-      const onAddClick =()=>
-        {
-          setOpenData(true)
-        }
-   
-        const handleClose = () => {
-          setEditData(false)
-          setViewData(false)
-          setOpenData(false)
-          setDeleteData(false)
-       };
-   
-       const handleSubmit = (e) => {
-         e.preventDefault();
-         setOpenData(false)
-         // console.log("Form Data Submitted:", formData);
-       }
-
-       const handleUpdate = (e) => {
-          e.preventDefault();
-          setEditData(false)
-       }
+  useEffect(()=>
+    {
   
-
-    return (
+       const fetchLabTestData = async () => {
+  
+        try {
       
-      <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="+ Add LabTest"/>
-     <Paper sx={{ width: '100%', overflow:"hidden" }}>
-      <TableContainer  >
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth, fontWeight:900 }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+          const response = await fetch(`${Base_url}/labtest`, {
+           method: "GET",
+           headers: {
+              Authorization: `Bearer ${token}`, 
+             },
+        });
+      
+          const result = await response.text();
+          const res = JSON.parse(result);
+      
+          if (res.status === "success") {
+  
+             setLoading(false);
+  
+             console.log(res)
+
+             const formattedData = res.data.map((item, index) =>
+              createData(index + 1, item, item.patientId, item.patientName, item.mobileNo, item.testName, item.sampleCollectedOn, item.result, item.doctorName, item.assignedLabTechnician, item.status,)
+            );
+         
+            setRows(formattedData)
+          } 
+  
+       } 
+          catch (error) {
+              console.error("Error fetching LabTest data:", error);
+          }
+      };
+
+      if(loading)
+        {
+            fetchLabTestData();
+        }
+    
+     },[loading])
+    
+  const  createData = (siNo,row, patientId, patientName, mobileNo, testName, sampleCollectedOn, result, doctorName, assignedLabTechnician,  status) => ({
+  row,  siNo, patientId, patientName, mobileNo, testName, sampleCollectedOn, result, doctorName, assignedLabTechnician, status, actions: (
+      <>
+                    <IconButton style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
+                     onClick={()=>handleView(row)}>
+                        <VisibilityIcon />
+                    </IconButton>
+                    <IconButton style={{ color: "#6b6666", padding: "4px", transform: "scale(0.8)" }} 
+                    onClick={()=>handleEdit(row)}>
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton style={{ color: "#e6130b", padding: "4px", transform: "scale(0.8)" }} 
+                    onClick={()=>handleShowDelete(row._id)}>
+                        <DeleteIcon />
+                    </IconButton>
+                </>
+    ),
+  });
+
+  const handleView = (row) => {
+    setViewData(row);
+    setViewShow(true);
+  };
+
+  const handleEdit = (data) => {
+    setEditData(data);
+    setEditShow(true);
+  };
+
+  const handleShowDelete = (id) => {
+    setDeleteId(id);
+    setDeleteShow(true);
+  };
+
+  const handleDelete = () => {
+    setIsDeleting(true);
+    fetch(`${Base_url}/labtest/${deleteId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.text())
+      .then((result) => {
+        const res = JSON.parse(result);
+        if (res.status === "success") {
+          toast.success("LabTest deleted successfully!");
+          setLoading(true);
+        } else {
+          toast.error(res.message);
+        }
+        setIsDeleting(false);
+        handleClose();
+      })
+      .catch((error) => {
+        console.error("Delete error:", error);
+        setIsDeleting(false);
+      });
+  };
+
+  const handleClose = () => {
+    setOpenData(false);
+    setViewShow(false);
+    setEditShow(false);
+    setDeleteShow(false);
+  };
+  const handleCreate = (refresh = true) => {
+    if (refresh) setLoading(true);
+    setOpenData(false);
+  };
+
+  const handleUpdate = (refresh = true) => {
+    if (refresh) setLoading(true);
+    setEditShow(false);
+  };
+
+  const onAddClick = () => setOpenData(true);
+  
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (_, newPage) => setPage(newPage);
+  const handleChangeRowsPerPage = (e) => {
+    setRowsPerPage(+e.target.value);
+    setPage(0);
+  };
+
+  return (
+    <>
+    <ToastContainer />
+
+    <Box className="container">
+      <Search onAddClick={onAddClick} buttonText="Add LabTest" />
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="labtest table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth, fontWeight: 700 }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, idx) => (
+
+                    <TableRow hover role="checkbox"  key={idx}>
+                      {columns.map((column) => (
+                        
+                          <TableCell key={column.id} align={column.align}>
+                            {row[column.id]}
+                          </TableCell>
+                            ))}
+                            </TableRow>
+                          ))}     
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+
+      <CommonDialog
+        open={openData || viewData || editData || deleteShow}
+        onClose={handleClose}
+        dialogTitle={
+          openData
+          ? "Create New LabTest"
+          : viewShow
+          ? "View LabTest"
+          : editShow
+          ? "Edit LabTest"
+          : deleteShow
+          ? "Delete LabTest"
+          : ""
+        }
+
+        dialogContent={
+          openData ? (
+            <CreateLabTest handleCreate={handleCreate} handleClose={handleClose} />
+          ) : viewShow ? (
+            <ViewLabTest viewData={viewData} />
+          ) : editShow ? (
+            <EditLabTest
+              editData={editData}
+              handleUpdate={handleUpdate}
+              handleClose={handleClose}
+            />
+          ) : deleteShow ? (
+            <DeleteLabTest
+              handleDelete={handleDelete}
+              isDeleting={isDeleting}
+              handleClose={handleClose}
+            />
+          ) : null
+        }
+
       />
-    </Paper>
-   
-     <CommonDialog 
-      open={openData || viewData || editData || deleteData} 
-      onClose={handleClose}
-      dialogTitle={ <>
-         {openData? "Create New Lab Test" : viewData ? "View Lab Test": editData?"Edit Lab Test":deleteData?"Delete Lab Test":null}
-      </>}
-      
-      dialogContent = {
-         openData ? <CreateLaboratory handleSubmit={handleSubmit} handleClose={handleClose} /> :
-          viewData ? <ViewLaboratory /> : 
-         editData ? <EditLaboratory handleUpdate={handleUpdate} handleClose={handleClose} /> : 
-         deleteData? <DeleteLaboratory handleDelete={handleDelete} handleClose={handleClose} />:null
-        
-      }
 
-      />
-
-      
     </Box>
-    )
-}
+    </>
+    
+  );
+};
 
 export default LabTest;

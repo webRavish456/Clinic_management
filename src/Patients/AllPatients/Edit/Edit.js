@@ -6,6 +6,7 @@ import {
     Button,
     Box,
     CircularProgress,
+    Typography,
   } from "@mui/material";
 
 import { useForm } from "react-hook-form";
@@ -14,6 +15,7 @@ import * as yup from "yup";
 import {  toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
+import { NavLink } from "react-router-dom";
 
 
   const schema = yup.object().shape({
@@ -25,7 +27,6 @@ import Cookies from 'js-cookie';
     email: yup.string().required(" Email is required"),
     address: yup.string().required(" Address is required"),
     treatment: yup.string().required(" Treatment is required"),
-    doctorAssigned: yup.string().required(" Doctor Assigned is required"),
     medicalHistory: yup.mixed().required(" Medical History is required"),
   });
 
@@ -47,7 +48,7 @@ const EditPatient =({handleCreate, editData, handleClose})=>
     } = useForm({
       resolver: yupResolver(schema),
     });
-  
+   
      useEffect(() => {
         if (editData) {
           reset({
@@ -57,8 +58,7 @@ const EditPatient =({handleCreate, editData, handleClose})=>
             email: editData.email || "",
             gender: editData.gender || "",
             address: editData.address || "",
-            admissionDate: editData.admissionDate || "",
-            doctorAssigned: editData.doctorAssigned || "",
+            admissionDate:new Date(editData.admissionDate).toISOString().split("T")[0] || "",
             bloodGroup: editData.bloodGroup || "",
             medicalHistory: editData.medicalHistory || "",
             status: editData.status || "",
@@ -82,7 +82,6 @@ const EditPatient =({handleCreate, editData, handleClose})=>
           formdata.append("gender", data.gender);
           formdata.append("address", data.address);
           formdata.append("admissionDate", data.admissionDate);
-          formdata.append("doctorAssigned", data.doctorAssigned)
           formdata.append("bloodGroup", data.bloodGroup);
           formdata.append("medicalHistory", data.medicalHistory[0]);
       
@@ -124,13 +123,13 @@ const EditPatient =({handleCreate, editData, handleClose})=>
         <>
         
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container columnSpacing={2}>
+      <Grid container columnSpacing={2}>
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
               type="text"
               label={
                 <>
-                  Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                 Patient Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -149,61 +148,7 @@ const EditPatient =({handleCreate, editData, handleClose})=>
               type="text"
               label={
                 <>
-                  treatment <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("treatment")}
-              error={!!errors.treatment}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.treatment?.message}
-            </div>
-          </Grid>
-          <Grid item xs={12}  sm={isSmScreen?12:6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  mobileNo <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("mobileNo")}
-              error={!!errors.mobileNo}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.mobileNo?.message}
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  email <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("email")}
-              error={!!errors.email}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.email?.message}
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  gender <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Gender <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -216,67 +161,51 @@ const EditPatient =({handleCreate, editData, handleClose})=>
               {errors.gender?.message}
             </div>
           </Grid>
+
+          <Grid item xs={12} sm={isSmScreen?12:6} md={6}> 
+            <TextField
+              type="number"
+              label={
+                <>
+                  Mobile No <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("mobileNo")}
+              error={!!errors.mobileNo}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.mobileNo?.message}
+            </div>
+          </Grid>
+
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
               type="text"
               label={
                 <>
-                  address <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Email Id <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
-              {...register("address")}
-              error={!!errors.address}
+              {...register("email")}
+              error={!!errors.email}
               fullWidth
               margin="normal"
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.address?.message}
+              {errors.email?.message}
             </div>
           </Grid>
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-              InputLabelProps={{ shrink: true }}
-              type="date"
-              label={
-                <>
-                  admissionDate <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("admissionDate")}
-              error={!!errors.admissionDate}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.admissionDate?.message}
-            </div>
-          </Grid>
+
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
               type="text"
               label={
                 <>
-                  doctorAssigned <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("doctorAssigned")}
-              error={!!errors.doctorAssigned}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.doctorAssigned?.message}
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  bloodGroup <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Blood Group <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
@@ -291,38 +220,67 @@ const EditPatient =({handleCreate, editData, handleClose})=>
             </div>
           </Grid>
 
+        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+
+          <TextField
+            type="file"
+            InputLabelProps={{ shrink: true }}
+            label={
+              <>
+                Medical History{" "}
+                <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+              </>
+            }
+            variant="outlined"
+            {...register("medicalHistory")}
+            error={!!errors.medicalHistory}
+            fullWidth
+            margin="normal"
+            inputProps={{ accept: ".pdf,.jpg,.jpeg,.png" }}
+          />
+
+          <Typography variant="body2" sx={{ mt: 0 }}>
+                  View existing certificate:&nbsp;
+                  <NavLink 
+                    to={editData.medicalHistory} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    Medical History Certificate
+                  </NavLink>
+                </Typography>
+        
+        <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+          {errors.medicalHistory?.message}
+        </div>
+
+      </Grid>
 
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-          <TextField
+            <TextField
             InputLabelProps={{ shrink: true }}
-              type="file"
+              type="date"
               label={
                 <>
-                
-                
-                  medicalHistory <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Admit Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
-              {...register("medicalHistory")}
-              error={!!errors.medicalHistory}
+              {...register("admissionDate")}
+              error={!!errors.admissionDate}
               fullWidth
               margin="normal"
             />
-           
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.medicalHistory?.message}
+              {errors.admissionDate?.message}
             </div>
           </Grid>
-           </Grid>
-                    <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+   
+          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
                     <TextField
                         type="text"
-                        
                         label={
                           <>
-                          
-                          
                             status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                           </>
                         }
@@ -337,16 +295,35 @@ const EditPatient =({handleCreate, editData, handleClose})=>
                         {errors.status?.message}
                       </div>
                     </Grid>
-          
 
-      
+                   <Grid item xs={12} sm={12} md={12}>
+                <TextField
+                  type="text"
+                  label={
+                    <>
+                      Address <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                    </>
+                  }
+                  variant="outlined"
+                  {...register("address")}
+                  error={!!errors.address}
+                  fullWidth
+                  multiline
+                  margin="normal"
+                />
+                <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                  {errors.address?.message}
+                </div>
+          </Grid>
+        </Grid>
+                   
 
         <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
           <Button onClick={handleClose} className="secondary_button">
             Cancel
           </Button>
           <Button type="submit" className="primary_button">
-   {loading ? ( <>
+     {loading ? ( <>
           <CircularProgress
            size={18}
            style={{ marginRight: 8, color: "#fff" }}

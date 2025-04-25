@@ -17,6 +17,15 @@ const SignIn = () => {
 
   const navigate =useNavigate()
 
+  useEffect(() => {
+
+   const token = Cookies.get("token");
+
+    if (token) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
+
   const {
     register,
     handleSubmit,
@@ -31,9 +40,7 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false)
 
   const onSubmit = (data) => {
-    console.log(data);
-    
-
+  
     setLoading(true)
 
     const formdata = new FormData();

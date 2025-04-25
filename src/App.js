@@ -24,6 +24,7 @@ import ViewDoctor from "./Doctor/AllDoctor/View/View";
 import EditDoctor from "./Doctor/AllDoctor/Edit/Edit";
 import Profile from "./MyProfile/MyProfile";
 
+import ProtectedRoute from "./Component/ProtectedRoute/ProtectedRoute";
 
 
 
@@ -35,8 +36,13 @@ function App() {
      
         <Route path="/login" element={<SignIn/>} />
         <Route path="/forgot-password" element={<Forgot />} />
+  
+        <Route path="/" element={ <ProtectedRoute>
+              <LayoutMain />
+         </ProtectedRoute>}>
 
-        <Route path="/" element={<LayoutMain />}>
+         <Route index element={<Navigate to="/dashboard" replace />} />
+
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="appointment" element={<Appointment />} />
           <Route path="doctor/all-doctor" element={<AllDoctor/>} />
@@ -51,13 +57,14 @@ function App() {
           <Route path="finance/income" element={<Income />} />
           <Route path="finance/expense" element={<Expense />} />
           <Route path="createstaff" element={<CreateStaff />} />
-          <Route path="viewstaff" element={<ViewStaff/>}/>
-        <Route path="editstaff" element={<EditStaff/>}/>
-       <Route path= "createDoctor" element={<CreateDoctor/>}/>
-        <Route path="viewDoctor" element={<ViewDoctor/>}/>
-        <Route path="editDoctor" element={<EditDoctor/>}/>
+
         <Route path="/profile" element={<Profile/>}/>
 
+          <Route path="viewstaff/:Id" element={<ViewStaff/>}/>
+        <Route path="editstaff/:Id" element={<EditStaff/>}/>
+        <Route path="createDoctor" element={<CreateDoctor/>}/>
+        <Route path="viewDoctor"   element={<ViewDoctor/>}/>
+        <Route path="editDoctor"   element={<EditDoctor/>}/>
 
         </Route>
       </Routes>

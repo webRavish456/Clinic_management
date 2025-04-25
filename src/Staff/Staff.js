@@ -49,14 +49,14 @@ const Staff=()=>
    
    
   
-   const handleView = () =>
+   const handleView = (id) =>
     {
-      navigate("/viewstaff")
+      navigate(`/viewstaff/${id}`)
     }
   
-  const handleEdit = () =>
+  const handleEdit = (id) =>
   {
-    navigate("/editstaff")
+    navigate(`/editstaff/${id}`)
   }
   
   const handleDelete = () =>
@@ -97,18 +97,17 @@ useEffect(() => {
       const result = await response.text();
       const res = JSON.parse(result);
 
-      console.log(res)
-
       if (res.status === "success") {
         setLoading(false);
         const formattedData = res.data.map((item, index) =>
           createData(
             index + 1,
+            item._id,
             item.staffName,
             item.companyDetails.designation,
             item.mobileNumber,
             item.emailId,
-            item.shift,
+            item.companyDetails.shift,
             item.address,
             item.companyDetails.salary,
             item.companyDetails.joiningDate,
@@ -127,16 +126,16 @@ useEffect(() => {
   }
 }, [loading]);
 
-function createData(si, staffName, designation, mobileNumber, emailId,  shift, address, salary, joiningDate,status ) {
-  return { si, staffName, designation, mobileNumber, emailId,  shift, address, salary, joiningDate , status, action: (
+function createData(si, id, staffName, designation, mobileNumber, emailId,  shift, address, salary, joiningDate,status ) {
+  return { si, id, staffName, designation, mobileNumber, emailId,  shift, address, salary, joiningDate , status, action: (
       <>
-      <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
+      <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleView(id)}>
         <VisibilityIcon />
       </IconButton>
-      <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px", transform:"scale(0.8)"}} onClick={handleEdit}>
+      <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleEdit(id)}>
         <EditIcon />
       </IconButton>
-      <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px", transform:"scale(0.8)"}} onClick={handleDelete}>
+      <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleDelete(id)}>
         <DeleteIcon />
       </IconButton>
       </>

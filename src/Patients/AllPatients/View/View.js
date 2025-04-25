@@ -67,37 +67,17 @@ const ViewPatient =({viewData})=>
 
             </Grid><Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
-<Grid item xs={6}>
-<Box className="pageTitle">Address:</Box>
-</Grid>
+          <Grid item xs={6}>
+          <Box className="pageTitle">Address:</Box>
+          </Grid>
 
-<Grid item xs={6}>
-<Box className="pageDescription">{viewData.address}</Box>
-</Grid>
+          <Grid item xs={6}>
+          <Box className="pageDescription">{viewData.address}</Box>
+          </Grid>
 
-</Grid>
-<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
-
-            <Grid item xs={6}>
-            <Box className="pageTitle">Treatment:</Box>
-            </Grid>
-
-            <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.treatment}</Box>
-            </Grid>
-
-            </Grid>
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
-
-            <Grid item xs={6}>
-            <Box className="pageTitle">doctor Assigned:</Box>
-            </Grid>
-
-            <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.doctorAssigned}</Box>
-            </Grid>
-
-            </Grid>
+          </Grid>
+       
+            
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>

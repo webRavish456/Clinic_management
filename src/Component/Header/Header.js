@@ -63,8 +63,7 @@ const Header=()=>
       if (path.includes("editstaff")) return "Edit Staff Details";
       if (path.includes("createDoctor")) return "Create Doctor";
       if (path.includes("viewDoctor")) return "View Doctor Details";
-      if (path.includes("editDoctor")) return "Edit Doctor Details"; 
-          
+      if (path.includes("editDoctor")) return "Edit Doctor Details";     
   
     };
   

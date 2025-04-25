@@ -31,6 +31,7 @@ import CommonDialog from "../../Component/CommonDialog/CommonDialog";
 import Search from "../../Search/Search";
 
 const PatientsRecords = () => {
+
   const [openData, setOpenData] = useState(false);
   const [viewShow, setViewShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
@@ -50,13 +51,12 @@ const PatientsRecords = () => {
   const columns = [
     { id: "si", label: "SI.No", flex: 1, align: "center" },
     { id: "patientID", label: " Patient ID", flex: 1, align: "center" },
-    { id: "patientName", label: "Patient Name", flex: 1, align: "center" },
-    { id: "admissionDate", label: "Admission Date", flex: 1, align: "center" },
+    { id: "patientname", label: "Patient Name", flex: 1, align: "center" },
+    { id: "doctorAssigned", label: "Assigned Doctor", flex: 1, align: "center" },
     { id: "treatment", label: "Treatment", flex: 1, align: "center" },
-    { id: "labReport", label: "Lab Report", flex: 1, align: "center" },
-
-    { id: "nextFollowUp", label: "Next FollowUp", flex: 1, align: "center" },
-    
+    { id: "labreport", label: "Lab Report", flex: 1, align: "center" },
+    { id: "admissionDate", label: "Admit Date", flex: 1, align: "center" },
+    { id: "nextfollowup", label: "Next FollowUp", flex: 1, align: "center" },
     { id: "status", label: "Status", flex: 1, align: "center" },
     { id: "action", label: "Action", flex: 1, align: "center" },
   ];
@@ -80,16 +80,14 @@ const PatientsRecords = () => {
             createData(
               index + 1,
               item,
-              item.patient._id,
-             
-              item.patientName,
-              item.patient.admissionDate,
-              item.patient.treatment,
-              item.labReport,
-             
-              item.nextFollowUp,
-              
-              item.patient.status,
+              item.patientID,
+              item.treatment,
+              item.doctorAssigned,
+              item.patientname,
+              item.labreport,
+              item.nextfollowup,
+              item.admissionDate,
+              item.status
             )
           );
           setRows(formattedData);
@@ -104,11 +102,15 @@ const PatientsRecords = () => {
     }
   }, [loading]);
 
-  const createData = (si, row, patientID,patientName,admissionDate,treatment,labReport,nextFollowUp, status) => ({
+  const createData = (si, row, patientID, treatment,patientname,doctorAssigned,labreport,nextfollowup,admissionDate, status) => ({
     si,
     row,
     patientID,
-    patientName,
+    treatment,
+    patientname,
+    labreport,
+    doctorAssigned,
+    nextfollowup,
     admissionDate,
     treatment,
  labReport,

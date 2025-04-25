@@ -118,7 +118,7 @@ const Branch = () => {
   });
 
   const handleView = (row) => {
-    console.log("row",row)
+    
     setViewData(row);
     setViewShow(true);
   };
