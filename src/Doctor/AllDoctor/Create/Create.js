@@ -37,12 +37,13 @@ branchName: yup.string().required("Branch name is required"),
 specialization: yup.string().required("Specialization is required"),
 department:yup.string().required("Department is required"),
 salary:yup.string().required("Salary is required"),
+assignDepartmentHead:yup.string().required("Assign Department Head is required"),
 joiningDate: yup.string().required(" Joining date is required"),
-resumeCertificate: yup.string().required("Resume is required"),
-licenseCertificate:yup.string().required("Lincense is required"),
-highestQualificationCertificate: yup.string().required("Highest qualification certificate is required"),
-panCard: yup.string().required("Pan card is required"),
-aadharCard: yup.string().required("Aadhar card is required"),
+resumeCertificate: yup.mixed().required("Resume is required"),
+licenseCertificate:yup.mixed().required("Lincense is required"),
+highestQualificationCertificate: yup.mixed().required("Highest qualification certificate is required"),
+panCard: yup.mixed().required("Pan card is required"),
+aadharCard: yup.mixed().required("Aadhar card is required"),
 accountHolderName: yup.string().required("Account holder name is required"),
 accountNumber: yup.string().required("Account number is required"),
 bankName: yup.string().required("Bank name is required"),
@@ -80,10 +81,10 @@ const CreateDoctor = () => {
         const companyDetails = {
             salary: data.salary,
             branchName:data.branchName,
-            specialization:data.designation,
+            specialization:data.specialization,
             joiningDate:data.joiningDate,
             department:data.department,
-            
+            assignDepartmentHead:data.assignDepartmentHead
           };
    
           const bankDetails = {
@@ -134,7 +135,7 @@ const CreateDoctor = () => {
                        setLoading(false)
                       
                        toast.success("Doctor Created Successfully!")
-                       navigate("/doctor")
+                       navigate("/doctor/all-doctor")
                        reset();
                      }
                      else {
@@ -149,7 +150,7 @@ const CreateDoctor = () => {
         
             const handleCancel = () =>
             {
-                 navigate("/doctor")
+                 navigate("/doctor/all-doctor")
             }
       
     return (
@@ -448,7 +449,26 @@ const CreateDoctor = () => {
                                     {errors.joiningDate?.message}
                                     </div>
                                 </Box>
-                                
+                                <FormControl component="fieldset" fullWidth margin="normal" error={!!errors.assignDepartmentHead}>
+                        <FormLabel component="legend" sx={{ marginLeft: 2 }}>Assign Department Head</FormLabel>
+                        <RadioGroup row>
+                              <FormControlLabel
+                                value="yes"
+                                control={<Radio sx={{ marginLeft: 2 }} {...register("assignDepartmentHead")} />}
+                                label="Yes"
+                                error={!!errors.assignDepartmentHead}
+                              />
+                              <FormControlLabel
+                                value="no"
+                                control={<Radio sx={{ marginLeft: 2 }} {...register("assignDepartmentHead")} />}
+                                label="No"
+                                error={!!errors.assignDepartmentHead}
+                               />
+                             </RadioGroup>
+                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                               {errors.assignDepartmentHead?.message}
+                            </div>
+                            </FormControl>
                                 
                             </Grid>
                         </Grid>
@@ -508,7 +528,7 @@ const CreateDoctor = () => {
                                         </>
                                     }
                                     variant="outlined"
-                                    {...register("license Certificate")}
+                                    {...register("licenseCertificate")}
                                     error={!!errors.licenseCertificate}
                                     fullWidth
                                     margin="normal"

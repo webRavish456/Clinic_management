@@ -79,7 +79,6 @@ const columns = [
   {id: 'qualification',label: 'Qualification ',flex:1,align: 'center',},
   {id: 'experience',label: 'Experience',flex:1,align: 'center', },
 
-
   {id: 'joiningDate',label: 'Joining Date', flex:1, align: 'center',},
   {id: 'status',label: ' Availability Status',flex:1,align: 'center', },
   {id: 'action',label: 'Actions', flex:1,align: 'center', },

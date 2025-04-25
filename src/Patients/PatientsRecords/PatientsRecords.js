@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 import {
   Paper,
@@ -111,6 +112,11 @@ const PatientsRecords = () => {
     doctorAssigned,
     nextfollowup,
     admissionDate,
+    treatment,
+ labReport,
+    
+ nextFollowUp,
+    
     status,
     action: (
       <>
@@ -210,7 +216,7 @@ const PatientsRecords = () => {
     <>
       <ToastContainer />
       <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="+ Add Patient Record" />
+        <Search onAddClick={onAddClick} buttonText=" Add Patient Record" />
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="patientsrecords table">

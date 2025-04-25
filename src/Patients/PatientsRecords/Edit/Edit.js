@@ -1,137 +1,204 @@
-import React, {useState} from "react"
+import React, {useEffect,useState} from "react"
 import {
     TextField,
-    MenuItem,
-    Select,
-    FormControl,
-    InputLabel,
     Grid,
     useMediaQuery,
-    Box,
     Button,
+    Box,
+    CircularProgress,
+    InputLabel,
+    Select,
+    MenuItem,
+    FormHelperText,
+    FormControl,
   } from "@mui/material";
 
-const EditRecords =({handleUpdate, handleClose})=>
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import {  toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
+
+
+  const schema = yup.object().shape({
+    labReport: yup.mixed().required(" Lab Report is required"),
+    nextFollowUp: yup.string(),
+    status: yup.string()
+    
+  });
+
+const EditPatientsRecords =({handleCreate, editData, handleClose})=>
 {
-    const isSmScreen = useMediaQuery("(max-width:768px)");
+  const isSmScreen = useMediaQuery("(max-width:768px)");
 
-    const [formData, setFormData] = useState({
-        patientname: "",
-        treatment: "",
-        dateofadmission: "",
-        labreports: "",  
-        doctorsnotes: "",
-        nextfollowup: "",
-        status: "",
-     });
+    const token = Cookies.get('token');
 
-     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+    const Base_url = process.env.REACT_APP_BASE_URL;
+  
+    const [loading, setLoading] = useState(false)
+  
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+      reset,
+    } = useForm({
+      resolver: yupResolver(schema),
+    });
+  
+     useEffect(() => {
+        if (editData) {
+          reset({
+            labReport: editData.labReport || "",
+            nextFollowUp: editData.nextFollowUp || "",
+           status: editData.patient.status || "",
+          });
+        }
+      }, [editData, reset]);
+    
+
+  
+  
+    const onSubmit = (data) => {
+    
+           setLoading(true)
+           console.log(data);
+  
+          const formdata = new FormData();
+          formdata.append("labReport", data.labReport[0]);
+          formdata.append("nextFollowUp", data.nextFollowUp);
+          formdata.append("mobileNo", editData.mobileNo);
+          formdata.append("status", data.status);
+         
+      
+          const requestOptions = {
+            method: "PATCH",
+            body: formdata,
+            headers: {
+              Authorization: `Bearer ${token}`, 
+             },
+          };
+      
+          fetch(`${Base_url}/patientsrecords/${editData._id}`, requestOptions)
+            .then((response) => response.text())
+      
+            .then((result) => {
+      
+              const res = JSON.parse(result)
+      
+              if(res.status==="success")
+              {
+                setLoading(false)
+               
+                toast.success(" Patient Record Updated Successfully!")
+                handleCreate(true)
+                handleClose()
+                reset();
+              }
+              else {
+      
+                setLoading(false)
+                toast.error(res.message)
+      
+              }
+            })
+            .catch((error) => console.error(error));
+    };
 
      return (
         <>
-            <Grid container columnSpacing={2}>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-
+        
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container columnSpacing={2}>
+          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
-            label={
-            <>
-                Patient Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="patientname"
-            value={formData.patientname}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              type="file"
+              InputLabelProps={{ shrink: true }}
+              label={
+                <>
+                  Lab Report <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("labReport")}
+              error={!!errors.labReport}
+              fullWidth
+              margin="normal"
             />
-            </Grid>
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.labReport?.message}
+            </div>
+          </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-
+          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
-            label={
-            <>
-                Discount Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="discountDescription"
-            value={formData.discountDescription}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              label={
+                <>
+                  Next Follow Up <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("nextFollowUp")}
+              error={!!errors.nextFollowUp}
+              fullWidth
+              margin="normal"
             />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.nextFollowUp?.message}
+            </div>
+          </Grid>
 
-            </Grid>
+         
+           </Grid>
+                   
+                           < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+                                   <FormControl fullWidth margin="normal" error={!!errors.Status}>
+                                       <InputLabel id="gender-label">
+                                         Status<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                                       </InputLabel>
+                                       <Select
+                                         labelId="status-label"
+                                         id="status"
+                                         label="status"
+                                         defaultValue=""
+                                         {...register("status")}
+                                       >
+                                         <MenuItem value="Under Observation">Under Observation</MenuItem>
+                                         <MenuItem value="Under Treatment">Female</MenuItem>
+                                         <MenuItem value="Other">Other</MenuItem>
+                                       </Select>
+                                       <FormHelperText>{errors.status?.message}</FormHelperText>
+                                     </FormControl>
+                                     </Grid>
+          
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Discount Value <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="discountValue"
-            value={formData.discountValue}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
+      
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Valid From <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="validFrom"
-            value={formData.validFrom}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+          <Button onClick={handleClose} className="secondary_button">
+            Cancel
+          </Button>
+          <Button type="submit" className="primary_button">
+   {loading ? ( <>
+          <CircularProgress
+           size={18}
+           style={{ marginRight: 8, color: "#fff" }}
+          /> 
+            Updating
+          </> 
+          )   : "Update"}
+            
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Valid To <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="validTo"
-            value={formData.validTo}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <FormControl fullWidth margin="normal">
-            <InputLabel>Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span></InputLabel>
-            <Select name="Status" value={formData.status} onChange={handleChange}>
-            <MenuItem value="active">Active</MenuItem>
-            <MenuItem value="inactive">Inactive</MenuItem>
-            <MenuItem value="upcoming">Upcoming</MenuItem>
-            </Select>
-            </FormControl>
-            </Grid>
-            </Grid>
-
-            <Box className="submit" sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
-            <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleUpdate} className="primary_button">
-             Update
-            </Button>
-            </Box>
+          </Button>
+        </Box>
+      </form>
 
         </>
      )
 }
 
-export default EditRecords;
+export default EditPatientsRecords;
+

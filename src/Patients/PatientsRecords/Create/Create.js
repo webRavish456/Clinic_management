@@ -6,6 +6,11 @@ import {
     Button,
     Box,
     CircularProgress,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    FormHelperText,
   } from "@mui/material";
 
 import { useForm } from "react-hook-form";
@@ -17,10 +22,11 @@ import Cookies from 'js-cookie';
 
 
   const schema = yup.object().shape({
-    patientname: yup.string().required(" Patient Name is required"),
-    labreport: yup.string().required(" Lab Report is required"),
-    doctornotes: yup.string().required(" Doctor Notes is required"),
-    nextfollowup: yup.string().required("Next Follow Up is required"),
+    patientName: yup.string().required(" Patient Name is required"),
+    labReport: yup.string().required(" Lab Report is required"),
+    mobileNo: yup.string().required(" Mobile Number is required"),
+    doctorNotes: yup.string().required(" Doctor Notes is required"),
+    nextFollowUp: yup.string().required("Next Follow Up is required"),
   });
 
 const CreatePatientsRecords =({handleCreate, handleClose})=>
@@ -51,10 +57,11 @@ const CreatePatientsRecords =({handleCreate, handleClose})=>
            console.log(data);
   
           const formdata = new FormData();
-          formdata.append("patientname", data.patientnamename);
-          formdata.append("labreport", data.labreport);
-          formdata.append("doctornotes", data.doctornotes);
-          formdata.append("nextfollowup", data.nextfollowup);
+          formdata.append("patientName", data.patientName);
+          formdata.append("labReport", data.labReport);
+          formdata.append("mobileNo", data.mobileNo);
+          formdata.append("doctorNotes", data.doctorNotes);
+          formdata.append("nextFollowUp", data.nextFollowUp);
           const requestOptions = {
             method: "POST",
             body: formdata,
@@ -94,7 +101,7 @@ const CreatePatientsRecords =({handleCreate, handleClose})=>
         
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container columnSpacing={2}>
-          <Grid item xs={12}>
+          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
             <TextField
               type="text"
               label={
@@ -103,18 +110,19 @@ const CreatePatientsRecords =({handleCreate, handleClose})=>
                 </>
               }
               variant="outlined"
-              {...register("patientname")}
-              error={!!errors.patientname}
+              {...register("patientName")}
+              error={!!errors.patientName}
               fullWidth
               margin="normal"
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.patientname?.message}
+              {errors.patientName?.message}
             </div>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
             <TextField
+            InputLabelProps={{ shrink: true }}
               type="file"
               label={
                 <>
@@ -122,13 +130,32 @@ const CreatePatientsRecords =({handleCreate, handleClose})=>
                 </>
               }
               variant="outlined"
-              {...register("labreport")}
-              error={!!errors.labreport}
+              {...register("labReport")}
+              error={!!errors.labReport}
               fullWidth
               margin="normal"
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.labreport?.message}
+              {errors.labReport?.message}
+            </div>
+          </Grid>
+          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
+            <TextField
+            InputLabelProps={{ shrink: true }}
+              type="text"
+              label={
+                <>
+                Mobile Number <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("mobileNo")}
+              error={!!errors.mobileNo}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.mobileNo?.message}
             </div>
           </Grid>
           <Grid item xs={12}  sm={isSmScreen?12:6} md={6}>
@@ -140,16 +167,16 @@ const CreatePatientsRecords =({handleCreate, handleClose})=>
                 </>
               }
               variant="outlined"
-              {...register("doctornotes")}
-              error={!!errors.doctornotes}
+              {...register("doctorNotes")}
+              error={!!errors.doctorNotes}
               fullWidth
               margin="normal"
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.doctornotes?.message}
+              {errors.doctorNotes?.message}
             </div>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
             <TextField
               type="text"
               label={
@@ -158,16 +185,16 @@ const CreatePatientsRecords =({handleCreate, handleClose})=>
                 </>
               }
               variant="outlined"
-              {...register("nextfollowup")}
-              error={!!errors.nextfollowup}
+              {...register("nextFollowUp")}
+              error={!!errors.nextFollowUp}
               fullWidth
               margin="normal"
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.nextfollowup?.message}
+              {errors.nextFollowUp?.message}
             </div>
           </Grid>
-        
+         
         </Grid>
 
         <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
