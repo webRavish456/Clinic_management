@@ -22,6 +22,7 @@ import Expense from "./Finance/Expense/Expense";
 import CreateDoctor from "./Doctor/AllDoctor/Create/Create";
 import ViewDoctor from "./Doctor/AllDoctor/View/View";
 import EditDoctor from "./Doctor/AllDoctor/Edit/Edit";
+import ProtectedRoute from "./Component/ProtectedRoute/ProtectedRoute";
 
 
 
@@ -33,8 +34,13 @@ function App() {
      
         <Route path="/login" element={<SignIn/>} />
         <Route path="/forgot-password" element={<Forgot />} />
+  
+        <Route path="/" element={ <ProtectedRoute>
+              <LayoutMain />
+         </ProtectedRoute>}>
 
-        <Route path="/" element={<LayoutMain />}>
+         <Route index element={<Navigate to="/dashboard" replace />} />
+
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="appointment" element={<Appointment />} />
           <Route path="doctor/all-doctor" element={<AllDoctor/>} />
