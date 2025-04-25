@@ -103,9 +103,9 @@ const EditShiftManagement = ({ handleCreate, handleClose }) => {
                 defaultValue=""
                 {...register("DoctorName")}
               >
-                <MenuItem value="complete">Complete</MenuItem>
+                {/* <MenuItem value="complete">Complete</MenuItem>
                 <MenuItem value="active">Active</MenuItem>
-                <MenuItem value="uncomplete">Uncomplete</MenuItem>
+                <MenuItem value="uncomplete">Uncomplete</MenuItem> */}
               </Select>
               <FormHelperText>{errors.doctorname?.message}</FormHelperText>
             </FormControl>
@@ -123,9 +123,9 @@ const EditShiftManagement = ({ handleCreate, handleClose }) => {
                 defaultValue=""
                 {...register("department")}
               >
-                <MenuItem value="complete">Complete</MenuItem>
+                {/* <MenuItem value="complete">Complete</MenuItem>
                 <MenuItem value="active">Active</MenuItem>
-                <MenuItem value="uncomplete">Uncomplete</MenuItem>
+                <MenuItem value="uncomplete">Uncomplete</MenuItem> */}
               </Select>
               <FormHelperText>{errors.department?.message}</FormHelperText>
             </FormControl>
@@ -143,9 +143,9 @@ const EditShiftManagement = ({ handleCreate, handleClose }) => {
                 defaultValue=""
                 {...register("specialization")}
               >
-                <MenuItem value="complete">Complete</MenuItem>
+                {/* <MenuItem value="complete">Complete</MenuItem>
                 <MenuItem value="active">Active</MenuItem>
-                <MenuItem value="uncomplete">Uncomplete</MenuItem>
+                <MenuItem value="uncomplete">Uncomplete</MenuItem> */}
               </Select>
               <FormHelperText>{errors.specialization?.message}</FormHelperText>
             </FormControl>

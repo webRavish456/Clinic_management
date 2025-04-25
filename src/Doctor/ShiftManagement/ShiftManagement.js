@@ -1,11 +1,9 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import CloseIcon from "@mui/icons-material/Close";
-
+// import CloseIcon from "@mui/icons-material/Close";
 
 import {
   Paper,
@@ -15,60 +13,45 @@ import {
   TableContainer,
   TableHead,
   TablePagination,
-  TableRow ,
+  TableRow,
   Box,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  TextField,
   IconButton,
-  Button,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  Grid,
-  useMediaQuery,
 } from "@mui/material";
-import CommonDialog from "../../Component/CommonDialog/CommonDialog";
+
 import ViewShiftManagement from "./View/View";
-import CreateShiftManagement from "./Create/Create";
+
 import EditShiftManagement from "./Edit/Edit";
 import DeleteShiftManagement from "./Delete/Delete";
+import Cookies from 'js-cookie';
+import {toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CommonDialog from "../../Component/CommonDialog/CommonDialog";
 import Search from "../../Search/Search";
+import CreateShiftManagement from "./Create/Create";
 
 
-const ShiftManagement=()=>
-{
+const ShiftManagement = () => {
 
-  const [openData, setOpenData] = useState(false)
+  const [openData, setOpenData] = useState(false);
+  const [viewShow, setViewShow] = useState(false);
+  const [editShow, setEditShow] = useState(false);
+  const [deleteShow, setDeleteShow] = useState(false);
 
-  const [viewData, setViewData] = useState(false)
+  const [viewData, setViewData] = useState(null);
+  const [editData, setEditData] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const [editData, setEditData] = useState(false)
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [deleteData, setDeleteData] = useState(false)
+  const token = Cookies.get("token");
 
- const handleView = () =>
-  {
-    setViewData(true)
-  }
+  const Base_url = process.env.REACT_APP_BASE_URL;
 
-const handleEdit = () =>
-{
-   setEditData(true)
-}
-
-const handleDelete = () =>
-  {
-    setDeleteData(true)
-  }
-
-    const columns = [
-        { id: 'si', label: 'SI. No', flex:1, align:'center' },
-        { id: 'doctorname', label: 'Doctor Name', flex:1,align:'center' },
+  const columns = [
+    { id: 'si', label: 'SI. No', flex:1, align:'center' },
+        { id: 'doctorName', label: 'Doctor Name', flex:1,align:'center' },
         {
           id: 'department',
           label: 'Department',
@@ -82,37 +65,37 @@ const handleDelete = () =>
            align:'center'
         },
         {
-          id: 'shiftstartdate',
+          id: 'shiftStartDate',
           label: 'Shift Start Date',
           flex:1,
           align:'center',
         },
         {
-            id: 'shiftenddate',
+            id: 'shiftEndDate',
             label: 'Shift End Date',
             flex:1,
             align:'center',
           },
           {
-            id: 'workdays',
+            id: 'workDays',
             label: 'Work Days',
             flex:1,
             align:'center',
           },
           {
-            id: 'shifthours',
+            id: 'shiftHours',
             label: 'ShiftHours',
             flex:1,
             align:'center',
           },
           {
-            id: 'shifttype',
+            id: 'shiftType',
             label: 'ShiftType',
             flex:1,
             align:'center',
           },
           {
-            id: 'availabilitystatus',
+            id: 'availabilityStatus',
             label: ' AvailabilityStatus',
             flex:1,
             align:'center',
@@ -123,165 +106,246 @@ const handleDelete = () =>
             flex:1,
             align:'center',
           },
-          
-          
-      ];
-      
-      function createData(si,  doctorname,  department,  specialization,  shiftstartdate,  shiftenddate,  workdays,   shifthours,  shifttype,   availabilitystatus) {
-        return {
-          si,
-          doctorname,
-          department,
-          specialization,
-          shiftstartdate,
-          shiftenddate,
-          workdays,
-          shifthours,
-          shifttype,
-          availabilitystatus,
-          actions: (
-            <>
-              <IconButton style={{color:"rgb(13,33,121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
-                <VisibilityIcon  />
-              </IconButton>
-              <IconButton style={{color:"rgb(98,99,102)", padding:"4px",transform:"scale(0.8)"}} onClick={handleEdit} >
-                <EditIcon />
-              </IconButton>
-              <IconButton style={{color:"rgb(224,27,20)", padding:"4px",transform:"scale(0.8)"}} onClick={handleDelete}>
-                <DeleteIcon />
-              </IconButton>
-            </>
-          ),
-        };
-      }
-      
-      const rows = [
-      createData(1,   "Amrita",   "Cardiologist",          "Heart",           "1/1/20",     "7/1/20",     "Monday-Friday",   "12",   "A",    "Monday-Friday"),
-      createData(2,   "Nitu",     "Dermatologists",        "Skin" ,           "8/1/20",     "16/1/20",    "Monday-Friday",   "12",   "B",    "Monday-Tuesday"),
-      createData(3,   "Ritu",     "Gastroenterologists",   "Stomach",         "17/1/20",    "24/1/20",    "Monday-Friday",   "12",   "C",    "Monday-Wednesday"),
-      createData(4,   "Rani",     "Hematologists",         "Blood",           "1/2/20",     "7/2/20",     "Monday-Friday",   "12",   "A",    "Monday-Saturday"),
-      createData(5,   "Suman",    "Internists",            "Cancer",          "14/2/20",    "21/2/20",    "Monday-Friday",   "12",   "A",    "Monday-Thursday"),
-      createData(6,   "Priyanka", "Nephrologists",         "Kidney disease",  "22/2/20",    "29/2/20",    "Monday-Friday",   "12",   "B",    "Monday-Friday"),
-      createData(7,   "Annu",     "Neurologists",          "Brain",           "6/3/20",     "13/3/20",    "Monday-Friday",   "12",   "A",    "Wednesday-Saturday"),
-      createData(8,   "Sneha",    "Gynecologists",         "Pregnancy",       "20/3/20",    "27/3/20",    "Monday-Friday",   "12",   "C",    "Tuesday-Friday"),
-      createData(9,   "Punam",    "Oncologists",           "Cancer",          "4/4/20",     "11/4/20",    "Monday-Friday",   "12",   "D",    "Monday-Saturday"),
-      createData(10,  "Sonal",    "Ophthalmologists",      "Eye",             "18/4/20",    "25/4/20",    "Monday-Friday",   "12",   "A",    "Wednesday-Saturday"),
-      createData(11,  "Mitu",     "Osteopaths",            "Whole Body",      "2/5/20",     "9/5/20",     "Monday-Friday",   "12",   "B",    "Tuesday-Friday"),
-      createData(12,  "Susmita",  "Otolaryngologists",     "Ears",            "16/5/20",    "23/5/20",    "Monday-Friday",   "12",   "C",    "Monday-Thursday"),
-      createData(13,  "Isha",     "Physiatrists",          "Back Pain",       "30/5/20",    "7/6/20",     "Monday-Friday",   "12",   "D",    "Tuesday-Saturday"),
-      createData(14,  "Priya",    "Podiatrists",           "Feet",            "14/6/20",    "21/6/20",    "Monday-Friday",   "12",   "A",    "Monday-Friday"),
-      createData(15,  "Ishu",     "Pulmonologists",        "Lung cancer",     "28/6/20",    "5/6/20",     "Monday-Friday",   "12",   "B",    "Monday-Friday"),
-      ];
+  ];
 
-      const [page, setPage] = useState(0);
-      const [rowsPerPage, setRowsPerPage] = useState(10);
-    
-      const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-      };
-    
-      const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-      };
-
-      const onAddClick =()=>
-        {
-          setOpenData(true)
-        }
-   
-        const handleClose = () => {
-          setEditData(false)
-          setViewData(false)
-          setOpenData(false)
-          setDeleteData(false)
-       };
-   
-       const handleSubmit = (e) => {
-         e.preventDefault();
-         setOpenData(false)
-         // console.log("Form Data Submitted:", formData);
-       }
-
-       const handleUpdate = (e) => {
-          e.preventDefault();
-          setEditData(false)
-       }
+  useEffect(()=>
+    {
   
-
-    return (
+       const fetchShiftManagementData = async () => {
+  
+        try {
       
-      <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="+ Add Shift"/>
-     <Paper sx={{ width: '100%', overflow:"hidden" }}>
-      <TableContainer  >
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth, fontWeight:900 }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+          const response = await fetch(`${Base_url}/shiftmanagement`, {
+           method: "GET",
+           headers: {
+              Authorization: `Bearer ${token}`, 
+             },
+        });
+      
+          const result = await response.text();
+          const res = JSON.parse(result);
+      
+          if (res.status === "success") {
+  
+             setLoading(false);
+  
+             console.log(res)
+
+             const formattedData = res.data.map((item, index) =>
+              createData(index + 1, item,  item.doctorName, 
+                item.department, 
+                item.specialization,
+                item.shiftStartDate,
+                item.shiftHours,
+                item.shiftType, 
+                item.availabilityStatus,)
+            );
+         
+            setRows(formattedData)
+          } 
+  
+       } 
+          catch (error) {
+              console.error("Error fetching ShiftManagement data:", error);
+          }
+      };
+
+      if(loading)
+        {
+            fetchShiftManagementData();
+        }
+    
+     },[loading])
+    
+  const  createData = (si,row,  doctorName,  department,  specialization,  shiftStartDate,  shiftEndDate,  workDays,   shiftHours,  shiftType,   availabilityStatus) => ({
+    si,
+          row,
+          doctorName,  
+          department,  
+          specialization,  
+          shiftStartDate,  
+          shiftEndDate,  
+          workDays,   
+          shiftHours,  
+          shiftType,   
+          availabilityStatus,
+          actions: (
+      <>
+                    <IconButton style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
+                     onClick={()=>handleView(row)}>
+                        <VisibilityIcon />
+                    </IconButton>
+                    <IconButton style={{ color: "#6b6666", padding: "4px", transform: "scale(0.8)" }} 
+                    onClick={()=>handleEdit(row)}>
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton style={{ color: "#e6130b", padding: "4px", transform: "scale(0.8)" }} 
+                    onClick={()=>handleShowDelete(row._id)}>
+                        <DeleteIcon />
+                    </IconButton>
+                </>
+    ),
+  });
+
+  const handleView = (row) => {
+    setViewData(row);
+    setViewShow(true);
+  };
+
+  const handleEdit = (data) => {
+    setEditData(data);
+    setEditShow(true);
+  };
+
+  const handleShowDelete = (id) => {
+    setDeleteId(id);
+    setDeleteShow(true);
+  };
+
+  const handleDelete = () => {
+    setIsDeleting(true);
+    fetch(`${Base_url}/shiftmanagement/${deleteId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.text())
+      .then((result) => {
+        const res = JSON.parse(result);
+        if (res.status === "success") {
+          toast.success("ShiftManagement deleted successfully!");
+          setLoading(true);
+        } else {
+          toast.error(res.message);
+        }
+        setIsDeleting(false);
+        handleClose();
+      })
+      .catch((error) => {
+        console.error("Delete error:", error);
+        setIsDeleting(false);
+      });
+  };
+
+  const handleClose = () => {
+    setOpenData(false);
+    setViewShow(false);
+    setEditShow(false);
+    setDeleteShow(false);
+  };
+  const handleCreate = (refresh = true) => {
+    if (refresh) setLoading(true);
+    setOpenData(false);
+  };
+
+  const handleUpdate = (refresh = true) => {
+    if (refresh) setLoading(true);
+    setEditShow(false);
+  };
+
+  const onAddClick = () => setOpenData(true);
+  
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (_, newPage) => setPage(newPage);
+  const handleChangeRowsPerPage = (e) => {
+    setRowsPerPage(+e.target.value);
+    setPage(0);
+  };
+
+  return (
+    <>
+    <ToastContainer />
+
+    <Box className="container">
+      <Search onAddClick={onAddClick} buttonText="Add ShiftManagement" />
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="shiftmanagement table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth, fontWeight: 700 }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, idx) => (
+
+                    <TableRow hover role="checkbox"  key={idx}>
+                      {columns.map((column) => (
+                        
+                          <TableCell key={column.id} align={column.align}>
+                            {row[column.id]}
+                          </TableCell>
+                            ))}
+                            </TableRow>
+                          ))}     
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+
+      <CommonDialog
+        open={openData || viewData || editData || deleteShow}
+        onClose={handleClose}
+        dialogTitle={
+          openData
+          ? "Create New ShiftManagement"
+          : viewShow
+          ? "View ShiftManagement"
+          : editShow
+          ? "Edit ShiftManagement"
+          : deleteShow
+          ? "Delete ShiftManagement"
+          : ""
+        }
+
+        dialogContent={
+          openData ? (
+            <CreateShiftManagement handleCreate={handleCreate} handleClose={handleClose} />
+          ) : viewShow ? (
+            <ViewShiftManagement viewData={viewData} />
+          ) : editShow ? (
+            <EditShiftManagement
+              editData={editData}
+              handleUpdate={handleUpdate}
+              handleClose={handleClose}
+            />
+          ) : deleteShow ? (
+            <DeleteShiftManagement
+              handleDelete={handleDelete}
+              isDeleting={isDeleting}
+              handleClose={handleClose}
+            />
+          ) : null
+        }
+
       />
-    </Paper>
-   
-     <CommonDialog 
-      open={openData || viewData || editData || deleteData} 
-      onClose={handleClose}
-      dialogTitle={ <>
-         {openData? "Create ShiftManagement" : viewData ? "View ShiftManagement": editData?"Edit ShiftManagement":deleteData?"Delete ShiftManagement":null}
-      </>}
-      
-      dialogContent = {
-         openData ? <CreateShiftManagement handleSubmit={handleSubmit} handleClose={handleClose} /> :
-          viewData ? <ViewShiftManagement /> : 
-         editData ? <EditShiftManagement handleUpdate={handleUpdate} handleClose={handleClose} /> : 
-         deleteData? <DeleteShiftManagement handleDelete={handleDelete} handleClose={handleClose} />:null
-        
-      }
 
-      />
-
-      
     </Box>
-    )
-}
+    </>
+    
+  );
+};
 
 export default ShiftManagement;
