@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   TextField,
   MenuItem,
@@ -28,11 +28,10 @@ const schema = yup.object().shape({
     .min(1, "Select at least one specialization")
     .required("Specialization is required"),
   description: yup.string().required("Description is required"),
-  departmentHead: yup.string(),
 });
 
 const departmentSpecializations = {
-  Cardiology:["Heart Diseases", "Arrhythmia", "Hypertension", "Heart Failure", "Angioplasty"],
+  Cardiology: ["Heart Diseases", "Arrhythmia", "Hypertension", "Heart Failure", "Angioplasty"],
   Gynecology: ["Female reproductive health", "Pregnancy", "Menstruation", "Menopause", "Fertility"],
   Neurology: ["Brain and Nervous system disorders", "Epilepsy", "Parkinson’s", "Stroke"],
   Pediatrics: ["Child Health", "Vaccinations", "Growth disorders", "Pediatric infections"],
@@ -44,21 +43,19 @@ const departmentSpecializations = {
   Oncology: ["Cancer treatment", "Tumor management"],
   Urology: ["Kidney", "Bladder", "Prostate", "Urinary infections", "Male reproductive health"],
   Gastroenterology: ["Digestive system", "Liver disease", "Acid reflux", "IBS", "Colonoscopy"],
-  Nephrology: ["Kidney health", "Dialysis", "Chronic kidney disease", "kidney transplants"],
+  Nephrology: ["Kidney health", "Dialysis", "Chronic kidney disease", "Kidney transplants"],
   Pulmonology: ["Lungs and respiratory system", "Asthma", "COPD", "Pneumonia", "Sleep apnea"],
   Endocrinology: ["Hormonal disorders", "Diabetes", "Thyroid", "PCOS", "Adrenal issues"],
 };
 
-
 const CreateDepartment = ({ handleCreate, handleClose }) => {
-
   const isSmScreen = useMediaQuery("(max-width:768px)");
   const token = Cookies.get("token");
   const Base_url = process.env.REACT_APP_BASE_URL;
 
   const [loading, setLoading] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState("");
-  
+
   const {
     register,
     handleSubmit,
@@ -72,18 +69,12 @@ const CreateDepartment = ({ handleCreate, handleClose }) => {
 
   const selectedSpecs = watch("specialization") || [];
 
-
   const onSubmit = (data) => {
-
-
     setLoading(true);
-
-    console.log("department", data)
 
     const formdata = new FormData();
     formdata.append("departmentName", data.departmentName);
     formdata.append("description", data.description);
-
     data.specialization.forEach((spec, i) =>
       formdata.append(`specialization[${i}]`, spec)
     );
@@ -91,7 +82,7 @@ const CreateDepartment = ({ handleCreate, handleClose }) => {
     fetch(`${Base_url}/department`, {
       method: "POST",
       headers: {
-        Authorization:` Bearer ${token}`,
+        Authorization:`Bearer ${token}`,
       },
       body: formdata,
     })
@@ -114,34 +105,29 @@ const CreateDepartment = ({ handleCreate, handleClose }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
+      <Grid container columnSpacing={2}>
+        <Grid item xs={12}  sm={isSmScreen ? 12 : 6} md={6}>
           <FormControl fullWidth margin="normal" error={!!errors.departmentName}>
             <InputLabel>Department Name *</InputLabel>
             <Select
               value={selectedDepartment}
               onChange={(e) => {
-            
                 const value = e.target.value;
                 setSelectedDepartment(value);
                 setValue("departmentName", value);
-                setValue("specialization", []);
-               
+                setValue("specialization", []); // reset specialization when department changes
               }}
               label="Department Name"
-
-
-              MenuProps={{PaperProps:{style:{maxHeight:200,
-                overflowY:"auto",
-              },
-            },
-          
-          }}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 200,
+                    overflowY: "auto",
+                  },
+                },
+                disableScrollLock: true, 
+              }}
             >
-
-
-
-
               {Object.keys(departmentSpecializations).map((dept) => (
                 <MenuItem key={dept} value={dept}>
                   {dept}
@@ -152,19 +138,28 @@ const CreateDepartment = ({ handleCreate, handleClose }) => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
           <FormControl fullWidth margin="normal" error={!!errors.specialization}>
             <InputLabel>Specialization *</InputLabel>
             <Select
               multiple
-              value={watch("specialization") || []}
+              value={selectedSpecs}
               onChange={(e) => setValue("specialization", e.target.value)}
               input={<OutlinedInput label="Specialization" />}
               renderValue={(selected) => selected.join(", ")}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 200,
+                    overflowY: "auto",
+                  },
+                },
+                disableScrollLock: true, 
+              }}
             >
               {(departmentSpecializations[selectedDepartment] || []).map((spec) => (
                 <MenuItem key={spec} value={spec}>
-                  <Checkbox checked={watch("specialization")?.includes(spec)} />
+                  <Checkbox checked={selectedSpecs.includes(spec)} />
                   <ListItemText primary={spec} />
                 </MenuItem>
               ))}
@@ -173,28 +168,27 @@ const CreateDepartment = ({ handleCreate, handleClose }) => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} >
+        <Grid item xs={12}>
           <TextField
             label="Description *"
             fullWidth
             margin="normal"
             variant="outlined"
             multiline
+            minRows={4}
             value={watch("description") || ""}
             onChange={(e) => setValue("description", e.target.value)}
             error={!!errors.description}
             helperText={errors.description?.message}
           />
         </Grid>
-
-       
       </Grid>
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 3 }}>
         <Button onClick={handleClose} className="secondary_button">
           Cancel
         </Button>
-        <Button type="submit" className="primary_button">
+        <Button type="submit" className="primary_button" disabled={loading}>
           {loading ? (
             <>
               <CircularProgress size={18} sx={{ mr: 1, color: "#fff" }} />

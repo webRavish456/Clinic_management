@@ -49,9 +49,9 @@ const Expense= () => {
 
   const columns = [
     { id: 'expenseCategory', label: 'Expense Category', flex: 1, align: 'center' },
-  { id: 'expenseId', label: 'Expense Id', flex: 1,align: 'center'  },
+  { id: 'transactionId', label: 'Transaction Id', flex: 1,align: 'center'  },
       { id: 'payeeName', label: 'Payee Name', flex: 1, align: 'center' },
-      { id: 'date', label: 'Date', flex: 1, align: 'center' },
+      { id: 'datePaid', label: 'Date Paid', flex: 1, align: 'center' },
       
       {id: 'amount', label: 'Amount', flex: 1, align: 'center'},
       {id: 'paymentMethod', label: 'Payment Method', flex: 1, align: 'center'},
@@ -84,7 +84,7 @@ const Expense= () => {
              setLoading(false);
   
              const formattedData = res.data.map((item, index) =>
-              createData(item, item.expenseCategory, item._id, item.payeeName, item.date, item.amount, item.paymentMethod, item.status)
+              createData(item, item.expenseCategory, item.transactionId, item.payeeName, item.datePaid, item.amount, item.paymentMethod, item.status)
             );
          
             setRows(formattedData)
@@ -103,19 +103,19 @@ const Expense= () => {
     
      },[loading])
     
-  const  createData = (row,expenseCategory,expenseId,payeeName,date,amount,paymentMethod,status) => ({
-   row,expenseCategory,expenseId,payeeName,date,amount,paymentMethod,status,action : (
+  const  createData = (row,expenseCategory,transactionId,payeeName,datePaid,amount,paymentMethod,status) => ({
+   row,expenseCategory,transactionId,payeeName,datePaid,amount,paymentMethod,status,action : (
       <>
                     <IconButton style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
-                     onClick={()=>handleView(rows)}>
+                     onClick={()=>handleView(row)}>
                         <VisibilityIcon />
                     </IconButton>
                     <IconButton style={{ color: "#6b6666", padding: "4px", transform: "scale(0.8)" }} 
-                    onClick={()=>handleEdit(rows)}>
+                    onClick={()=>handleEdit(row)}>
                         <EditIcon />
                     </IconButton>
                     <IconButton style={{ color: "#e6130b", padding: "4px", transform: "scale(0.8)" }} 
-                    onClick={()=>handleShowDelete(rows._id)}>
+                    onClick={()=>handleShowDelete(row._id)}>
                         <DeleteIcon />
                     </IconButton>
                 </>
@@ -241,7 +241,7 @@ const Expense= () => {
       </Paper>
 
       <CommonDialog
-        open={openData || viewData || editData || deleteShow}
+        open={openData || viewShow || editShow|| deleteShow}
         onClose={handleClose}
         dialogTitle={
           openData

@@ -15,7 +15,7 @@ const ViewIncome =({viewData})=>
             <Box className="pageTitle">Source Name:</Box> 
             </Grid>  
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.SourceName}</Box>
+            <Box className="pageDescription">{viewData.sourceName}</Box>
             </Grid>
 
           
@@ -37,14 +37,25 @@ const ViewIncome =({viewData})=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle"> Date:</Box>
+            <Box className="pageTitle"> Date Received:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.date}</Box>
+            <Box className="pageDescription">{viewData.dateReceived}</Box>
             </Grid>
 
-            
+            </Grid>
+
+<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+
+<Grid item xs={6}>
+<Box className="pageTitle">Transaction Id:</Box>
+</Grid>
+
+<Grid item xs={6}sm={isSmScreen?12:6} md={6}>
+<Box className="pageDescription">{viewData.transactionId}</Box>
+</Grid>
+
 
             </Grid>
 
@@ -72,6 +83,18 @@ const ViewIncome =({viewData})=>
             <Grid item xs={6}sm={isSmScreen?12:6} md={6}>
             <Box className="pageDescription">{viewData.paymentMethod}</Box>
             </Grid>
+
+            </Grid>
+
+<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+
+<Grid item xs={6}>
+<Box className="pageTitle">Status:</Box>
+</Grid>
+
+<Grid item xs={6}sm={isSmScreen?12:6} md={6}>
+<Box className="pageDescription">{viewData.status}</Box>
+</Grid>
 
             </Grid>
 

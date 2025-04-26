@@ -241,7 +241,7 @@ const Appointment= () => {
       </Paper>
 
       <CommonDialog
-        open={openData || viewData || editData || deleteShow}
+        open={openData || viewShow || editShow || deleteShow}
         onClose={handleClose}
         dialogTitle={
           openData
