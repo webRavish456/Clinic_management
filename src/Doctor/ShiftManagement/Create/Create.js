@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 
 import {
@@ -26,6 +26,8 @@ import Cookies from 'js-cookie';
 const schema = yup.object().shape({
   doctorName: yup.string().required("doctorName is required"),
   mobileNo: yup.string().required("mobileNo is required"),
+    department: yup.string().required("department is required"),
+    specialization: yup.string().required("specialization is required"),
     shiftStartDate: yup.string().required("shiftStartDate is required"),
     shiftEndDate: yup.string().required("shiftEndDate is required"),
     workDays: yup.string().required("workDays is required"),
@@ -35,16 +37,26 @@ const schema = yup.object().shape({
    
     
   });
+  const doctorNames=[
+    "r.k Sinha"
+  ]
+  const departments=[
+    "r.k Sinha"
+  ]
+
+
 
 
 const CreateShiftManagement =({handleCreate, handleClose})=>
 {   
+  const [doctorAssigned, setdoctorAssigned]= useState([]);
+
     const token = Cookies.get('token');
 
     const Base_url = process.env.REACT_APP_BASE_URL;
 
 
- const [loading, setLoading] = useState(false)
+ const [loading, setLoading] = useState(true)
   
     const {
       register,
@@ -54,6 +66,31 @@ const CreateShiftManagement =({handleCreate, handleClose})=>
     } = useForm({
       resolver: yupResolver(schema),
     });
+    useEffect(() => {
+
+      const fetchdoctorData = async () => {
+        try {
+          const response = await fetch(`${Base_url}/appointment`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const result = await response.json();
+          if (result.status === "success") {
+            console.log(result.data)
+  
+            setdoctorAssigned(result.data)
+            setLoading(false)
+          }
+        } catch (error) {
+          console.error("Error fetching doctor data:", error);
+        }
+      };
+      if (loading) {
+        fetchdoctorData();
+      }
+    }, [loading]); //dropdown
 
     const onSubmit = (data) => {
     
@@ -63,6 +100,8 @@ const CreateShiftManagement =({handleCreate, handleClose})=>
        const formdata = new FormData();
        formdata.append("doctorName", data.doctorName);
        formdata.append("mobileNo", data.mobileNo);
+       formdata.append("department", data.department);
+       formdata.append("specialization", data.specialization);
         formdata.append("shiftStartDate", data.shiftStartDate);
         formdata.append("shiftEndDate", data.shiftEndDate);
         formdata.append("workDays", data.workDays);
@@ -111,23 +150,37 @@ const CreateShiftManagement =({handleCreate, handleClose})=>
             <form onSubmit={handleSubmit(onSubmit)}>
 
              <Grid container columnSpacing={2}>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-
-            <TextField
-            label={
-            <>
+              <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+                                      
+              <FormControl
+              fullWidth
+              margin="normal"
+              error={!!errors.doctorAssigned}
+            >
+              <InputLabel>
                 Doctor Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="doctorName"
-            variant="outlined"
-            {...register("doctorName")}
-            error={!!errors.doctorName}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
+              </InputLabel>
+
+              <Select
+                label="doctorName"
+                defaultValue=""
+                {...register("doctorName", { required: "doctor name is required" })}
+              >
+
+                {doctorAssigned.map((appointment, index) => (
+                  <MenuItem key={index} value={appointment.doctorAssigned}>
+                    {appointment.doctorAssigned}
+                  </MenuItem>
+                ))}
+              </Select >
+              <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                {errors.doctorAssigned?.message}
+              </div>
+            </FormControl>
+      
+                                      </Grid>
+
+           
 
              <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
 
@@ -146,7 +199,58 @@ const CreateShiftManagement =({handleCreate, handleClose})=>
             margin="normal"
             />
 
+            </Grid>  <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+                                      
+                                      <TextField
+                                        select
+                                        label={
+                                          <>
+                                            Department <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                                          </>
+                                        }
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        {...register("department")}
+                                        error={!!errors.department}
+                                        helperText={errors.department?.message}
+                                        SelectProps={{
+                                          MenuProps: {
+                                            disableScrollLock: true,
+                                          },
+                                        }}
+                                      >
+                                        {departments.map((method) => (
+                                          <MenuItem key={method} value={method}>
+                                            {method}
+                                          </MenuItem>
+                                        ))}
+                                      </TextField>
+                                                            </Grid>
+                      
+
+            
+
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+
+            <TextField
+            label={
+            <>
+                Specialization <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="specialization"
+            variant="outlined"
+            {...register("specialization")}
+            error={!!errors.specialization}
+            fullWidth
+
+            margin="normal"
+            />
+
             </Grid> 
+
+
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
@@ -160,9 +264,12 @@ const CreateShiftManagement =({handleCreate, handleClose})=>
             {...register("shiftStartDate")}
             error={!!errors.shiftStartDate}
             fullWidth
+
             margin="normal"
             />
+
             </Grid>
+
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField

@@ -1,7 +1,7 @@
 import React from "react"
 import { Box, Grid,  useMediaQuery} from "@mui/material";
 
-const ViewShiftManagement =()=>
+const ViewShiftManagement =({viewData})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
@@ -12,10 +12,10 @@ const ViewShiftManagement =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
             
             <Grid item xs={6}>
-            <Box className="pageTitle">DoctorName:</Box> 
+            <Box className="pageTitle">Doctor Name:</Box> 
             </Grid>  
             <Grid item xs={6}>
-            <Box className="pageDescription">Amrita</Box>
+            <Box className="pageDescription">{viewData.doctorName}</Box>
             </Grid>
 
             </Grid>
@@ -26,7 +26,7 @@ const ViewShiftManagement =()=>
             <Box className="pageTitle">Department:</Box>    
             </Grid>
             <Grid item xs={6}>
-            <Box className="pageDescription">Cardiologist</Box>
+            <Box className="pageDescription">{viewData.department}</Box>
             </Grid>
             </Grid>
 
@@ -36,7 +36,7 @@ const ViewShiftManagement =()=>
             <Box className="pageTitle">Specialization:</Box> 
             </Grid>   
             <Grid item xs={6}>
-            <Box className="pageDescription">Heart</Box>
+            <Box className="pageDescription">{viewData.specialization}</Box>
             </Grid>
 
             </Grid>
@@ -44,11 +44,11 @@ const ViewShiftManagement =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">ShiftStartDate:</Box>
+            <Box className="pageTitle">Shift Start Date:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">1/1/20</Box>
+            <Box className="pageDescription">{viewData.shiftStartDate}</Box>
             </Grid>
 
             </Grid>
@@ -56,48 +56,66 @@ const ViewShiftManagement =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">ShiftEndDate:</Box>
+            <Box className="pageTitle">Shift End Date:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">7/1/20</Box>
+            <Box className="pageDescription">{viewData.shiftEndDate}</Box>
             </Grid>
 
             </Grid>
-
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">WorkDays:</Box>
+            <Box className="pageTitle">Work Days:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">Monday-Friday</Box>
+            <Box className="pageDescription">{viewData.workDays}</Box>
             </Grid>
 
-            </Grid><Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
-
-      <Grid item xs={6}>
-         <Box className="pageTitle">ShiftHours:</Box>
-        </Grid>
-
-         <Grid item xs={6}>
-         <Box className="pageDescription">12</Box>
-          </Grid>
-          </Grid><Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
-
-      <Grid item xs={6}>
-         <Box className="pageTitle">ShiftType:</Box>
-        </Grid>
-
-         <Grid item xs={6}>
-         <Box className="pageDescription">A</Box>
-          </Grid>
             </Grid>
+
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+
+            <Grid item xs={6}>
+            <Box className="pageTitle">Shift Hours:</Box>
+            </Grid>
+
+            <Grid item xs={6}>
+            <Box className="pageDescription">{viewData.shiftHours}</Box>
+            </Grid>
+
+            </Grid>
+
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+
+            <Grid item xs={6}>
+            <Box className="pageTitle">Shift Type:</Box>
+            </Grid>
+
+            <Grid item xs={6}>
+            <Box className="pageDescription">{viewData.shiftType}</Box>
+            </Grid>
+
+            </Grid>
+
+
+
+
+
 
             
+            
+
+
+            
+
            
+
+           
+
 
             </Grid>
 
