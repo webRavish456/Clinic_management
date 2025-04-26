@@ -167,7 +167,7 @@ const [page, setPage] = React.useState(0);
 
 
   return (
-    <Box className="container">
+    <Box className="container" sx={{flexGrow:1,overflowY: "auto" , height:"100vh",}}>
       <Search onAddClick={onAddClick} buttonText="+Add Doctor"/>
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>

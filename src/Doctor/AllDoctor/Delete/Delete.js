@@ -1,7 +1,7 @@
-import { Box, Button ,CircularProgress} from "@mui/material";
+import { Box, Button,CircularProgress } from "@mui/material";
 import React from "react"
 
-const DeleteAllDoctor= ({handleClose,isDeleting, handleDelete}) =>
+const DeleteDoctor= ({handleClose,isDeleting, handleDelete}) =>
 {
      return (
      <>
@@ -30,4 +30,4 @@ const DeleteAllDoctor= ({handleClose,isDeleting, handleDelete}) =>
      )
 }
 
-export default DeleteAllDoctor;
+export default DeleteDoctor;

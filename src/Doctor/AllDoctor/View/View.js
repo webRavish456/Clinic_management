@@ -156,7 +156,7 @@ const ViewDoctor = () => {
 
             <Grid item xs={6}>
               <TextField fullWidth label="Branch Name" value={formData.companyDetails?.branchName || ""} margin="normal" />
-              <TextField fullWidth label="Designation" value={formData.companyDetails?.designation || ""} margin="normal" />
+              <TextField fullWidth label="Specialization" value={formData.companyDetails?.specialization || ""} margin="normal" />
               <TextField fullWidth label="Department" value={formData.companyDetails?.department || ""} margin="normal" />
             </Grid>
             <Grid item xs={6}>

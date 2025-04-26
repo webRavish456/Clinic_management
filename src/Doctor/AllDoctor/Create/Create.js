@@ -115,7 +115,6 @@ const CreateDoctor = () => {
           formdata.append("documents.highestQualificationCertificate", data.highestQualificationCertificate[0]);
           formdata.append("documents.panCard", data.panCard[0]);
           formdata.append("documents.aadharCard", data.aadharCard[0]);
-
           
           const requestOptions = {
             method: "POST",

@@ -31,13 +31,12 @@ import "react-toastify/dist/ReactToastify.css";
 const Staff=()=>
   {
   
-    const [openData, setOpenData] = useState(false)
-  
-    const [viewData, setViewData] = useState(false)
-  
-    const [editData, setEditData] = useState(false)
   
     const [deleteData, setDeleteData] = useState(false)
+
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const [deleteId, setDeleteId] =useState()
 
      const [rows, setRows] = useState([]);
       const [loading, setLoading] = useState(true);
@@ -59,10 +58,34 @@ const Staff=()=>
     navigate(`/editstaff/${id}`)
   }
   
-  const handleDelete = () =>
-    {
-      setDeleteData(true)
-    }
+  const handleDelete = () => {
+
+
+    setIsDeleting(true);
+    fetch(`${Base_url}/staff/${deleteId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.text())
+      .then((result) => {
+        const res = JSON.parse(result);
+        if (res.status === "success") {
+          toast.success("Staff deleted successfully!");
+          setLoading(true);
+        } else {
+          toast.error(res.message);
+        }
+        setIsDeleting(false);
+        handleClose();
+      })
+      .catch((error) => {
+        console.error("Delete error:", error);
+        setIsDeleting(false);
+      });
+
+  };
   
 
 const columns = [
@@ -83,6 +106,11 @@ const columns = [
   {id: 'action',label: 'Actions', flex:1,align: 'center', },
  
 ];
+
+const handleShowDelete=(Id)=>{
+    setDeleteData(true)
+   setDeleteId(Id)
+}
 
 useEffect(() => {
   const fetchStaffData = async () => {
@@ -135,7 +163,7 @@ function createData(si, id, staffName, designation, mobileNumber, emailId,  shif
       <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleEdit(id)}>
         <EditIcon />
       </IconButton>
-      <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleDelete(id)}>
+      <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleShowDelete(id)}>
         <DeleteIcon />
       </IconButton>
       </>
@@ -162,25 +190,16 @@ function createData(si, id, staffName, designation, mobileNumber, emailId,  shif
     }
 
     const handleClose = () => {
-      setEditData(false)
-      setViewData(false)
-      setOpenData(false)
+     
       setDeleteData(false)
    };
 
-   const handleSubmit = (e) => {
-     e.preventDefault();
-     setOpenData(false)
-     // console.log("Form Data Submitted:", formData);
-   }
 
-   const handleUpdate = (e) => {
-      e.preventDefault();
-      setEditData(false)
-   }
 
 
   return (
+    <>
+    <ToastContainer/>
     <Box className="container">
       <Search onAddClick={onAddClick} buttonText="+ Add Staff"/>
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -240,7 +259,7 @@ function createData(si, id, staffName, designation, mobileNumber, emailId,  shif
       </>}
       
       dialogContent = {
-         deleteData? <DeleteStaff handleDelete={handleDelete} handleClose={handleClose} />:null
+         deleteData? <DeleteStaff handleDelete={handleDelete}  isDeleting={isDeleting} handleClose={handleClose} />:null
         
       }
 
@@ -248,6 +267,7 @@ function createData(si, id, staffName, designation, mobileNumber, emailId,  shif
 
    
     </Box>
+    </>
   );
 }
 

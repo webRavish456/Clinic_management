@@ -707,22 +707,22 @@ const EditDoctor = () => {
                                </Grid>
                                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
                                <Button onClick={handleCancel} className="secondary_button">
-                                 Cancel
+                                Cancel
                                </Button>
                                <Button type="submit" className="primary_button">
-               
+
                                 {loading ? (
-                               <>
+                                 <>
                                 <CircularProgress size={18} 
-                                style={{ marginRight: 8, color: "#fff" }} />
-                                Submitting
-                               </>
-                                ) : (
-                              "Submit"
-                              )}
-               
-                            </Button>
-                            </Box>
+                                 style={{ marginRight: 8, color: "#fff" }} />
+                                 Submitting
+                                </>
+                             ) : (
+                                "Submit"
+                                 )}
+
+                                 </Button>
+                                </Box>
                            </Grid>
                            </form>
                 }
