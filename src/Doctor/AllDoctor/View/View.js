@@ -23,8 +23,6 @@ const ViewDoctor = () => {
 
     const { Id } = useParams();
 
-    console.log()
-
     const token = Cookies.get("token");
     const Base_url = process.env.REACT_APP_BASE_URL;
 
@@ -36,7 +34,7 @@ const ViewDoctor = () => {
 
         const fetchDoctorData = async () => {
           try {
-            const response = await fetch(`${Base_url}/doctor/${Id}`, {
+            const response = await fetch(`${Base_url}/alldoctor/${Id}`, {
               method: "GET",
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -65,7 +63,7 @@ const ViewDoctor = () => {
 
     
     return (
-        <>
+     
             
             <Grid container spacing={6} padding={3}>
    
@@ -222,7 +220,7 @@ const ViewDoctor = () => {
     </Grid>
  </Grid>
      
-      </>
+
     
      );
 };           

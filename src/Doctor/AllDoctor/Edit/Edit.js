@@ -84,8 +84,9 @@ const EditDoctor = () => {
  useEffect(() => {
 
     const fetchDoctorData = async () => {
+
       try {
-        const response = await fetch(`${Base_url}/doctor/${Id}`, {
+        const response = await fetch(`${Base_url}/alldoctor/${Id}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -94,8 +95,10 @@ const EditDoctor = () => {
   
         const result = await response.text();
         const res = JSON.parse(result);
-  
-  
+          
+        console.log(res.data)
+        setGender(res.data.gender)
+        
         if (res.status === "success") {
           setLoading(false);
     
@@ -103,7 +106,7 @@ const EditDoctor = () => {
             
             doctorName: res.data.doctorName|| "",
             gender: res.data.gender,
-            dob: res.data.dob,
+            dob: res.data.dob? new Date(res.data.dob).toISOString().split("T")[0] : "",
             mobileNumber: res.data.mobileNumber,
             emailId: res.data.emailId,
             experience: res.data.experience,
@@ -112,7 +115,7 @@ const EditDoctor = () => {
             branchName:res.data.companyDetails.branchName,
             salary: res.data.companyDetails.salary,
             specialization:res.data.companyDetails.specialization,
-            joiningDate:res.data.companyDetails.joiningDate,
+            joiningDate:res.data.companyDetails.joiningDate ? new Date(res.data.companyDetails.joiningDate).toISOString().split("T")[0] : "",
             department:res.data.companyDetails.department,
             accountHolderName:res.data.bankDetails.accountHolderName,
             accountNumber:res.data.bankDetails.accountNumber,
@@ -122,6 +125,7 @@ const EditDoctor = () => {
             branchLocation:res.data.bankDetails.branchLocation
         
          });
+         setExistingDocuments(res.data.documents || {});
          setLoadingdata(false)
         }
       } catch (error) {
@@ -200,7 +204,7 @@ const EditDoctor = () => {
                    setLoading(false)
                   
                    toast.success(" Doctor Created Successfully!")
-                   navigate("/doctor")
+                   navigate("/doctor/all-doctor")
                    reset();
                  }
                  else {
@@ -214,7 +218,7 @@ const EditDoctor = () => {
     
         const handleCancel = () =>
         {
-             navigate("/doctor")
+             navigate("/doctor/all-doctor")
         }
 
        return (
