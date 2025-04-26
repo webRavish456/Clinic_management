@@ -15,7 +15,7 @@ const ViewExpense =({viewData})=>
             <Box className="pageTitle">Expense Category:</Box> 
             </Grid>  
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.expensecategory}</Box>
+            <Box className="pageDescription">{viewData.expenseCategory}</Box>
             </Grid>
 
            
@@ -32,14 +32,25 @@ const ViewExpense =({viewData})=>
 
             </Grid>
 
+<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+
+<Grid item xs={6}>
+<Box className="pageTitle"> Date Paid:</Box>
+</Grid>
+
+<Grid item xs={6}>
+<Box className="pageDescription">{viewData.datePaid}</Box>
+</Grid>
+            </Grid>
+
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle"> Date:</Box>
+            <Box className="pageTitle"> Transaction Id:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.date}</Box>
+            <Box className="pageDescription">{viewData.transactionId}</Box>
             </Grid>
 
             
@@ -70,6 +81,17 @@ const ViewExpense =({viewData})=>
             <Box className="pageDescription">{viewData.paymentMethod}</Box>
             </Grid>
 
+            </Grid>
+
+<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+
+<Grid item xs={6}>
+<Box className="pageTitle"> status:</Box>
+</Grid>
+
+<Grid item xs={6}>
+<Box className="pageDescription">{viewData.status}</Box>
+</Grid>
             </Grid>
 
             

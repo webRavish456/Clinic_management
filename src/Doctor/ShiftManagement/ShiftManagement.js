@@ -29,7 +29,6 @@ import CommonDialog from "../../Component/CommonDialog/CommonDialog";
 import Search from "../../Search/Search";
 import CreateShiftManagement from "./Create/Create";
 
-
 const ShiftManagement = () => {
 
   const [openData, setOpenData] = useState(false);
@@ -50,62 +49,17 @@ const ShiftManagement = () => {
   const Base_url = process.env.REACT_APP_BASE_URL;
 
   const columns = [
-    { id: 'si', label: 'SI. No', flex:1, align:'center' },
-        { id: 'doctorName', label: 'Doctor Name', flex:1,align:'center' },
-        {
-          id: 'department',
-          label: 'Department',
-          flex:1,
-          align:'center'
-        },
-        {
-          id: 'specialization',
-          label: 'Specialization',
-          flex:1,
-           align:'center'
-        },
-        {
-          id: 'shiftStartDate',
-          label: 'Shift Start Date',
-          flex:1,
-          align:'center',
-        },
-        {
-            id: 'shiftEndDate',
-            label: 'Shift End Date',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'workDays',
-            label: 'Work Days',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'shiftHours',
-            label: 'ShiftHours',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'shiftType',
-            label: 'ShiftType',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'availabilityStatus',
-            label: ' AvailabilityStatus',
-            flex:1,
-            align:'center',
-          },
-          {
-            id: 'actions',
-            label: 'Actions',
-            flex:1,
-            align:'center',
-          },
+    { id: 'siNo', label: 'SI.No', flex: 1,align: 'center'  },
+    { id: 'doctorName', label: 'Doctor Name', flex: 1, align: 'center' },
+    { id: 'specialization', label: 'Specialization', flex: 1, align: 'center' },
+    { id: 'department', label: 'Department', flex: 1, align: 'center' },
+    {id: 'shiftStartDate', label: 'Shift Start Date', flex: 1, align: 'center'},
+    {id: 'shiftEndDate', label: 'Shift End Date', flex: 1, align: 'center'},
+    {id: 'workDays', label: 'Work Days', flex: 1, align: 'center'},
+    {id: 'shiftHours', label: 'Shift Hours', flex: 1, align: 'center'},
+    {id: 'shiftType', label: 'Shift Type', flex: 1, align: 'center'},
+    {id: 'availabilityStatus', label: 'Availability Status', flex: 1, align: 'center'},
+   { id: 'actions', label: 'Actions', flex: 1, align: 'center' },
   ];
 
   useEffect(()=>
@@ -132,13 +86,7 @@ const ShiftManagement = () => {
              console.log(res)
 
              const formattedData = res.data.map((item, index) =>
-              createData(index + 1, item,  item.doctorName, 
-                item.department, 
-                item.specialization,
-                item.shiftStartDate,
-                item.shiftHours,
-                item.shiftType, 
-                item.availabilityStatus,)
+              createData(index + 1, item, item.doctorName, item.specialization, item.department, item.shiftStartDate, item.shiftEndDate, item.workDays, item.shiftHours, item.shiftType, item.availabilityStatus, item.status,)
             );
          
             setRows(formattedData)
@@ -157,19 +105,19 @@ const ShiftManagement = () => {
     
      },[loading])
     
-  const  createData = (si,row,  doctorName,  department,  specialization,  shiftStartDate,  shiftEndDate,  workDays,   shiftHours,  shiftType,   availabilityStatus) => ({
-    si,
-          row,
-          doctorName,  
-          department,  
-          specialization,  
-          shiftStartDate,  
-          shiftEndDate,  
-          workDays,   
-          shiftHours,  
-          shiftType,   
-          availabilityStatus,
-          actions: (
+  const  createData = (siNo,row,  doctorName,  department,  specialization,  shiftStartDate,  shiftEndDate,  workDays,   shiftHours,  shiftType,   availabilityStatus ) => ({
+    siNo,
+    row,
+    doctorName,  
+    department,  
+    specialization,  
+    shiftStartDate,  
+    shiftEndDate,  
+    workDays,   
+    shiftHours,  
+    shiftType,   
+    availabilityStatus,
+    actions: (
       <>
                     <IconButton style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
                      onClick={()=>handleView(row)}>
@@ -306,7 +254,7 @@ const ShiftManagement = () => {
       </Paper>
 
       <CommonDialog
-        open={openData || viewData || editData || deleteShow}
+        open={openData || viewShow || editShow || deleteShow}
         onClose={handleClose}
         dialogTitle={
           openData

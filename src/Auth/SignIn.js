@@ -5,8 +5,9 @@ import * as yup from "yup";
 import { Box, Button, CircularProgress, TextField } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
+import { useNavigate } from "react-router-dom";
+
 
 const schema = yup.object().shape({
   email: yup.string().email("Please enter a valid email").required("Email is required"),

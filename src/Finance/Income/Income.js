@@ -49,9 +49,9 @@ const Income = () => {
 
   const columns = [
     { id: 'sourceName', label: 'Source Name', flex: 1, align: 'center' },
-  { id: 'incomeId', label: 'Income Id', flex: 1,align: 'center'  },
+  { id: 'transactionId', label: 'Transaction Id', flex: 1,align: 'center'  },
       { id: 'description', label: 'Description', flex: 1, align: 'center' },
-      { id: 'date', label: 'Date', flex: 1, align: 'center' },
+      { id: 'dateReceived', label: 'Date Received', flex: 1, align: 'center' },
       {id: 'amount', label: 'Amount', flex: 1, align: 'center'},
       {id: 'paymentMethod', label: 'Payment Method', flex: 1, align: 'center'},
       {id: 'status', label: 'Status', flex: 1, align: 'center'},
@@ -81,7 +81,7 @@ const Income = () => {
              setLoading(false);
   
              const formattedData = res.data.map((item, index) =>
-              createData( item, item.sourceName, item._id, item.description, item.date,  item.amount, item.paymentMethod, item.status)
+              createData( item, item.sourceName, item.transactionId, item.description, item.dateReceived,  item.amount, item.paymentMethod, item.status)
             );
          
             setRows(formattedData)
@@ -100,8 +100,8 @@ const Income = () => {
     
      },[loading])
     
-  const  createData = (row,sourceName,incomeId,description,date,amount,paymentMethod,status) => ({
-   row, sourceName,incomeId,description,date,amount,paymentMethod,status,action : (
+  const  createData = (row,sourceName,transactionId,description,dateReceived,amount,paymentMethod,status) => ({
+   row, sourceName,transactionId,description,dateReceived,amount,paymentMethod,status,action : (
       <>
                     <IconButton
           style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
@@ -244,7 +244,7 @@ const Income = () => {
       </Paper>
 
       <CommonDialog
-        open={openData || viewData || editData || deleteShow}
+        open={openData || viewShow || editShow || deleteShow}
         onClose={handleClose}
         dialogTitle={
           openData
