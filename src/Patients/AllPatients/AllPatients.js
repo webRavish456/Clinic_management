@@ -177,34 +177,34 @@ const AllPatients = () => {
       });
   };
 
-  const handleClose = () => {
-    setOpenData(false);
-    setViewShow(false);
-    setEditShow(false);
-    setDeleteShow(false);
-  };
+    const handleClose = () => {
+      setOpenData(false);
+      setViewShow(false);
+      setEditShow(false);
+      setDeleteShow(false);
+    };
 
-  const handleCreate = () => {
-    setLoading(true);
-    setOpenData(false);
-  };
+    const handleCreate = () => {
+      setLoading(true);
+      setOpenData(false);
+    };
 
-  const handleUpdate = () => {
-     setLoading(true);
-    setEditShow(false);
-  };
+    const handleUpdate = () => {
+      setLoading(true);
+      setEditShow(false);
+    };
 
-  const onAddClick = () => setOpenData(true);
+    const onAddClick = () => setOpenData(true);
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const handleChangePage = (_, newPage) => setPage(newPage);
+    const handleChangePage = (_, newPage) => setPage(newPage);
 
-  const handleChangeRowsPerPage = (e) => {
-    setRowsPerPage(e.target.value);
-    setPage(0);
-  };
+    const handleChangeRowsPerPage = (e) => {
+      setRowsPerPage(e.target.value);
+      setPage(0);
+    };
 
   return (
     <>
