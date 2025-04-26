@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -6,6 +6,7 @@ import { Box, Button, CircularProgress, TextField } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const schema = yup.object().shape({
   email: yup.string().email("Please enter a valid email").required("Email is required"),

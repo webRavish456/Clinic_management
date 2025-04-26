@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SignIn from "./Auth/SignIn";
 import Forgot from "./Auth/Forgot";
 import LayoutMain from "./Layout/LayoutMain";
@@ -44,6 +44,9 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="appointment" element={<Appointment />} />
           <Route path="doctor/all-doctor" element={<AllDoctor/>} />
+          <Route path="createDoctor" element={<CreateDoctor/>}/>
+          <Route path="viewDoctor/:Id"   element={<ViewDoctor/>}/>
+          <Route path="editDoctor/:Id"   element={<EditDoctor/>}/>
           <Route path="doctor/shift-management" element={<ShiftManagement />} />
           <Route path="patients/allpatients" element={<AllPatients />} />
           <Route path="patients/patientsrecords" element={<PatientsRecords />} />
@@ -57,9 +60,7 @@ function App() {
           <Route path="createstaff" element={<CreateStaff />} />
           <Route path="viewstaff/:Id" element={<ViewStaff/>}/>
         <Route path="editstaff/:Id" element={<EditStaff/>}/>
-        <Route path="createDoctor" element={<CreateDoctor/>}/>
-        <Route path="viewDoctor"   element={<ViewDoctor/>}/>
-        <Route path="editDoctor"   element={<EditDoctor/>}/>
+    
 
         </Route>
       </Routes>

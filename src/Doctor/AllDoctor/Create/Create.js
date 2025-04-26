@@ -115,6 +115,8 @@ const CreateDoctor = () => {
           formdata.append("documents.highestQualificationCertificate", data.highestQualificationCertificate[0]);
           formdata.append("documents.panCard", data.panCard[0]);
           formdata.append("documents.aadharCard", data.aadharCard[0]);
+
+          
           const requestOptions = {
             method: "POST",
             body: formdata,
@@ -154,7 +156,7 @@ const CreateDoctor = () => {
             }
       
     return (
-        <>
+      
              <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={6} style={{ padding: "20px" }}>
                 {/* Personal Details */}
@@ -720,7 +722,7 @@ const CreateDoctor = () => {
              </Box>
             </Grid>
             </form>   
-        </>
+   
     );
 };
 
