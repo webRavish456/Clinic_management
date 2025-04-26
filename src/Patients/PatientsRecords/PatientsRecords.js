@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 import {
   Paper,
@@ -53,9 +54,9 @@ const PatientsRecords = () => {
     { id: "patientname", label: "Patient Name", flex: 1, align: "center" },
     { id: "doctorAssigned", label: "Assigned Doctor", flex: 1, align: "center" },
     { id: "treatment", label: "Treatment", flex: 1, align: "center" },
-    { id: "labreport", label: "Lab Report", flex: 1, align: "center" },
+    { id: "labReport", label: "Lab Report", flex: 1, align: "center" },
     { id: "admissionDate", label: "Admit Date", flex: 1, align: "center" },
-    { id: "nextfollowup", label: "Next FollowUp", flex: 1, align: "center" },
+    { id: "nextFollowUp", label: "Next FollowUp", flex: 1, align: "center" },
     { id: "status", label: "Status", flex: 1, align: "center" },
     { id: "action", label: "Action", flex: 1, align: "center" },
   ];
@@ -83,8 +84,8 @@ const PatientsRecords = () => {
               item.treatment,
               item.doctorAssigned,
               item.patientname,
-              item.labreport,
-              item.nextfollowup,
+              item.labReport,
+              item.nextFollowUp,
               item.admissionDate,
               item.status
             )
@@ -101,16 +102,21 @@ const PatientsRecords = () => {
     }
   }, [loading]);
 
-  const createData = (si, row, patientID, treatment,patientname,doctorAssigned,labreport,nextfollowup,admissionDate, status) => ({
+  const createData = (si, row, patientID, treatment,patientname,doctorAssigned,labReport,nextFollowUp,admissionDate, status) => ({
     si,
     row,
     patientID,
     treatment,
     patientname,
-    labreport,
+
     doctorAssigned,
-    nextfollowup,
+
     admissionDate,
+    treatment,
+ labReport,
+    
+ nextFollowUp,
+    
     status,
     action: (
       <>
@@ -210,7 +216,7 @@ const PatientsRecords = () => {
     <>
       <ToastContainer />
       <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="+ Add Patient Record" />
+        <Search onAddClick={onAddClick} buttonText=" Add Patient Record" />
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="patientsrecords table">

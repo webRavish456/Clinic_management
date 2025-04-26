@@ -1,292 +1,421 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
+
+
 import {
-  TextField,
-  Grid,
-  useMediaQuery,
-  Button,
-  Box,
-  CircularProgress,
-  MenuItem,
-  FormHelperText,
-  FormControl,
-  Select,
-  InputLabel,
-} from "@mui/material";
+    TextField,
+    Grid,
+    Button,
+    Box,
+    CircularProgress,
+    useMediaQuery,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    FormHelperText,
+  } from "@mui/material";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Cookies from "js-cookie";
+import {  toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
+ 
 
 const schema = yup.object().shape({
-  doctorname: yup.string().required("Doctor Name is required"),
-  mobileNo: yup.string().required("Mobile No. is required"),
-  shiftstartdate: yup.string().required("Shift Start Date is required"),
-  shiftenddate: yup.string().required("Shift End Date is required"),
-  workdays: yup.string().required("Work Days is required"),
-  shifthours: yup.string().required("Shift Hours is required"),
-  shifttype: yup.string().required("Shift Type is required"),
-  availabilityStatus: yup.string().required("Availability Status is required"),
-  
-});
-
-const CreateShiftManagement = ({ handleCreate, handleClose }) => {
-  const isSmScreen = useMediaQuery("(max-width:768px)");
-  const token = Cookies.get("token");
-  const Base_url = process.env.REACT_APP_BASE_URL;
-
-  const [loading, setLoading] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    resolver: yupResolver(schema),
+  doctorName: yup.string().required("doctorName is required"),
+  mobileNo: yup.string().required("mobileNo is required"),
+    department: yup.string().required("department is required"),
+    specialization: yup.string().required("specialization is required"),
+    shiftStartDate: yup.string().required("shiftStartDate is required"),
+    shiftEndDate: yup.string().required("shiftEndDate is required"),
+    workDays: yup.string().required("workDays is required"),
+    shiftHours: yup.string().required("shiftHours is required"),
+    shiftType: yup.string().required("shiftType is required"),
+    availabilityStatus: yup.string().required("availabilityStatus is required"),
+   
+    
   });
+  const doctorNames=[
+    "r.k Sinha"
+  ]
+  const departments=[
+    "r.k Sinha"
+  ]
 
-  const onSubmit = (data) => {
-    setLoading(true);
-    console.log(data);
 
-    const formdata = new FormData();
-    formdata.append("doctorname", data.doctorname);
-    formdata.append("mobileno", data.mobileno);
-    formdata.append("shiftstartdate", data.shiftstartdate);
-    formdata.append("shiftenddate", data.shiftenddate);
-    formdata.append("workdays", data.workdays);
-    formdata.append("shifthours", data.shifthours);
-    formdata.append("shifttype", data.shifttype);
-    formdata.append("availabilitystatus", data.availabilitystatus);
-    const requestOptions = {
-      method: "POST",
-      body: formdata,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+
+
+const CreateShiftManagement =({handleCreate, handleClose})=>
+{   
+  const [doctorAssigned, setdoctorAssigned]= useState([]);
+
+    const token = Cookies.get('token');
+
+    const Base_url = process.env.REACT_APP_BASE_URL;
+
+
+ const [loading, setLoading] = useState(true)
+  
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+      reset,
+    } = useForm({
+      resolver: yupResolver(schema),
+    });
+    useEffect(() => {
+
+      const fetchdoctorData = async () => {
+        try {
+          const response = await fetch(`${Base_url}/appointment`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const result = await response.json();
+          if (result.status === "success") {
+            console.log(result.data)
+  
+            setdoctorAssigned(result.data)
+            setLoading(false)
+          }
+        } catch (error) {
+          console.error("Error fetching doctor data:", error);
+        }
+      };
+      if (loading) {
+        fetchdoctorData();
+      }
+    }, [loading]); //dropdown
+
+    const onSubmit = (data) => {
+    
+       console.log(data)
+        setLoading(true)
+
+       const formdata = new FormData();
+       formdata.append("doctorName", data.doctorName);
+       formdata.append("mobileNo", data.mobileNo);
+       formdata.append("department", data.department);
+       formdata.append("specialization", data.specialization);
+        formdata.append("shiftStartDate", data.shiftStartDate);
+        formdata.append("shiftEndDate", data.shiftEndDate);
+        formdata.append("workDays", data.workDays);
+        formdata.append("shiftHours", data.shiftHours);
+        formdata.append("shiftType", data.shiftType);
+        formdata.append("availabilityStatus", data.availabilityStatus);
+
+       const requestOptions = {
+         method: "POST",
+         body: formdata,
+         headers: {
+           Authorization: `Bearer ${token}`, 
+          },
+       };
+   
+       fetch(`${Base_url}/shiftmanagement`, requestOptions)
+         .then((response) => response.text())
+   
+         .then((result) => {
+   
+           const res = JSON.parse(result)
+   
+           if(res.status==="success")
+           {
+            setLoading(false)
+               
+            toast.success("ShiftManagement Created Successfully!")
+            handleCreate(true)
+            handleClose()
+            reset();
+          }
+          else {
+  
+            setLoading(false)
+            toast.error(res.message)
+  
+          }
+        })
+        .catch((error) => console.error(error));
     };
 
-    fetch(`${Base_url}/shiftmanagement`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => {
-        const res = JSON.parse(result);
+    
+    const isSmScreen = useMediaQuery("(max-width:768px)");
+     return (
+        <>   
+            <form onSubmit={handleSubmit(onSubmit)}>
 
-        if (res.status === "success") {
-          setLoading(false);
-          toast.success("Shift Management Created Successfully!");
-          handleCreate(true);
-          handleClose();
-        } else {
-          setLoading(false);
-          toast.error(res.message);
-        }
-      })
-      .catch((error) => console.error(error));
-  };
-
-  return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container columnSpacing={2}>
-          < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-                    <FormControl fullWidth margin="normal" error={!!errors.doctorname}>
-                        <InputLabel id="department-label">
-                          Doctor Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                        </InputLabel>
-                        <Select
-                          labelId="doctorname-label"
-                          id="doctorname"
-                          label="doctorname"
-
-                          MenuProps={{PaperProps:{style:{maxHeight:200,overflowY:"auto",}}}}
-                          defaultValue=""
-                          {...register("doctorname")}
-                        >
-                          <MenuItem value="Amrita">Amrita</MenuItem>
-                          <MenuItem value="Nitu">Nitu</MenuItem>
-                          <MenuItem value="Ritu">Ritu</MenuItem>
-                          <MenuItem value="Rani">Rani</MenuItem>
-                          <MenuItem value="Suman">Suman</MenuItem>
-                          <MenuItem value="Priyanka">Priyanka</MenuItem>
-                          <MenuItem value="Annu">Annu</MenuItem>
-                          <MenuItem value="Sneha">Sneha</MenuItem>
-                          <MenuItem value="Punam">Punam</MenuItem>
-                          <MenuItem value="Sonal">Sonal</MenuItem>
-                        </Select>
-                        <FormHelperText>{errors.doctorname?.message}</FormHelperText>
-                      </FormControl>
-                      </Grid>
-          
-
-                      <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-                    <FormControl fullWidth margin="normal" error={!!errors.department}>
-                        <InputLabel id="department-label">
-                          Mobile No<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                        </InputLabel>
-                        <Select
-                          labelId="mobileno-label"
-                          id="mobileno"
-                          label="mobileno"
-                          defaultValue=""
-                          {...register("mobileno")}
-                        >
-                          <MenuItem value="complete">Complete</MenuItem>
-                          <MenuItem value="active">Active</MenuItem>
-                          <MenuItem value="uncomplete">Uncomplete</MenuItem>
-                        </Select>
-                        <FormHelperText>{errors.department?.message}</FormHelperText>
-                      </FormControl>
-                      </Grid>
-
-                    
-
-           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  Shift Start Date{" "}
-                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("shiftstartdate")}
-              error={!!errors.shiftstartdate}
+             <Grid container columnSpacing={2}>
+              <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+                                      
+              <FormControl
               fullWidth
               margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.shiftstartdate?.message}
-            </div>
-          </Grid>
+              error={!!errors.doctorAssigned}
+            >
+              <InputLabel>
+                Doctor Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+              </InputLabel>
 
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+              <Select
+                label="doctorName"
+                defaultValue=""
+                {...register("doctorName", { required: "doctor name is required" })}
+              >
+
+                {doctorAssigned.map((appointment, index) => (
+                  <MenuItem key={index} value={appointment.doctorAssigned}>
+                    {appointment.doctorAssigned}
+                  </MenuItem>
+                ))}
+              </Select >
+              <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                {errors.doctorAssigned?.message}
+              </div>
+            </FormControl>
+      
+                                      </Grid>
+
+           
+
+             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+
             <TextField
-              type="text"
-              label={
-                <>
-                  Shift End Date{" "}
-                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("shiftenddate")}
-              error={!!errors.shiftenddate}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.shiftenddate?.message}
-            </div>
-          </Grid>
+            label={
+            <>
+                Mobile No <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="mobileNo"
+            variant="outlined"
+            {...register("mobileNo")}
+            error={!!errors.mobileNo}
+            fullWidth
 
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            margin="normal"
+            />
+
+            </Grid>  <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+                                      
+                                      <TextField
+                                        select
+                                        label={
+                                          <>
+                                            Department <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                                          </>
+                                        }
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        {...register("department")}
+                                        error={!!errors.department}
+                                        helperText={errors.department?.message}
+                                        SelectProps={{
+                                          MenuProps: {
+                                            disableScrollLock: true,
+                                          },
+                                        }}
+                                      >
+                                        {departments.map((method) => (
+                                          <MenuItem key={method} value={method}>
+                                            {method}
+                                          </MenuItem>
+                                        ))}
+                                      </TextField>
+                                                            </Grid>
+                      
+
+            
+
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+
             <TextField
-              type="text"
-              label={
-                <>
-                  Work Days{" "}
-                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("workdays")}
-              error={!!errors.workdays}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.workdays?.message}
-            </div>
-          </Grid>
+            label={
+            <>
+                Specialization <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="specialization"
+            variant="outlined"
+            {...register("specialization")}
+            error={!!errors.specialization}
+            fullWidth
 
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            margin="normal"
+            />
+
+            </Grid> 
+
+
+
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
-              type="text"
-              label={
-                <>
-                  Shift Hours{" "}
-                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("shifthours")}
-              error={!!errors.shifthours}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.shifthours?.message}
-            </div>
-          </Grid>
+            label={
+            <>
+                Shift Start Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="shiftStartDate"
+            variant="outlined"
+            {...register("shiftStartDate")}
+            error={!!errors.shiftStartDate}
+            fullWidth
 
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            margin="normal"
+            />
+
+            </Grid>
+
+
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
-              type="text"
-              label={
-                <>
-                  Shift Type{" "}
-                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("shifttype")}
-              error={!!errors.shifttype}
-              fullWidth
-              margin="normal"
+            label={
+            <>
+                Shift End Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="shiftEndDate"
+            variant="outlined"
+            {...register("shiftEndDate")}
+            error={!!errors.shiftEndDate}
+            fullWidth
+            margin="normal"
             />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.shifttype?.message}
-            </div>
-          </Grid>
+            </Grid>
 
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
-              type="text"
-              label={
-                <>
-                  Availability Status{" "}
-                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("availabilitystatus")}
-              error={!!errors.availabilitystatus}
-              fullWidth
-              margin="normal"
+            label={
+            <>
+                Work Days <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="workDays"
+            variant="outlined"
+            {...register("workDays")}
+            error={!!errors.workDays}
+            fullWidth
+            margin="normal"
             />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.availabilitystatus?.message}
-            </div>
-          </Grid>
-        </Grid>
+            </Grid>
 
-        <Box
-          sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}
-        >
-          <Button onClick={handleClose} className="secondary_button">
-            Cancel
-          </Button>
-          <Button type="submit" className="primary_button">
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Shift Hours <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="shiftHours"
+            variant="outlined"
+            {...register("shiftHours")}
+            error={!!errors.shiftHours}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+
+
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Shift Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="shiftType"
+            variant="outlined"
+            {...register("shiftType")}
+            error={!!errors.shiftType}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+            <TextField
+            label={
+            <>
+                Availability Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+            </>
+            }
+            name="availabilityStatus"
+            variant="outlined"
+            {...register("availabilityStatus")}
+            error={!!errors.availabilityStatus}
+            fullWidth
+            margin="normal"
+            />
+            </Grid>
+
+
+            
+            
+
+            
+
+            {/* <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+                        <TextField
+                          type="text"
+                          label={
+                            <>
+                              Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                            </>
+                          }
+                          variant="outlined"
+                          {...register("Status")}
+                          error={!!errors.Status}
+                          fullWidth
+                          margin="normal"
+                        />
+                        <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                          {errors.Status?.message}
+                        </div>
+                      </Grid> */}
+{/* <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+<FormControl fullWidth margin="normal" error={!!errors.status}>
+  <InputLabel id="status-label">
+    Status<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+  </InputLabel>
+  <Select
+    labelId="status-label"
+    id="status"
+    label="Status"
+    defaultValue=""
+    {...register("status")}
+  >
+    <MenuItem value="complete">Complete</MenuItem>
+    <MenuItem value="active">Active</MenuItem>
+    <MenuItem value="uncomplete">Uncomplete</MenuItem>
+  </Select>
+  <FormHelperText>{errors.status?.message}</FormHelperText>
+</FormControl>
+</Grid> */}
+            </Grid>
+
+            <Box className="submit" sx={{display :'flex', justifyContent : 'flex-end', gap :'10px'}}>
+            <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
+            <Button type="submit"  className="primary_button">
             {loading ? (
-              <>
-                <CircularProgress
-                  size={18}
-                  style={{ marginRight: 8, color: "#fff" }}
-                />
+       <>
+         <CircularProgress size={18} 
+          style={{ marginRight: 8, color: "#fff" }} />
                 Submitting
-              </>
+            </>
             ) : (
-              "Submit"
+            "Submit"
             )}
-          </Button>
-        </Box>
-      </form>
-    </>
-  );
-};
+
+
+            </Button>
+            </Box>
+           </form>
+        </>
+     )
+}
 
 export default CreateShiftManagement;

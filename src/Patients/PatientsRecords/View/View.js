@@ -1,7 +1,7 @@
 import React from "react"
 import { Box, Grid,  useMediaQuery} from "@mui/material";
-
-const ViewRecords =()=>
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+const ViewPatientsRecords =({viewData})=>
 {
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
@@ -12,10 +12,10 @@ const ViewRecords =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
             
             <Grid item xs={6}>
-            <Box className="pageTitle">patientName:</Box> 
+            <Box className="pageTitle">Patient Name:</Box> 
             </Grid>  
             <Grid item xs={6}>
-            <Box className="pageDescription">snehanjali</Box>
+            <Box className="pageDescription">{viewData.patientName}</Box>
             </Grid>
 
             </Grid>
@@ -26,17 +26,17 @@ const ViewRecords =()=>
             <Box className="pageTitle">Treatment:</Box>    
             </Grid>
             <Grid item xs={6}>
-            <Box className="pageDescription">Fever</Box>
+            <Box className="pageDescription">{viewData.patient.treatment}</Box>
             </Grid>
             </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Date Of Admission:</Box> 
+            <Box className="pageTitle">Admission Date:</Box> 
             </Grid>   
             <Grid item xs={6}>
-            <Box className="pageDescription">12/2/23</Box>
+            <Box className="pageDescription">{viewData.patient.admissionDate}</Box>
             </Grid>
 
             </Grid>
@@ -44,59 +44,57 @@ const ViewRecords =()=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Lab Reports:</Box>
+            <Box className="pageTitle">Lab Report:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">test type</Box>
+            <Box className="pageDescription">< PictureAsPdfIcon/></Box>
             </Grid>
 
             </Grid>
+
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Doctor's Notes:</Box>
+            <Box className="pageTitle">Doctor Notes:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">Notes</Box>
+            <Box className="pageDescription">{viewData.doctorNotes}</Box>
             </Grid>
 
-            </Grid>
-            
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+            </Grid><Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
-            <Grid item xs={6}>
-            <Box className="pageTitle">NextFollowUp:</Box>
-            </Grid>
+<Grid item xs={6}>
+<Box className="pageTitle">Next Follow Up:</Box>
+</Grid>
 
-            <Grid item xs={6}>
-            <Box className="pageDescription">Tommrow</Box>
-            </Grid>
+<Grid item xs={6}>
+<Box className="pageDescription">{viewData.nextFollowUp}</Box>
+</Grid>
 
-            </Grid>
-
-
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+</Grid>
+<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
             <Box className="pageTitle">Status:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">Under observation</Box>
+            <Box className="pageDescription">{viewData.patient.status}</Box>
             </Grid>
 
             </Grid>
-
-
-
+            
+           
             </Grid>
+           
+
+            
 
         </>
      )
 }
 
-export default ViewRecords;
+export default ViewPatientsRecords;

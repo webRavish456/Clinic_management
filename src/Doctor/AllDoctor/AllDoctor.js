@@ -31,11 +31,6 @@ import "react-toastify/dist/ReactToastify.css";
 const AllDoctor=()=>
   {
   
-    const [openData, setOpenData] = useState(false)
-  
-    const [viewData, setViewData] = useState(false)
-  
-    const [editData, setEditData] = useState(false)
   
     const [deleteData, setDeleteData] = useState(false)
    
@@ -44,13 +39,12 @@ const AllDoctor=()=>
     const [rows, setRows] = useState([]);
    
    const token = Cookies.get("token");
-      const Base_url = process.env.REACT_APP_BASE_URL;
 
-      const navigate = useNavigate();
+    const Base_url = process.env.REACT_APP_BASE_URL;
+
+    const navigate = useNavigate();
    
-  
-   
-      const handleView = (id) =>
+    const handleView = (id) =>
     {
       navigate(`/viewDoctor/${id}`)
     }
@@ -78,7 +72,6 @@ const columns = [
  
   {id: 'qualification',label: 'Qualification ',flex:1,align: 'center',},
   {id: 'experience',label: 'Experience',flex:1,align: 'center', },
-
 
   {id: 'joiningDate',label: 'Joining Date', flex:1, align: 'center',},
   {id: 'status',label: ' Availability Status',flex:1,align: 'center', },
@@ -130,16 +123,16 @@ useEffect(() => {
 }, [loading]);
 
 
-function createData(si, doctorName, mobileNumber, emailId, address, specialization, qualification, experience, joiningDate,status ) {
-  return { si, doctorName, mobileNumber, emailId, address, specialization, qualification, experience,joiningDate , status, action: (
+function createData(si,id, doctorName, mobileNumber, emailId, address, specialization, qualification, experience, joiningDate,status ) {
+  return { si, id ,doctorName, mobileNumber, emailId, address, specialization, qualification, experience,joiningDate , status, action: (
       <>
-      <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={handleView}>
+      <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleView(id)}>
         <VisibilityIcon />
       </IconButton>
-      <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px", transform:"scale(0.8)"}} onClick={handleEdit}>
+      <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleEdit(id)}>
         <EditIcon />
       </IconButton>
-      <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px", transform:"scale(0.8)"}} onClick={handleDelete}>
+      <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleDelete(id)}>
         <DeleteIcon />
       </IconButton>
       </>
@@ -168,22 +161,9 @@ const [page, setPage] = React.useState(0);
     }
 
     const handleClose = () => {
-      setEditData(false)
-      setViewData(false)
-      setOpenData(false)
       setDeleteData(false)
    };
 
-   const handleSubmit = (e) => {
-     e.preventDefault();
-     setOpenData(false)
-     // console.log("Form Data Submitted:", formData);
-   }
-
-   const handleUpdate = (e) => {
-      e.preventDefault();
-      setEditData(false)
-   }
 
 
   return (
