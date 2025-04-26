@@ -22,6 +22,8 @@ import Expense from "./Finance/Expense/Expense";
 import CreateDoctor from "./Doctor/AllDoctor/Create/Create";
 import ViewDoctor from "./Doctor/AllDoctor/View/View";
 import EditDoctor from "./Doctor/AllDoctor/Edit/Edit";
+import Profile from "./MyProfile/MyProfile";
+
 import ProtectedRoute from "./Component/ProtectedRoute/ProtectedRoute";
 
 
@@ -58,6 +60,9 @@ function App() {
           <Route path="finance/income" element={<Income />} />
           <Route path="finance/expense" element={<Expense />} />
           <Route path="createstaff" element={<CreateStaff />} />
+
+        <Route path="/profile" element={<Profile/>}/>
+
           <Route path="viewstaff/:Id" element={<ViewStaff/>}/>
         <Route path="editstaff/:Id" element={<EditStaff/>}/>
     

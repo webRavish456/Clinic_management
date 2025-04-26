@@ -6,6 +6,11 @@ import {
     Button,
     Box,
     CircularProgress,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    FormHelperText,
   } from "@mui/material";
 
 import { useForm } from "react-hook-form";
@@ -249,7 +254,26 @@ const CreateAllPatients =({handleCreate, handleClose})=>
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.admissionDate?.message}
             </div>
-          </Grid>
+          </Grid> 
+          < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          <FormControl fullWidth margin="normal" error={!!errors.taskStatus}>
+              <InputLabel id="taskStatus-label">
+                Status<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+              </InputLabel>
+              <Select
+                labelId="Status-label"
+                id="Status"
+                label="Status"
+                defaultValue=""
+                {...register("Status")}
+              >
+                <MenuItem value="complete">Complete</MenuItem>
+                <MenuItem value="active">Active</MenuItem>
+                <MenuItem value="uncomplete">Uncomplete</MenuItem>
+              </Select>
+              <FormHelperText>{errors.taskStatus?.message}</FormHelperText>
+            </FormControl>
+            </Grid>
 
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField

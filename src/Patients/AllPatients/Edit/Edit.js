@@ -83,7 +83,7 @@ const EditPatient =({handleCreate, editData, handleClose})=>
           formdata.append("address", data.address);
           formdata.append("admissionDate", data.admissionDate);
           formdata.append("bloodGroup", data.bloodGroup);
-          formdata.append("medicalHistory", data.medicalHistory);
+          formdata.append("medicalHistory", data.medicalHistory[0]);
       
           const requestOptions = {
             method: "PATCH",

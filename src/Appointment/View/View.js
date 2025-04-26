@@ -23,47 +23,18 @@ const ViewAppointment =({viewData})=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Doctor:</Box>    
+            <Box className="pageTitle">Treatment:</Box>    
             </Grid>
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.doctor}</Box>
+            <Box className="pageDescription">{viewData.treatment}</Box>
             </Grid>
             </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Gender:</Box> 
+            <Box className="pageTitle">Mobile:</Box> 
             </Grid>   
-            <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.gender}</Box>
-            </Grid>
-
-            </Grid>
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
-
-            <Grid item xs={6}>
-            <Box className="pageTitle"> Date:</Box>
-            </Grid>
-
-            <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.date}</Box>
-            </Grid>
-
-            
-
-            </Grid>
-
-            
-
-
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
-
-            <Grid item xs={6}>
-            <Box className="pageTitle">Mobile:</Box>
-            </Grid>
-
             <Grid item xs={6}>
             <Box className="pageDescription">{viewData.mobile}</Box>
             </Grid>
@@ -73,11 +44,40 @@ const ViewAppointment =({viewData})=>
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
             <Grid item xs={6}>
-            <Box className="pageTitle">Email:</Box>
+            <Box className="pageTitle"> Email Id:</Box>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.email}</Box>
+            <Box className="pageDescription">{viewData.emailId}</Box>
+            </Grid>
+
+            
+
+            </Grid>
+
+            
+
+
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+
+            <Grid item xs={6}>
+            <Box className="pageTitle">Gender:</Box>
+            </Grid>
+
+            <Grid item xs={6}>
+            <Box className="pageDescription">{viewData.gender}</Box>
+            </Grid>
+
+            </Grid>
+
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+
+            <Grid item xs={6}>
+            <Box className="pageTitle">Department:</Box>
+            </Grid>
+
+            <Grid item xs={6}>
+            <Box className="pageDescription">{viewData.department}</Box>
             </Grid>
 
 
@@ -85,16 +85,49 @@ const ViewAppointment =({viewData})=>
             </Grid>
 
 <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+
+<Grid item xs={6}>
+<Box className="pageTitle">Specialization:</Box>
+</Grid>
+
+<Grid item xs={6}>
+<Box className="pageDescription">{viewData.specialization}</Box>
+</Grid></Grid>
+
+<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+
+<Grid item xs={6}>
+<Box className="pageTitle">Assigned Doctor:</Box>
+</Grid>
+
+<Grid item xs={6}>
+<Box className="pageDescription">{viewData.doctorAssigned}</Box>
+</Grid>
+            </Grid>
+
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+
+<Grid item xs={6}>
+<Box className="pageTitle">Date:</Box>
+</Grid>
+
+<Grid item xs={6}>
+<Box className="pageDescription">{viewData.date}</Box>
+</Grid>
+            </Grid>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
 <Grid item xs={6}>
 <Box className="pageTitle">Appointment Status:</Box>
 </Grid>
 
 <Grid item xs={6}>
-<Box className="pageDescription">{viewData.appointmentstatus}</Box>
-</Grid></Grid>
+<Box className="pageDescription">{viewData.appointmentStatus}</Box>
+</Grid>
+            </Grid>
+            </Grid>
 
-<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+            <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
 <Grid item xs={6}>
 <Box className="pageTitle">Visit Type:</Box>
@@ -104,13 +137,6 @@ const ViewAppointment =({viewData})=>
 <Box className="pageDescription">{viewData.visitType}</Box>
 </Grid>
             </Grid>
-
-            
-            </Grid>
-
-
-
-          
 
         </>
      )

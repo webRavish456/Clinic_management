@@ -26,8 +26,8 @@ import Cookies from 'js-cookie';
 const schema = yup.object().shape({
    labName: yup.string().required("Lab Name is required"),
      labType: yup.string().required("Lab Type is required"),
-     AssigneeStaff: yup.string().required("Assignee Staff is required"),
-     Shift: yup.string().required("Shift is required"),
+     assigneeStaff: yup.string().required("Assignee Staff is required"),
+     shift: yup.string().required("Shift is required"),
     
   });
 
@@ -58,7 +58,7 @@ const CreateAllLab =({handleCreate, handleClose})=>
        const formdata = new FormData();
        formdata.append("labName", data.labName);
        formdata.append("labType", data.labType);
-       formdata.append("assigneeStaff", data.AssigneeStaff);
+       formdata.append("assigneeStaff", data.assigneeStaff);
        formdata.append("shift", data.Shift);
         
        const requestOptions = {
@@ -146,10 +146,10 @@ const CreateAllLab =({handleCreate, handleClose})=>
                 Assignee Staff <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="AssigneeStaff"
+            name="assigneeStaff"
             variant="outlined"
-            {...register("AssigneeStaff")}
-            error={!!errors.AssigneeStaff}
+            {...register("assigneeStaff")}
+            error={!!errors.assigneeStaff}
             fullWidth
             margin="normal"
             />
@@ -162,10 +162,10 @@ const CreateAllLab =({handleCreate, handleClose})=>
                 Shift <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
             </>
             }
-            name="Shift"
+            name="shift"
             variant="outlined"
-            {...register("Shift")}
-            error={!!errors.Shift}
+            {...register("shift")}
+            error={!!errors.shift}
             fullWidth
             margin="normal"
             />
