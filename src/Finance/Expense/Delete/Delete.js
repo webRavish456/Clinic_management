@@ -5,12 +5,13 @@ const DeleteExpense= ({handleClose,isDeleting, handleDelete}) =>
 {
      return (
      <>
-           <Box sx={{height:'40px' ,width:'500px'}}>
+          <Box sx={{bgcolor: 'background.paper',textAlign:'flex-end' }}>
              Are you sure want to delete?
            </Box>
-           <Box className="submit" sx={{display:'flex', justifyContent:'flex-end',gap:'10px',margin:'10px 0px 10px 10px'}}>
+           <Box className="submit" style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', margin: '20px 0px 0px'}}>
             <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleDelete} className="delete_button">
+            <Button  onClick={handleDelete} className="delete_button">
+           
             {isDeleting ? ( <>
             <CircularProgress
             size={18}
@@ -21,7 +22,9 @@ const DeleteExpense= ({handleClose,isDeleting, handleDelete}) =>
             )   : 
                "Delete"
            }
+
             </Button>
+
             </Box>
      </>
      )

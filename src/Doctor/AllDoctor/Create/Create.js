@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     TextField,
     MenuItem,
@@ -18,7 +18,7 @@ import {
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {  toast } from "react-toastify";
+import {  toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
@@ -60,6 +60,14 @@ const CreateDoctor = () => {
      
        const [loading, setLoading] = useState(false)
 
+       const [branch, setBranch] = useState([])
+
+       const [department, setDepartment] =useState([])
+
+       const [specialization, setSpecialization] = useState([])
+
+       const [loadingData, setLoadingData] = useState(true)
+
        const navigate= useNavigate()
      
        const {
@@ -72,12 +80,74 @@ const CreateDoctor = () => {
    
     });
 
+    useEffect(() => {
+        const fetchBranchData = async () => {
+          try {
+            const response = await fetch(`${Base_url}/branch`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+      
+            const result = await response.text();
+            const res = JSON.parse(result);
+      
+            if (res.status === "success") {
+              const formattedData = res.data.map((item) => item.branchName);
+              setBranch(formattedData);
+            }
+          } catch (error) {
+            console.error("Error fetching branch data:", error);
+          }
+        };
+      
+        const fetchDepartmentData = async () => {
+          try {
+            const response = await fetch(`${Base_url}/department`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+      
+            const result = await response.text();
+            const res = JSON.parse(result);
+      
+            if (res.status === "success") {
+              const formattedDepartment = res.data.map((item) => item.departmentName);
+              const formattedSpecialization = res.data.map((item) => item.specialization);
+      
+              setDepartment(formattedDepartment);
+              setSpecialization(formattedSpecialization);
+            }
+          } catch (error) {
+            console.error("Error fetching department data:", error);
+          }
+        };
+      
+        const fetchData = async () => {
+          try {
+            await Promise.all([fetchBranchData(), fetchDepartmentData()]);
+            setLoadingData(false);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+            setLoadingData(false);
+          }
+        };
+      
+        if (loadingData) {
+          fetchData();
+        }
+      
+      }, [loadingData]);
+      
+       
+
     const onSubmit = (data) => {
     
         setLoading(true)
         
-        console.log(data)
-
         const companyDetails = {
             salary: data.salary,
             branchName:data.branchName,
@@ -155,8 +225,10 @@ const CreateDoctor = () => {
             }
       
     return (
-      
-             <form onSubmit={handleSubmit(onSubmit)}>
+            <>
+            <ToastContainer/>
+            
+             <form onSubmit={handleSubmit(onSubmit)} className="overflow">
             <Grid container spacing={6} style={{ padding: "20px" }}>
                 {/* Personal Details */}
                 <Grid item xs={6}>
@@ -165,7 +237,7 @@ const CreateDoctor = () => {
                             border: "1px solid #ccc",
                             padding: "20px",
                             borderRadius: "8px",
-                            marginBottom: "20px",
+                            backgroundColor:"#ffffff"
                         }}
                     >
                         <Typography variant="h6" gutterBottom>
@@ -346,6 +418,7 @@ const CreateDoctor = () => {
                             padding: "20px",
                             borderRadius: "8px",
                             marginBottom: "20px",
+                            backgroundColor:"#ffffff"
                         }}
                     >
                         <Typography variant="h6" gutterBottom>
@@ -478,7 +551,7 @@ const CreateDoctor = () => {
 
 
                 <Grid item xs={6}>
-                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
+                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px",  backgroundColor:"#ffffff" }}>
                         <Typography variant="h6" gutterBottom>
                             Document Details
                         </Typography>
@@ -579,7 +652,7 @@ const CreateDoctor = () => {
                 </Grid>
 
                 <Grid item xs={6}>
-                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
+                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" ,  backgroundColor:"#ffffff"}}>
                         <Typography variant="h6" gutterBottom>
                             Bank Details
                         </Typography>
@@ -640,8 +713,7 @@ const CreateDoctor = () => {
                                     </div>
                                 </Box>
                                 
-                            </Grid>
-                            <Grid item xs={12}>
+                    
                             <Box>
                                 <TextField
                                     type="text"
@@ -701,9 +773,9 @@ const CreateDoctor = () => {
                         </Grid>
                     </Box>
                 </Grid>
-                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2, width:"100%" }}>
                 <Button onClick={handleCancel} className="secondary_button">
-            Cancel
+                Cancel
                 </Button>
                 <Button type="submit" className="primary_button">
 
@@ -720,7 +792,8 @@ const CreateDoctor = () => {
              </Button>
              </Box>
             </Grid>
-            </form>   
+            </form> 
+            </>  
    
     );
 };

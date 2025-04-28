@@ -64,12 +64,12 @@ const ViewDoctor = () => {
     
     return (
      
-            
+            <Box className="overflow">      
             <Grid container spacing={6} padding={3}>
    
              <Grid item xs={12} md={6}>
    
-             <Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3 }}>
+             <Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3, backgroundColor:"#ffffff" }}>
      
                <Typography variant="h6" gutterBottom>
                 Personal Details
@@ -103,13 +103,13 @@ const ViewDoctor = () => {
                                     />
                                 
                                 <FormControl component="fieldset" margin="normal">
-                                <FormLabel>Gender</FormLabel>
-                                <RadioGroup row value={formData.gender || ""}>
-                                 <FormControlLabel value="male" control={<Radio />} label="Male" />
-                                 <FormControlLabel value="female" control={<Radio />} label="Female" />
-                                 <FormControlLabel value="others" control={<Radio />} label="Others" />
-                               </RadioGroup>
-                              </FormControl>
+                              <FormLabel>Gender</FormLabel>
+                              <RadioGroup row value={formData.gender || ""}>
+                                <FormControlLabel value="male" control={<Radio />} label="Male" />
+                                <FormControlLabel value="female" control={<Radio />} label="Female" />
+                                <FormControlLabel value="others" control={<Radio />} label="Others" />
+                              </RadioGroup>
+                            </FormControl>
                                 
                             </Grid>
                             <Grid item xs={6}>
@@ -147,7 +147,7 @@ const ViewDoctor = () => {
 
                 <Grid item xs={12} md={6}>
 
-        <Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3 }}>
+        <Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3, backgroundColor:"#ffffff" }}>
           <Typography variant="h6" gutterBottom>
             Company Details
           </Typography>
@@ -174,7 +174,7 @@ const ViewDoctor = () => {
       </Grid>
                               
       <Grid item xs={12} md={6}>
-      <Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3 }}>
+      <Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3,backgroundColor:"#ffffff" }}>
           <Typography variant="h6" gutterBottom>
             Document Details
           </Typography>
@@ -200,7 +200,7 @@ const ViewDoctor = () => {
 
       <Grid item xs={12} md={6}>
 
-        <Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3 }}>
+        <Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3, backgroundColor:"#ffffff" }}>
            <Typography variant="h6" gutterBottom>
             Bank Details
            </Typography>
@@ -219,7 +219,7 @@ const ViewDoctor = () => {
          </Box>
     </Grid>
  </Grid>
-     
+ </Box> 
 
     
      );

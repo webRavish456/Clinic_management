@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-
-import CloseIcon from "@mui/icons-material/Close";
 import Search from "../../Search/Search";
 import { useNavigate } from "react-router-dom";
 
@@ -37,8 +34,12 @@ const AllDoctor=()=>
     const [loading, setLoading] = useState(true)
 
     const [rows, setRows] = useState([]);
+
+    const [deleteId, setDeleteId] =useState()
+
+    const [isDeleting, setIsDeleting] = useState(false);
    
-   const token = Cookies.get("token");
+    const token = Cookies.get("token");
 
     const Base_url = process.env.REACT_APP_BASE_URL;
 
@@ -56,11 +57,35 @@ const AllDoctor=()=>
   
   const handleDelete = () =>
     {
-      setDeleteData(true)
+      
+      setIsDeleting(true);
+      fetch(`${Base_url}/alldoctor/${deleteId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.text())
+        .then((result) => {
+          const res = JSON.parse(result);
+          if (res.status === "success") {
+            toast.success("Staff deleted successfully!");
+          setLoading(true);
+          } else {
+            toast.error(res.message);
+          }
+          setIsDeleting(false);
+          handleClose();
+        })
+        .catch((error) => {
+          console.error("Delete error:", error);
+          setIsDeleting(false);
+        });
     }
   
 
 const columns = [
+
   { id: 'si', label: 'SI.No', flex:1, align:'center' },
   { id: 'doctorName', label: 'Doctor Name', flex:1, align:'center' },
   
@@ -78,6 +103,14 @@ const columns = [
   {id: 'action',label: 'Actions', flex:1,align: 'center', },
  
 ];
+
+const handleShowDelete = (Id) => {
+
+    setDeleteData(true)
+    setDeleteId(Id)
+}
+
+
 useEffect(() => {
 
   const fetchDoctorData = async () => {
@@ -92,11 +125,12 @@ useEffect(() => {
       const result = await response.text();
       const res = JSON.parse(result);
 
-
       if (res.status === "success") {
         setLoading(false);
-        const formattedData = res.data.map((item, index) =>
-          createData(
+        const formattedData = res.data.map((item, index) => {
+          const formattedJoiningDate = new Date(item.companyDetails.joiningDate).toLocaleDateString("en-GB");
+        
+          return createData(
             index + 1,
             item._id,
             item.doctorName,
@@ -106,11 +140,13 @@ useEffect(() => {
             item.companyDetails.specialization,
             item.qualification,
             item.experience,
-            item.availabilityStatus,
-            item.companyDetails.joiningDate
-            )
-        );
+            formattedJoiningDate,  
+            item.availabilityStatus
+          );
+        });
+        
         setRows(formattedData);
+        
       }
     } catch (error) {
       console.error("Error fetching doctor data:", error);
@@ -132,7 +168,7 @@ function createData(si,id, doctorName, mobileNumber, emailId, address, specializ
       <IconButton style={{color:"rgb(98, 99, 102)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleEdit(id)}>
         <EditIcon />
       </IconButton>
-      <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleDelete(id)}>
+      <IconButton style={{color:"rgb(224, 27, 20)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleShowDelete(id)}>
         <DeleteIcon />
       </IconButton>
       </>
@@ -140,11 +176,8 @@ function createData(si,id, doctorName, mobileNumber, emailId, address, specializ
    };
 }
 
-
-
-
-const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -167,6 +200,8 @@ const [page, setPage] = React.useState(0);
 
 
   return (
+    <>
+       <ToastContainer/>
     <Box className="container" sx={{flexGrow:1,overflowY: "auto" , height:"100vh",}}>
       <Search onAddClick={onAddClick} buttonText="+Add Doctor"/>
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -226,14 +261,14 @@ const [page, setPage] = React.useState(0);
       </>}
       
       dialogContent = {
-         deleteData? <DeleteDoctor handleDelete={handleDelete} handleClose={handleClose} />:null
+         deleteData? <DeleteDoctor handleDelete={handleDelete} isDeleting={isDeleting} handleClose={handleClose} />:null
         
       }
 
       />
 
-   
     </Box>
+    </>
   );
 }
 

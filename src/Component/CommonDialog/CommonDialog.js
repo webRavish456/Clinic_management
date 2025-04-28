@@ -7,15 +7,15 @@ import {
     IconButton,
    
   } from "@mui/material";
+
 import CloseIcon from "@mui/icons-material/Close";
 
 
 const CommonDialog = ({open, onClose, dialogTitle, dialogContent}) =>
 {
       
-
      return (
-        <>
+       
              <Dialog
         open={open}
         onClose={onClose}
@@ -23,6 +23,13 @@ const CommonDialog = ({open, onClose, dialogTitle, dialogContent}) =>
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         style={{padding:"0px"}}
+        PaperProps={{
+         sx: {
+           padding: 0,
+           minWidth: { xs: '90%', sm: 500 },
+           maxWidth: '600px', 
+         },
+       }}
       >
          {open &&  <DialogTitle id="alert-dialog-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             {dialogTitle}
@@ -32,7 +39,7 @@ const CommonDialog = ({open, onClose, dialogTitle, dialogContent}) =>
       </DialogTitle>
          }
          {open &&
-         <DialogContent>
+         <DialogContent >
           <DialogContentText id="alert-dialog-description">
 
           {dialogContent}
@@ -43,7 +50,7 @@ const CommonDialog = ({open, onClose, dialogTitle, dialogContent}) =>
 }
       </Dialog>
 
-        </>
+
      )
 }
 

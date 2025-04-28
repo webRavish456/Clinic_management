@@ -73,7 +73,7 @@ const Staff=()=>
         const res = JSON.parse(result);
         if (res.status === "success") {
           toast.success("Staff deleted successfully!");
-          setLoading(true);
+        setLoading(true);
         } else {
           toast.error(res.message);
         }

@@ -224,7 +224,7 @@ const EditDoctor = () => {
        return (
         <>
             {!loadingdata &&
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit)} className="overflow">
                  <Grid container spacing={6} style={{ padding: "20px" }}>
                             
            
@@ -234,7 +234,7 @@ const EditDoctor = () => {
                             border: "1px solid #ccc",
                             padding: "20px",
                             borderRadius: "8px",
-                            marginBottom: "20px",
+                            backgroundColor:"#ffffff"
                         }}
                     >
                         <Typography variant="h6" gutterBottom>
@@ -419,7 +419,7 @@ const EditDoctor = () => {
                                     border: "1px solid #ccc",
                                     padding: "20px",
                                     borderRadius: "8px",
-                                    marginBottom: "20px",
+                                    backgroundColor:"#ffffff"
                                 }}
                             >
                                 <Typography variant="h6" gutterBottom>
@@ -532,28 +532,28 @@ const EditDoctor = () => {
 
                         <Grid item xs={12} md={6}>
 
-<Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3 }}>
-<Typography variant="h6" gutterBottom>
-    Document Details
-</Typography>
-{[
-    { label: "Highest Qualification Certificate", name: "highestQualificationCertificate", file: "certificate.pdf" },
-    { label: "Resume", name: "resumeCertificate", file: "resume.pdf" },
-    { label: "license Certificate", name: "licenseCertificate", file: "licenseCertificate.pdf" },
-    { label: "Aadhar Document", name: "aadharCard", file: "aadhar.pdf" },
-    { label: "PAN Card Document", name: "panCard", file: "panCard.pdf" }
-].map(({ label, name, file }) => (
-    <Box key={name} marginBottom={2}>
-      <TextField 
-        InputLabelProps={{ shrink: true }}
-        type="file"
-        label={label}
-        variant="outlined"
-        {...register(name)}
-        error={!!errors[name]}
-        fullWidth
-        margin="normal"
-      />
+            <Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3, backgroundColor:"#ffffff" }}>
+            <Typography variant="h6" gutterBottom>
+                Document Details
+            </Typography>
+            {[
+                { label: "Highest Qualification Certificate", name: "highestQualificationCertificate", file: "certificate.pdf" },
+                { label: "Resume", name: "resumeCertificate", file: "resume.pdf" },
+                { label: "license Certificate", name: "licenseCertificate", file: "licenseCertificate.pdf" },
+                { label: "Aadhar Document", name: "aadharCard", file: "aadhar.pdf" },
+                { label: "PAN Card Document", name: "panCard", file: "panCard.pdf" }
+            ].map(({ label, name, file }) => (
+                <Box key={name} marginBottom={2}>
+                <TextField 
+                    InputLabelProps={{ shrink: true }}
+                    type="file"
+                    label={label}
+                    variant="outlined"
+                    {...register(name)}
+                    error={!!errors[name]}
+                    fullWidth
+                    margin="normal"
+                />
   
       {existingDocuments?.[name] && (
         <Typography variant="body2" sx={{ mt: 1 }}>
@@ -579,7 +579,7 @@ const EditDoctor = () => {
 
 </Grid>
                <Grid item xs={6}>
-                                   <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
+                                   <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px", backgroundColor:"#ffffff" }}>
                                        <Typography variant="h6" gutterBottom>
                                            Bank Details
                                        </Typography>
@@ -705,7 +705,7 @@ const EditDoctor = () => {
                                        </Grid>
                                    </Box>
                                </Grid>
-                               <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+                               <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2, width:"100%" }}>
                                <Button onClick={handleCancel} className="secondary_button">
                                 Cancel
                                </Button>

@@ -5,12 +5,13 @@ const DeleteLabTest = ({handleClose, isDeleting, handleDelete}) =>
 {
      return (
      <>
-           <Box sx={{ width: '400px', padding: '20px', bgcolor: 'background.paper',textAlign:'flex-end' }}>
+           <Box sx={{bgcolor: 'background.paper',textAlign:'flex-end' }}>
              Are you sure want to delete?
            </Box>
-           <Box className="submit" sx={{ display: "flex", gap: 1, marginTop: 2, justifyContent: "flex-end", width: 500}}>
+           <Box className="submit" style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', margin: '20px 0px 0px'}}>
             <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
-            <Button onClick={handleDelete} className="delete_button" >
+            <Button  onClick={handleDelete} className="delete_button">
+           
             {isDeleting ? ( <>
             <CircularProgress
             size={18}
@@ -21,7 +22,9 @@ const DeleteLabTest = ({handleClose, isDeleting, handleDelete}) =>
             )   : 
                "Delete"
            }
+
             </Button>
+
             </Box>
      </>
      )
