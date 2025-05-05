@@ -156,16 +156,17 @@ const ViewDoctor = () => {
 
             <Grid item xs={6}>
               <TextField fullWidth label="Branch Name" value={formData.companyDetails?.branchName || ""} margin="normal" />
-              <TextField fullWidth label="Specialization" value={formData.companyDetails?.specialization || ""} margin="normal" />
               <TextField fullWidth label="Department" value={formData.companyDetails?.department || ""} margin="normal" />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField fullWidth label="Salary" value={formData.companyDetails?.salary || ""} margin="normal" />
               <TextField fullWidth  label="Joining Date" InputLabelProps={{ shrink: true }} value={
                     formData.companyDetails
                     ? new Date(formData.companyDetails.joiningDate).toLocaleDateString("en-GB")
                     : ""
                 } margin="normal" />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField fullWidth label="Salary" value={formData.companyDetails?.salary || ""} margin="normal" />
+              <TextField fullWidth label="Specialization" value={formData.companyDetails?.specialization || ""} margin="normal" />
+              
             </Grid>
           </Grid>
 

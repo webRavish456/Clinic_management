@@ -85,7 +85,7 @@ const ViewPatient =({viewData})=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.admissionDate}</Box>
+            <Box className="pageDescription">{new Date(viewData.admissionDate).toLocaleDateString("en-IN")}</Box>
             </Grid>
 
             </Grid>

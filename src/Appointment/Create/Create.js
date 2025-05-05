@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Grid,
@@ -29,91 +29,38 @@ const schema = yup.object().shape({
   emailId: yup.string().required("Email Id is required"),
   gender: yup.string().required("Gender is required"),
   department: yup.string().required("Department is required"),
-  specialization: yup
-    .array()
-    .of(yup.string())
-    .min(1, "Select at least one specialization")
-    .required("Specialization is required"),
+  specialization: yup.string().required("specialization is required"),
   doctorAssigned: yup.string().required("Assigned Doctor is required"),
   appointmentDate: yup.string().required("Appointment Date is required"),
   appointmentStatus: yup.string().required("Appointment Status is required"),
   visitType: yup.string().required("Visit Type is required"),
 });
 
-const departmentData = {
-  Cardiology: {
-    specialization: ["Heart Diseases", "Arrhythmia", "Hypertension", "Heart Failure", "Angioplasty"],
-    doctors: ["Dr. Avi Sharma", "Dr. Pankaj Verma"],
-  },
-  Gynecology: {
-    specialization: ["Female reproductive health", "Pregnancy", "Menstruation", "Menopause", "Fertility"],
-    doctors: ["Dr. N. Patel", "Dr. R. Mehta"],
-  },
-  Neurology: {
-    specialization: ["Brain and Nervous system disorders", "Epilepsy", "Parkinson’s", "Stroke"],
-    doctors: ["Dr. Nidhi Agarwal", "Dr. Rahul Sharma"],
-  },
-  Pediatrics: {
-    specialization: ["Child Health", "Vaccinations", "Growth disorders", "Pediatric infections"],
-    doctors: ["Dr. Nita Ambani", "Dr. Rounak Mehta"],
-  },
-  Orthopedics: {
-    specialization: ["Bones", "Joints", "Fractures", "Arthritis", "Spinal Problems", "Sports injuries"],
-    doctors: ["Dr. Nishant Patodi", "Dr. Amit Ghosh"],
-  },
-  ENT: {
-    specialization: ["Hearing issues", "Sinus Problems", "Throat infections", "Tonsillitis"],
-    doctors: ["Dr. Megha Banarjee", "Dr. Sunita kumari"],
-  },
-  GeneralMedicine: {
-    specialization: ["Primary care", "Diabetes", "Hypertension", "Infections", "Routine checkups"],
-    doctors: ["Dr. Riya Bhattacharjee", "Dr. R.k Rathore"],
-  },
-  Dermatology: {
-    specialization: ["Skin Specialist"],
-    doctors: ["Dr. Barnali Chattopadhya", "Dr.Bhumika Das"],
-  },
-  Psychiatry: {
-    specialization: ["Mental health", "Depression", "Anxiety", "Bipolar disorder", "Schizophrenia"],
-    doctors: ["Dr. Nil Das", "Dr. Madhabi Das"],
-  },
-  Oncology: {
-    specialization: ["Cancer treatment", "Tumor management"],
-    doctors: ["Dr. Susmita Sen", "Dr. Risa Khan"],
-  },
-  Urology: {
-    specialization: ["Kidney", "Bladder", "Prostate", "Urinary infections", "Male reproductive health"],
-    doctors: ["Dr. Zuhi Chawla", "Dr. Asit Modi"],
-  },
-  Gastroenterology: {
-    specialization: ["Digestive system", "Liver disease", "Acid reflux", "IBS", "Colonoscopy"],
-    doctors: ["Dr. Kamla Prasad", "Dr. Anil Khurana"],
-  },
-  Nephrology: {
-    specialization: ["Kidney health", "Dialysis", "Chronic kidney disease", "kidney transplants"],
-    doctors: ["Dr. Kajao Singh", "Dr. Rani Mukherjee"],
-  },
-  Pulmonology: {
-    specialization: ["Lungs and respiratory system", "Asthma", "COPD", "Pneumonia", "Sleep apnea"],
-    doctors: ["Dr. Moni Ghosh", "Dr. Shreya Sangiri"],
-  },
-  Endocrinology: {
-    specialization: ["Hormonal disorders", "Diabetes", "Thyroid", "PCOS", "Adrenal issues"],
-    doctors: ["Dr. Kiya Dey", "Dr. Asutosh Dey"],
-  },
-};
+
 
 const visitTypes = ["New Patient", "Follow-up"];
-const gender = ["Male", "Female", "Other"];
 const appointmentStatuses = ["Scheduled", "Completed", "Cancelled"];
 
 const CreateAppointment = ({ handleCreate, handleClose }) => {
-  const isSmScreen = useMediaQuery("(max-width:768px)");
+
+
+
   const token = Cookies.get('token');
+
   const Base_url = process.env.REACT_APP_BASE_URL;
+
   const [loading, setLoading] = useState(false);
-  const [specializationOptions, setSpecializationOptions] = useState([]);
-  const [doctorList, setDoctorList] = useState([]);
+
+  const [department, setDepartment] =useState([])
+
+  const [doctor, setDoctor] = useState([])
+
+  const [availiableDoctor, setAvailableDoctor] = useState([])
+
+  const [specialization, setSpecialization] = useState([])
+
+  const [loadingData, setLoadingData] = useState(true)
+
 
   const {
     register,
@@ -124,28 +71,108 @@ const CreateAppointment = ({ handleCreate, handleClose }) => {
     watch,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      specialization: [],
-    }
+ 
   });
 
+
+
+  useEffect(() => {
+    
+  
+    const fetchDepartmentData = async () => {
+      try {
+        const response = await fetch(`${Base_url}/department`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        const result = await response.text();
+        const res = JSON.parse(result);
+  
+        const formattedDepartment = res.data.map((item) => ({
+            departmentName: item.departmentName,
+            specialization: item.specialization,
+          }));
+          
+          setDepartment(formattedDepartment);
+          
+      } catch (error) {
+        console.error("Error fetching department data:", error);
+      }
+    };
+
+    const fetchDoctorData = async () => {
+      try {
+        const response = await fetch(`${Base_url}/alldoctor`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        const result = await response.text();
+        const res = JSON.parse(result);
+  
+        const formattedDoctor = res.data.map((item) => ({
+            doctorName: item.doctorName,
+            specialization: item.companyDetails.specialization
+          }));
+          
+          setDoctor(formattedDoctor);
+          
+      } catch (error) {
+        console.error("Error fetching doctor data:", error);
+      }
+    };
+  
+    const fetchData = async () => {
+      try {
+        await Promise.all([fetchDepartmentData(), fetchDoctorData()]);
+        setLoadingData(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoadingData(false);
+      }
+    };
+  
+    if (loadingData) {
+      fetchData();
+    }
+  
+  }, [loadingData]);
+
+
+  
   const onDepartmentChange = (e) => {
+
     const selectedDept = e.target.value;
-    const deptDetails = departmentData[selectedDept];
+    const deptDetails = department.find((dept) => dept.departmentName === selectedDept);
+  
     if (deptDetails) {
-      setSpecializationOptions(deptDetails.specialization);
-      setDoctorList(deptDetails.doctors);
-      setValue("specialization", []);
-      setValue("doctorAssigned", deptDetails.doctors[0]);
+      setSpecialization(deptDetails.specialization);
     } else {
-      setSpecializationOptions([]);
-      setDoctorList([]);
-      setValue("specialization", []);
-      setValue("doctorAssigned", "");
+      setSpecialization([]);
     }
   };
 
+  const onSpecializationChange = (e) => {
+
+    const selectedSpecialization = e.target.value;
+  
+    const filteredDoctors = doctor.filter(
+      (doc) => doc.specialization === selectedSpecialization
+    );
+
+    setAvailableDoctor(filteredDoctors); 
+  };
+
+
+
   const onSubmit = (data) => {
+
+
     setLoading(true);
     const formdata = new FormData();
     formdata.append("patientName", data.patientName);
@@ -153,6 +180,8 @@ const CreateAppointment = ({ handleCreate, handleClose }) => {
     formdata.append("mobileNo", data.mobileNo);
     formdata.append("emailId", data.emailId);
     formdata.append("gender", data.gender);
+    formdata.append("department", data.department);
+    formdata.append("specialization", data.specialization);
     formdata.append("doctorAssigned", data.doctorAssigned);
     formdata.append("appointmentDate", data.appointmentDate);
     formdata.append("appointmentStatus", data.appointmentStatus);
@@ -182,7 +211,10 @@ const CreateAppointment = ({ handleCreate, handleClose }) => {
       });
   };
 
+
   return (
+
+
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
@@ -243,108 +275,149 @@ const CreateAppointment = ({ handleCreate, handleClose }) => {
 
       
 
-<FormControl component="fieldset" fullWidth margin="normal" error={!!errors.gender}>
-  <FormLabel component="legend" sx={{ marginLeft: 2 }}>Gender <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-  </FormLabel>
-  <RadioGroup row>
-    <FormControlLabel
-      value="Male"
-      control={<Radio sx={{ marginLeft: 2 }} {...register("gender")} />}
-      label="Male"
-    />
-    <FormControlLabel
-      value="Female"
-      control={<Radio sx={{ marginLeft: 2 }} {...register("gender")} />}
-      label="Female"
-    />
-    <FormControlLabel
-      value="Other"
-      control={<Radio sx={{ marginLeft: 2 }} {...register("gender")} />}
-      label="Other"
-    />
-  </RadioGroup>
-  <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-    {errors.gender?.message}
-  </div>
-</FormControl>
+    <FormControl component="fieldset" fullWidth margin="normal" error={!!errors.gender}>
+      <FormLabel component="legend" sx={{ marginLeft: 2 }}>Gender <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+      </FormLabel>
+      <RadioGroup row>
+        <FormControlLabel
+          value="Male"
+          control={<Radio sx={{ marginLeft: 2 }} {...register("gender")} />}
+          label="Male"
+        />
+        <FormControlLabel
+          value="Female"
+          control={<Radio sx={{ marginLeft: 2 }} {...register("gender")} />}
+          label="Female"
+        />
+        <FormControlLabel
+          value="Other"
+          control={<Radio sx={{ marginLeft: 2 }} {...register("gender")} />}
+          label="Other"
+        />
+      </RadioGroup>
+      <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+        {errors.gender?.message}
+      </div>
+    </FormControl>
 
         <Grid item xs={12} sm={6}>
-          <TextField
-            select
-            label={
-              <>
-             Department<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-              </>
-             }
-            fullWidth
-            defaultValue=""
-            {...register("department")}
-            onChange={(e) => {
-              register("department").onChange(e);
-              onDepartmentChange(e);
-            }}
-            error={!!errors.department}
-            helperText={errors.department?.message}
-            SelectProps={{
-            MenuProps:{
-              PaperProps:{
-                style:{maxHeight:200,
-                },
-            },
-          },
-        }}
-          >
-            {Object.keys(departmentData).map((dept) => (
-              <MenuItem key={dept} value={dept}>
-                {dept}
-              </MenuItem>
-            ))}
-          </TextField>
+        <TextField
+               InputLabelProps={{shrink:true}}
+                  select
+                  label={
+                      <>
+                      Department<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                      </>
+                  }
+                  variant="outlined"
+                  error={!!errors.department}
+                  fullWidth
+                  margin="normal"
+                  {...register("department")}
+                  onChange={(e) => {
+                      register("department").onChange(e);
+                      onDepartmentChange(e);
+                  }}
+
+                  SelectProps={{
+                      MenuProps: {
+                      PaperProps: {
+                          style: { maxHeight: 200 },
+                      },
+                      },
+                  }}
+                  sx={{m:"0px"}}
+                  >
+                  {department?.map((dept, index) => (
+                      <MenuItem key={index} value={dept.departmentName}>
+                      {dept.departmentName}
+                      </MenuItem>
+                  ))}
+                  </TextField>
+
+                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                    {errors.department?.message}
+                    </div>
+
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.specialization}>
-            <InputLabel>Specialization <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </InputLabel>
-            <Select
-              multiple
-              value={watch("specialization")}
-              onChange={(e) => setValue("specialization", e.target.value)}
-              renderValue={(selected) => selected.join(", ")}
-            >
-              {specializationOptions.map((spec) => (
-                <MenuItem key={spec} value={spec}>
-                  {spec}
-                </MenuItem>
-                
-              ))}
-            </Select>
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem", marginTop: "4px" }}>
-              {errors.specialization?.message}
-            </div>
-          </FormControl>
+              <TextField
+                        InputLabelProps={{shrink:true}}
+                          select
+                          label={
+                              <>
+                              Specialization
+                              </>
+                          }
+                            variant="outlined"
+                              fullWidth
+                              margin="normal"
+                          {...register("specialization")}
+
+                          onChange={(e) => {
+                            register("specialization").onChange(e);
+                            onSpecializationChange(e);
+                        }}
+                          error={!!errors.specialization}
+                          
+                          SelectProps={{
+                              MenuProps: {
+                              PaperProps: {
+                                  style: { maxHeight: 200 },
+                              },
+                              },
+                          }}
+                          sx={{m:"0px"}}
+                          >
+                          {specialization?.map((spec, index) => (
+                              <MenuItem key={index} value={spec}>
+                              {spec}
+                              </MenuItem>
+                          ))}
+                          </TextField>
+                          
+                          <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                              {errors.specialization?.message}
+                              </div>
+
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          <TextField
-            select
-            label={
-              <>
-            Assigned Doctor<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-              </>
-             }
-            fullWidth
-            defaultValue=""
-            {...register("doctorAssigned")}
-            error={!!errors.doctorAssigned}
-            helperText={errors.doctorAssigned?.message}
-          >
-            {doctorList.map((doc) => (
-              <MenuItem key={doc} value={doc}>
-                {doc}
-              </MenuItem>
-            ))}
-          </TextField>
+        <TextField
+                    InputLabelProps={{shrink:true}}
+                      select
+                      label={
+                          <>
+                      Assigned Doctor <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                          </>
+                      }
+                      variant="outlined"
+                          fullWidth
+                          margin="normal"
+                      {...register("doctorAssigned")}
+                      error={!!errors.doctorAssigned}
+                    
+                      SelectProps={{
+                          MenuProps: {
+                          PaperProps: {
+                              style: { maxHeight: 200 },
+                          },
+                          },
+                      }}
+                      sx={{m:"0px"}}
+                      >
+                      {availiableDoctor?.map((doc, index) => (
+                          <MenuItem key={index} value={doc.doctorName}>
+                          {doc.doctorName}
+                          </MenuItem>
+                      ))}
+                      </TextField>
+                      
+                      <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                          {errors.doctorAssigned?.message}
+                          </div>
+
         </Grid>
 
         <Grid item xs={12} sm={6}>

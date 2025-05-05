@@ -20,18 +20,22 @@ import Cookies from "js-cookie"
 
 const schema = yup.object().shape({
     sourceName: yup.string().required("Source Name is required"),
-    transactionId: yup.string().required("Transaction Id is required"),
+    transactionId: yup.string(),
     description: yup.string().required("Description is required"),
-    dateReceived: yup.string().required(" Date Received is required"),
-   
+    dateReceived: yup.string().required("Date Received is required"),
     amount: yup.string().required("Amount is required"),
     paymentMethod: yup.string().required("Payment Method is required"),
     status: yup.string().required("Status is required"),
-
-
-
     
 });
+
+const statuses = [
+  "Paid",
+  "Pending",
+  "Cancelled",
+  "Failed",
+
+];
 
 const paymentMethods = [
     "Cash",
@@ -66,9 +70,8 @@ const EditIncome= ({ handleUpdate,  editData, handleClose}) => {
             sourceName: editData.sourceName || "",
             transactionId: editData.transactionId || "",
             description: editData.description || "",
-            dateReceived: editData.dateReceived || "",
-          
-            amount: editData.Amount || "",
+            dateReceived: editData.dateReceived ? new Date(editData.dateReceived).toISOString().split("T")[0] : "",
+            amount: editData.amount || "",
             paymentMethod: editData.paymentMethod || "",
             status: editData.status || "",
             
@@ -77,6 +80,7 @@ const EditIncome= ({ handleUpdate,  editData, handleClose}) => {
         }
       }, [editData, reset]);
 
+      console.log(editData)
 
     const onSubmit = (data) => {
 
@@ -129,109 +133,47 @@ const EditIncome= ({ handleUpdate,  editData, handleClose}) => {
 
     return (
         <>
-        <form onSubmit={handleSubmit(onSubmit)}>
-                <Grid container columnSpacing={2}>
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+         <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container columnSpacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Source Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("sourceName")}
+              error={!!errors.sourceName}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.sourceName?.message}
+            </div>
+          </Grid>
 
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Description <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("description")}
+              error={!!errors.description}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.description?.message}
+            </div>
+          </Grid>
 
-                            <TextField
-                            type="text"
-                                label={
-                                    <>
-                                        Source Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                fullWidth
-                                margin="normal"
-                                variant="outlined"
-                                {...register("sourceName")}
-                                error={!!errors.sourceName}
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.sourceName?.message}
-                            </div>
-                        </Grid>
-
-                        
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-                        <TextField
-                                label={
-                                    <>
-                                        Description<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                fullWidth
-                                margin="normal"
-                                type="text"
-                                variant="outlined"
-                                {...register("description")}
-                                error={!!errors.description}
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.description?.message}
-                            </div>
-
-                        </Grid>
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-                        <TextField
-                                label={
-                                    <>
-                                        Transaction Id<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                fullWidth
-                                margin="normal"
-                                type="text"
-                                variant="outlined"
-                                {...register("transactionId")}
-                                error={!!errors.transactionId}
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.transactionId?.message}
-                            </div>
-
-                        </Grid>
-
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-                            <TextField
-                            InputLabelProps={{ shrink: true }}
-                                label={
-                                    <>
-                                     Date Received  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                type="date"
-                                variant="outlined"
-                                {...register("dateReceived")}
-                                error={!!errors.dateReceived}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.dateReceived?.message}
-                            </div>
-                       
-                        </Grid>
-
-                        <Grid item xs={12} sm={12} md={6}>
-                            <TextField
-                                label={
-                                    <>
-                                        Amount <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                type="text"
-                                variant="outlined"
-                                {...register("amount")}
-                                error={!!errors.amount}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.amount?.message}
-                            </div>
-                        </Grid>
-<Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
               select
               label={
@@ -241,6 +183,7 @@ const EditIncome= ({ handleUpdate,  editData, handleClose}) => {
               }
               variant="outlined"
               fullWidth
+              defaultValue={editData.paymentMethod}
               margin="normal"
               {...register("paymentMethod")}
               error={!!errors.paymentMethod}
@@ -257,51 +200,113 @@ const EditIncome= ({ handleUpdate,  editData, handleClose}) => {
                 </MenuItem>
               ))}
             </TextField>
-                       
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={6}>
-  <FormControl fullWidth margin="normal" error={!!errors.status}>
-    <InputLabel id="status-label">
-      Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-    </InputLabel>
-    <Select
-      labelId="status-label"
-      id="status"
-      {...register("status")}
-      defaultValue=""
-    >
-      <MenuItem value="Paid">Paid</MenuItem>
-      <MenuItem value="Pending">Pending</MenuItem>
-      <MenuItem value="Cancelled">Cancelled</MenuItem>
-      <MenuItem value="Failed">Failed</MenuItem>
-    </Select>
-    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-      {errors.status?.message}
-    </div>
-  </FormControl>
-</Grid>
-                </Grid>
-                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+          </Grid>
+
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+            <TextField
+              type="text"
+              InputLabelProps={{shrink:true}}
+              label={
+                <>
+                  Amount <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("amount")}
+              error={!!errors.amount}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.amount?.message}
+            </div>
+          </Grid>
+
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+            <TextField
+              type="text"
+              InputLabelProps={{shrink:true}}
+              label={
+                <>
+                  Transaction Id 
+                </>
+              }
+              variant="outlined"
+              {...register("transactionId")}
+              error={!!errors.transactionId}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.transactionId?.message}
+            </div>
+          </Grid>
+
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+            <TextField
+              InputLabelProps={{ shrink: true }}
+              type="date"
+              label={
+                <>
+                  Date Received <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("dateReceived")}
+              error={!!errors.dateReceived}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.dateReceived?.message}
+            </div>
+          </Grid>
+
+        
+         
+        
+
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+            <TextField
+              select
+              label={
+                <>
+                  Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              defaultValue={editData.status}
+              {...register("status")}
+              error={!!errors.status}
+              helperText={errors.status?.message}
+            >
+              {statuses.map((status) => (
+                <MenuItem key={status} value={status}>
+                  {status}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+        </Grid>
+
+        <Box className="submit" sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
           <Button onClick={handleClose} className="secondary_button">
             Cancel
           </Button>
           <Button type="submit" className="primary_button">
-
-          {loading ? (
-       <>
-         <CircularProgress size={18} 
-          style={{ marginRight: 8, color: "#fff" }} />
+            {loading ? (
+              <>
+                <CircularProgress size={18} style={{ marginRight: 8, color: "#fff" }} />
                 Submitting
-            </>
+              </>
             ) : (
-            "Submit"
+              "Submit"
             )}
-
           </Button>
         </Box>
       </form>
-
-
 
         </>
     )

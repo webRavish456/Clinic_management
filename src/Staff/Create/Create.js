@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     TextField,
     MenuItem,
@@ -18,7 +18,7 @@ import {
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {  toast } from "react-toastify";
+import {  toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
@@ -37,14 +37,29 @@ import { useNavigate } from "react-router-dom";
     address: yup.string().required("address is required"),
     branchName: yup.string().required("Branch name is required"),
     designation: yup.string().required("Designation is required"),
-    department: yup.string().required("Department is required"),
     shift: yup.string().required("Shift is required"),
     salary: yup.string().required("Salary is required"),
     joiningDate: yup.string().required("Joining date is required"),
-    resumeCertificate: yup.mixed().required("Resume is required"),
-    highestQualificationCertificate: yup.mixed().required("Highest qualification certificate is required"),
-    panCard: yup.mixed().required("Pancard  is required"),
-    aadharCard: yup.mixed().required("Aadhar card is required"),
+    resumeCertificate: yup
+    .mixed()
+    .test("required", "Resume Certificate is required", (value) => {
+    return value && value.length > 0;
+    }),
+    highestQualificationCertificate: yup
+    .mixed()
+    .test("required", "Highest qualification certificate is required", (value) => {
+    return value && value.length > 0;
+    }),
+    panCard: yup
+    .mixed()
+    .test("required", "Pan Card is required", (value) => {
+    return value && value.length > 0;
+    }),
+    aadharCard: yup
+    .mixed()
+    .test("required", "Aadhar Card is required", (value) => {
+    return value && value.length > 0;
+    }),
     accountHolderName: yup.string().required("Account holder name is required"),
     bankName: yup.string().required("Bank name is required"),
     ifscCode: yup.string().required("IFSC code is required"),
@@ -61,6 +76,10 @@ const CreateStaff = () => {
      
        const [loading, setLoading] = useState(false)
 
+       const [branch, setBranch] = useState([])
+
+       const [loadingData, setLoadingData] = useState(true)
+
        const navigate= useNavigate()
      
        const {
@@ -73,18 +92,53 @@ const CreateStaff = () => {
    
     });
 
+    useEffect(() => {
+        const fetchBranchData = async () => {
+          try {
+            const response = await fetch(`${Base_url}/branch`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+      
+            const result = await response.text();
+            const res = JSON.parse(result);
+      
+            if (res.status === "success") {
+              const formattedData = res.data.map((item) => item.branchName);
+              setBranch(formattedData);
+            }
+          } catch (error) {
+            console.error("Error fetching branch data:", error);
+          }
+        };
+      
+        const fetchData = async () => {
+          try {
+            await Promise.all([fetchBranchData()]);
+            setLoadingData(false);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+            setLoadingData(false);
+          }
+        };
+      
+        if (loadingData) {
+          fetchData();
+        }
+      
+      }, [loadingData]);
+
     const onSubmit = (data) => {
     
         setLoading(true)
         
-        console.log(data)
-
         const companyDetails = {
             salary: data.salary,
             branchName:data.branchName,
             designation:data.designation,
             joiningDate:data.joiningDate,
-            department:data.department,
             shift:data.shift
           };
          
@@ -157,7 +211,8 @@ const CreateStaff = () => {
 
     return (
         <>
-           
+            <ToastContainer/>
+               <Box className="overflow">
             <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={6} style={{ padding: "20px" }}>
                 
@@ -354,26 +409,41 @@ const CreateStaff = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                             <Box>
-                                <TextField
-                                    type="text"
-                                    label={
-                                        <>
-                                        Branch Name
-                                        </>
-                                    }
-                                    variant="outlined"
-                                    {...register("branchName")}
-                                    error={!!errors.branchName}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.branchName?.message}
-                                    </div>
+                            <TextField
+                            select
+                            label={
+                            <>
+                                Branch Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                            </>
+                            }
+                            variant="outlined"
+                            {...register("branchName")}
+                            error={!!errors.branchName}
+                            fullWidth
+                            margin="normal"
+                            SelectProps={{
+                            MenuProps: {
+                                PaperProps: {
+                                style: { maxHeight: 200 },
+                                },
+                            },
+                            }}
+                            >
+                            {branch?.map((branchName, index) => (
+                            <MenuItem key={index} value={branchName}>
+                                {branchName}
+                            </MenuItem>
+                            ))}
+                            </TextField>
+
+                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                            {errors.branchName?.message}
+                            </div>
                                 </Box>
+                               
                                 <Box>
                                 <TextField
-                                    type="text"
+                                   select
                                     label={
                                         <>
                                         Designation
@@ -384,29 +454,50 @@ const CreateStaff = () => {
                                     error={!!errors.designation}
                                     fullWidth
                                     margin="normal"
-                                />
+                                    SelectProps={{
+                                        MenuProps: {
+                                            PaperProps: {
+                                            style: { maxHeight: 200 },
+                                            },
+                                        },
+                                        }}
+                                >
+                                <MenuItem value ="Compounder">Compounder</MenuItem>
+                                <MenuItem value ="Nurse">Nurse</MenuItem>
+                                <MenuItem value ="Receptionist">Receptionist</MenuItem>
+                                <MenuItem value ="Pharmacist">Pharmacist</MenuItem>
+                                <MenuItem value ="Security Guard">Security Guard</MenuItem>
+                                <MenuItem value ="Ward Boy">Ward Boy</MenuItem>
+                                <MenuItem value ="Accountant">Accountant</MenuItem>
+                                <MenuItem value ="Radiologist">Radiologist</MenuItem>
+                                <MenuItem value ="HR Manager">HR Manager</MenuItem>
+                                    </TextField>
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
                                     {errors.designation?.message}
                                     </div>
                                 </Box>
+
+
                                 <Box>
-                                <TextField
-                                    type="text"
+                                <TextField InputLabelProps={{shrink:true}}
+                                    type="date"
                                     label={
                                         <>
-                                        Department
+                                        Joining Date
                                         </>
                                     }
                                     variant="outlined"
-                                    {...register("department")}
-                                    error={!!errors.department}
+                                    {...register("joiningDate")}
+                                    error={!!errors.joiningDate}
                                     fullWidth
                                     margin="normal"
                                 />
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.department?.message}
+                                    {errors.joiningDate?.message}
                                     </div>
                                 </Box>
+                              
+                              
                                </Grid>
                             <Grid item xs={6}>
                             <Box>
@@ -427,6 +518,7 @@ const CreateStaff = () => {
                                     {errors.shift?.message}
                                     </div>
                                 </Box>
+                              
                                 <Box>
                                 <TextField
                                     type="text"
@@ -445,24 +537,7 @@ const CreateStaff = () => {
                                     {errors.salary?.message}
                                     </div>
                                 </Box>
-                                <Box>
-                                <TextField InputLabelProps={{shrink:true}}
-                                    type="date"
-                                    label={
-                                        <>
-                                        Joining Date
-                                        </>
-                                    }
-                                    variant="outlined"
-                                    {...register("joiningDate")}
-                                    error={!!errors.joiningDate}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.joiningDate?.message}
-                                    </div>
-                                </Box>
+                               
                              </Grid>
                         </Grid>
                     </Box>
@@ -674,9 +749,9 @@ const CreateStaff = () => {
                         </Grid>
                     </Box>
                 </Grid>
-                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2, width:"100%" }}>
                 <Button onClick={handleCancel} className="secondary_button">
-            Cancel
+                  Cancel
                 </Button>
                 <Button type="submit" className="primary_button">
 
@@ -694,6 +769,7 @@ const CreateStaff = () => {
              </Box>
             </Grid>
             </form>
+            </Box>
         </>
     );
 };

@@ -18,8 +18,8 @@ import Cookies from 'js-cookie';
 
 // Validation schema
 const schema = yup.object().shape({
-  expenseCategory: yup.string().required("Expense Category is required"),
-  transactionId: yup.string().required("Transaction Id is required"),
+  expenseType: yup.string().required("Expense Type is required"),
+  transactionId: yup.string(),
   payeeName: yup.string().required("Payee Name is required"),
   datePaid: yup.string().required("Date Paid is required"),
   amount: yup.string().required("Amount is required"),
@@ -44,6 +44,8 @@ const statuses = [
 ];
 
 const CreateExpense = ({ handleCreate, handleClose }) => {
+
+  
   const isSmScreen = useMediaQuery("(max-width:768px)");
 
   const token = Cookies.get('token');
@@ -65,7 +67,7 @@ const CreateExpense = ({ handleCreate, handleClose }) => {
     console.log(data);
 
     const formdata = new FormData();
-    formdata.append("expenseCategory", data.expenseCategory);
+    formdata.append("expenseType", data.expenseType);
     formdata.append("transactionId", data.transactionId);
     formdata.append("payeeName", data.payeeName);
     formdata.append("datePaid", data.datePaid);
@@ -106,45 +108,27 @@ const CreateExpense = ({ handleCreate, handleClose }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+     <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container columnSpacing={2}>
-          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+          <Grid item xs={12}>
             <TextField
               type="text"
               label={
                 <>
-                  Expense Category <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Expense Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
               variant="outlined"
-              {...register("expenseCategory")}
-              error={!!errors.expenseCategory}
+              {...register("expenseType")}
+              error={!!errors.expenseType}
               fullWidth
               margin="normal"
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.expenseCategory?.message}
+              {errors.expenseType?.message}
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  Transaction Id <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("transactionId")}
-              error={!!errors.transactionId}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.transactionId?.message}
-            </div>
-          </Grid>
 
           <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
@@ -162,6 +146,73 @@ const CreateExpense = ({ handleCreate, handleClose }) => {
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.payeeName?.message}
+            </div>
+          </Grid>
+        
+
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+            <TextField
+              select
+              label={
+                <>
+                  Payment Method <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              {...register("paymentMethod")}
+              error={!!errors.paymentMethod}
+              helperText={errors.paymentMethod?.message}
+              SelectProps={{
+                MenuProps: {
+                  disableScrollLock: true,
+                },
+              }}
+            >
+              {paymentMethods.map((method) => (
+                <MenuItem key={method} value={method}>
+                  {method}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Amount <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("amount")}
+              error={!!errors.amount}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.amount?.message}
+            </div>
+          </Grid>
+
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Transaction Id 
+                </>
+              }
+              variant="outlined"
+              {...register("transactionId")}
+              error={!!errors.transactionId}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.transactionId?.message}
             </div>
           </Grid>
 
@@ -187,56 +238,6 @@ const CreateExpense = ({ handleCreate, handleClose }) => {
 
           <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
-              type="number"
-              label={
-                <>
-                  Amount <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("amount")}
-              error={!!errors.amount}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.amount?.message}
-            </div>
-          </Grid>
-
-        
-          <Grid item xs={12} sm={6}>
-  <TextField
-    select
-    label={
-      <>
-        Payment Method <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-      </>
-    }
-    variant="outlined"
-    fullWidth
-    margin="normal"
-    {...register("paymentMethod")}
-    error={!!errors.paymentMethod}
-    helperText={errors.paymentMethod?.message}
-    SelectProps={{
-      MenuProps: {
-        disableScrollLock: true,
-      },
-    }}
-  >
-    {paymentMethods.map((method) => (
-      <MenuItem key={method} value={method}>
-        {method}
-      </MenuItem>
-    ))}
-  </TextField>
-</Grid>
-          
-          
-
-          <Grid item xs={12} sm={6}>
-            <TextField
               select
               label={
                 <>
@@ -259,7 +260,7 @@ const CreateExpense = ({ handleCreate, handleClose }) => {
           </Grid>
         </Grid>
 
-        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+        <Box className="submit" sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
           <Button onClick={handleClose} className="secondary_button">
             Cancel
           </Button>
@@ -274,7 +275,7 @@ const CreateExpense = ({ handleCreate, handleClose }) => {
             )}
           </Button>
         </Box>
-      </form>
+      </form> 
     </>
   );
 };

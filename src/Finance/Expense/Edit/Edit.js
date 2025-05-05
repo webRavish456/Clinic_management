@@ -16,8 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 
 const schema = yup.object().shape({
-  expenseCategory: yup.string().required("Expense Category is required"),
-  transactionId: yup.string().required("Transaction ID is required"),
+  expenseType: yup.string().required("Expense Type is required"),
+  transactionId: yup.string(),
   payeeName: yup.string().required("Payee Name is required"),
   datePaid: yup.string().required("Date Paid is required"),
   amount: yup.string().required("Amount is required"),
@@ -63,7 +63,7 @@ const EditExpense = ({ handleUpdate, editData, handleClose }) => {
   useEffect(() => {
     if (editData) {
       reset({
-        expenseCategory: editData.expenseCategory || "",
+        expenseType: editData.expenseType || "",
         transactionId: editData.transactionId || "",
         payeeName: editData.payeeName || "",
         datePaid: editData.datePaid || "",
@@ -80,7 +80,7 @@ const EditExpense = ({ handleUpdate, editData, handleClose }) => {
     setLoading(true);
     try {
       const formdata = new FormData();
-      formdata.append("expenseCategory", data.expenseCategory);
+      formdata.append("expenseType", data.expensetype);
       formdata.append("transactionId", data.transactionId);
       formdata.append("payeeName", data.payeeName);
       formdata.append("datePaid", data.datePaid);
@@ -116,47 +116,27 @@ const EditExpense = ({ handleUpdate, editData, handleClose }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container columnSpacing={2}>
-          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+          <Grid item xs={12}>
             <TextField
               type="text"
               label={
                 <>
-                  Expense Category{" "}
-                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Expense Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
+              variant="outlined"
+              {...register("expenseType")}
+              error={!!errors.expenseType}
               fullWidth
               margin="normal"
-              variant="outlined"
-              {...register("expenseCategory")}
-              error={!!errors.expenseCategory}
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.expenseCategory?.message}
+              {errors.expenseType?.message}
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  Transaction ID{" "}
-                  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              {...register("transactionId")}
-              error={!!errors.transactionId}
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.transactionId?.message}
-            </div>
-          </Grid>
 
           <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
@@ -166,38 +146,47 @@ const EditExpense = ({ handleUpdate, editData, handleClose }) => {
                   Payee Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
-              fullWidth
-              margin="normal"
               variant="outlined"
               {...register("payeeName")}
               error={!!errors.payeeName}
+              fullWidth
+              margin="normal"
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.payeeName?.message}
             </div>
           </Grid>
+        
 
           <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
-              type="date"
-              InputLabelProps={{ shrink: true }}
+              select
               label={
                 <>
-                  Date Paid <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Payment Method <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
+              variant="outlined"
               fullWidth
               margin="normal"
-              variant="outlined"
-              {...register("datePaid")}
-              error={!!errors.datePaid}
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.datePaid?.message}
-            </div>
+              {...register("paymentMethod")}
+              error={!!errors.paymentMethod}
+              helperText={errors.paymentMethod?.message}
+              SelectProps={{
+                MenuProps: {
+                  disableScrollLock: true,
+                },
+              }}
+            >
+              {paymentMethods.map((method) => (
+                <MenuItem key={method} value={method}>
+                  {method}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
               type="text"
               label={
@@ -205,45 +194,57 @@ const EditExpense = ({ handleUpdate, editData, handleClose }) => {
                   Amount <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
-              fullWidth
-              margin="normal"
               variant="outlined"
               {...register("amount")}
               error={!!errors.amount}
+              fullWidth
+              margin="normal"
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.amount?.message}
             </div>
           </Grid>
- <Grid item xs={12} sm={6}>
-  <TextField
-    select
-    label={
-      <>
-        Payment Method <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-      </>
-    }
-    variant="outlined"
-    fullWidth
-    margin="normal"
-    {...register("paymentMethod")}
-    error={!!errors.paymentMethod}
-    helperText={errors.paymentMethod?.message}
-    SelectProps={{
-      MenuProps: {
-        disableScrollLock: true,
-      },
-    }}
-  >
-    {paymentMethods.map((method) => (
-      <MenuItem key={method} value={method}>
-        {method}
-      </MenuItem>
-    ))}
-  </TextField>
-          
+
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Transaction Id 
+                </>
+              }
+              variant="outlined"
+              {...register("transactionId")}
+              error={!!errors.transactionId}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.transactionId?.message}
+            </div>
           </Grid>
-          <Grid item xs={12} sm={6}>
+
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+            <TextField
+              InputLabelProps={{ shrink: true }}
+              type="date"
+              label={
+                <>
+                  Date Paid <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("datePaid")}
+              error={!!errors.datePaid}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.datePaid?.message}
+            </div>
+          </Grid>
+
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
               select
               label={
@@ -265,11 +266,9 @@ const EditExpense = ({ handleUpdate, editData, handleClose }) => {
               ))}
             </TextField>
           </Grid>
-
-          
         </Grid>
 
-        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+        <Box className="submit" sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
           <Button onClick={handleClose} className="secondary_button">
             Cancel
           </Button>

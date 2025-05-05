@@ -48,13 +48,12 @@ const Expense= () => {
   const Base_url = process.env.REACT_APP_BASE_URL;
 
   const columns = [
-    { id: 'expenseCategory', label: 'Expense Category', flex: 1, align: 'center' },
-  { id: 'transactionId', label: 'Transaction Id', flex: 1,align: 'center'  },
+    { id: 'expenseType', label: 'Expense Type', flex: 1, align: 'center' },
       { id: 'payeeName', label: 'Payee Name', flex: 1, align: 'center' },
-      { id: 'datePaid', label: 'Date Paid', flex: 1, align: 'center' },
-      
       {id: 'amount', label: 'Amount', flex: 1, align: 'center'},
+      { id: 'transactionId', label: 'Transaction Id', flex: 1,align: 'center'  },
       {id: 'paymentMethod', label: 'Payment Method', flex: 1, align: 'center'},
+      { id: 'datePaid', label: 'Date Paid', flex: 1, align: 'center' },
       {id: 'status', label: 'Status', flex: 1, align: 'center'},
      { id: 'action', label: 'Actions', flex: 1, align: 'center' },
     ];
@@ -75,16 +74,13 @@ const Expense= () => {
         });
       
           const result = await response.text();
-          const res = JSON.parse(result);
-
-          console.log(res)
-      
+          const res = JSON.parse(result);     
           if (res.status === "success") {
   
              setLoading(false);
   
              const formattedData = res.data.map((item, index) =>
-              createData(item, item.expenseCategory, item.transactionId, item.payeeName, item.datePaid, item.amount, item.paymentMethod, item.status)
+              createData(item, item.expenseType,  item.transactionId ? item.transactionId : "------", item.payeeName, new Date(item.datePaid).toLocaleDateString("en-IN"), `₹${item.amount}`, item.paymentMethod, item.status)
             );
          
             setRows(formattedData)
@@ -103,8 +99,8 @@ const Expense= () => {
     
      },[loading])
     
-  const  createData = (row,expenseCategory,transactionId,payeeName,datePaid,amount,paymentMethod,status) => ({
-   row,expenseCategory,transactionId,payeeName,datePaid,amount,paymentMethod,status,action : (
+  const  createData = (row,expenseType,transactionId,payeeName,datePaid,amount,paymentMethod,status) => ({
+   row,expenseType,transactionId,payeeName,datePaid,amount,paymentMethod,status,action : (
       <>
                     <IconButton style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
                      onClick={()=>handleView(row)}>
@@ -169,14 +165,12 @@ const Expense= () => {
     setEditShow(false);
     setDeleteShow(false);
   };
-  const handleCreate = (refresh = true) => {
-    if (refresh) setLoading(true);
-    setOpenData(false);
+  const handleCreate = (data) => {
+    setLoading(data);
   };
 
-  const handleUpdate = (refresh = true) => {
-    if (refresh) setLoading(true);
-    setEditShow(false);
+  const handleUpdate = (data) => {
+    setLoading(data);
   };
 
   const onAddClick = () => setOpenData(true);

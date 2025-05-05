@@ -81,14 +81,14 @@ const Appointment= () => {
       
           if (res.status === "success") {
   
-             setLoading(false);
-  
+              setLoading(false);
              const formattedData = res.data.map((item, index) =>
-              createData( item, item.patientName, item.doctorAssigned, item.treatment, item.gender, item.appointmentDate, item.mobileNo, item.emailId, item.appointmentStatus, item.visitType, item.status)
+              createData( item, item.patientName, item.doctorAssigned, item.treatment, item.gender, new Date(item.appointmentDate).toLocaleDateString("en-IN"), item.mobileNo, item.emailId, item.appointmentStatus, item.visitType, item.status)
             );
          
             setRows(formattedData)
           } 
+      
   
        } 
           catch (error) {
@@ -169,14 +169,12 @@ const Appointment= () => {
     setEditShow(false);
     setDeleteShow(false);
   };
-  const handleCreate = (refresh = true) => {
-    if (refresh) setLoading(true);
-    setOpenData(false);
+  const handleCreate = (data) => {
+     setLoading(data);
   };
 
-  const handleUpdate = (refresh = true) => {
-    if (refresh) setLoading(true);
-    setEditShow(false);
+  const handleUpdate = (data) => {
+    setLoading(data);
   };
 
   const onAddClick = () => setOpenData(true);

@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 
@@ -22,24 +22,30 @@ const Header=()=>
 {
   const location = useLocation();
 
+  const navigate = useNavigate()
 
+  const Profilephoto = JSON.parse(localStorage.getItem("profilePhoto")) || null
 
     const settings = ['My Profile',  'Logout'];
 
-
-    const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
   
-    const handleOpenNavMenu = (event) => {
-      setAnchorElNav(event.currentTarget);
-    };
     const handleOpenUserMenu = (event) => {
       setAnchorElUser(event.currentTarget);
     };
   
-    const handleCloseUserMenu = () => {
+    const handleCloseUserMenu = (setting) => {
       setAnchorElUser(null);
+      if (setting === "My Profile") {
+        navigate("/profile");
+      } else if (setting === "Logout") {
+        
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        navigate("/login");
+      }
     };
+
+    
     const getHeadingFromPath = () => {
       const path = location.pathname;
   
@@ -84,7 +90,7 @@ const Header=()=>
 
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Ravish" src="Ravish" />
+                <Avatar alt="profilePhoto" src={Profilephoto} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -104,7 +110,7 @@ const Header=()=>
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
                   <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
                 </MenuItem>
               ))}

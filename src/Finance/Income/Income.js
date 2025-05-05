@@ -48,12 +48,13 @@ const Income = () => {
   const Base_url = process.env.REACT_APP_BASE_URL;
 
   const columns = [
+
     { id: 'sourceName', label: 'Source Name', flex: 1, align: 'center' },
-  { id: 'transactionId', label: 'Transaction Id', flex: 1,align: 'center'  },
       { id: 'description', label: 'Description', flex: 1, align: 'center' },
-      { id: 'dateReceived', label: 'Date Received', flex: 1, align: 'center' },
       {id: 'amount', label: 'Amount', flex: 1, align: 'center'},
+      { id: 'transactionId', label: 'Transaction Id', flex: 1,align: 'center'  },
       {id: 'paymentMethod', label: 'Payment Method', flex: 1, align: 'center'},
+      { id: 'dateReceived', label: 'Date Received', flex: 1, align: 'center' },
       {id: 'status', label: 'Status', flex: 1, align: 'center'},
      { id: 'action', label: 'Actions', flex: 1, align: 'center' },
     ];
@@ -81,7 +82,7 @@ const Income = () => {
              setLoading(false);
   
              const formattedData = res.data.map((item, index) =>
-              createData( item, item.sourceName, item.transactionId, item.description, item.dateReceived,  item.amount, item.paymentMethod, item.status)
+              createData( item, item.sourceName,   item.transactionId ? item.transactionId : "------", item.description, new Date(item.dateReceived).toLocaleDateString("en-IN"),  `₹${item.amount}`, item.paymentMethod, item.status)
             );
          
             setRows(formattedData)

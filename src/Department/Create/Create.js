@@ -2,24 +2,20 @@ import React, { useState } from "react";
 import {
   TextField,
   MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-  FormHelperText,
   Grid,
   Button,
   Box,
   CircularProgress,
   useMediaQuery,
-  OutlinedInput,
-  Checkbox,
-  ListItemText,
+  InputLabel,
+  FormHelperText,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import Select from "react-select";
 
 const schema = yup.object().shape({
   departmentName: yup.string().required("Department Name is required"),
@@ -55,6 +51,7 @@ const CreateDepartment = ({ handleCreate, handleClose }) => {
 
   const [loading, setLoading] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [specialization, setSpecialization] = useState([]);
 
   const {
     register,
@@ -69,6 +66,15 @@ const CreateDepartment = ({ handleCreate, handleClose }) => {
 
   const selectedSpecs = watch("specialization") || [];
 
+  const onDepartmentChange = (e) => {
+    const selected = e.target.value;
+    setSelectedDepartment(selected);
+    const specs = departmentSpecializations[selected] || [];
+    setSpecialization(specs);
+    setValue("departmentName", selected, { shouldValidate: true });
+    setValue("specialization", []); // Clear previous selection
+  };
+
   const onSubmit = (data) => {
     setLoading(true);
 
@@ -82,7 +88,7 @@ const CreateDepartment = ({ handleCreate, handleClose }) => {
     fetch(`${Base_url}/department`, {
       method: "POST",
       headers: {
-        Authorization:`Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: formdata,
     })
@@ -92,6 +98,7 @@ const CreateDepartment = ({ handleCreate, handleClose }) => {
           toast.success("Department created successfully!");
           handleCreate(true);
           reset();
+          setSpecialization([]);
         } else {
           toast.error(res.message || "Something went wrong!");
         }
@@ -105,85 +112,79 @@ const CreateDepartment = ({ handleCreate, handleClose }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid container columnSpacing={2}>
-        <Grid item xs={12}  sm={isSmScreen ? 12 : 6} md={6}>
-          <FormControl fullWidth margin="normal" error={!!errors.departmentName}>
-            <InputLabel>Department Name *</InputLabel>
-            <Select
-              value={selectedDepartment}
-              onChange={(e) => {
-                const value = e.target.value;
-                setSelectedDepartment(value);
-                setValue("departmentName", value);
-                setValue("specialization", []); // reset specialization when department changes
-              }}
-              label="Department Name"
-              MenuProps={{
-                PaperProps: {
-                  style: {
-                    maxHeight: 200,
-                    overflowY: "auto",
-                  },
-                },
-                disableScrollLock: true, 
-              }}
-            >
-              {Object.keys(departmentSpecializations).map((dept) => (
-                <MenuItem key={dept} value={dept}>
-                  {dept}
-                </MenuItem>
-              ))}
-            </Select>
-            <FormHelperText>{errors.departmentName?.message}</FormHelperText>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-          <FormControl fullWidth margin="normal" error={!!errors.specialization}>
-            <InputLabel>Specialization *</InputLabel>
-            <Select
-              multiple
-              value={selectedSpecs}
-              onChange={(e) => setValue("specialization", e.target.value)}
-              input={<OutlinedInput label="Specialization" />}
-              renderValue={(selected) => selected.join(", ")}
-              MenuProps={{
-                PaperProps: {
-                  style: {
-                    maxHeight: 200,
-                    overflowY: "auto",
-                  },
-                },
-                disableScrollLock: true, 
-              }}
-            >
-              {(departmentSpecializations[selectedDepartment] || []).map((spec) => (
-                <MenuItem key={spec} value={spec}>
-                  <Checkbox checked={selectedSpecs.includes(spec)} />
-                  <ListItemText primary={spec} />
-                </MenuItem>
-              ))}
-            </Select>
-            <FormHelperText>{errors.specialization?.message}</FormHelperText>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12}>
+      <Grid container spacing={2}>
+        {/* Department */}
+        <Grid item xs={12} md={6}>
           <TextField
-            label="Description *"
+            select
+            label={
+              <>
+                Department <span style={{ color: "red" }}>*</span>
+              </>
+            }
             fullWidth
             margin="normal"
-            variant="outlined"
-            multiline
-            minRows={4}
-            value={watch("description") || ""}
-            onChange={(e) => setValue("description", e.target.value)}
-            error={!!errors.description}
-            helperText={errors.description?.message}
+            error={!!errors.departmentName}
+            {...register("departmentName")}
+            onChange={onDepartmentChange}
+            InputLabelProps={{ shrink: true }}
+          >
+            {Object.keys(departmentSpecializations).map((dept) => (
+              <MenuItem key={dept} value={dept}>
+                {dept}
+              </MenuItem>
+            ))}
+          </TextField>
+          <FormHelperText error>{errors.departmentName?.message}</FormHelperText>
+        </Grid>
+
+        {/* Specialization */}
+        <Grid item xs={12} md={6}>
+          <InputLabel shrink>
+            Specialization <span style={{ color: "red" }}>*</span>
+          </InputLabel>
+          <Select
+            isMulti
+            name="specialization"
+            options={specialization.map((spec) => ({
+              label: spec,
+              value: spec,
+            }))}
+            value={selectedSpecs.map((spec) => ({
+              label: spec,
+              value: spec,
+            }))}
+            onChange={(selectedOptions) => {
+              const values = selectedOptions.map((opt) => opt.value);
+              setValue("specialization", values, { shouldValidate: true });
+            }}
+            className="react-select-container"
+            classNamePrefix="select"
           />
+          <FormHelperText error>{errors.specialization?.message}</FormHelperText>
+        </Grid>
+
+        {/* Description */}
+        <Grid item xs={12} md={6}>
+          <TextField
+            label={
+              <>
+                Description <span style={{ color: "red" }}>*</span>
+              </>
+            }
+            fullWidth
+            margin="normal"
+            multiline
+            rows={4}
+            {...register("description")}
+            error={!!errors.description}
+            InputLabelProps={{ shrink: true }}
+          />
+          <FormHelperText error>{errors.description?.message}</FormHelperText>
         </Grid>
       </Grid>
 
+      {/* Buttons */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 3 }}>
         <Button onClick={handleClose} className="secondary_button">
           Cancel

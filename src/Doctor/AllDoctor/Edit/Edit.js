@@ -2,9 +2,7 @@ import React, {useEffect ,useState } from "react";
 import {
     TextField,
     MenuItem,
-    Select,
     FormControl,
-    InputLabel,
     Grid,
     Typography,
     Button,
@@ -23,33 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 import { NavLink,useNavigate, useParams } from "react-router-dom";
  
-const schema = yup.object().shape({
-    doctorName: yup.string().required("Doctor Name is required"),
-    gender: yup.string().required("Gender is required"),
-    dob: yup.string().required("Date of birth is required"),
-    mobileNumber: yup.string().required("Mobile number is required"),
-    emailId: yup.string().required("Email ID is required"),
-    experience: yup.string().required("Experience is required"),
-    qualification: yup.string().required("Qualification is required"),
-    address: yup.string().required("Address is required"),
-    branchName: yup.string().required("Branch name is required"),
-    specialization: yup.string().required("Specialization is required"),
-    department:yup.string().required("Department is required"),
-    salary:yup.string().required("Salary is required"),
-    assignDepartmentHead:yup.string().required("Assign Department Head is required"),
-    joiningDate: yup.string().required(" Joining date is required"),
-    resumeCertificate: yup.mixed().required("Resume is required"),
-    licenseCertificate:yup.mixed().required("Lincense is required"),
-    highestQualificationCertificate: yup.mixed().required("Highest qualification certificate is required"),
-    panCard: yup.mixed().required("Pan card is required"),
-    aadharCard: yup.mixed().required("Aadhar card is required"),
-    accountHolderName: yup.string().required("Account holder name is required"),
-    accountNumber: yup.string().required("Account number is required"),
-    bankName: yup.string().required("Bank name is required"),
-    ifscCode: yup.string().required("IFSC code is required"),
-    branch: yup.string().required("Branch  is required"),
-    branchLocation: yup.string().required("Branch name is required"),
-    });
+
 const EditDoctor = () => {
    
        
@@ -61,13 +33,54 @@ const EditDoctor = () => {
   
     const [loading, setLoading] = useState(false)
 
-    const [loadingdata, setLoadingdata] = useState(true)
+    const [branch, setBranch] = useState([])
+
+    const [department, setDepartment] =useState([])
+
+    const [specialization, setSpecialization] = useState([])
+
+    const [loadingData, setLoadingData] = useState(true)
 
     const [existingDocuments, setExistingDocuments] = useState({});
+
+    const [editData, setEditData] = useState(false)
+
+    const [showdata, setShowData] =useState(false)
     
      const [gender, setGender]=useState([])
     
+     const schema = yup.object().shape({
 
+        doctorName: yup.string().required("Doctor Name is required"),
+        gender: yup.string().required("Gender is required"),
+        dob: yup.string().required("Date of birth is required"),
+        mobileNumber: yup
+        .string()
+        .required("Mobile number is required")
+        .matches(/^[0-9]{10}$/, "Mobile number must be exactly 10 digits"),
+        emailId: yup
+        .string()
+        .required("Email ID is required")
+        .email("Invalid email format"),
+        experience: yup.string().required("Experience is required"),
+        qualification: yup.string().required("Qualification is required"),
+        address: yup.string().required("Address is required"),
+        branchName: yup.string().required("Branch name is required"),
+        specialization: yup.string().required("Specialization is required"),
+        department:yup.string().required("Department is required"),
+        salary:yup.string().required("Salary is required"),
+        joiningDate: yup.string().required(" Joining date is required"),
+        accountHolderName: yup.string().required("Account holder name is required"),
+        accountNumber: yup.string().required("Account number is required"),
+        bankName: yup.string().required("Bank name is required"),
+        ifscCode: yup.string().required("IFSC code is required"),
+        branch: yup.string().required("Branch  is required"),
+        branchLocation: yup.string().required("Branch name is required")
+    
+        });
+    
+
+        
     const navigate= useNavigate()
   
     const {
@@ -80,11 +93,54 @@ const EditDoctor = () => {
 
  });
 
-    
- useEffect(() => {
+  useEffect(() => {
 
+    const fetchBranchData = async () => {
+      try {
+        const response = await fetch(`${Base_url}/branch`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        const result = await response.text();
+        const res = JSON.parse(result);
+  
+        if (res.status === "success") {
+          const formattedData = res.data.map((item) => item.branchName);
+          setBranch(formattedData);
+        }
+      } catch (error) {
+        console.error("Error fetching branch data:", error);
+      }
+    };
+  
+    const fetchDepartmentData = async () => {
+      try {
+        const response = await fetch(`${Base_url}/department`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        const result = await response.text();
+        const res = JSON.parse(result);
+  
+        if (res.status === "success") {
+          const formattedDepartment = res.data.map((item) => ({
+            departmentName: item.departmentName,
+            specialization: item.specialization,
+          }));
+          setDepartment(formattedDepartment);
+        }
+      } catch (error) {
+        console.error("Error fetching department data:", error);
+      }
+    };
+  
     const fetchDoctorData = async () => {
-
       try {
         const response = await fetch(`${Base_url}/alldoctor/${Id}`, {
           method: "GET",
@@ -95,51 +151,93 @@ const EditDoctor = () => {
   
         const result = await response.text();
         const res = JSON.parse(result);
-          
-        console.log(res.data)
-        setGender(res.data.gender)
-        
+  
         if (res.status === "success") {
-          setLoading(false);
-    
+          setGender(res.data.gender);
+          
           reset({
-            
-            doctorName: res.data.doctorName|| "",
+            doctorName: res.data.doctorName || "",
             gender: res.data.gender,
-            dob: res.data.dob? new Date(res.data.dob).toISOString().split("T")[0] : "",
+            dob: res.data.dob ? new Date(res.data.dob).toISOString().split("T")[0] : "",
             mobileNumber: res.data.mobileNumber,
             emailId: res.data.emailId,
             experience: res.data.experience,
-            qualification:res.data.qualification,
-            address:res.data.address,
-            branchName:res.data.companyDetails.branchName,
+            qualification: res.data.qualification,
+            address: res.data.address,
+            branchName: res.data.companyDetails.branchName || " ",
             salary: res.data.companyDetails.salary,
-            specialization:res.data.companyDetails.specialization,
-            joiningDate:res.data.companyDetails.joiningDate ? new Date(res.data.companyDetails.joiningDate).toISOString().split("T")[0] : "",
-            department:res.data.companyDetails.department,
-            accountHolderName:res.data.bankDetails.accountHolderName,
-            accountNumber:res.data.bankDetails.accountNumber,
-            bankName:res.data.bankDetails.bankName,
-            ifscCode:res.data.bankDetails.ifscCode,
-            branch:res.data.bankDetails.branch,
-            branchLocation:res.data.bankDetails.branchLocation
-        
-         });
-         setExistingDocuments(res.data.documents || {});
-         setLoadingdata(false)
+            specialization: res.data.companyDetails.specialization,
+            joiningDate: res.data.companyDetails.joiningDate ? new Date(res.data.companyDetails.joiningDate).toISOString().split("T")[0] : "",
+            department: res.data.companyDetails.department,
+            accountHolderName: res.data.bankDetails.accountHolderName,
+            accountNumber: res.data.bankDetails.accountNumber,
+            bankName: res.data.bankDetails.bankName,
+            ifscCode: res.data.bankDetails.ifscCode,
+            branch: res.data.bankDetails.branch,
+            branchLocation: res.data.bankDetails.branchLocation
+          });
+
+          setEditData(res.data)
+
+          setExistingDocuments(res.data.documents || {});
         }
       } catch (error) {
         console.error("Error fetching doctor data:", error);
       }
     };
   
-    if (loadingdata) {
-      fetchDoctorData();
+    const fetchAllData = async () => {
+      try {
+        await Promise.all([
+          fetchBranchData(),
+          fetchDepartmentData(),
+          fetchDoctorData(),
+        ]);
+        setLoading(false);
+        setLoadingData(false); 
+        setShowData(true)
+      } catch (error) {
+        console.error("Error fetching all data:", error);
+        setLoading(false);
+        setLoadingData(false);
+      }
+    };
+  
+    if (loadingData) {
+      fetchAllData();
     }
-  }, [loadingdata]);
-    
-    
-    
+  }, [loadingData]);
+
+  
+    useEffect(()=> {
+
+      if(showdata)
+      {
+      const deptDetails = department.find((dept) => dept.departmentName === editData.companyDetails.department);
+        
+      if (deptDetails) {
+        setSpecialization(deptDetails.specialization);
+      } else {
+        setSpecialization([]);
+      
+      }
+    }
+    },[showdata])
+  
+  
+  const onDepartmentChange = (e) => {
+
+     setSpecialization([]);
+    const selectedDept = e.target.value;
+    const deptDetails = department.find((dept) => dept.departmentName === selectedDept);
+  
+    if (deptDetails) {
+      setSpecialization(deptDetails.specialization);
+    } else {
+      setSpecialization([]);
+    }
+  };
+        
   const onSubmit = (data) => {
     
     setLoading(true)
@@ -148,7 +246,7 @@ const EditDoctor = () => {
     const companyDetails = {
         salary: data.salary,
         branchName:data.branchName,
-        designation:data.designation,
+        specialization:data.specialization,
         joiningDate:data.joiningDate,
         department:data.department,
        
@@ -163,7 +261,7 @@ const EditDoctor = () => {
         branchLocation:data.branchLocation
       }
       const formdata = new FormData();
-       formdata.append("doctorName", data.staffName);
+       formdata.append("doctorName", data.doctorName);
        formdata.append("gender", data.gender);
        formdata.append("dob", data.dob);
 
@@ -176,12 +274,30 @@ const EditDoctor = () => {
        formdata.append("qualification", data.qualification);
        formdata.append("address", data.address);
 
-       
-       formdata.append("documents.resumeCertificate", data.resumeCertificate[0]);
-       formdata.append("documents.licenseCertificate", data.licenseCertificate[0]);
-       formdata.append("documents.highestQualificationCertificate", data.highestQualificationCertificate[0]);
-       formdata.append("documents.panCard", data.panCard[0]);
-       formdata.append("documents.aadharCard", data.aadharCard[0]);
+       if(data.resumeCertificate){
+        formdata.append("documents.resumeCertificate", data.resumeCertificate[0]);
+       }
+
+       if(data.licenseCertificate)
+       {
+        formdata.append("documents.licenseCertificate", data.licenseCertificate[0]);
+       }
+
+       if(data.highestQualificationCertificate)
+       {
+        formdata.append("documents.highestQualificationCertificate", data.highestQualificationCertificate[0]);
+       }
+
+       if(data.panCard){
+        formdata.append("documents.panCard", data.panCard[0]);
+       }
+
+      if(data.aadharCard)
+      {
+        formdata.append("documents.aadharCard", data.aadharCard[0]);
+      }
+
+
           
        
        const requestOptions = {
@@ -223,7 +339,7 @@ const EditDoctor = () => {
 
        return (
         <>
-            {!loadingdata &&
+            {!loadingData &&
                 <form onSubmit={handleSubmit(onSubmit)} className="overflow">
                  <Grid container spacing={6} style={{ padding: "20px" }}>
                             
@@ -428,60 +544,86 @@ const EditDoctor = () => {
                                 <Grid container spacing={2}>
                                     <Grid item xs={6}>
                                     <Box>
-                                        <TextField
-                                          InputLabelProps={{ shrink: true }}
-                                            type="text"
-                                            label={
-                                                <>
-                                                Branch Name
-                                                </>
-                                            }
-                                            variant="outlined"
-                                            {...register("branchName")}
-                                            error={!!errors.branchName}
-                                            fullWidth
-                                            margin="normal"
-                                        />
-                                           <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                            {errors.branchName?.message}
-                                            </div>
+
+                                    <TextField
+                                    select
+                                    defaultValue={editData.companyDetails.branchName}
+                                    label="Branch Name"
+                                    variant="outlined"
+                                    {...register("branchName")}
+                                    error={!!errors.branchName}
+                                    fullWidth
+                                    margin="normal"
+                                    >
+                                    {branch.map((branchName, index) => (
+                                        <MenuItem key={index} value={branchName}>
+                                        {branchName}
+                                        </MenuItem>
+                                    ))}
+                                    </TextField>
+
+
+
+                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                                    {errors.branchName?.message}
+                            </div>
                                         </Box>
                                         <Box>
+
                                         <TextField
-                                          InputLabelProps={{ shrink: true }}
-                                            type="text"
-                                            label={
-                                                <>
-                                                Specialization
-                                                </>
-                                            }
-                                            variant="outlined"
-                                            {...register("specialization")}
-                                            error={!!errors.specialization}
-                                            fullWidth
-                                            margin="normal"
-                                        />
-                                           <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                            {errors.specialization?.message}
-                                            </div>
+                                    select
+                                    label={
+                                        <>
+                                        Department<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                                        </>
+                                    }
+                                    defaultValue={editData.companyDetails.department}
+                                    variant="outlined"
+                                    error={!!errors.department}
+                                    fullWidth
+                                    margin="normal"
+                                    {...register("department")}
+                                    onChange={(e) => {
+                                        register("department").onChange(e);
+                                        onDepartmentChange(e);
+                                    }}
+                                
+                                    SelectProps={{
+                                        MenuProps: {
+                                        PaperProps: {
+                                            style: { maxHeight: 200 },
+                                        },
+                                        },
+                                    }}
+                                    >
+                                    {department?.map((dept, index) => (
+                                        <MenuItem key={index} value={dept.departmentName}>
+                                        {dept.departmentName}
+                                        </MenuItem>
+                                    ))}
+                                    </TextField>
+
+                                      <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                                       {errors.department?.message}
+                                       </div>
                                         </Box>
                                         <Box>
-                                        <TextField
-                                         InputLabelProps={{ shrink: true }}
-                                            type="text"
+                                        <TextField 
+                                         InputLabelProps={{shrink:true}}
+                                            type="date"
                                             label={
                                                 <>
-                                                Department
+                                                Joining Date
                                                 </>
                                             }
                                             variant="outlined"
-                                            {...register("department")}
-                                            error={!!errors.department}
+                                            {...register("joiningDate")}
+                                            error={!!errors.joiningDate}
                                             fullWidth
                                             margin="normal"
                                         />
                                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                            {errors.department?.message}
+                                            {errors.joiningDate?.message}
                                             </div>
                                         </Box>
                                        </Grid>
@@ -507,23 +649,42 @@ const EditDoctor = () => {
                                             </div>
                                         </Box>
                                         <Box>
-                                        <TextField 
-                                         InputLabelProps={{shrink:true}}
-                                            type="date"
-                                            label={
-                                                <>
-                                                Joining Date
-                                                </>
-                                            }
-                                            variant="outlined"
-                                            {...register("joiningDate")}
-                                            error={!!errors.joiningDate}
-                                            fullWidth
-                                            margin="normal"
-                                        />
-                                           <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                            {errors.joiningDate?.message}
-                                            </div>
+                                        <TextField
+                                       
+                                select
+                                label={
+                                    <>
+                                    Specialization
+                                    </>
+                                }
+
+                                defaultValue={editData.companyDetails.specialization}
+
+                                 variant="outlined"
+                                    fullWidth
+                                    margin="normal"
+                                {...register("specialization")}
+                                error={!!errors.specialization}
+                               
+                                SelectProps={{
+                                    MenuProps: {
+                                    PaperProps: {
+                                        style: { maxHeight: 200 },
+                                    },
+                                    },
+                                }}
+                                >
+                                {specialization?.map((spec, index) => (
+                                    <MenuItem key={index} value={spec}>
+                                    {spec}
+                                    </MenuItem>
+                                ))}
+                                </TextField>
+                                
+                                <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                                    {errors.specialization?.message}
+                                    </div>
+
                                         </Box>
                                      </Grid>
                                 </Grid>
@@ -532,29 +693,29 @@ const EditDoctor = () => {
 
                         <Grid item xs={12} md={6}>
 
-            <Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3, backgroundColor:"#ffffff" }}>
-            <Typography variant="h6" gutterBottom>
-                Document Details
-            </Typography>
-            {[
-                { label: "Highest Qualification Certificate", name: "highestQualificationCertificate", file: "certificate.pdf" },
-                { label: "Resume", name: "resumeCertificate", file: "resume.pdf" },
-                { label: "license Certificate", name: "licenseCertificate", file: "licenseCertificate.pdf" },
-                { label: "Aadhar Document", name: "aadharCard", file: "aadhar.pdf" },
-                { label: "PAN Card Document", name: "panCard", file: "panCard.pdf" }
-            ].map(({ label, name, file }) => (
-                <Box key={name} marginBottom={2}>
-                <TextField 
-                    InputLabelProps={{ shrink: true }}
-                    type="file"
-                    label={label}
-                    variant="outlined"
-                    {...register(name)}
-                    error={!!errors[name]}
-                    fullWidth
-                    margin="normal"
-                />
-  
+                        <Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3, backgroundColor:"#ffffff" }}>
+  <Typography variant="h6" gutterBottom>
+    Document Details
+  </Typography>
+  {[
+    { label: "Highest Qualification Certificate", name: "highestQualificationCertificate", file: "certificate.pdf" },
+    { label: "Resume", name: "resumeCertificate", file: "resume.pdf" },
+    { label: "License Certificate", name: "licenseCertificate", file: "licenseCertificate.pdf" },
+    { label: "Aadhar Document", name: "aadharCard", file: "aadhar.pdf" },
+    { label: "PAN Card Document", name: "panCard", file: "panCard.pdf" }
+  ].map(({ label, name, file }) => (
+    <Box key={name} marginBottom={2}>
+      <TextField 
+        InputLabelProps={{ shrink: true }}
+        type="file"
+        label={label}
+        variant="outlined"
+        {...register(name)} // Register the input field
+        error={!!errors[name]} // Show error if present
+        fullWidth
+        margin="normal"
+      />
+
       {existingDocuments?.[name] && (
         <Typography variant="body2" sx={{ mt: 1 }}>
           View existing document:&nbsp;
@@ -567,7 +728,7 @@ const EditDoctor = () => {
           </NavLink>
         </Typography>
       )}
-  
+
       {errors[name]?.message && (
         <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
           {errors[name].message}
@@ -576,6 +737,7 @@ const EditDoctor = () => {
     </Box>
   ))}
 </Box>
+
 
 </Grid>
                <Grid item xs={6}>

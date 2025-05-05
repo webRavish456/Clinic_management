@@ -18,9 +18,6 @@ const ViewIncome =({viewData})=>
             <Box className="pageDescription">{viewData.sourceName}</Box>
             </Grid>
 
-          
-
-            
             </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
@@ -41,26 +38,23 @@ const ViewIncome =({viewData})=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.dateReceived}</Box>
+            <Box className="pageDescription">{new Date(viewData.dateReceived).toLocaleDateString("en-IN")}</Box>
             </Grid>
 
             </Grid>
 
-<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+          <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
-<Grid item xs={6}>
-<Box className="pageTitle">Transaction Id:</Box>
-</Grid>
+          <Grid item xs={6}>
+          <Box className="pageTitle">Transaction Id:</Box>
+          </Grid>
 
-<Grid item xs={6}sm={isSmScreen?12:6} md={6}>
-<Box className="pageDescription">{viewData.transactionId}</Box>
-</Grid>
+          <Grid item xs={6}sm={isSmScreen?12:6} md={6}>
+          {viewData.transactionId?  <Box className="pageDescription">{viewData.transactionId}</Box>: <Box className="pageDescription">------</Box>}
+          </Grid>
 
 
             </Grid>
-
-            
-
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
@@ -69,7 +63,7 @@ const ViewIncome =({viewData})=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.amount}</Box>
+            <Box className="pageDescription">₹{viewData.amount}</Box>
             </Grid>
 
             </Grid>
@@ -86,24 +80,20 @@ const ViewIncome =({viewData})=>
 
             </Grid>
 
-<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+          <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
-<Grid item xs={6}>
-<Box className="pageTitle">Status:</Box>
-</Grid>
+          <Grid item xs={6}>
+          <Box className="pageTitle">Status:</Box>
+          </Grid>
 
-<Grid item xs={6}sm={isSmScreen?12:6} md={6}>
-<Box className="pageDescription">{viewData.status}</Box>
-</Grid>
+          <Grid item xs={6}sm={isSmScreen?12:6} md={6}>
+          <Box className="pageDescription">{viewData.status}</Box>
+          </Grid>
 
             </Grid>
 
             
             </Grid>
-
-
-
-          
 
         </>
      )

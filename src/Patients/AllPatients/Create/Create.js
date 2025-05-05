@@ -134,25 +134,38 @@ const CreateAllPatients =({handleCreate, handleClose})=>
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  Gender <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("gender")}
-              error={!!errors.gender}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.gender?.message}
-            </div>
-          </Grid>
+          < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+       
+          <TextField
+                        InputLabelProps={{shrink:true}}
+                          select
+                          label={
+                              <>
+                             Gender<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                              </>
+                          }
+                            variant="outlined"
+                              fullWidth
+                              margin="normal"
+                          {...register("gender")}
 
+                     
+                          error={!!errors.Status}
+                          
+                          SelectProps={{
+                              MenuProps: {
+                              PaperProps: {
+                                  style: { maxHeight: 200 },
+                              },
+                              },
+                          }}
+                          > 
+              <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+                <MenuItem value="others">Others</MenuItem>
+
+                          </TextField>
+            </Grid>
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}> 
             <TextField
               type="number"
@@ -191,26 +204,46 @@ const CreateAllPatients =({handleCreate, handleClose})=>
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  Blood Group <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("bloodGroup")}
-              error={!!errors.bloodGroup}
-              fullWidth
-              margin="normal"
-            />
-            
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.bloodGroup?.message}
-            </div>
-          </Grid>
-         
+          < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+
+          <TextField
+                        InputLabelProps={{shrink:true}}
+                          select
+                          label={
+                              <>
+                             Blood Group<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                              </>
+                          }
+                            variant="outlined"
+                              fullWidth
+                              margin="normal"
+                          {...register("bloodGroup")}
+
+                     
+                          error={!!errors.bloodGroup}
+                          
+                          SelectProps={{
+                              MenuProps: {
+                              PaperProps: {
+                                  style: { maxHeight: 200 },
+                              },
+                              },
+                          }}
+                          > 
+                 <MenuItem value="A+">A+</MenuItem>
+                <MenuItem value="B+">B+</MenuItem>
+                <MenuItem value="O+">O+</MenuItem>
+                <MenuItem value="A-">A-</MenuItem>
+                <MenuItem value="B-">B-</MenuItem>
+                <MenuItem value="O-">O-</MenuItem>
+                <MenuItem value="AB+">AB+</MenuItem>
+                <MenuItem value="AB-">AB-</MenuItem>
+
+                          </TextField>
+           
+       
+            </Grid>
+
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
           <TextField
               type="file"
@@ -255,27 +288,41 @@ const CreateAllPatients =({handleCreate, handleClose})=>
               {errors.admissionDate?.message}
             </div>
           </Grid> 
+
           < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-          <FormControl fullWidth margin="normal" error={!!errors.taskStatus}>
-              <InputLabel id="taskStatus-label">
-                Status<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-              </InputLabel>
-              <Select
-                labelId="Status-label"
-                id="Status"
-                label="Status"
-                defaultValue=""
-                {...register("Status")}
-              >
-                <MenuItem value="complete">Complete</MenuItem>
-                <MenuItem value="active">Active</MenuItem>
-                <MenuItem value="uncomplete">Uncomplete</MenuItem>
-              </Select>
-              <FormHelperText>{errors.taskStatus?.message}</FormHelperText>
-            </FormControl>
+            <TextField
+                        InputLabelProps={{shrink:true}}
+                          select
+                          label={
+                              <>
+                             Status<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                              </>
+                          }
+                            variant="outlined"
+                              fullWidth
+                              margin="normal"
+                          {...register("Status")}
+
+                     
+                          error={!!errors.Status}
+                          
+                          SelectProps={{
+                              MenuProps: {
+                              PaperProps: {
+                                  style: { maxHeight: 200 },
+                              },
+                              },
+                          }}
+                          > 
+              <MenuItem value="Under Observation">Under Observation</MenuItem>
+                <MenuItem value="Under Treatment">Under Treatment</MenuItem>
+                <MenuItem value="Recovered">Recovered</MenuItem>
+
+                          </TextField>
             </Grid>
 
-          <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+          <Grid item xs={12} sm={12} md={12}>
+
             <TextField
               type="text"
               label={
@@ -293,6 +340,7 @@ const CreateAllPatients =({handleCreate, handleClose})=>
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.address?.message}
             </div>
+
           </Grid>
          
 
@@ -323,3 +371,21 @@ const CreateAllPatients =({handleCreate, handleClose})=>
 }
 
 export default CreateAllPatients;
+
+/* <FormControl fullWidth margin="normal" error={!!errors.taskStatus}>
+              <InputLabel id="taskStatus-label">
+                Status<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+              </InputLabel>
+              <Select
+                labelId="Status-label"
+                id="Status"
+                label="Status"
+                defaultValue=""
+                {...register("Status")}
+              >
+                <MenuItem value="complete">Under Observation</MenuItem>
+                <MenuItem value="active">Under Treatment</MenuItem>
+                <MenuItem value="uncomplete">Recovered</MenuItem>
+              </Select>
+              <FormHelperText>{errors.taskStatus?.message}</FormHelperText>
+            </FormControl> */

@@ -19,7 +19,7 @@ import Cookies from 'js-cookie';
 // Validation Schema
 const schema = yup.object().shape({
   sourceName: yup.string().required("Source Name is required"),
-  transactionId: yup.string().required("Transaction Id is required"),
+  transactionId: yup.string(),
   description: yup.string().required("Description is required"),
   dateReceived: yup.string().required("Date Received is required"),
   amount: yup.string().required("Amount is required"),
@@ -150,10 +150,57 @@ const CreateIncome = ({ handleCreate, handleClose }) => {
 
           <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
             <TextField
+              select
+              label={
+                <>
+                  Payment Method <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              {...register("paymentMethod")}
+              error={!!errors.paymentMethod}
+              helperText={errors.paymentMethod?.message}
+              SelectProps={{
+                MenuProps: {
+                  disableScrollLock: true,
+                },
+              }}
+            >
+              {paymentMethods.map((method) => (
+                <MenuItem key={method} value={method}>
+                  {method}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+            <TextField
               type="text"
               label={
                 <>
-                  Transaction Id <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Amount <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("amount")}
+              error={!!errors.amount}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.amount?.message}
+            </div>
+          </Grid>
+
+          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+            <TextField
+              type="text"
+              label={
+                <>
+                  Transaction Id 
                 </>
               }
               variant="outlined"
@@ -187,51 +234,8 @@ const CreateIncome = ({ handleCreate, handleClose }) => {
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  Amount <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("amount")}
-              error={!!errors.amount}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.amount?.message}
-            </div>
-          </Grid><Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-            <TextField
-              select
-              label={
-                <>
-                  Payment Method <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              {...register("paymentMethod")}
-              error={!!errors.paymentMethod}
-              helperText={errors.paymentMethod?.message}
-              SelectProps={{
-                MenuProps: {
-                  disableScrollLock: true,
-                },
-              }}
-            >
-              {paymentMethods.map((method) => (
-                <MenuItem key={method} value={method}>
-                  {method}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-
+        
+         
         
 
           <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>

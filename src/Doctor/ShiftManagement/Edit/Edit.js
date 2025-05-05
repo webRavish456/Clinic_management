@@ -17,6 +17,7 @@ import Cookies from "js-cookie"
 
 const schema = yup.object().shape({
   doctorName: yup.string().required("Doctor Name is required"),
+  mobileNo: yup.string().required("mobileNo is required"),
   department: yup.string().required("Department is required"),
   specialization: yup.string().required("Specialization is required"),
   shiftStartDate: yup.string().required("Shift Start Date is required"),
@@ -24,22 +25,24 @@ const schema = yup.object().shape({
   workDays: yup.string().required("Work Days is required"),
   shiftHours: yup.string().required("Shift Hours is required"),
   shiftType: yup.string().required("Shift Type is required"),
+  availabilityStatus: yup.string().required("availabilityStatus is required"),
 });
 
 
 
-const doctorNames=[
-  "r.k Sinha"
-]
-
 const EditShiftManagement = ({ handleUpdate,  editData, handleClose}) => {
+
     const isSmScreen = useMediaQuery("(max-width:768px)");
 
     const token = Cookies.get('token');
 
     const Base_url = process.env.REACT_APP_BASE_URL;
+
+    const today = new Date().toISOString().split("T")[0];
   
     const [loading, setLoading] = useState(false)
+
+
     const {
         register,
         handleSubmit,
@@ -49,20 +52,29 @@ const EditShiftManagement = ({ handleUpdate,  editData, handleClose}) => {
         resolver: yupResolver(schema)
     });
 
-    useEffect(() => {
+   
+
+
+      useEffect(() => {
+
         if (editData) {
           reset({
             doctorName: editData.doctorName || "",
             department: editData.department || "",
+            mobileNo: editData.mobileNo || "",
             specialization: editData.specialization || "",
-            shiftStartDate: editData.shiftStartDate || "",
-            shiftEndDate: editData.shiftEndDate || "",
+            shiftStartDate: new Date(editData.shiftStartDate).toISOString().split("T")[0] || "",
+            shiftEndDate: new Date(editData.shiftEndDate).toISOString().split("T")[0] || "",
             workDays: editData.workDays || "",
             shiftHours: editData.shiftHours || "",
             shiftType: editData.shiftType || "",
+            availabilityStatus: editData.availabilityStatus || ""
           });
+
         }
       }, [editData, reset]);
+      
+
 
 
     const onSubmit = (data) => {
@@ -98,7 +110,7 @@ const EditShiftManagement = ({ handleUpdate,  editData, handleClose}) => {
                 if (res.status === "success") {
                     setLoading(false)
 
-                    toast.success("New ShiftManagement Added Successful!")
+                    toast.success(" Shift Management Updated Successful!")
 
                     handleUpdate(true)
                 handleClose()
@@ -114,184 +126,256 @@ const EditShiftManagement = ({ handleUpdate,  editData, handleClose}) => {
             .catch((error) => console.error(error));
     };
 
+ 
+
     return (
         <>
         <form onSubmit={handleSubmit(onSubmit)}>
-                <Grid container columnSpacing={2}>
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+
+            <Grid container columnSpacing={2}>
+
+            <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
                         
-  <TextField
-    select
-    label={
-      <>
-        Doctor Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-      </>
-    }
-    variant="outlined"
-    fullWidth
-    margin="normal"
-    {...register("doctorName")}
-    error={!!errors.doctorName}
-    helperText={errors.doctorName?.message}
-    SelectProps={{
-      MenuProps: {
-        disableScrollLock: true,
-      },
-    }}
-  >
-    {doctorNames.map((method) => (
-      <MenuItem key={method} value={method}>
-        {method}
-      </MenuItem>
-    ))}
-  </TextField>
-                        </Grid>
+            <TextField
+            InputLabelProps={{ shrink: true }}
+            InputProps={{ readOnly: true }}
+            label={
+                <>
+                Department<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+            }
+            defaultValue={editData.department}
+            variant="outlined"
+            error={!!errors.department}
+            fullWidth
+            margin="normal"
+            {...register("department")}
+        
+            >
+          
+            </TextField>
 
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
 
-                            <TextField
-                                label={
-                                    <>
-                                        Department <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                fullWidth
-                                margin="normal"
-                                type="text"
-                                variant="outlined"
-                                {...register("department")}
-                                error={!!errors.department}
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.department?.message}
+                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                    {errors.department?.message}
+                    </div>
+
+                    </Grid>
+
+                <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+
+                 <TextField
+                    InputLabelProps={{shrink:true}}
+                    InputProps={{ readOnly: true }}
+                    label={
+                        <>
+                        Specialization
+                        </>
+                    }
+                    defaultValue={editData.specialization}
+                    variant="outlined"
+                        fullWidth
+                        margin="normal"
+                    {...register("specialization")}
+
+             
+                    error={!!errors.specialization}
+                    
+                    SelectProps={{
+                        MenuProps: {
+                        PaperProps: {
+                            style: { maxHeight: 200 },
+                        },
+                        },
+                    }}
+                    >
+                
+
+                        </TextField>
+                        
+                        <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                            {errors.specialization?.message}
                             </div>
+                    </Grid>
 
-                        </Grid>
 
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+                <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
                         <TextField
-                                label={
-                                    <>
-                                        Specialization <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                fullWidth
-                                margin="normal"
-                                type="text"
-                                variant="outlined"
-                                {...register("specialization")}
-                                error={!!errors.specialization}
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.specialization?.message}
-                            </div>
+                    InputLabelProps={{shrink:true}}
+                    InputProps={{ readOnly: true }}
+                      label={
+                          <>
+                      Doctor Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                          </>
+                      }
+                      variant="outlined"
+                          fullWidth
+                          margin="normal"
+                      {...register("doctorName")}
+                      error={!!errors.doctorName}
+                    
+                      SelectProps={{
+                          MenuProps: {
+                          PaperProps: {
+                              style: { maxHeight: 200 },
+                          },
+                          },
+                      }}
+                      >
+                   
+                      </TextField>
+                      
+                      <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                          {errors.doctorName?.message}
+                          </div>
+                        </Grid>
+
+
+                <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+                         
+                        <TextField
+                        InputLabelProps={{shrink:true}}
+                        InputProps={{ readOnly: true }}
+                        type="number"
+                        label={
+                        <>
+                            Mobile No <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                        </>
+                        }
+                        name="mobileNo"
+                        variant="outlined"
+                        {...register("mobileNo")}
+                        error={!!errors.mobileNo}
+                        fullWidth
+
+                        margin="normal"
+                        />
+                 </Grid>
+
+              <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+
+                     <TextField
+                    InputLabelProps={{shrink:true}}
+                    type="date"
+                    label={
+                    <>
+                        Shift Start Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                    </>
+                    }
+                    name="shiftStartDate"
+                    variant="outlined"
+                    {...register("shiftStartDate")}
+                    error={!!errors.shiftStartDate}
+                    fullWidth
+                    inputProps={{ min: today }}
+                    margin="normal"
+                    />
 
                         </Grid>
+
+
+                <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+                <TextField
+                InputLabelProps={{shrink:true}}
+                type="date"
+                label={
+                <>
+                    Shift End Date <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+                }
+                name="shiftEndDate"
+                variant="outlined"
+                {...register("shiftEndDate")}
+                error={!!errors.shiftEndDate}
+                fullWidth
+
+                margin="normal"
+                />
+                </Grid>
+
+
+           <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+                <TextField
+                    InputLabelProps={{shrink:true}}
+                    label={
+                    <>
+                        Work Days <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                    </>
+                    }
+                    name="workDays"
+                    variant="outlined"
+                    {...register("workDays")}
+                    
+                    error={!!errors.workDays}
+                    fullWidth
+                    margin="normal"
+                    />
+                        </Grid>
+
+
+            <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+
+                <TextField
+                InputLabelProps={{shrink:true}}
+                label={
+                <>
+                    Shift Hours <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+                }
+                name="shiftHours"
+                variant="outlined"
+                {...register("shiftHours")}
+                error={!!errors.shiftHours}
+                fullWidth
+                margin="normal"
+                />
+                        </Grid>
+
+
+             <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
+                        <TextField
+                        InputLabelProps={{shrink:true}}
+                        label={
+                        <>
+                            Shift Type <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                        </>
+                        }
+                        name="shiftType"
+                        variant="outlined"
+                        {...register("shiftType")}
+                        error={!!errors.shiftType}
+                        fullWidth
+                        margin="normal"
+                        />
+                        </Grid>
+
 
                         <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-                            <TextField
-                                label={
-                                    <>
-                                        Shift Start Date  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                type="text"
-                                variant="outlined"
-                                {...register("shiftStartDate")}
-                                error={!!errors.shiftStartDate}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.shiftStartDate?.message}
-                            </div>
+                      
+                        <TextField
+                        select
+                        label={
+                            <>
+                            Availability Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                            </>
+                        }
+                        defaultValue={editData.availabilityStatus}
+                        variant="outlined"
+                        {...register("availabilityStatus")}
+                        error={!!errors.availabilityStatus}
+                        fullWidth
+                        margin="normal"
+                        >
+                        <MenuItem value ="Available">Available</MenuItem>
+                        <MenuItem value ="Unavailable">Unavailable</MenuItem>
+                        <MenuItem value ="On Leave">On Leave</MenuItem>
+                        </TextField>
+                        <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                        {errors.availabilityStatus?.message}
+                        </div>
                         </Grid>
 
-
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-                            <TextField
-                                label={
-                                    <>
-                                        Shift End Date  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                type="text"
-                                variant="outlined"
-                                {...register("shiftEndDate")}
-                                error={!!errors.shiftEndDate}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.shiftEndDate?.message}
-                            </div>
-                        </Grid>
-
-
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-                            <TextField
-                                label={
-                                    <>
-                                        Work Days  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                type="text"
-                                variant="outlined"
-                                {...register("workDays")}
-                                error={!!errors.workDays}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.workDays?.message}
-                            </div>
-                        </Grid>
-
-
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-                            <TextField
-                                label={
-                                    <>
-                                        Shift Hours  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                type="text"
-                                variant="outlined"
-                                {...register("shiftHours")}
-                                error={!!errors.shiftHours}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.shiftHours?.message}
-                            </div>
-                        </Grid>
-
-
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-                            <TextField
-                                label={
-                                    <>
-                                        Shift Type  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                type="text"
-                                variant="outlined"
-                                {...register("shiftType")}
-                                error={!!errors.shiftType}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.shiftType?.message}
-                            </div>
-                        </Grid>
-
-
-
-
-                        
-                                           
+                                            
                 </Grid>
 
                 <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
@@ -321,3 +405,58 @@ const EditShiftManagement = ({ handleUpdate,  editData, handleClose}) => {
 }
 
 export default EditShiftManagement;
+
+
+/*         const deptDetails = department.find((dept) => dept.departmentName === editData.department);
+      
+          if (deptDetails) {
+            setSpecialization(deptDetails.specialization);
+          } else {
+            setSpecialization([]);
+           
+          }
+          
+          const filteredDoctors = doctor.filter(
+            (doc) => doc.specialization === editData.specialization && doc.mobileNo==editData.mobileNo
+          );
+    
+          setAvailableDoctor(filteredDoctors); 
+          
+           const onDepartmentChange = (e) => {
+
+        setAvailableDoctor([]); 
+        setSpecialization([]);
+
+        const selectedDept = e.target.value;
+        const deptDetails = department.find((dept) => dept.departmentName === selectedDept);
+      
+        if (deptDetails) {
+          setSpecialization(deptDetails.specialization);
+        } else {
+          setSpecialization([]);
+    
+        }
+      };
+  
+
+      const onSpecializationChange = (e) => {
+
+          setAvailableDoctor([]); 
+  
+        const selectedSpecialization = e.target.value;
+      
+        const filteredDoctors = doctor.filter(
+          (doc) => doc.specialization === selectedSpecialization
+        );
+
+          if(filteredDoctors)
+          {
+            setAvailableDoctor(filteredDoctors); 
+          }
+        else {
+            setAvailableDoctor([]); 
+        }  
+  
+      };
+
+          */

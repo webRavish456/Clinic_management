@@ -73,10 +73,11 @@ const Staff=()=>
         const res = JSON.parse(result);
         if (res.status === "success") {
           toast.success("Staff deleted successfully!");
-        setLoading(true);
+         
         } else {
           toast.error(res.message);
         }
+        setLoading(true);
         setIsDeleting(false);
         handleClose();
       })
@@ -99,7 +100,7 @@ const columns = [
   { id: 'shift',label: 'Shift ', flex:1, align: 'center',},
  
   {id: 'address',label: 'Address ',flex:1,align: 'center',},
-  {id: 'salary',label: 'Salary',flex:1,align: 'center', },
+ 
 
   {id: 'joiningDate',label: 'Joining Date ', flex:1, align: 'center',},
   {id: 'status',label: ' Availability Status',flex:1,align: 'center', },
@@ -137,8 +138,7 @@ useEffect(() => {
             item.emailId,
             item.companyDetails.shift,
             item.address,
-            item.companyDetails.salary,
-            item.companyDetails.joiningDate,
+            new Date(item.companyDetails.joiningDate).toLocaleDateString("en-IN"),
             item.availabilityStatus
           )
         );
@@ -154,8 +154,8 @@ useEffect(() => {
   }
 }, [loading]);
 
-function createData(si, id, staffName, designation, mobileNumber, emailId,  shift, address, salary, joiningDate,status ) {
-  return { si, id, staffName, designation, mobileNumber, emailId,  shift, address, salary, joiningDate , status, action: (
+function createData(si, id, staffName, designation, mobileNumber, emailId,  shift, address, joiningDate,status ) {
+  return { si, id, staffName, designation, mobileNumber, emailId,  shift, address,  joiningDate , status, action: (
       <>
       <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleView(id)}>
         <VisibilityIcon />
@@ -199,6 +199,7 @@ function createData(si, id, staffName, designation, mobileNumber, emailId,  shif
 
   return (
     <>
+
     <ToastContainer/>
     <Box className="container">
       <Search onAddClick={onAddClick} buttonText="+ Add Staff"/>

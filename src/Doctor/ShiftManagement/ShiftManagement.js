@@ -86,7 +86,7 @@ const ShiftManagement = () => {
              console.log(res)
 
              const formattedData = res.data.map((item, index) =>
-              createData(index + 1, item, item.doctorName, item.specialization, item.department, item.shiftStartDate, item.shiftEndDate, item.workDays, item.shiftHours, item.shiftType, item.availabilityStatus, item.status,)
+              createData(index + 1, item, item.doctorName, item.specialization, item.department, new Date(item.shiftStartDate).toLocaleDateString("en-IN"), new Date(item.shiftEndDate).toLocaleDateString("en-IN"), item.workDays, item.shiftHours, item.shiftType, item.availabilityStatus)
             );
          
             setRows(formattedData)
@@ -162,7 +162,7 @@ const ShiftManagement = () => {
       .then((result) => {
         const res = JSON.parse(result);
         if (res.status === "success") {
-          toast.success("ShiftManagement deleted successfully!");
+          toast.success("Shift Management deleted successfully!");
           setLoading(true);
         } else {
           toast.error(res.message);
@@ -182,13 +182,13 @@ const ShiftManagement = () => {
     setEditShow(false);
     setDeleteShow(false);
   };
-  const handleCreate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleCreate = () => {
+   setLoading(true);
     setOpenData(false);
   };
 
-  const handleUpdate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleUpdate = () => {
+     setLoading(true);
     setEditShow(false);
   };
 
@@ -208,7 +208,7 @@ const ShiftManagement = () => {
     <ToastContainer />
 
     <Box className="container">
-      <Search onAddClick={onAddClick} buttonText="Add ShiftManagement" />
+      <Search onAddClick={onAddClick} buttonText="Add Shift Management" />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="shiftmanagement table">
@@ -258,13 +258,13 @@ const ShiftManagement = () => {
         onClose={handleClose}
         dialogTitle={
           openData
-          ? "Create New ShiftManagement"
+          ? "Create New Shift Management"
           : viewShow
-          ? "View ShiftManagement"
+          ? "View Shift Management"
           : editShow
-          ? "Edit ShiftManagement"
+          ? "Edit Shift Management"
           : deleteShow
-          ? "Delete ShiftManagement"
+          ? "Delete Shift Management"
           : ""
         }
 

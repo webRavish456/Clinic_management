@@ -37,7 +37,6 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
     address: yup.string().required("address is required"),
     branchName: yup.string().required("Branch name is required"),
     designation: yup.string().required("Designation is required"),
-    department: yup.string().required("Department is required"),
     shift: yup.string().required("Shift is required"),
     salary: yup.string().required("Salary is required"),
     joiningDate: yup.string().required("Joining date is required"),
@@ -58,7 +57,9 @@ const EditStaff = () => {
       const { Id } = useParams();
 
        const token = Cookies.get('token');
-   
+
+       const [branch, setBranch] = useState([])
+
        const Base_url = process.env.REACT_APP_BASE_URL;
      
        const [loading, setLoading] = useState(false)
@@ -68,7 +69,8 @@ const EditStaff = () => {
        const [existingDocuments, setExistingDocuments] = useState({});
 
        const [gender, setGender]=useState([])
-
+       
+       const [editData, setEditData] =useState([])
 
        const navigate= useNavigate()
      
@@ -82,10 +84,28 @@ const EditStaff = () => {
       
     });
 
-
-
     useEffect(() => {
-
+        const fetchBranchData = async () => {
+          try {
+            const response = await fetch(`${Base_url}/branch`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+      
+            const result = await response.text();
+            const res = JSON.parse(result);
+      
+            if (res.status === "success") {
+              const formattedData = res.data.map((item) => item.branchName);
+              setBranch(formattedData);
+            }
+          } catch (error) {
+            console.error("Error fetching branch data:", error);
+          }
+        };
+      
         const fetchStaffData = async () => {
           try {
             const response = await fetch(`${Base_url}/staff/${Id}`, {
@@ -98,11 +118,10 @@ const EditStaff = () => {
             const result = await response.text();
             const res = JSON.parse(result);
       
-            setGender(res.data.gender)
+            setGender(res.data.gender);
+
       
             if (res.status === "success") {
-              setLoading(false);
-            
               reset({
                 staffName: res.data.staffName,
                 gender: res.data.gender,
@@ -110,36 +129,47 @@ const EditStaff = () => {
                 mobileNumber: res.data.mobileNumber,
                 emailId: res.data.emailId,
                 experience: res.data.experience,
-                qualification:res.data.qualification,
-                address:res.data.address,
+                qualification: res.data.qualification,
+                address: res.data.address,
                 salary: res.data.companyDetails.salary,
-                branchName:res.data.companyDetails.branchName,
-                designation:res.data.companyDetails.designation,
-                joiningDate:res.data.companyDetails.joiningDate ? new Date(res.data.companyDetails.joiningDate).toISOString().split("T")[0] : "",
-                department:res.data.companyDetails.department,
-                shift:res.data.companyDetails.shift,
-                accountHolderName:res.data.bankDetails.accountHolderName,
-                accountNumber:res.data.bankDetails.accountNumber,
-                bankName:res.data.bankDetails.bankName,
-                ifscCode:res.data.bankDetails.ifscCode,
-                branch:res.data.bankDetails.branch,
-                branchLocation:res.data.bankDetails.branchLocation
-                
-                 
-               });
+                branchName: res.data.companyDetails.branchName,
+                designation: res.data.companyDetails.designation,
+                joiningDate: res.data.companyDetails.joiningDate
+                  ? new Date(res.data.companyDetails.joiningDate).toISOString().split("T")[0]
+                  : "",
+                shift: res.data.companyDetails.shift,
+                accountHolderName: res.data.bankDetails.accountHolderName,
+                accountNumber: res.data.bankDetails.accountNumber,
+                bankName: res.data.bankDetails.bankName,
+                ifscCode: res.data.bankDetails.ifscCode,
+                branch: res.data.bankDetails.branch,
+                branchLocation: res.data.bankDetails.branchLocation,
+              });
       
-               setExistingDocuments(res.data.documents || {});
-               setLoadingdata(false)
+              setEditData(res.data)
+              setExistingDocuments(res.data.documents || {});
             }
           } catch (error) {
             console.error("Error fetching staff data:", error);
           }
         };
       
-        if (loadingdata) {
-          fetchStaffData();
+        const fetchData = async () => {
+          try {
+            await Promise.all([fetchBranchData(), fetchStaffData()]);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          } finally {
+        
+            setLoadingdata(false);
+          }
+        };
+      
+        if ( loadingdata) {
+          fetchData();
         }
       }, [loadingdata]);
+      
 
  
 
@@ -153,7 +183,6 @@ const EditStaff = () => {
             branchName:data.branchName,
             designation:data.designation,
             joiningDate:data.joiningDate,
-            department:data.department,
             shift:data.shift
           };
          
@@ -227,6 +256,7 @@ const EditStaff = () => {
     return (
         <>
           {!loadingdata &&
+            <Box className="overflow"> 
             <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={6} style={{ padding: "20px" }}>
                 
@@ -430,28 +460,42 @@ const EditStaff = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                             <Box>
-                                <TextField
-                                  InputLabelProps={{ shrink: true }}
-                                    type="text"
-                                    label={
-                                        <>
-                                        Branch Name
-                                        </>
-                                    }
-                                    variant="outlined"
-                                    {...register("branchName")}
-                                    error={!!errors.branchName}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.branchName?.message}
-                                    </div>
+                            <TextField
+                            select
+                            label={
+                            <>
+                                Branch Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                            </>
+                            }
+                            variant="outlined"
+                            {...register("branchName")}
+                            defaultValue={editData.companyDetails.branchName}
+                            error={!!errors.branchName}
+                            fullWidth
+                            margin="normal"
+                            SelectProps={{
+                            MenuProps: {
+                                PaperProps: {
+                                style: { maxHeight: 200 },
+                                },
+                            },
+                            }}
+                            >
+                            {branch?.map((branchName, index) => (
+                            <MenuItem key={index} value={branchName}>
+                                {branchName}
+                            </MenuItem>
+                            ))}
+                            </TextField>
+
+                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                            {errors.branchName?.message}
+                            </div>
                                 </Box>
                                 <Box>
                                 <TextField
                                   InputLabelProps={{ shrink: true }}
-                                    type="text"
+                                   select
                                     label={
                                         <>
                                         Designation
@@ -461,31 +505,51 @@ const EditStaff = () => {
                                     {...register("designation")}
                                     error={!!errors.designation}
                                     fullWidth
+                                    defaultValue={editData.companyDetails.designation}
                                     margin="normal"
-                                />
+                                    SelectProps={{
+                                        MenuProps: {
+                                            PaperProps: {
+                                            style: { maxHeight: 200 },
+                                            },
+                                        },
+                                        }}
+                                >
+                                <MenuItem value ="Compounder">Compounder</MenuItem>
+                                <MenuItem value ="Nurse">Nurse</MenuItem>
+                                <MenuItem value ="Receptionist">Receptionist</MenuItem>
+                                <MenuItem value ="Pharmacist">Pharmacist</MenuItem>
+                                <MenuItem value ="Security Guard">Security Guard</MenuItem>
+                                <MenuItem value ="Ward Boy">Ward Boy</MenuItem>
+                                <MenuItem value ="Accountant">Accountant</MenuItem>
+                                <MenuItem value ="Radiologist">Radiologist</MenuItem>
+                                <MenuItem value ="HR Manager">HR Manager</MenuItem>
+                                </TextField>
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
                                     {errors.designation?.message}
                                     </div>
                                 </Box>
+
                                 <Box>
-                                <TextField
-                                 InputLabelProps={{ shrink: true }}
-                                    type="text"
+                                <TextField 
+                                 InputLabelProps={{shrink:true}}
+                                    type="date"
                                     label={
                                         <>
-                                        Department
+                                        Joining Date
                                         </>
                                     }
                                     variant="outlined"
-                                    {...register("department")}
-                                    error={!!errors.department}
+                                    {...register("joiningDate")}
+                                    error={!!errors.joiningDate}
                                     fullWidth
                                     margin="normal"
                                 />
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.department?.message}
+                                    {errors.joiningDate?.message}
                                     </div>
                                 </Box>
+
                                </Grid>
                             <Grid item xs={6}>
                             <Box>
@@ -526,25 +590,7 @@ const EditStaff = () => {
                                     {errors.salary?.message}
                                     </div>
                                 </Box>
-                                <Box>
-                                <TextField 
-                                 InputLabelProps={{shrink:true}}
-                                    type="date"
-                                    label={
-                                        <>
-                                        Joining Date
-                                        </>
-                                    }
-                                    variant="outlined"
-                                    {...register("joiningDate")}
-                                    error={!!errors.joiningDate}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.joiningDate?.message}
-                                    </div>
-                                </Box>
+                               
                              </Grid>
                         </Grid>
                     </Box>
@@ -725,7 +771,7 @@ const EditStaff = () => {
                         </Grid>
                     </Box>
                 </Grid>
-                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2, width:"100%" }}>
                 <Button onClick={handleCancel} className="secondary_button">
                   Cancel
                 </Button>
@@ -745,6 +791,7 @@ const EditStaff = () => {
              </Box>
             </Grid>
             </form>
+            </Box>
  }
         </>
     );

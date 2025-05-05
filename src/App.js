@@ -22,9 +22,10 @@ import Expense from "./Finance/Expense/Expense";
 import CreateDoctor from "./Doctor/AllDoctor/Create/Create";
 import ViewDoctor from "./Doctor/AllDoctor/View/View";
 import EditDoctor from "./Doctor/AllDoctor/Edit/Edit";
-import Profile from "./MyProfile/MyProfile";
+
 
 import ProtectedRoute from "./Component/ProtectedRoute/ProtectedRoute";
+import Profile from "./Profile/Profile";
 
 
 

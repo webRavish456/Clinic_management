@@ -25,32 +25,60 @@ import { useNavigate } from "react-router-dom";
  
 
 const schema = yup.object().shape({
-doctorName: yup.string().required("Doctor Name is required"),
-gender: yup.string().required("Gender is required"),
-dob: yup.string().required("Date of birth is required"),
-mobileNumber: yup.string().required("Mobile number is required"),
-emailId: yup.string().required("Email ID is required"),
-experience: yup.string().required("Experience is required"),
-qualification: yup.string().required("Qualification is required"),
-address: yup.string().required("Address is required"),
-branchName: yup.string().required("Branch name is required"),
-specialization: yup.string().required("Specialization is required"),
-department:yup.string().required("Department is required"),
-salary:yup.string().required("Salary is required"),
-assignDepartmentHead:yup.string().required("Assign Department Head is required"),
-joiningDate: yup.string().required(" Joining date is required"),
-resumeCertificate: yup.mixed().required("Resume is required"),
-licenseCertificate:yup.mixed().required("Lincense is required"),
-highestQualificationCertificate: yup.mixed().required("Highest qualification certificate is required"),
-panCard: yup.mixed().required("Pan card is required"),
-aadharCard: yup.mixed().required("Aadhar card is required"),
-accountHolderName: yup.string().required("Account holder name is required"),
-accountNumber: yup.string().required("Account number is required"),
-bankName: yup.string().required("Bank name is required"),
-ifscCode: yup.string().required("IFSC code is required"),
-branch: yup.string().required("Branch  is required"),
-branchLocation: yup.string().required("Branch name is required"),
-});
+
+    doctorName: yup.string().required("Doctor Name is required"),
+    gender: yup.string().required("Gender is required"),
+    dob: yup.string().required("Date of birth is required"),
+    mobileNumber: yup
+    .string()
+    .required("Mobile number is required")
+    .matches(/^[0-9]{10}$/, "Mobile number must be exactly 10 digits"),
+    emailId: yup
+    .string()
+    .required("Email ID is required")
+    .email("Invalid email format"),
+    experience: yup.string().required("Experience is required"),
+    qualification: yup.string().required("Qualification is required"),
+    address: yup.string().required("Address is required"),
+    branchName: yup.string().required("Branch name is required"),
+    specialization: yup.string().required("Specialization is required"),
+    department:yup.string().required("Department is required"),
+    salary:yup.string().required("Salary is required"),
+    assignDepartmentHead:yup.string().required("Assign Department Head is required"),
+    joiningDate: yup.string().required(" Joining date is required"),
+    resumeCertificate: yup
+    .mixed()
+    .test("required", "Resume Certificate is required", (value) => {
+    return value && value.length > 0;
+    }),
+    licenseCertificate: yup
+    .mixed()
+    .test("required", "License Certificate is required", (value) => {
+    return value && value.length > 0;
+    }),
+    highestQualificationCertificate: yup
+    .mixed()
+    .test("required", "Highest qualification certificate is required", (value) => {
+    return value && value.length > 0;
+    }),
+    panCard: yup
+    .mixed()
+    .test("required", "Pan Card is required", (value) => {
+    return value && value.length > 0;
+    }),
+    aadharCard: yup
+    .mixed()
+    .test("required", "Aadhar Card is required", (value) => {
+    return value && value.length > 0;
+    }),
+    accountHolderName: yup.string().required("Account holder name is required"),
+    accountNumber: yup.string().required("Account number is required"),
+    bankName: yup.string().required("Bank name is required"),
+    ifscCode: yup.string().required("IFSC code is required"),
+    branch: yup.string().required("Branch  is required"),
+    branchLocation: yup.string().required("Branch name is required")
+
+ });
 
 const CreateDoctor = () => {
     
@@ -114,13 +142,13 @@ const CreateDoctor = () => {
             const result = await response.text();
             const res = JSON.parse(result);
       
-            if (res.status === "success") {
-              const formattedDepartment = res.data.map((item) => item.departmentName);
-              const formattedSpecialization = res.data.map((item) => item.specialization);
-      
+            const formattedDepartment = res.data.map((item) => ({
+                departmentName: item.departmentName,
+                specialization: item.specialization,
+              }));
+              
               setDepartment(formattedDepartment);
-              setSpecialization(formattedSpecialization);
-            }
+              
           } catch (error) {
             console.error("Error fetching department data:", error);
           }
@@ -142,7 +170,18 @@ const CreateDoctor = () => {
       
       }, [loadingData]);
       
-       
+      const onDepartmentChange = (e) => {
+
+        const selectedDept = e.target.value;
+        const deptDetails = department.find((dept) => dept.departmentName === selectedDept);
+      
+        if (deptDetails) {
+          setSpecialization(deptDetails.specialization);
+        } else {
+          setSpecialization([]);
+        }
+      };
+      
 
     const onSubmit = (data) => {
     
@@ -206,8 +245,11 @@ const CreateDoctor = () => {
                        setLoading(false)
                       
                        toast.success("Doctor Created Successfully!")
-                       navigate("/doctor/all-doctor")
-                       reset();
+                       setTimeout(()=> {
+                        navigate("/doctor/all-doctor")
+                        reset();
+                       },[1000])
+                       
                      }
                      else {
           
@@ -224,6 +266,8 @@ const CreateDoctor = () => {
                  navigate("/doctor/all-doctor")
             }
       
+
+
     return (
             <>
             <ToastContainer/>
@@ -426,61 +470,100 @@ const CreateDoctor = () => {
                         </Typography>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
+
                             <Box>
-                                <TextField
-                                    type="text"
-                                    label={
-                                        <>
-                                        Branch Name
-                                        </>
-                                    }
-                                    variant="outlined"
-                                    {...register("branchName")}
-                                    error={!!errors.branchName}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.branchName?.message}
-                                    </div>
+                            <TextField
+                            select
+                            label={
+                            <>
+                                Branch Name<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                            </>
+                            }
+                            variant="outlined"
+                            {...register("branchName")}
+                            error={!!errors.branchName}
+                            fullWidth
+                            margin="normal"
+                            SelectProps={{
+                            MenuProps: {
+                                PaperProps: {
+                                style: { maxHeight: 200 },
+                                },
+                            },
+                            }}
+                            >
+                            {branch?.map((branchName, index) => (
+                            <MenuItem key={index} value={branchName}>
+                                {branchName}
+                            </MenuItem>
+                            ))}
+                            </TextField>
+
+                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                            {errors.branchName?.message}
+                            </div>
+
                                 </Box>
+                               
                                 <Box>
+
                                 <TextField
-                                    type="text"
+                                    select
                                     label={
                                         <>
-                                        Specialization
+                                        Department<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                                         </>
                                     }
                                     variant="outlined"
-                                    {...register("specialization")}
-                                    error={!!errors.specialization}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.specialization?.message}
-                                    </div>
-                                </Box>
-                                
-                                <Box>
-                                <TextField
-                                    type="text"
-                                    label={
-                                        <>
-                                        Department
-                                        </>
-                                    }
-                                    variant="outlined"
-                                    {...register("department")}
                                     error={!!errors.department}
                                     fullWidth
                                     margin="normal"
+                                    {...register("department")}
+                                    onChange={(e) => {
+                                        register("department").onChange(e);
+                                        onDepartmentChange(e);
+                                    }}
+                                
+                                    SelectProps={{
+                                        MenuProps: {
+                                        PaperProps: {
+                                            style: { maxHeight: 200 },
+                                        },
+                                        },
+                                    }}
+                                    >
+                                    {department?.map((dept, index) => (
+                                        <MenuItem key={index} value={dept.departmentName}>
+                                        {dept.departmentName}
+                                        </MenuItem>
+                                    ))}
+                                    </TextField>
+
+                                      <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                                       {errors.department?.message}
+                                       </div>
+
+                                    </Box>
+
+                                    <Box>
+
+                                <TextField InputLabelProps={{shrink:true}}
+                                    type="date"
+                                    label={
+                                        <>
+                                        Joining Date
+                                        </>
+                                    }
+                                    variant="outlined"
+                                    {...register("joiningDate")}
+                                    error={!!errors.joiningDate}
+                                    fullWidth
+                                    margin="normal"
                                 />
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.department?.message}
+                                    {errors.joiningDate?.message}
                                     </div>
-                                </Box>
+                                </Box>      
                                 
                                 
                             </Grid>
@@ -504,25 +587,43 @@ const CreateDoctor = () => {
                                     {errors.salary?.message}
                                     </div>
                                 </Box>
-                                 
+
                                 <Box>
-                                <TextField InputLabelProps={{shrink:true}}
-                                    type="date"
-                                    label={
-                                        <>
-                                        Joining Date
-                                        </>
-                                    }
-                                    variant="outlined"
-                                    {...register("joiningDate")}
-                                    error={!!errors.joiningDate}
+                              <TextField
+                                select
+                                label={
+                                    <>
+                                    Specialization
+                                    </>
+                                }
+                                 variant="outlined"
                                     fullWidth
                                     margin="normal"
-                                />
-                                   <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                    {errors.joiningDate?.message}
+                                {...register("specialization")}
+                                error={!!errors.specialization}
+                               
+                                SelectProps={{
+                                    MenuProps: {
+                                    PaperProps: {
+                                        style: { maxHeight: 200 },
+                                    },
+                                    },
+                                }}
+                                >
+                                {specialization?.map((spec, index) => (
+                                    <MenuItem key={index} value={spec}>
+                                    {spec}
+                                    </MenuItem>
+                                ))}
+                                </TextField>
+                                
+                                <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+                                    {errors.specialization?.message}
                                     </div>
+
                                 </Box>
+
+                              
                                 <FormControl component="fieldset" fullWidth margin="normal" error={!!errors.assignDepartmentHead}>
                         <FormLabel component="legend" sx={{ marginLeft: 2 }}>Assign Department Head</FormLabel>
                         <RadioGroup row>
@@ -555,7 +656,6 @@ const CreateDoctor = () => {
                         <Typography variant="h6" gutterBottom>
                             Document Details
                         </Typography>
-                        
                         <Box marginBottom={2}>
                                 <TextField InputLabelProps={{shrink:true}}
                                     type="file"

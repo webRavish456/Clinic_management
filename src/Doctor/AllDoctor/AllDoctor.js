@@ -69,8 +69,9 @@ const AllDoctor=()=>
         .then((result) => {
           const res = JSON.parse(result);
           if (res.status === "success") {
-            toast.success("Staff deleted successfully!");
-          setLoading(true);
+            setLoading(true);
+            toast.success("Doctor deleted successfully!");
+         
           } else {
             toast.error(res.message);
           }

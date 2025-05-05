@@ -7,6 +7,7 @@ import {
     Box,
     CircularProgress,
     Typography,
+    MenuItem,
   } from "@mui/material";
 
 import { useForm } from "react-hook-form";
@@ -28,6 +29,7 @@ import { NavLink } from "react-router-dom";
     address: yup.string().required(" Address is required"),
     treatment: yup.string().required(" Treatment is required"),
     medicalHistory: yup.mixed().required(" Medical History is required"),
+    status: yup.string().required(" Status is required"),
   });
 
 const EditPatient =({handleCreate, editData, handleClose})=>
@@ -145,7 +147,7 @@ const EditPatient =({handleCreate, editData, handleClose})=>
 
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
-              type="text"
+              select
               label={
                 <>
                   Gender <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
@@ -156,7 +158,21 @@ const EditPatient =({handleCreate, editData, handleClose})=>
               error={!!errors.gender}
               fullWidth
               margin="normal"
-            />
+              defaultValue={editData.gender}
+              SelectProps={{
+                MenuProps: {
+                PaperProps: {
+                    style: { maxHeight: 200 },
+                },
+                },
+            }}
+            >
+
+              <MenuItem value="male">Male</MenuItem>
+              <MenuItem value="female">Female</MenuItem>
+              <MenuItem value="others">Others</MenuItem>
+
+            </TextField>
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.gender?.message}
             </div>
@@ -202,18 +218,39 @@ const EditPatient =({handleCreate, editData, handleClose})=>
 
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
             <TextField
-              type="text"
+            
+              select
               label={
                 <>
                   Blood Group <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
                 </>
               }
+
               variant="outlined"
               {...register("bloodGroup")}
               error={!!errors.bloodGroup}
               fullWidth
               margin="normal"
-            />
+              defaultValue={editData.bloodGroup}
+
+              SelectProps={{
+                MenuProps: {
+                PaperProps: {
+                    style: { maxHeight: 200 },
+                },
+                },
+            }}
+            >
+                 <MenuItem value="A+">A+</MenuItem>
+                <MenuItem value="B+">B+</MenuItem>
+                <MenuItem value="O+">O+</MenuItem>
+                <MenuItem value="A-">A-</MenuItem>
+                <MenuItem value="B-">B-</MenuItem>
+                <MenuItem value="O-">O-</MenuItem>
+                <MenuItem value="AB+">AB+</MenuItem>
+                <MenuItem value="AB-">AB-</MenuItem>
+
+            </TextField>
             
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.bloodGroup?.message}
@@ -277,20 +314,35 @@ const EditPatient =({handleCreate, editData, handleClose})=>
           </Grid>
    
           <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-                    <TextField
-                        type="text"
-                        label={
-                          <>
-                            status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                          </>
-                        }
-                        variant="outlined"
-                        {...register("status")}
-                        error={!!errors.status}
-                        fullWidth
-                        margin="normal"
-                      />
-                     
+          <TextField
+                        InputLabelProps={{shrink:true}}
+                          select
+                          label={
+                              <>
+                             Status<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                              </>
+                          }
+                            variant="outlined"
+                              fullWidth
+                              margin="normal"
+                          {...register("status")}
+
+                         defaultValue={editData.status}
+                          error={!!errors.status}
+                          
+                          SelectProps={{
+                              MenuProps: {
+                              PaperProps: {
+                                  style: { maxHeight: 200 },
+                              },
+                              },
+                          }}
+                          > 
+                     <MenuItem value="Under Observation">Under Observation</MenuItem>
+                    <MenuItem value="Under Treatment">Under Treatment</MenuItem>
+                    <MenuItem value="Recovered">Recovered</MenuItem>
+
+                          </TextField>
                       <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
                         {errors.status?.message}
                       </div>

@@ -48,7 +48,7 @@ const ViewShiftManagement =({viewData})=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.shiftStartDate}</Box>
+            <Box className="pageDescription">{new Date(viewData.shiftStartDate).toLocaleDateString("en-IN")}</Box>
             </Grid>
 
             </Grid>
@@ -60,7 +60,7 @@ const ViewShiftManagement =({viewData})=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.shiftEndDate}</Box>
+            <Box className="pageDescription">{new Date(viewData.shiftEndDate).toLocaleDateString("en-IN")}</Box>
             </Grid>
 
             </Grid>
@@ -100,23 +100,7 @@ const ViewShiftManagement =({viewData})=>
             </Grid>
 
             </Grid>
-
-
-
-
-
-
             
-            
-
-
-            
-
-           
-
-           
-
-
             </Grid>
 
         </>

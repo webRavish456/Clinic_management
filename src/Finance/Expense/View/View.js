@@ -15,7 +15,7 @@ const ViewExpense =({viewData})=>
             <Box className="pageTitle">Expense Category:</Box> 
             </Grid>  
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.expenseCategory}</Box>
+            <Box className="pageDescription">{viewData.expenseType}</Box>
             </Grid>
 
            
@@ -32,15 +32,15 @@ const ViewExpense =({viewData})=>
 
             </Grid>
 
-<Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
+          <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
 
-<Grid item xs={6}>
-<Box className="pageTitle"> Date Paid:</Box>
-</Grid>
+          <Grid item xs={6}>
+          <Box className="pageTitle"> Date Paid:</Box>
+          </Grid>
 
-<Grid item xs={6}>
-<Box className="pageDescription">{viewData.datePaid}</Box>
-</Grid>
+          <Grid item xs={6}>
+          <Box className="pageDescription">{new Date(viewData.datePaid).toLocaleDateString("en-IN")}</Box>
+          </Grid>
             </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6} style={{display:"flex"}}>
@@ -50,7 +50,7 @@ const ViewExpense =({viewData})=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.transactionId}</Box>
+           {viewData.transactionId?  <Box className="pageDescription">{viewData.transactionId}</Box>: <Box className="pageDescription">------</Box>}
             </Grid>
 
             
@@ -66,7 +66,7 @@ const ViewExpense =({viewData})=>
             </Grid>
 
             <Grid item xs={6}>
-            <Box className="pageDescription">{viewData.amount}</Box>
+            <Box className="pageDescription">₹{viewData.amount}</Box>
             </Grid>
 
             </Grid>
