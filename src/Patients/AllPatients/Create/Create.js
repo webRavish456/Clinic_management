@@ -32,8 +32,11 @@ import Cookies from 'js-cookie';
     .matches(/^[6-9]\d{9}$/, "Enter a valid Mobile Number"),
     email: yup.string().email().required(" Email is required"),
     address: yup.string().required(" Address is required"),
-    medicalHistory: yup.mixed().required(" Medical History is required"),
-
+    medicalHistory: yup
+    .mixed()
+    .test("required", "Medical History is required", (value) => {
+    return value && value.length > 0;
+    }),
   });
 
 const CreateAllPatients =({handleCreate, handleClose})=>

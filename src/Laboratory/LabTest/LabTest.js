@@ -52,12 +52,12 @@ const LabTest = () => {
     { id: 'siNo', label: 'SI.No', flex: 1,align: 'center'  },
     { id: 'patientId', label: 'Patient Id', flex: 1, align: 'center' },
     { id: 'patientName', label: 'Patient Name', flex: 1, align: 'center' },
+    { id: 'treatment', label: 'Treatment', flex: 1, align: 'center' },
     { id: 'mobileNo', label: 'Mobile No.', flex: 1, align: 'center' },
     { id: 'testName', label: 'Test Name', flex: 1, align: 'center' },
-    {id: 'sampleCollectedOn', label: 'Sample Collected On', flex: 1, align: 'center'},
+    {id: 'labName', label: 'Lab Name', flex: 1, align: 'center'},
     {id: 'result', label: 'Result', flex: 1, align: 'center'},
-    {id: 'doctorName', label: 'Doctor Name', flex: 1, align: 'center'},
-    {id: 'assignedLabTechnician', label: 'Assigned Lab Technician', flex: 1, align: 'center'},
+    {id: 'doctorName', label: 'Doctor Assigned', flex: 1, align: 'center'},
    { id: 'status', label: 'Status', flex: 1, align: 'center' },
    { id: 'actions', label: 'Actions', flex: 1, align: 'center' },
   ];
@@ -86,7 +86,7 @@ const LabTest = () => {
              console.log(res)
 
              const formattedData = res.data.map((item, index) =>
-              createData(index + 1, item, item.patientId, item.patientName, item.mobileNo, item.testName, item.sampleCollectedOn, item.result, item.doctorName, item.assignedLabTechnician, item.status,)
+              createData(index + 1, item, item.patient._id, item.patientName, item.patient.treatment, item.mobileNo, item.testName, item.labName, item.labResult, item.patient.doctorAssigned, item.status)
             );
          
             setRows(formattedData)
@@ -105,8 +105,8 @@ const LabTest = () => {
     
      },[loading])
     
-  const  createData = (siNo,row, patientId, patientName, mobileNo, testName, sampleCollectedOn, result, doctorName, assignedLabTechnician,  status) => ({
-  row,  siNo, patientId, patientName, mobileNo, testName, sampleCollectedOn, result, doctorName, assignedLabTechnician, status, actions: (
+  const  createData = (siNo,row, patientId, patientName, treatment, mobileNo, testName,  labName, result, doctorName,  status) => ({
+  row,  siNo, patientId, patientName,treatment, mobileNo, testName,  labName, result, doctorName, status, actions: (
       <>
                     <IconButton style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
                      onClick={()=>handleView(row)}>
@@ -192,6 +192,29 @@ const LabTest = () => {
     setPage(0);
   };
 
+  const handleClick = async (pdfUrl) => {
+ 
+    try {
+  
+      const response = await fetch(pdfUrl.labResult);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+  
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = `${pdfUrl.patientName}-labresult.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+  
+    }
+     catch (error) {
+      console.error("Failed to download PDF", error);
+    }
+  
+  };
+
   return (
     <>
     <ToastContainer />
@@ -220,12 +243,20 @@ const LabTest = () => {
                 .map((row, idx) => (
 
                     <TableRow hover role="checkbox"  key={idx}>
-                      {columns.map((column) => (
-                        
-                          <TableCell key={column.id} align={column.align}>
-                            {row[column.id]}
+                       {columns.map((column) => (
+                          <TableCell key={column.id} align={column.align} style={{cursor:"pointer"}}>
+                             {column.id === "result" ? (
+                          <img
+                            onClick={()=>handleClick(row.row)}
+                            src="/pdf.png"
+                            alt="item"
+                            style={{ width: "30px", height: "30px", objectFit: "contain", cursor:"pointer" }}
+                          />
+                        ) : (
+                          row[column.id]
+                        )}
                           </TableCell>
-                            ))}
+                        ))}
                             </TableRow>
                           ))}     
             </TableBody>
@@ -243,17 +274,17 @@ const LabTest = () => {
       </Paper>
 
       <CommonDialog
-        open={openData || viewData || editData || deleteShow}
+        open={openData || viewShow || editShow || deleteShow}
         onClose={handleClose}
         dialogTitle={
           openData
-          ? "Create New LabTest"
+          ? "Create New Lab Test"
           : viewShow
-          ? "View LabTest"
+          ? "View Lab Test"
           : editShow
-          ? "Edit LabTest"
+          ? "Edit Lab Test"
           : deleteShow
-          ? "Delete LabTest"
+          ? "Delete Lab Test"
           : ""
         }
 

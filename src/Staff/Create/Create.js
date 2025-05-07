@@ -223,6 +223,7 @@ const CreateStaff = () => {
                             padding: "20px",
                             borderRadius: "8px",
                             marginBottom: "20px",
+                            backgroundColor:"#ffffff"
                         }}
                     >
                         <Typography variant="h6" gutterBottom>
@@ -401,6 +402,7 @@ const CreateStaff = () => {
                             padding: "20px",
                             borderRadius: "8px",
                             marginBottom: "20px",
+                               backgroundColor:"#ffffff"
                         }}
                     >
                         <Typography variant="h6" gutterBottom>
@@ -545,7 +547,7 @@ const CreateStaff = () => {
 
 
                 <Grid item xs={6}>
-                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
+                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px",   backgroundColor:"#ffffff" }}>
                         <Typography variant="h6" gutterBottom>
                             Document Details
                         </Typography>
@@ -563,6 +565,7 @@ const CreateStaff = () => {
                                     error={!!errors.highestQualificationCertificate}
                                     fullWidth
                                     margin="normal"
+                                    inputProps={{ accept: "application/pdf" }} 
                                 />
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
                                     {errors.highestQualificationCertificate?.message}
@@ -582,6 +585,7 @@ const CreateStaff = () => {
                                     error={!!errors.resumeCertificate}
                                     fullWidth
                                     margin="normal"
+                                    inputProps={{ accept: "application/pdf" }} 
                                 />
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
                                     {errors.resumeCertificate?.message}
@@ -601,6 +605,7 @@ const CreateStaff = () => {
                                     error={!!errors.aadharCard}
                                     fullWidth
                                     margin="normal"
+                                    inputProps={{ accept: "application/pdf" }} 
                                 />
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
                                     {errors.aadharCard?.message}
@@ -620,6 +625,7 @@ const CreateStaff = () => {
                                     error={!!errors.panCard}
                                     fullWidth
                                     margin="normal"
+                                    inputProps={{ accept: "application/pdf" }} 
                                 />
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
                                     {errors.panCard?.message}
@@ -629,7 +635,7 @@ const CreateStaff = () => {
                      </Grid>
 
                 <Grid item xs={6}>
-                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px" }}>
+                    <Box style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "8px",   backgroundColor:"#ffffff" }}>
                         <Typography variant="h6" gutterBottom>
                             Bank Details
                         </Typography>

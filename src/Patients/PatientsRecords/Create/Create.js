@@ -23,10 +23,12 @@ import Cookies from 'js-cookie';
 
   const schema = yup.object().shape({
     patientName: yup.string().required(" Patient Name is required"),
-    labReport: yup.string().required(" Lab Report is required"),
+    labReport: yup.mixed().test("required", "Lab Report is required", (value) => {
+      return value && value.length > 0;
+      }),
     mobileNo: yup.string().required(" Mobile Number is required"),
     doctorNotes: yup.string().required(" Doctor Notes is required"),
-    nextFollowUp: yup.string().required("Next Follow Up is required"),
+    nextFollowUp: yup.string(),
   });
 
 const CreatePatientsRecords =({handleCreate, handleClose})=>
@@ -58,7 +60,7 @@ const CreatePatientsRecords =({handleCreate, handleClose})=>
   
           const formdata = new FormData();
           formdata.append("patientName", data.patientName);
-          formdata.append("labReport", data.labReport);
+          formdata.append("labReport", data.labReport[0]);
           formdata.append("mobileNo", data.mobileNo);
           formdata.append("doctorNotes", data.doctorNotes);
           formdata.append("nextFollowUp", data.nextFollowUp);
@@ -123,26 +125,7 @@ const CreatePatientsRecords =({handleCreate, handleClose})=>
           <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
             <TextField
             InputLabelProps={{ shrink: true }}
-              type="file"
-              label={
-                <>
-                Lab Report <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("labReport")}
-              error={!!errors.labReport}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.labReport?.message}
-            </div>
-          </Grid>
-          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
-            <TextField
-            InputLabelProps={{ shrink: true }}
-              type="text"
+              type="number"
               label={
                 <>
                 Mobile Number <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
@@ -158,7 +141,46 @@ const CreatePatientsRecords =({handleCreate, handleClose})=>
               {errors.mobileNo?.message}
             </div>
           </Grid>
-          <Grid item xs={12}  sm={isSmScreen?12:6} md={6}>
+
+          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
+            <TextField
+            InputLabelProps={{ shrink: true }}
+              type="file"
+              label={
+                <>
+                Lab Report <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("labReport")}
+              error={!!errors.labReport}
+              fullWidth
+              margin="normal"
+              inputProps={{ accept: "application/pdf" }} 
+            />
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.labReport?.message}
+            </div>
+          </Grid>
+          
+          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
+            <TextField
+              type="date"
+              InputLabelProps={{shrink:true}}
+              label={
+                <>
+                  Next FollowUp 
+                </>
+              }
+              variant="outlined"
+              {...register("nextFollowUp")}
+              error={!!errors.nextFollowUp}
+              fullWidth
+              margin="normal"
+            />
+          </Grid>
+
+          <Grid item xs={12}  sm={12} md={12}>
             <TextField
               type="text"
               label={
@@ -170,30 +192,14 @@ const CreatePatientsRecords =({handleCreate, handleClose})=>
               {...register("doctorNotes")}
               error={!!errors.doctorNotes}
               fullWidth
+              multiline
               margin="normal"
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.doctorNotes?.message}
             </div>
           </Grid>
-          <Grid item xs={12}sm={isSmScreen?12:6} md={6}>
-            <TextField
-              type="text"
-              label={
-                <>
-                  Next FollowUp <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                </>
-              }
-              variant="outlined"
-              {...register("nextFollowUp")}
-              error={!!errors.nextFollowUp}
-              fullWidth
-              margin="normal"
-            />
-            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-              {errors.nextFollowUp?.message}
-            </div>
-          </Grid>
+          
          
         </Grid>
 

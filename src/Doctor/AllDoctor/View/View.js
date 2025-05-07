@@ -188,7 +188,7 @@ const ViewDoctor = () => {
           ].map(({ label, name, file }) => (
            
             <Box key={name} mb={2}>
-              <TextField fullWidth label={label} type="file" InputLabelProps={{ shrink: true }} margin="normal" />
+              <TextField fullWidth label={label} type="file" InputLabelProps={{ shrink: true }} margin="normal"  disabled />
               <Typography variant="body2">
                 View existing document: <NavLink to={formData.documents?.[name]} target="_blank" rel="noopener noreferrer">{file}</NavLink>
               </Typography>

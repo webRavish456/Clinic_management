@@ -57,7 +57,6 @@ const Appointment= () => {
       { id: 'appointmentDate', label: 'Appointment Date', flex: 1, align: 'center' },
       {id: 'appointmentStatus', label: 'Appointment Status', flex: 1, align: 'center'},
       { id: 'visitType', label: 'Visit Type', flex: 1, align: 'center' },
-      { id: 'status', label: 'Status', flex: 1, align: 'center' }, 
       { id: 'action', label: 'Actions', flex: 1, align: 'center' },
     ];
   
@@ -103,8 +102,8 @@ const Appointment= () => {
     
      },[loading])
     
-  const  createData = (row, patientName, doctorAssigned, treatment, gender, appointmentDate, mobileNo, emailId, appointmentStatus, visitType, status) => ({
-      row,patientName, doctorAssigned, gender, treatment, appointmentDate, mobileNo, emailId, appointmentStatus, visitType, status, action : (
+  const  createData = (row, patientName, doctorAssigned, treatment, gender, appointmentDate, mobileNo, emailId, appointmentStatus, visitType) => ({
+      row,patientName, doctorAssigned, gender, treatment, appointmentDate, mobileNo, emailId, appointmentStatus, visitType, action : (
       <>
                     <IconButton style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
                      onClick={()=>handleView(row)}>
@@ -193,7 +192,7 @@ const Appointment= () => {
     <ToastContainer />
 
     <Box className="container">
-      <Search onAddClick={onAddClick} buttonText="Add Appointment" />
+      <Search onAddClick={onAddClick} buttonText="Add New Appointment" />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="Appointment table">

@@ -22,7 +22,7 @@ import Cookies from 'js-cookie';
 
 
   const schema = yup.object().shape({
-    labReport: yup.mixed().required(" Lab Report is required"),
+    labReport: yup.mixed(),
     nextFollowUp: yup.string(),
     status: yup.string()
     
@@ -117,7 +117,7 @@ const EditPatientsRecords =({handleCreate, editData, handleClose})=>
               InputLabelProps={{ shrink: true }}
               label={
                 <>
-                  Lab Report <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Lab Report 
                 </>
               }
               variant="outlined"
@@ -125,6 +125,7 @@ const EditPatientsRecords =({handleCreate, editData, handleClose})=>
               error={!!errors.labReport}
               fullWidth
               margin="normal"
+              inputProps={{ accept: "application/pdf" }} 
             />
             <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
               {errors.labReport?.message}
@@ -137,7 +138,7 @@ const EditPatientsRecords =({handleCreate, editData, handleClose})=>
               InputLabelProps={{ shrink: true }}
               label={
                 <>
-                  Next Follow Up <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                  Next Follow Up 
                 </>
               }
               variant="outlined"
@@ -157,7 +158,7 @@ const EditPatientsRecords =({handleCreate, editData, handleClose})=>
                            < Grid item xs={12} sm={isSmScreen?12:6} md={6}>
                                    <FormControl fullWidth margin="normal" error={!!errors.Status}>
                                        <InputLabel id="gender-label">
-                                         Status<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                                         Status
                                        </InputLabel>
                                        <Select
                                          labelId="status-label"
@@ -167,8 +168,8 @@ const EditPatientsRecords =({handleCreate, editData, handleClose})=>
                                          {...register("status")}
                                        >
                                          <MenuItem value="Under Observation">Under Observation</MenuItem>
-                                         <MenuItem value="Under Treatment">Female</MenuItem>
-                                         <MenuItem value="Other">Other</MenuItem>
+                                         <MenuItem value="Under Treatment">Under Treatment</MenuItem>
+                                         <MenuItem value="Recovered">Recovered</MenuItem>
                                        </Select>
                                        <FormHelperText>{errors.status?.message}</FormHelperText>
                                      </FormControl>

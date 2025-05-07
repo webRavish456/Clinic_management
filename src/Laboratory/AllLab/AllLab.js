@@ -82,7 +82,15 @@ const AllLab = () => {
              console.log(res)
 
              const formattedData = res.data.map((item, index) =>
-              createData(index + 1, item, item.labName, item.labType, item.assigneeStaff, item.shift, item.status,)
+              createData(
+                index + 1,
+                item,
+                item.labName, 
+                item.labType, 
+                item.assigneeStaff, 
+                item.shift, 
+                item.status,
+              )
             );
          
             setRows(formattedData)
@@ -102,7 +110,14 @@ const AllLab = () => {
      },[loading])
     
   const  createData = (siNo,row, labName, labType, assigneeStaff, shift, status) => ({
-  row,  siNo, labName, labType, assigneeStaff, shift, status, actions: (
+       row,
+       siNo,
+       labName,
+       labType,
+       assigneeStaff,
+       shift,
+       status,
+       actions: (
       <>
                     <IconButton style={{ color: "#072eb0", padding: "4px", transform: "scale(0.8)" }}
                      onClick={()=>handleView(row)}>
@@ -239,7 +254,7 @@ const AllLab = () => {
       </Paper>
 
       <CommonDialog
-        open={openData || viewData || editData || deleteShow}
+        open={openData || viewShow || editShow || deleteShow}
         onClose={handleClose}
         dialogTitle={
           openData

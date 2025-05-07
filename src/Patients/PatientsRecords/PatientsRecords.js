@@ -61,6 +61,7 @@ const PatientsRecords = () => {
     { id: "action", label: "Action", flex: 1, align: "center" },
   ];
 
+
   useEffect(() => {
     const fetchPatientsRecordsData = async () => {
       try {
@@ -80,14 +81,14 @@ const PatientsRecords = () => {
             createData(
               index + 1,
               item,
-              item.patientID,
+              item.patient._id,
               item.treatment,
+              item.patientName,
               item.doctorAssigned,
-              item.patientname,
               item.labReport,
-              item.nextFollowUp,
-              item.admissionDate,
-              item.status
+              new Date(item.nextFollowUp).toLocaleDateString("en-IN"), 
+              new Date(item.patient.admissionDate).toLocaleDateString("en-IN"),   
+              item.patient.status
             )
           );
           setRows(formattedData);
@@ -108,15 +109,10 @@ const PatientsRecords = () => {
     patientID,
     treatment,
     patientname,
-
     doctorAssigned,
-
+     labReport,  
+    nextFollowUp,
     admissionDate,
-    treatment,
- labReport,
-    
- nextFollowUp,
-    
     status,
     action: (
       <>
@@ -143,7 +139,7 @@ const PatientsRecords = () => {
   });
 
   const handleView = (row) => {
-    console.log("row",row)
+
     setViewData(row);
     setViewShow(true);
   };
@@ -191,13 +187,13 @@ const PatientsRecords = () => {
     setDeleteShow(false);
   };
 
-  const handleCreate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleCreate = (data) => {
+    setLoading(data);
     setOpenData(false);
   };
 
-  const handleUpdate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleUpdate = (data) => {
+     setLoading(data);
     setEditShow(false);
   };
 
@@ -212,11 +208,34 @@ const PatientsRecords = () => {
     setPage(0);
   };
 
+  const handleClick = async (pdfUrl) => {
+ 
+    try {
+  
+      const response = await fetch(pdfUrl.labReport);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+  
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = `${pdfUrl.courseName}-syllabus.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+  
+    }
+     catch (error) {
+      console.error("Failed to download PDF", error);
+    }
+  
+  };
+
   return (
     <>
       <ToastContainer />
       <Box className="container">
-        <Search onAddClick={onAddClick} buttonText=" Add Patient Record" />
+        <Search onAddClick={onAddClick} buttonText="Add New Patient Record" />
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="patientsrecords table">
@@ -238,11 +257,20 @@ const PatientsRecords = () => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, idx) => (
                     <TableRow hover role="checkbox" key={idx}>
-                      {columns.map((column) => (
-                        <TableCell key={column.id} align={column.align}>
-                          {row[column.id]}
-                        </TableCell>
-                      ))}
+                        {columns.map((column) => (
+                          <TableCell key={column.id} align={column.align} style={{cursor:"pointer"}}>
+                             {column.id === "labReport" ? (
+                          <img
+                            onClick={()=>handleClick(row.row)}
+                            src="/pdf.png"
+                            alt="item"
+                            style={{ width: "30px", height: "30px", objectFit: "contain", cursor:"pointer" }}
+                          />
+                        ) : (
+                          row[column.id]
+                        )}
+                          </TableCell>
+                        ))}
                     </TableRow>
                   ))}
               </TableBody>
@@ -268,7 +296,7 @@ const PatientsRecords = () => {
               : viewShow
               ? "View Patient Record"
               : editShow
-              ? "Edit patient Record"
+              ? "Edit Patient Record"
               : deleteShow
               ? "Delete Patient Record"
               : ""

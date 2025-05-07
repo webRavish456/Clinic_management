@@ -90,7 +90,7 @@ const EditShiftManagement = ({ handleUpdate,  editData, handleClose}) => {
         formdata.append("workDays", data.workDays);
         formdata.append("shiftHours", data.shiftHours);
         formdata.append("shiftType", data.shiftType);
-        
+        formdata.append("availabilityStatus", data.availabilityStatus);
 
         const requestOptions = {
             method: "PATCH",

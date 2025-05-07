@@ -191,7 +191,7 @@ const Branch = () => {
     <>
       <ToastContainer />
       <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="+ Add Branchlist" />
+        <Search onAddClick={onAddClick} buttonText="Add New Branch" />
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="branch table">

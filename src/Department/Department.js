@@ -207,7 +207,7 @@ const Department = () => {
     <>
       <ToastContainer />
       <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="+Add Department" />
+        <Search onAddClick={onAddClick} buttonText="Add New Department" />
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="Department table">

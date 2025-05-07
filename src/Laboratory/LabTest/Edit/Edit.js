@@ -6,6 +6,7 @@ import {
     Box,
     CircularProgress,
     useMediaQuery,
+    Typography,
 } from "@mui/material";
 import * as  yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,18 +14,17 @@ import { useForm } from "react-hook-form";
 import { toast, } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from "js-cookie"
+import { NavLink } from "react-router-dom";
 
 const schema = yup.object().shape({
     patientName: yup.string().required("Patient Name is required"),
     mobileNo: yup.string().required("Mobile No is required"),
-    gender: yup.string().required("Gender is required"),
-    treatment: yup.string().required("Treatment is required"),
-    testName: yup.string().required("Test Name Name is required"),
-    doctorName: yup.string().required("Doctor Name is required"),
-    assignedLabTechnician: yup.string().required("Assigned Lab Technician is required"),
-    sampleCollectedOn: yup.string().required("Sample Collected On is required"),
-    result: yup.string().required("Result is required"),
-});
+    testName: yup.string().required("Test Name is required"),
+    labName: yup.string().required("Lab Name is required"),
+    labResult: yup
+    .mixed(),
+     
+   });
 
 const EditLabTest = ({ handleUpdate,  editData, handleClose}) => {
     const isSmScreen = useMediaQuery("(max-width:768px)");
@@ -48,13 +48,9 @@ const EditLabTest = ({ handleUpdate,  editData, handleClose}) => {
           reset({
             patientName: editData.patientName || "",
             mobileNo: editData.mobileNo || "",
-            gender: editData.gender || "",
-            treatment: editData.treatment || "",
             testName: editData.testName || "",
-            doctorName: editData.doctorName || "",
-            assignedLabTechnician: editData.assignedLabTechnician || "",
-            sampleCollectedOn: editData.sampleCollectedOn || "",
-            result: editData.result || "",
+            labName: editData.labName || "",
+            labResult: editData.labResult || "",
           });
         }
       }, [editData, reset]);
@@ -67,13 +63,9 @@ const EditLabTest = ({ handleUpdate,  editData, handleClose}) => {
         const formdata = new FormData();
         formdata.append("patientName", data.patientName);
         formdata.append("mobileNo", data.mobileNo);
-        formdata.append("gender", data.gender);
-        formdata.append("treatment", data.treatment);
         formdata.append("testName", data.testName);
-        formdata.append("doctorName", data.doctorName);
-        formdata.append("assignedLabTechnician", data.assignedLabTechnician);
-        formdata.append("sampleCollectedOn", data.sampleCollectedOn);
-        formdata.append("result", data.result);
+        formdata.append("labName", data.labName);
+        formdata.append("labResult", data.labResult[0]);
         
 
         const requestOptions = {
@@ -110,112 +102,142 @@ const EditLabTest = ({ handleUpdate,  editData, handleClose}) => {
             .catch((error) => console.error(error));
     };
 
-    return (
+            return (
+                <>
+                <form onSubmit={handleSubmit(onSubmit)}>
+
+        <Grid container columnSpacing={2}>
+
+        <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+
+        <TextField
+        label={
         <>
-        <form onSubmit={handleSubmit(onSubmit)}>
-                <Grid container columnSpacing={2}>
-                       
+        Patient Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+        </>
+        }
+        name="patientName"
+        variant="outlined"
+        {...register("patientName")}
+        error={!!errors.patientName}
+        fullWidth
+        margin="normal"
+        InputProps={{ readOnly: true }}
+        />
+        </Grid>
 
-                       
-                       
+        <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
 
-                        
+        <TextField
+        label={
+        <>
+        Mobile No <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+        </>
+        }
+        name="mobileNo"
+        variant="outlined"
+        {...register("mobileNo")}
+        error={!!errors.mobileNo}
+        fullWidth
+        margin="normal"
+        InputProps={{ readOnly: true }}
+        />
+        </Grid>
 
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-                            <TextField
-                                label={
-                                    <>
-                                        Test Name  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                type="text"
-                                variant="outlined"
-                                {...register("testName")}
-                                error={!!errors.testName}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.testName?.message}
-                            </div>
-                        </Grid>  
-                       
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-                            <TextField
-                                label={
-                                    <>
-                                        Assigned Lab Technician  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                type="text"
-                                variant="outlined"
-                                {...register("assignedLabTechnician")}
-                                error={!!errors.assignedLabTechnician}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.assignedLabTechnician?.message}
-                            </div>
-                        </Grid>  
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-                            <TextField
-                                label={
-                                    <>
-                                        Sample Collected On  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                type="text"
-                                variant="outlined"
-                                {...register("sampleCollectedOn")}
-                                error={!!errors.sampleCollectedOn}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.sampleCollectedOn?.message}
-                            </div>
-                        </Grid>  
-                        <Grid item xs={12} sm={isSmScreen ? 12 : 6} md={6}>
-                            <TextField
-                                label={
-                                    <>
-                                        Result  <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                                    </>
-                                }
-                                type="text"
-                                variant="outlined"
-                                {...register("result")}
-                                error={!!errors.result}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                                {errors.result?.message}
-                            </div>
-                        </Grid>  
-                                           
-                </Grid>
+        <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
 
-                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
-          <Button onClick={handleClose} className="secondary_button">
-            Cancel
-          </Button>
-          <Button type="submit" className="primary_button">
+        <TextField
+        label={
+        <>
+        Test Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+        </>
+        }
+        name="testName"
+        variant="outlined"
+        {...register("testName")}
+        error={!!errors.testName}
+        fullWidth
+        InputProps={{ readOnly: true }}
+        margin="normal"
+        />
 
-          {loading ? (
-       <>
-         <CircularProgress size={18} 
-          style={{ marginRight: 8, color: "#fff" }} />
-                Submitting
-            </>
-            ) : (
-            "Submit"
-            )}
+        </Grid>
 
-          </Button>
+        <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
+
+        <TextField
+        label={
+        <>
+            Lab Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+        </>
+        }
+        name="labName"
+        variant="outlined"
+        {...register("labName")}
+        error={!!errors.labName}
+        fullWidth
+        InputProps={{ readOnly: true }}
+        margin="normal"
+        />
+
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={12}>
+        <TextField
+        type="file"
+        InputLabelProps={{ shrink: true }}
+        
+        
+        label={
+        <>
+            Result <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+        </>
+        }
+        variant="outlined"
+        {...register("labResult")}
+        error={!!errors.labResult}
+        fullWidth
+        margin="normal"
+        inputProps={{ accept: "application/pdf" }}
+        />
+
+        <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+        {errors.labResult?.message}
+        </div>
+
+
+        <Typography variant="body2" sx={{ mt: 0 }}>
+                  View existing lab result:&nbsp;
+                  <NavLink
+                    to={editData.labResult} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    Lab Result
+                  </NavLink>
+                </Typography>
+
+        </Grid>
+
+        </Grid>
+
+        <Box className="submit" sx={{display :'flex', justifyContent : 'flex-end', gap :'10px'}}>
+        <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
+        <Button type="submit"  className="primary_button">
+        {loading ? (
+        <>
+        <CircularProgress size={18} 
+        style={{ marginRight: 8, color: "#fff" }} />
+        Submitting
+        </>
+        ) : (
+        "Submit"
+        )}
+
+        </Button>
         </Box>
-      </form>
+        </form>
+
 
 
 

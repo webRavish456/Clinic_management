@@ -9,10 +9,10 @@ const DeleteBranch= ({handleClose, isDeleting, handleDelete }) =>
      return (
      <>
     
-           <Box sx={{ width: '400px', padding: '20px', bgcolor: 'background.paper',textAlign:'flex-end' }}>
+           <Box sx={{ width: '400px', bgcolor: 'background.paper',textAlign:'flex-end' }}>
              Are you sure want to delete?
            </Box>
-           <Box className="submit" sx={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', margin: '20px'}}>
+           <Box className="submit" sx={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', margin: '20px 0px 0px'}}>
             <Button onClick={handleClose} className="secondary_button" >Cancel</Button>
             <Button  onClick={handleDelete} className="delete_button">
            

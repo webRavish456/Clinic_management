@@ -21,7 +21,6 @@ const handleAddClick = ()=> {
       alignItems:"center", 
       gridColumnGap:"20px", 
       marginBottom:"10px",
-     // marginTop:"10px",
       marginRight:"0px"}}
      
     >
@@ -38,7 +37,7 @@ const handleAddClick = ()=> {
         className="search"
       />
        <Box className="buttonContainer">
-      <Button variant="contained" color="primary" className="primary_button"   marginLeft="0px" tartIcon={<AddIcon />} onClick={onAddClick}>
+      <Button variant="contained" color="primary" className="primary_button"   marginLeft="0px" startIcon={<AddIcon />} onClick={onAddClick}>
        {buttonText}
       </Button>
       </Box>

@@ -16,40 +16,31 @@ const CommonDialog = ({open, onClose, dialogTitle, dialogContent}) =>
       
      return (
        
-             <Dialog
+            
+      <Dialog
+              key={dialogTitle}
         open={open}
         onClose={onClose}
-        disableEnforceFocus = {true}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         style={{padding:"0px"}}
-        PaperProps={{
-         sx: {
-           padding: 0,
-           minWidth: { xs: '90%', sm: 500 },
-           maxWidth: '600px', 
-         },
-       }}
-      >
-         {open &&  <DialogTitle id="alert-dialog-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        >
+        {open &&  <DialogTitle id="alert-dialog-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             {dialogTitle}
-            <IconButton onClick={onClose} style={{ color: "inherit" }}>
-             <CloseIcon />
-             </IconButton>
-      </DialogTitle>
-         }
-         {open &&
-         <DialogContent >
+              <IconButton onClick={onClose} style={{ color: "inherit" }}>
+              <CloseIcon />
+              </IconButton>
+        </DialogTitle>}
+
+        {open && <DialogContent >
           <DialogContentText id="alert-dialog-description">
 
           {dialogContent}
-  
-          </DialogContentText>
-          </DialogContent>
-          
-}
-      </Dialog>
 
+          </DialogContentText>
+        </DialogContent>}
+
+        </Dialog>
 
      )
 }

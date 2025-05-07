@@ -202,7 +202,7 @@ function createData(si, id, staffName, designation, mobileNumber, emailId,  shif
 
     <ToastContainer/>
     <Box className="container">
-      <Search onAddClick={onAddClick} buttonText="+ Add Staff"/>
+      <Search onAddClick={onAddClick} buttonText="Add Staff"/>
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">

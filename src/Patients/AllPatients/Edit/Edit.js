@@ -28,7 +28,7 @@ import { NavLink } from "react-router-dom";
     email: yup.string().required(" Email is required"),
     address: yup.string().required(" Address is required"),
     treatment: yup.string().required(" Treatment is required"),
-    medicalHistory: yup.mixed().required(" Medical History is required"),
+    medicalHistory: yup.mixed(),
     status: yup.string().required(" Status is required"),
   });
 

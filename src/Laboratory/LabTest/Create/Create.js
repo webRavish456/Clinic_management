@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 
 import {
@@ -25,13 +25,13 @@ import Cookies from 'js-cookie';
 const schema = yup.object().shape({
    patientName: yup.string().required("Patient Name is required"),
    mobileNo: yup.string().required("Mobile No is required"),
-   gender: yup.string().required("Gender is required"),
-   treatment: yup.string().required("Treatment is required"),
    testName: yup.string().required("Test Name is required"),
-   doctorName: yup.string().required("Assignee Staff is required"),
-   assignedLabTechnician: yup.string().required("Assigned Lab Technician is required"),
-   sampleCollectedOn: yup.string().required("Sample Collected On is required"),
-   result: yup.string().required("Result is required"),
+   labName: yup.string().required("Lab Name is required"),
+   labResult: yup
+   .mixed()
+   .test("required", "Lab Result is required", (value) => {
+   return value && value.length > 0;
+   }),
     
   });
 
@@ -42,8 +42,7 @@ const CreateLabTest =({handleCreate, handleClose})=>
 
     const Base_url = process.env.REACT_APP_BASE_URL;
 
-
- const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
   
     const {
       register,
@@ -56,19 +55,14 @@ const CreateLabTest =({handleCreate, handleClose})=>
 
     const onSubmit = (data) => {
     
-       console.log(data)
         setLoading(true)
 
        const formdata = new FormData();
        formdata.append("patientName", data.patientName);
        formdata.append("mobileNo", data.mobileNo);
-       formdata.append("gender", data.gender);
-       formdata.append("treatment", data.treatment);
        formdata.append("testName", data.testName);
-       formdata.append("doctorName", data.doctorName);
-       formdata.append("assignedLabTechnician", data.assignedLabTechnician);
-       formdata.append("sampleCollectedOn", data.sampleCollectedOn);
-       formdata.append("result", data.result);
+       formdata.append("labName", data.labName);
+       formdata.append("labResult", data.labResult[0]);
         
        const requestOptions = {
          method: "POST",
@@ -95,7 +89,8 @@ const CreateLabTest =({handleCreate, handleClose})=>
             reset();
           }
           else {
-  
+            handleCreate(true)
+            handleClose()
             setLoading(false)
             toast.error(res.message)
   
@@ -128,60 +123,23 @@ const CreateLabTest =({handleCreate, handleClose})=>
             margin="normal"
             />
             </Grid>
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-
-<TextField
-label={
-<>
-    Mobile No <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-</>
-}
-name="mobileNo"
-variant="outlined"
-{...register("mobileNo")}
-error={!!errors.mobileNo}
-fullWidth
-margin="normal"
-/>
-</Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
 
-            <TextField
-            label={
-            <>
-                Gender <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="gender"
-            variant="outlined"
-            {...register("gender")}
-            error={!!errors.gender}
-            fullWidth
-
-            margin="normal"
-            />
-
-            </Grid>
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-
-            <TextField
-            label={
-            <>
-                Treatment <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="treatment"
-            variant="outlined"
-            {...register("treatment")}
-            error={!!errors.treatment}
-            fullWidth
-
-            margin="normal"
-            />
-
-            </Grid>
-
+          <TextField
+          label={
+          <>
+              Mobile No <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+          </>
+          }
+          name="mobileNo"
+          variant="outlined"
+          {...register("mobileNo")}
+          error={!!errors.mobileNo}
+          fullWidth
+          margin="normal"
+          />
+          </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
 
@@ -203,110 +161,48 @@ margin="normal"
             </Grid>
 
             <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Doctor Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="doctorName"
-            variant="outlined"
-            {...register("doctorName")}
-            error={!!errors.doctorName}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Assigned Lab Technician <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="assignedLabTechnician"
-            variant="outlined"
-            {...register("assignedLabTechnician")}
-            error={!!errors.assignedLabTechnician}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
+              <TextField
+              label={
+              <>
+                  Lab Name <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+              </>
+              }
+              name="labName"
+              variant="outlined"
+              {...register("labName")}
+              error={!!errors.labName}
+              fullWidth
 
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Sample Collected On <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="sampleCollectedOn"
-            variant="outlined"
-            {...register("sampleCollectedOn")}
-            error={!!errors.sampleCollectedOn}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-            
-            <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-            <TextField
-            label={
-            <>
-                Result <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-            </>
-            }
-            name="result"
-            variant="outlined"
-            {...register("result")}
-            error={!!errors.result}
-            fullWidth
-            margin="normal"
-            />
-            </Grid>
-            
-            
+              margin="normal"
+              />
 
+          </Grid>
+           
+            <Grid item xs={12} sm={12} md={12}>
+          <TextField
+              type="file"
+              InputLabelProps={{ shrink: true }}
+              
+              
+              label={
+                <>
+                  Result <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
+                </>
+              }
+              variant="outlined"
+              {...register("labResult")}
+              error={!!errors.labResult}
+              fullWidth
+              margin="normal"
+              inputProps={{ accept: "application/pdf" }}
+            />
+           
+            <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
+              {errors.labResult?.message}
+            </div>
+          </Grid>
             
-
-            {/* <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-                        <TextField
-                          type="text"
-                          label={
-                            <>
-                              Status <span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-                            </>
-                          }
-                          variant="outlined"
-                          {...register("Status")}
-                          error={!!errors.Status}
-                          fullWidth
-                          margin="normal"
-                        />
-                        <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
-                          {errors.Status?.message}
-                        </div>
-                      </Grid> */}
-{/* <Grid item xs={12} sm={isSmScreen?12:6} md={6}>
-<FormControl fullWidth margin="normal" error={!!errors.status}>
-  <InputLabel id="status-label">
-    Status<span style={{ color: "rgba(240, 68, 56, 1)" }}>*</span>
-  </InputLabel>
-  <Select
-    labelId="status-label"
-    id="status"
-    label="Status"
-    defaultValue=""
-    {...register("status")}
-  >
-    <MenuItem value="complete">Complete</MenuItem>
-    <MenuItem value="active">Active</MenuItem>
-    <MenuItem value="uncomplete">Uncomplete</MenuItem>
-  </Select>
-  <FormHelperText>{errors.status?.message}</FormHelperText>
-</FormControl>
-</Grid> */}
             </Grid>
 
             <Box className="submit" sx={{display :'flex', justifyContent : 'flex-end', gap :'10px'}}>
@@ -321,7 +217,6 @@ margin="normal"
             ) : (
             "Submit"
             )}
-
 
             </Button>
             </Box>

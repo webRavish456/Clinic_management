@@ -210,7 +210,7 @@ const AllPatients = () => {
     <>
       <ToastContainer />
       <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="+ Add New Patients" />
+        <Search onAddClick={onAddClick} buttonText="Add New Patient" />
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="allpatients table">
@@ -258,13 +258,13 @@ const AllPatients = () => {
           onClose={handleClose}
           dialogTitle={
             openData
-              ? "Create New Patients"
+              ? "Create New Patient"
               : viewShow
-              ? "View Patients"
+              ? "View Patient"
               : editShow
-              ? "Edit patients"
+              ? "Edit Patient"
               : deleteShow
-              ? "Delete Patients"
+              ? "Delete Patient"
               : ""
           }
           dialogContent={

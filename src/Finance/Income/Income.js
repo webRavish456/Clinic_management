@@ -199,7 +199,7 @@ const Income = () => {
     <ToastContainer />
 
     <Box className="container">
-      <Search onAddClick={onAddClick} buttonText="Add Income" />
+      <Search onAddClick={onAddClick} buttonText="Add New Income" />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="income table">

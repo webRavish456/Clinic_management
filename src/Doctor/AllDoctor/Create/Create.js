@@ -669,6 +669,7 @@ const CreateDoctor = () => {
                                     error={!!errors.highestQualificationCertificate}
                                     fullWidth
                                     margin="normal"
+                                    inputProps={{ accept: "application/pdf" }} 
                                 />
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
                                     {errors.highestQualificationCertificate?.message}
@@ -688,6 +689,7 @@ const CreateDoctor = () => {
                                     error={!!errors.resumeCertificate}
                                     fullWidth
                                     margin="normal"
+                                    inputProps={{ accept: "application/pdf" }} 
                                 />
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
                                     {errors.resumeCertificate?.message}
@@ -698,7 +700,7 @@ const CreateDoctor = () => {
                                     type="file"
                                     label={
                                         <>
-                                      Lincense Certificate
+                                      License Certificate
                                         </>
                                     }
                                     variant="outlined"
@@ -706,6 +708,7 @@ const CreateDoctor = () => {
                                     error={!!errors.licenseCertificate}
                                     fullWidth
                                     margin="normal"
+                                    inputProps={{ accept: "application/pdf" }} 
                                 />
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
                                     {errors.licenseCertificate?.message}
@@ -725,6 +728,7 @@ const CreateDoctor = () => {
                                     error={!!errors.aadharCard}
                                     fullWidth
                                     margin="normal"
+                                    inputProps={{ accept: "application/pdf" }} 
                                 />
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
                                     {errors.aadharCard?.message}
@@ -743,6 +747,7 @@ const CreateDoctor = () => {
                                     error={!!errors.panCard}
                                     fullWidth
                                     margin="normal"
+                                    inputProps={{ accept: "application/pdf" }} 
                                 />
                                    <div style={{ color: "rgba(240, 68, 56, 1)", fontSize: "0.8rem" }}>
                                     {errors.panCard?.message}

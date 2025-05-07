@@ -94,8 +94,9 @@ const columns = [
   {id: 'mobileNumber',label: 'Mobile Number',flex:1,align: 'center',},
   
   {id: 'address',label: 'Address',flex:1, align: 'center',},
+  { id: 'department',label: 'Department', flex:1, align: 'center',},
   { id: 'specialization',label: 'Specialization ', flex:1, align: 'center',},
- 
+
   {id: 'qualification',label: 'Qualification ',flex:1,align: 'center',},
   {id: 'experience',label: 'Experience',flex:1,align: 'center', },
 
@@ -139,6 +140,7 @@ useEffect(() => {
             item.mobileNumber,
             item.address,
             item.companyDetails.specialization,
+            item.companyDetails.department,
             item.qualification,
             item.experience,
             formattedJoiningDate,  
@@ -160,8 +162,8 @@ useEffect(() => {
 }, [loading]);
 
 
-function createData(si,id, doctorName, mobileNumber, emailId, address, specialization, qualification, experience, joiningDate,status ) {
-  return { si, id ,doctorName, mobileNumber, emailId, address, specialization, qualification, experience,joiningDate , status, action: (
+function createData(si,id, doctorName, mobileNumber, emailId, address, specialization, department, qualification, experience, joiningDate,status ) {
+  return { si, id ,doctorName, mobileNumber, emailId, address, specialization, department, qualification, experience,joiningDate , status, action: (
       <>
       <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleView(id)}>
         <VisibilityIcon />
@@ -204,7 +206,7 @@ const [page, setPage] = useState(0);
     <>
        <ToastContainer/>
     <Box className="container" sx={{flexGrow:1,overflowY: "auto" , height:"100vh",}}>
-      <Search onAddClick={onAddClick} buttonText="+Add Doctor"/>
+      <Search onAddClick={onAddClick} buttonText="Add New Doctor"/>
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">

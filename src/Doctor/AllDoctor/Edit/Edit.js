@@ -274,25 +274,28 @@ const EditDoctor = () => {
        formdata.append("qualification", data.qualification);
        formdata.append("address", data.address);
 
-       if(data.resumeCertificate){
-        formdata.append("documents.resumeCertificate", data.resumeCertificate[0]);
+       if (Array.isArray(data.resumeCertificate) ||  data.resumeCertificate instanceof FileList)
+        {
+          formdata.append("documents.resumeCertificate", data.resumeCertificate[0]);
        }
 
-       if(data.licenseCertificate)
+      if ( Array.isArray(data.licenseCertificate) || data.licenseCertificate instanceof FileList)
        {
         formdata.append("documents.licenseCertificate", data.licenseCertificate[0]);
        }
 
-       if(data.highestQualificationCertificate)
+      if (Array.isArray(data.highestQualificationCertificate) ||  data.highestQualificationCertificate instanceof FileList)
        {
         formdata.append("documents.highestQualificationCertificate", data.highestQualificationCertificate[0]);
        }
 
-       if(data.panCard){
+      if (Array.isArray(data.panCard) || data.panCard instanceof FileList)
+        {
         formdata.append("documents.panCard", data.panCard[0]);
        }
 
-      if(data.aadharCard)
+       if (Array.isArray(data.aadharCard) || data.aadharCard instanceof FileList)
+     
       {
         formdata.append("documents.aadharCard", data.aadharCard[0]);
       }
@@ -319,7 +322,7 @@ const EditDoctor = () => {
                  {
                    setLoading(false)
                   
-                   toast.success(" Doctor Created Successfully!")
+                   toast.success(" Doctor Updated Successfully!")
                    navigate("/doctor/all-doctor")
                    reset();
                  }
@@ -694,27 +697,28 @@ const EditDoctor = () => {
                         <Grid item xs={12} md={6}>
 
                         <Box sx={{ border: "1px solid #ccc", borderRadius: 2, padding: 3, backgroundColor:"#ffffff" }}>
-  <Typography variant="h6" gutterBottom>
-    Document Details
-  </Typography>
-  {[
-    { label: "Highest Qualification Certificate", name: "highestQualificationCertificate", file: "certificate.pdf" },
-    { label: "Resume", name: "resumeCertificate", file: "resume.pdf" },
-    { label: "License Certificate", name: "licenseCertificate", file: "licenseCertificate.pdf" },
-    { label: "Aadhar Document", name: "aadharCard", file: "aadhar.pdf" },
-    { label: "PAN Card Document", name: "panCard", file: "panCard.pdf" }
-  ].map(({ label, name, file }) => (
-    <Box key={name} marginBottom={2}>
-      <TextField 
-        InputLabelProps={{ shrink: true }}
-        type="file"
-        label={label}
-        variant="outlined"
-        {...register(name)} // Register the input field
-        error={!!errors[name]} // Show error if present
-        fullWidth
-        margin="normal"
-      />
+                    <Typography variant="h6" gutterBottom>
+                      Document Details
+                    </Typography>
+                    {[
+                      { label: "Highest Qualification Certificate", name: "highestQualificationCertificate", file: "certificate.pdf" },
+                      { label: "Resume", name: "resumeCertificate", file: "resume.pdf" },
+                      { label: "License Certificate", name: "licenseCertificate", file: "licenseCertificate.pdf" },
+                      { label: "Aadhar Document", name: "aadharCard", file: "aadhar.pdf" },
+                      { label: "PAN Card Document", name: "panCard", file: "panCard.pdf" }
+                    ].map(({ label, name, file }) => (
+                      <Box key={name} marginBottom={2}>
+                        <TextField 
+                          InputLabelProps={{ shrink: true }}
+                          type="file"
+                          label={label}
+                          variant="outlined"
+                          {...register(name)} 
+                          error={!!errors[name]} 
+                          fullWidth
+                          margin="normal"
+                          inputProps={{ accept: "application/pdf" }} 
+                        />
 
       {existingDocuments?.[name] && (
         <Typography variant="body2" sx={{ mt: 1 }}>
