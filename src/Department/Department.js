@@ -41,6 +41,9 @@ const Department = () => {
   const token = Cookies.get("token");
   const Base_url = process.env.REACT_APP_BASE_URL;
 
+  const [filteredRows, setFilteredRows]=useState([]);
+  const [searchTerm, setSearchTerm]= useState("");
+
   const columns = [
     { id: "si", label: "SI.No", align: "center" },
     { id: "departmentName", label: "Department Name", align: "center" },
@@ -50,6 +53,8 @@ const Department = () => {
     { id: "status", label: "Status", align: "center" },
     { id: "action", label: "Actions", align: "center" },
   ];
+
+
 
   useEffect(() => {
     const fetchDepartmentData = async () => {
@@ -80,6 +85,7 @@ const Department = () => {
             )
           );
           setRows(formattedData);
+          setFilteredRows(formattedData)
         }
       } catch (error) {
         console.error("Error fetching department data:", error);
@@ -182,13 +188,13 @@ const Department = () => {
     setDeleteShow(false);
   };
 
-  const handleCreate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleCreate = (data) => {
+     setLoading(data);
     setOpenData(false);
   };
 
-  const handleUpdate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleUpdate = (data) => {
+     setLoading(data);
     setEditShow(false);
   };
 
@@ -203,11 +209,21 @@ const Department = () => {
     setPage(0);
   };
 
+  useEffect(() => {
+
+    const filtered = rows.filter(
+      (row) =>
+        row.departmentName.toLowerCase().includes(searchTerm.toLowerCase()) 
+    );
+    setFilteredRows(filtered);
+  }, [searchTerm, rows]); 
+
   return (
     <>
       <ToastContainer />
       <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="Add New Department" />
+        <Search searchTerm={searchTerm}
+         setSearchTerm={setSearchTerm} onAddClick={onAddClick} buttonText="Add New Department" />
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="Department table">
@@ -228,7 +244,7 @@ const Department = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows
+                {filteredRows
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <TableRow hover role="checkbox" key={row.row._id || row.si}>

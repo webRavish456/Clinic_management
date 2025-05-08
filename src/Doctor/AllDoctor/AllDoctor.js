@@ -43,6 +43,9 @@ const AllDoctor=()=>
 
     const Base_url = process.env.REACT_APP_BASE_URL;
 
+    const [filteredRows, setFilteredRows]=useState([]);
+    const [searchTerm, setSearchTerm]= useState("");
+
     const navigate = useNavigate();
    
     const handleView = (id) =>
@@ -136,8 +139,8 @@ useEffect(() => {
             index + 1,
             item._id,
             item.doctorName,
-            item.emailId,
             item.mobileNumber,
+            item.emailId,
             item.address,
             item.companyDetails.specialization,
             item.companyDetails.department,
@@ -149,6 +152,7 @@ useEffect(() => {
         });
         
         setRows(formattedData);
+        setFilteredRows(formattedData)
         
       }
     } catch (error) {
@@ -200,13 +204,28 @@ const [page, setPage] = useState(0);
       setDeleteData(false)
    };
 
+   useEffect(() => {
+
+    const filtered = rows.filter(
+      (row) =>
+        row.doctorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        String(row.mobileNumber).includes(searchTerm)  ||
+        row.emailId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.specialization.toLowerCase().includes(searchTerm.toLowerCase())  ||
+        String(row.joiningDate).includes(searchTerm) ||
+        row.status.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredRows(filtered);
+  }, [searchTerm, rows]); 
 
 
   return (
     <>
        <ToastContainer/>
     <Box className="container" sx={{flexGrow:1,overflowY: "auto" , height:"100vh",}}>
-      <Search onAddClick={onAddClick} buttonText="Add New Doctor"/>
+      <Search searchTerm={searchTerm}
+         setSearchTerm={setSearchTerm} onAddClick={onAddClick} buttonText="Add New Doctor"/>
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
@@ -224,7 +243,7 @@ const [page, setPage] = useState(0);
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {filteredRows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (

@@ -62,6 +62,9 @@ const ShiftManagement = () => {
    { id: 'actions', label: 'Actions', flex: 1, align: 'center' },
   ];
 
+  const [filteredRows, setFilteredRows]=useState([]);
+  const [searchTerm, setSearchTerm]= useState("");
+
   useEffect(()=>
     {
   
@@ -82,14 +85,14 @@ const ShiftManagement = () => {
           if (res.status === "success") {
   
              setLoading(false);
-  
-             console.log(res)
+
 
              const formattedData = res.data.map((item, index) =>
               createData(index + 1, item, item.doctorName, item.specialization, item.department, new Date(item.shiftStartDate).toLocaleDateString("en-IN"), new Date(item.shiftEndDate).toLocaleDateString("en-IN"), item.workDays, item.shiftHours, item.shiftType, item.availabilityStatus)
             );
          
             setRows(formattedData)
+            setFilteredRows(formattedData)
           } 
   
        } 
@@ -203,12 +206,28 @@ const ShiftManagement = () => {
     setPage(0);
   };
 
+  useEffect(() => {
+
+    const filtered = rows.filter(
+      (row) =>
+        row.doctorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        String(row.shiftStartDate).includes(searchTerm)  ||
+        String(row.shiftEndDate).includes(searchTerm)  ||
+        row.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.specialization.toLowerCase().includes(searchTerm.toLowerCase())  ||
+        row.shiftType.toLowerCase().includes(searchTerm.toLowerCase())||
+        row.availabilityStatus.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredRows(filtered);
+  }, [searchTerm, rows]); 
+
   return (
     <>
     <ToastContainer />
 
     <Box className="container">
-      <Search onAddClick={onAddClick} buttonText="Add Shift Management" />
+      <Search searchTerm={searchTerm}
+         setSearchTerm={setSearchTerm} onAddClick={onAddClick} buttonText="Add Shift Management" />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="shiftmanagement table">
@@ -226,7 +245,7 @@ const ShiftManagement = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filteredRows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, idx) => (
 

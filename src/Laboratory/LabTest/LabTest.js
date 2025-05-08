@@ -62,6 +62,21 @@ const LabTest = () => {
    { id: 'actions', label: 'Actions', flex: 1, align: 'center' },
   ];
 
+  const [filteredRows, setFilteredRows]=useState([]);
+  const [searchTerm, setSearchTerm]= useState("");
+
+  useEffect(() => {
+
+    const filtered = rows.filter(
+      (row) =>
+        row.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.doctorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        String(row.mobileNo).includes(searchTerm)  ||
+        row.status.toLowerCase().includes(searchTerm.toLowerCase())  
+    );
+    setFilteredRows(filtered);
+  }, [searchTerm, rows]); 
+
   useEffect(()=>
     {
   
@@ -90,6 +105,7 @@ const LabTest = () => {
             );
          
             setRows(formattedData)
+            setFilteredRows(formattedData)
           } 
   
        } 
@@ -171,13 +187,13 @@ const LabTest = () => {
     setEditShow(false);
     setDeleteShow(false);
   };
-  const handleCreate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleCreate = (data) => {
+     setLoading(data);
     setOpenData(false);
   };
 
-  const handleUpdate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleUpdate = (data) => {
+    setLoading(data);
     setEditShow(false);
   };
 
@@ -220,7 +236,8 @@ const LabTest = () => {
     <ToastContainer />
 
     <Box className="container">
-      <Search onAddClick={onAddClick} buttonText="Add LabTest" />
+      <Search searchTerm={searchTerm}
+         setSearchTerm={setSearchTerm} onAddClick={onAddClick} buttonText="Add LabTest" />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="labtest table">
@@ -238,7 +255,7 @@ const LabTest = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filteredRows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, idx) => (
 

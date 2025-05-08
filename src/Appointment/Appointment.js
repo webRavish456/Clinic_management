@@ -41,7 +41,10 @@ const Appointment= () => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const [rows, setRows] = useState([]);
+  const [filteredRows, setFilteredRows]=useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [searchTerm, setSearchTerm]= useState("");
 
   const token = Cookies.get("token");
 
@@ -86,6 +89,7 @@ const Appointment= () => {
             );
          
             setRows(formattedData)
+            setFilteredRows(formattedData)
           } 
       
   
@@ -187,12 +191,28 @@ const Appointment= () => {
     setPage(0);
   };
 
+  useEffect(() => {
+
+    const filtered = rows.filter(
+      (row) =>
+        row.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        String(row.mobileNo).includes(searchTerm)  ||
+        row.emailId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.doctorAssigned.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.appointmentStatus.toLowerCase().includes(searchTerm.toLowerCase())  ||
+        String(row.appointmentDate).includes(searchTerm) ||
+        row.visitType.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredRows(filtered);
+  }, [searchTerm, rows]); 
+
   return (
     <>
     <ToastContainer />
 
     <Box className="container">
-      <Search onAddClick={onAddClick} buttonText="Add New Appointment" />
+      <Search searchTerm={searchTerm}
+      setSearchTerm={setSearchTerm} onAddClick={onAddClick} buttonText="Add New Appointment" />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="Appointment table">
@@ -210,7 +230,7 @@ const Appointment= () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filteredRows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, idx) => (
 

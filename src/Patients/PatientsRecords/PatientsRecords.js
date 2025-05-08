@@ -48,6 +48,9 @@ const PatientsRecords = () => {
   const token = Cookies.get("token");
   const Base_url = process.env.REACT_APP_BASE_URL;
 
+  const [filteredRows, setFilteredRows]=useState([]);
+  const [searchTerm, setSearchTerm]= useState("");
+
   const columns = [
     { id: "si", label: "SI.No", flex: 1, align: "center" },
     { id: "patientID", label: " Patient ID", flex: 1, align: "center" },
@@ -61,6 +64,19 @@ const PatientsRecords = () => {
     { id: "action", label: "Action", flex: 1, align: "center" },
   ];
 
+
+  useEffect(() => {
+
+    const filtered = rows.filter(
+      (row) =>
+        row.patientname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        String(row.nextFollowUp).includes(searchTerm)  ||
+        String(row.admissionDate).includes(searchTerm)  ||
+        row.doctorAssigned.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.status.toLowerCase().includes(searchTerm.toLowerCase())  
+    );
+    setFilteredRows(filtered);
+  }, [searchTerm, rows]); 
 
   useEffect(() => {
     const fetchPatientsRecordsData = async () => {
@@ -92,6 +108,7 @@ const PatientsRecords = () => {
             )
           );
           setRows(formattedData);
+          setFilteredRows(formattedData)
         }
       } catch (error) {
         console.error("Error fetching patientsrecords data:", error);
@@ -235,7 +252,8 @@ const PatientsRecords = () => {
     <>
       <ToastContainer />
       <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="Add New Patient Record" />
+        <Search searchTerm={searchTerm}
+         setSearchTerm={setSearchTerm} onAddClick={onAddClick} buttonText="Add New Patient Record" />
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="patientsrecords table">
@@ -253,7 +271,7 @@ const PatientsRecords = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows
+                {filteredRows
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, idx) => (
                     <TableRow hover role="checkbox" key={idx}>

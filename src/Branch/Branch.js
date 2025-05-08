@@ -37,8 +37,12 @@ const Branch = () => {
   const [deleteId, setDeleteId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
+
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  const [filteredRows, setFilteredRows]=useState([]);
+  const [searchTerm, setSearchTerm]= useState("");
 
   const token = Cookies.get("token");
   const Base_url = process.env.REACT_APP_BASE_URL;
@@ -76,6 +80,7 @@ const Branch = () => {
             )
           );
           setRows(formattedData);
+          setFilteredRows(formattedData);
         }
       } catch (error) {
         console.error("Error fetching branch data:", error);
@@ -133,6 +138,18 @@ const Branch = () => {
     setDeleteShow(true);
   };
 
+  useEffect(() => {
+
+    const filtered = rows.filter(
+      (row) =>
+        row.branchname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.location.toLowerCase().includes(searchTerm.toLowerCase())  ||
+        row.status.toLowerCase().includes(searchTerm.toLowerCase())
+      
+    );
+    setFilteredRows(filtered);
+  }, [searchTerm, rows]); 
+
   const handleDelete = () => {
     setIsDeleting(true);
     fetch(`${Base_url}/branch/${deleteId}`, {
@@ -166,13 +183,13 @@ const Branch = () => {
     setDeleteShow(false);
   };
 
-  const handleCreate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleCreate = (data) => {
+    setLoading(data);
     setOpenData(false);
   };
 
-  const handleUpdate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleUpdate = (data) => {
+     setLoading(data);
     setEditShow(false);
   };
 
@@ -191,7 +208,8 @@ const Branch = () => {
     <>
       <ToastContainer />
       <Box className="container">
-        <Search onAddClick={onAddClick} buttonText="Add New Branch" />
+        <Search  searchTerm={searchTerm}
+      setSearchTerm={setSearchTerm} onAddClick={onAddClick} buttonText="Add New Branch" />
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="branch table">
@@ -209,7 +227,7 @@ const Branch = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows
+                {filteredRows
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, idx) => (
                     <TableRow hover role="checkbox" key={idx}>

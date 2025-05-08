@@ -58,6 +58,8 @@ const Expense= () => {
      { id: 'action', label: 'Actions', flex: 1, align: 'center' },
     ];
   
+    const [filteredRows, setFilteredRows]=useState([]);
+    const [searchTerm, setSearchTerm]= useState("");
 
   useEffect(()=>
     {
@@ -84,6 +86,7 @@ const Expense= () => {
             );
          
             setRows(formattedData)
+            setFilteredRows(formattedData)
           } 
   
        } 
@@ -184,12 +187,28 @@ const Expense= () => {
     setPage(0);
   };
 
+  useEffect(() => {
+
+    const filtered = rows.filter(
+      (row) =>
+        row.expenseType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        String(row.datePaid).includes(searchTerm)  ||
+        String(row.amount).includes(searchTerm)  ||
+        row.payeeName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.transactionId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.paymentMethod.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.status.toLowerCase().includes(searchTerm.toLowerCase())  
+    );
+    setFilteredRows(filtered);
+  }, [searchTerm, rows]); 
+
   return (
     <>
     <ToastContainer />
 
     <Box className="container">
-      <Search onAddClick={onAddClick} buttonText="Add New Expense" />
+      <Search searchTerm={searchTerm}
+         setSearchTerm={setSearchTerm} onAddClick={onAddClick} buttonText="Add New Expense" />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="Expense table">
@@ -207,7 +226,7 @@ const Expense= () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filteredRows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, idx) => (
 

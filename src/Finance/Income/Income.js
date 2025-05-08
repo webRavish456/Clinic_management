@@ -58,7 +58,23 @@ const Income = () => {
       {id: 'status', label: 'Status', flex: 1, align: 'center'},
      { id: 'action', label: 'Actions', flex: 1, align: 'center' },
     ];
+
+    const [filteredRows, setFilteredRows]=useState([]);
+    const [searchTerm, setSearchTerm]= useState("");
   
+    useEffect(() => {
+
+      const filtered = rows.filter(
+        (row) =>
+          row.sourceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          String(row.dateReceived).includes(searchTerm)  ||
+          String(row.amount).includes(searchTerm)  ||
+          row.transactionId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          row.paymentMethod.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          row.status.toLowerCase().includes(searchTerm.toLowerCase())  
+      );
+      setFilteredRows(filtered);
+    }, [searchTerm, rows]); 
 
   useEffect(()=>
     {
@@ -86,6 +102,7 @@ const Income = () => {
             );
          
             setRows(formattedData)
+            setFilteredRows(formattedData)
           } 
   
        } 
@@ -173,13 +190,13 @@ const Income = () => {
     setEditShow(false);
     setDeleteShow(false);
   };
-  const handleCreate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleCreate = (data) => {
+    setLoading(data);
     setOpenData(false);
   };
 
-  const handleUpdate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleUpdate = (data) => {
+     setLoading(data);
     setEditShow(false);
   };
 
@@ -199,7 +216,8 @@ const Income = () => {
     <ToastContainer />
 
     <Box className="container">
-      <Search onAddClick={onAddClick} buttonText="Add New Income" />
+      <Search searchTerm={searchTerm}
+         setSearchTerm={setSearchTerm} onAddClick={onAddClick} buttonText="Add New Income" />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="income table">
@@ -217,7 +235,7 @@ const Income = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filteredRows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, idx) => (
 

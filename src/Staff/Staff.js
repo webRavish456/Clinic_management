@@ -113,6 +113,9 @@ const handleShowDelete=(Id)=>{
    setDeleteId(Id)
 }
 
+const [filteredRows, setFilteredRows]=useState([]);
+const [searchTerm, setSearchTerm]= useState("");
+
 useEffect(() => {
   const fetchStaffData = async () => {
     try {
@@ -143,6 +146,7 @@ useEffect(() => {
           )
         );
         setRows(formattedData);
+        setFilteredRows(formattedData)
       }
     } catch (error) {
       console.error("Error fetching staff data:", error);
@@ -153,6 +157,21 @@ useEffect(() => {
     fetchStaffData();
   }
 }, [loading]);
+
+useEffect(() => {
+
+  const filtered = rows.filter(
+    (row) =>
+      row.staffName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      String(row.mobileNumber).includes(searchTerm)  ||
+      String(row.joiningDate).includes(searchTerm)  ||
+      row.emailId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.designation.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.status.toLowerCase().includes(searchTerm.toLowerCase())  ||
+      row.shift.toLowerCase().includes(searchTerm.toLowerCase()) 
+  );
+  setFilteredRows(filtered);
+}, [searchTerm, rows]); 
 
 function createData(si, id, staffName, designation, mobileNumber, emailId,  shift, address, joiningDate,status ) {
   return { si, id, staffName, designation, mobileNumber, emailId,  shift, address,  joiningDate , status, action: (
@@ -202,7 +221,8 @@ function createData(si, id, staffName, designation, mobileNumber, emailId,  shif
 
     <ToastContainer/>
     <Box className="container">
-      <Search onAddClick={onAddClick} buttonText="Add Staff"/>
+      <Search searchTerm={searchTerm}
+         setSearchTerm={setSearchTerm} onAddClick={onAddClick} buttonText="Add Staff"/>
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
@@ -220,7 +240,7 @@ function createData(si, id, staffName, designation, mobileNumber, emailId,  shif
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {filteredRows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (

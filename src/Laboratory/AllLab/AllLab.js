@@ -48,6 +48,9 @@ const AllLab = () => {
 
   const Base_url = process.env.REACT_APP_BASE_URL;
 
+  const [filteredRows, setFilteredRows]=useState([]);
+  const [searchTerm, setSearchTerm]= useState("");
+
   const columns = [
     { id: 'siNo', label: 'SI.No', flex: 1,align: 'center'  },
     { id: 'labName', label: 'Lab Name', flex: 1, align: 'center' },
@@ -94,6 +97,7 @@ const AllLab = () => {
             );
          
             setRows(formattedData)
+            setFilteredRows(formattedData)
           } 
   
        } 
@@ -176,19 +180,33 @@ const AllLab = () => {
       });
   };
 
+
+  useEffect(() => {
+
+    const filtered = rows.filter(
+      (row) =>
+        row.labName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.labType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.assigneeStaff.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.shift.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.status.toLowerCase().includes(searchTerm.toLowerCase())  
+    );
+    setFilteredRows(filtered);
+  }, [searchTerm, rows]); 
+
   const handleClose = () => {
     setOpenData(false);
     setViewShow(false);
     setEditShow(false);
     setDeleteShow(false);
   };
-  const handleCreate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleCreate = (data) => {
+    setLoading(data);
     setOpenData(false);
   };
 
-  const handleUpdate = (refresh = true) => {
-    if (refresh) setLoading(true);
+  const handleUpdate = (data) => {
+    setLoading(data);
     setEditShow(false);
   };
 
@@ -208,7 +226,8 @@ const AllLab = () => {
     <ToastContainer />
 
     <Box className="container">
-      <Search onAddClick={onAddClick} buttonText="Add AllLab" />
+      <Search searchTerm={searchTerm}
+         setSearchTerm={setSearchTerm} onAddClick={onAddClick} buttonText="Add AllLab" />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="alllab table">
@@ -226,7 +245,7 @@ const AllLab = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filteredRows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, idx) => (
 
