@@ -21,7 +21,7 @@ const SignIn = () => {
 
   useEffect(() => {
 
-   const token = Cookies.get("token");
+   const token= localStorage.getItem("token");
 
     if (token) {
       navigate('/dashboard', { replace: true });
@@ -73,10 +73,10 @@ const SignIn = () => {
           }, 1500);
 
           const expiryDate = new Date(res.expiresAt); 
-          const now = new Date();
-          const maxAgeSeconds = Math.floor((expiryDate - now) / 1000);
+          const maxAgeSeconds = Math.floor((expiryDate) / 1000);
 
-          document.cookie = `token=${res.access_token}; path=/; Max-Age=${maxAgeSeconds}; SameSite=Strict`;
+           localStorage.setItem("maxAge", maxAgeSeconds);
+           localStorage.setItem("token", res.access_token);
 
         }
         else {

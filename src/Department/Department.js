@@ -38,7 +38,7 @@ const Department = () => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const token = Cookies.get("token");
+  const token= localStorage.getItem("token");
   const Base_url = process.env.REACT_APP_BASE_URL;
 
   const [filteredRows, setFilteredRows]=useState([]);
@@ -47,7 +47,7 @@ const Department = () => {
   const columns = [
     { id: "si", label: "SI.No", align: "center" },
     { id: "departmentName", label: "Department Name", align: "center" },
-    { id: "specialization", label: "N.o of Specialization ", align: "center" },
+    { id: "specialization", label: "No. of Specialization ", align: "center" },
     { id: "description", label: "Description", align: "center" },
     { id: "departmentHead", label: "Department Head", align: "center" },
     { id: "status", label: "Status", align: "center" },

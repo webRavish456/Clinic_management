@@ -39,7 +39,7 @@ const AllDoctor=()=>
 
     const [isDeleting, setIsDeleting] = useState(false);
    
-    const token = Cookies.get("token");
+    const token= localStorage.getItem("token");
 
     const Base_url = process.env.REACT_APP_BASE_URL;
 
@@ -96,11 +96,9 @@ const columns = [
   {id: 'emailId',label: 'Email Id',flex:1,align: 'center',},
   {id: 'mobileNumber',label: 'Mobile Number',flex:1,align: 'center',},
   
-  {id: 'address',label: 'Address',flex:1, align: 'center',},
   { id: 'department',label: 'Department', flex:1, align: 'center',},
   { id: 'specialization',label: 'Specialization ', flex:1, align: 'center',},
 
-  {id: 'qualification',label: 'Qualification ',flex:1,align: 'center',},
   {id: 'experience',label: 'Experience',flex:1,align: 'center', },
 
   {id: 'joiningDate',label: 'Joining Date', flex:1, align: 'center',},
@@ -141,10 +139,8 @@ useEffect(() => {
             item.doctorName,
             item.mobileNumber,
             item.emailId,
-            item.address,
             item.companyDetails.specialization,
             item.companyDetails.department,
-            item.qualification,
             item.experience,
             formattedJoiningDate,  
             item.availabilityStatus
@@ -166,8 +162,8 @@ useEffect(() => {
 }, [loading]);
 
 
-function createData(si,id, doctorName, mobileNumber, emailId, address, specialization, department, qualification, experience, joiningDate,status ) {
-  return { si, id ,doctorName, mobileNumber, emailId, address, specialization, department, qualification, experience,joiningDate , status, action: (
+function createData(si,id, doctorName, mobileNumber, emailId,  specialization, department,  experience, joiningDate,status ) {
+  return { si, id ,doctorName, mobileNumber, emailId,  specialization, department,  experience,joiningDate , status, action: (
       <>
       <IconButton style={{color:"rgb(13, 33, 121)", padding:"4px", transform:"scale(0.8)"}} onClick={()=>handleView(id)}>
         <VisibilityIcon />

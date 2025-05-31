@@ -45,7 +45,7 @@ const PatientsRecords = () => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const token = Cookies.get("token");
+  const token= localStorage.getItem("token");
   const Base_url = process.env.REACT_APP_BASE_URL;
 
   const [filteredRows, setFilteredRows]=useState([]);

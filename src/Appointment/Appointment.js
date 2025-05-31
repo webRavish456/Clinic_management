@@ -46,7 +46,7 @@ const Appointment= () => {
 
   const [searchTerm, setSearchTerm]= useState("");
 
-  const token = Cookies.get("token");
+  const token= localStorage.getItem("token");
 
   const Base_url = process.env.REACT_APP_BASE_URL;
 

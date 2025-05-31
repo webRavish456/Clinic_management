@@ -47,7 +47,7 @@ const paymentMethods = [
 
 const EditExpense = ({ handleUpdate, editData, handleClose }) => {
   const isSmScreen = useMediaQuery("(max-width:768px)");
-  const token = Cookies.get("token");
+  const token= localStorage.getItem("token");
   const Base_url = process.env.REACT_APP_BASE_URL;
   const [loading, setLoading] = useState(false);
 
